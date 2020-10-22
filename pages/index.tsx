@@ -24,7 +24,7 @@ export default function Home() {
       if (obj.hasOwnProperty(p)) {
         str.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]))
       }
-    return 'http://url.ee/invoice/invoice.pdf?' + str.join('&')
+    return 'http://localhost:3000/invoice/invoice.pdf?' + str.join('&')
   }
 
   return (

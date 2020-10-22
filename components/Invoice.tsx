@@ -1,14 +1,15 @@
 import { FC } from 'react'
-import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer'
+import ReactPDF, { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer'
+import initial from '../static/initialInput'
 
 type Props = {
   data?: {
-    clientName?: string
+    clientName?: string | string[]
   }
 }
 
-export const Invoice: FC<Props> = ({ data }) => {
-  console.log(data)
+export const Invoice: FC<Props> = ({ data: inputs }) => {
+  const data = { ...initial, ...inputs }
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -31,3 +32,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
 })
+
+export async function streamDocument({ data }: Props) {
+  return ReactPDF.renderToStream(<Invoice data={data} />)
+}
