@@ -33,11 +33,13 @@ export default function Home() {
         <textarea cols={40} rows={5} value={input} onChange={ev => setInput(ev.target.value)} />
         <input type="text" onFocus={ev => ev.target.select()} readOnly value={url} />
       </div>
-      {renderIframe && (
-        <PDFViewer>
-          <Invoice data={pdfData} />
-        </PDFViewer>
-      )}
+      <div className="iframe-container">
+        {renderIframe && (
+          <PDFViewer>
+            <Invoice data={pdfData} />
+          </PDFViewer>
+        )}
+      </div>
     </Container>
   )
 }
@@ -46,7 +48,7 @@ const Container = styled.div`
   display: flex;
   width: 100vw;
   height: 100vh;
-  background: yellow;
+  background: #525659;
   > div {
     flex: 1;
     display: flex;
@@ -63,7 +65,12 @@ const Container = styled.div`
       height: 54px;
     }
   }
-  iframe {
+  .iframe-container {
     flex: 3;
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
   }
 `
