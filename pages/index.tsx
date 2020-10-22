@@ -4,7 +4,7 @@ import initialInput from '../static/initialInput'
 import { PDFViewer } from '@react-pdf/renderer'
 import { Invoice } from '../components/Invoice'
 import { useDebounce } from 'react-use'
-import rootUrl from '../static/rootUrl'
+import baseURL from '../static/baseURL'
 
 export default function Home() {
   const [input, setInput] = useState(JSON.stringify(initialInput, null, 2))
@@ -22,7 +22,7 @@ export default function Home() {
       if (obj.hasOwnProperty(p)) {
         str.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]))
       }
-    return `${rootUrl}/invoice/${fileName}?${str.join('&')}`
+    return `${baseURL}/invoice/${fileName}?${str.join('&')}`
   }
 
   return (
