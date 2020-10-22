@@ -1,12 +1,13 @@
 {
-  "name": "with-typescript-styled-components",
-  "version": "1.0.0",
+  "name": "dok-maker",
+  "version": "0.0.1",
   "scripts": {
     "dev": "next",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
+    "@react-pdf/renderer": "^1.6.11",
     "next": "latest",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
