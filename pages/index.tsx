@@ -12,20 +12,17 @@ export default function Home() {
   const [url, setUrl] = useState(input)
   const [renderIframe, setRenderIframe] = useState(false)
   useEffect(() => setRenderIframe(true), [])
+  useEffect(() => setUrl(getUrl()), [input])
   useDebounce(() => setPdfData(JSON.parse(input)), 300, [input])
 
-  useEffect(() => {
-    setUrl(getUrl())
-  }, [input])
-
   const getUrl = function () {
-    const obj = JSON.parse(input)
+    const { fileName, ...obj } = JSON.parse(input)
     var str = []
     for (var p in obj)
       if (obj.hasOwnProperty(p)) {
         str.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]))
       }
-    return rootUrl + '/invoice/invoice.pdf?' + str.join('&')
+    return `${rootUrl}/invoice/${fileName}?${str.join('&')}`
   }
 
   return (
