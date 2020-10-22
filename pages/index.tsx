@@ -31,7 +31,7 @@ export default function Home() {
     <Container>
       <div>
         <textarea cols={40} rows={5} value={input} onChange={ev => setInput(ev.target.value)} />
-        <input type="text" onClick={ev => ev.target.select()} readOnly value={url} />
+        <input type="text" onFocus={ev => ev.target.select()} readOnly value={url} />
       </div>
       {renderIframe && (
         <PDFViewer>
