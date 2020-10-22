@@ -8,15 +8,30 @@ import { useDebounce } from 'react-use'
 export default function Home() {
   const [input, setInput] = useState(JSON.stringify(initialInput, null, 2))
   const [pdfData, setPdfData] = useState(JSON.parse(input))
+  const [url, setUrl] = useState(input)
   const [renderIframe, setRenderIframe] = useState(false)
   useEffect(() => setRenderIframe(true), [])
   useDebounce(() => setPdfData(JSON.parse(input)), 300, [input])
+
+  useEffect(() => {
+    setUrl(getUrl())
+  }, [input])
+
+  const getUrl = function () {
+    const obj = JSON.parse(input)
+    var str = []
+    for (var p in obj)
+      if (obj.hasOwnProperty(p)) {
+        str.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]))
+      }
+    return 'http://url.ee/invoice/invoice.pdf?' + str.join('&')
+  }
 
   return (
     <Container>
       <div>
         <textarea cols={40} rows={5} value={input} onChange={ev => setInput(ev.target.value)} />
-        <input type="text" readOnly />
+        <input type="text" onClick={ev => ev.target.select()} readOnly value={url} />
       </div>
       {renderIframe && (
         <PDFViewer>
