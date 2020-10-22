@@ -3,26 +3,24 @@ import styled from 'styled-components'
 import initialInput from '../static/initialInput'
 import { PDFViewer } from '@react-pdf/renderer'
 import { Invoice } from '../components/Invoice'
+import { useDebounce } from 'react-use'
 
 export default function Home() {
   const [input, setInput] = useState(JSON.stringify(initialInput, null, 2))
+  const [pdfData, setPdfData] = useState(JSON.parse(input))
   const [renderIframe, setRenderIframe] = useState(false)
-
   useEffect(() => setRenderIframe(true), [])
-
-  const handleChange = (ev: ChangeEvent<HTMLTextAreaElement>) => {
-    setInput(ev.target.value)
-  }
+  useDebounce(() => setPdfData(JSON.parse(input)), 300, [input])
 
   return (
     <Container>
       <div>
-        <textarea cols={40} rows={5} value={input} onChange={handleChange} />
+        <textarea cols={40} rows={5} value={input} onChange={ev => setInput(ev.target.value)} />
         <input type="text" readOnly />
       </div>
       {renderIframe && (
         <PDFViewer>
-          <Invoice data={JSON.parse(input)} />
+          <Invoice data={pdfData} />
         </PDFViewer>
       )}
     </Container>

@@ -1,3 +1,3 @@
 export default {
-  title: 'Title',
+  clientName: 'Title',
 }

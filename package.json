@@ -11,6 +11,7 @@
     "next": "latest",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
+    "react-use": "^15.3.4",
     "styled-components": "^5.0.0"
   },
   "devDependencies": {
