@@ -1,4 +1,4 @@
-import { useState, useEffect, ChangeEvent } from 'react'
+import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import initialInput from '../static/initialInput'
 import { PDFViewer } from '@react-pdf/renderer'
