@@ -6,7 +6,7 @@ import { Invoice } from '../components/Invoice'
 import { useDebounce } from 'react-use'
 import baseURL from '../static/baseURL'
 
-export default function Home() {
+export default function Index() {
   const [input, setInput] = useState(JSON.stringify(initialInput, null, 2))
   const [pdfData, setPdfData] = useState(JSON.parse(input))
   const [url, setUrl] = useState(input)

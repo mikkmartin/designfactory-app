@@ -1,9 +1,11 @@
 export type Invoice = {
   fileName: string
-  clientName: string
+  From: string
+  'From-description': string
 }
 
 export default {
   fileName: 'invoice.pdf',
-  clientName: 'Title',
+  From: 'Ettevõte OÜ',
+  'From-description': 'Elektritööd',
 } as Invoice
