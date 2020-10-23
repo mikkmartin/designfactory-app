@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import initialInput from '../static/initialInput'
 import { PDFViewer } from '@react-pdf/renderer'
@@ -8,15 +8,18 @@ import baseURL from '../static/baseURL'
 
 export default function Index() {
   const [input, setInput] = useState(JSON.stringify(initialInput, null, 2))
-  const [pdfData, setPdfData] = useState(JSON.parse(input))
+  const errorRef = useRef<string>('')
+  const jsonRef = useRef()
+  const json = parseJson(input)
+  const [pdfData, setPdfData] = useState(json)
   const [url, setUrl] = useState(input)
   const [renderIframe, setRenderIframe] = useState(false)
   useEffect(() => setRenderIframe(true), [])
   useEffect(() => setUrl(getUrl()), [input])
-  useDebounce(() => setPdfData(JSON.parse(input)), 300, [input])
+  useDebounce(() => setPdfData(json), 300, [input])
 
   const getUrl = function () {
-    const { fileName, ...obj } = JSON.parse(input)
+    const { fileName, ...obj } = parseJson(input)
     var str = []
     for (var p in obj)
       if (obj.hasOwnProperty(p)) {
@@ -25,9 +28,22 @@ export default function Index() {
     return `${baseURL}/invoice/${fileName}?${str.join('&')}`
   }
 
+  function parseJson(string: string) {
+    try {
+      const json = JSON.parse(string)
+      errorRef.current = ''
+      jsonRef.current = json
+      return json
+    } catch (e) {
+      errorRef.current = 'Invalid JSON'
+      return jsonRef.current
+    }
+  }
+
   return (
     <Container>
       <div>
+        {errorRef.current !== '' && <div className="error">{errorRef.current}</div>}
         <textarea cols={40} rows={5} value={input} onChange={ev => setInput(ev.target.value)} />
         <input type="text" onFocus={ev => ev.target.select()} readOnly value={url} />
       </div>
@@ -47,6 +63,10 @@ const Container = styled.div`
   width: 100vw;
   height: 100vh;
   background: #525659;
+  .error {
+    position: absolute;
+    color: red;
+  }
   > div {
     flex: 1;
     display: flex;
