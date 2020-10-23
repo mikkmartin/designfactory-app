@@ -12,7 +12,7 @@ type Props = {
 export const Invoice: FC<Props> = ({ data: inputs }) => {
   const data = { ...initial, ...inputs }
   const { width, height } = template.absoluteBoundingBox
-  const textNodes = template.children.filter(child => child.type === 'TEXT')
+  const textNodes = findNodes('TEXT', template.children)
 
   const getColor = ({ r, g, b, a }) => `rgba(${r}, ${g}, ${b}, ${a})`
   const getAlignMent = (string: string) => {
@@ -41,7 +41,7 @@ export const Invoice: FC<Props> = ({ data: inputs }) => {
             backgroundColor: getColor(template.backgroundColor),
           },
         })}>
-        <View style={styles.section}>
+        <View>
           {textNodes.map(({ name, characters, absoluteBoundingBox, style, opacity }, i) => (
             <Text
               key={i}
@@ -69,17 +69,12 @@ export const Invoice: FC<Props> = ({ data: inputs }) => {
   )
 }
 
-const styles = StyleSheet.create({
-  page: {
-    flexDirection: 'row',
-    backgroundColor: '#E4E4E4',
-  },
-  section: {
-    margin: 10,
-    padding: 10,
-    flexGrow: 1,
-  },
-})
+function findNodes(type, arr) {
+  return arr.reduce((a, node) => {
+    if (node.type === type) return [...a, node]
+    if (node.children) return [...a, ...findNodes(type, node.children)]
+  }, [])
+}
 
 export async function streamDocument({ data }: Props) {
   return ReactPDF.renderToStream(<Invoice data={data} />)
