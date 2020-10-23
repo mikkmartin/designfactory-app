@@ -22,12 +22,12 @@ export default function Index() {
     'https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FQFHu9LnnywkAKOdpuTZcgE%2Finvoice-mikkmartin-v1%3Fnode-id%3D0%253A2'
 
   const getUrl = function () {
-    const { fileName, ...obj } = parseJson(input)
+    const { fileName, items, ...obj } = parseJson(input)
     var str = []
-    for (var p in obj)
-      if (obj.hasOwnProperty(p)) {
-        str.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]))
-      }
+    for (var p in obj) {
+      if (obj.hasOwnProperty(p)) str.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]))
+    }
+    str.push(`items=${encodeURIComponent(JSON.stringify(items))}`)
     return `${baseURL}/invoice/${fileName}?${str.join('&')}`
   }
 

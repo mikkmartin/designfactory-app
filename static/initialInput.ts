@@ -1,5 +1,5 @@
 export type Invoice = {
-  fileName: string
+  fileName: string | string[]
   From: string
   'From-description': string
   'To-description': string
