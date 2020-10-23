@@ -23,7 +23,7 @@ export default {
   items: [
     {
       Title: 'Disain',
-      Description: 'Et asi oleks hea',
+      Description: 'Et asi oleks nice',
       Price: 4500,
       Quantity: 1,
     },

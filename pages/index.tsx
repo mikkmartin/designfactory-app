@@ -14,9 +14,12 @@ export default function Index() {
   const [pdfData, setPdfData] = useState(json)
   const [url, setUrl] = useState(input)
   const [renderIframe, setRenderIframe] = useState(false)
+  const [showDesign, setShowDesign] = useState(false)
   useEffect(() => setRenderIframe(true), [])
   useEffect(() => setUrl(getUrl()), [input])
   useDebounce(() => setPdfData(json), 300, [input])
+  const figmaUrl =
+    'https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FQFHu9LnnywkAKOdpuTZcgE%2Finvoice-mikkmartin-v1%3Fnode-id%3D0%253A2'
 
   const getUrl = function () {
     const { fileName, ...obj } = parseJson(input)
@@ -42,27 +45,43 @@ export default function Index() {
 
   return (
     <Container>
-      <div>
+      <div className="controls">
         {errorRef.current !== '' && <div className="error">{errorRef.current}</div>}
         <textarea cols={40} rows={5} value={input} onChange={ev => setInput(ev.target.value)} />
         <input type="text" onFocus={ev => ev.target.select()} readOnly value={url} />
+        <DesignToggle onClick={() => setShowDesign(!showDesign)}>
+          {showDesign ? 'PDF' : 'Design'}
+        </DesignToggle>
       </div>
       <div className="iframe-container">
-        {renderIframe && (
-          <PDFViewer>
-            <Invoice data={pdfData} />
-          </PDFViewer>
+        {showDesign ? (
+          <iframe src={figmaUrl} />
+        ) : (
+          renderIframe && (
+            <PDFViewer>
+              <Invoice data={pdfData} />
+            </PDFViewer>
+          )
         )}
       </div>
     </Container>
   )
 }
 
+const DesignToggle = styled.button`
+  position: absolute;
+  top: 8px;
+  right: 8px;
+`
+
 const Container = styled.div`
   display: flex;
   width: 100vw;
   height: 100vh;
   background: #525659;
+  .controls {
+    position: relative;
+  }
   .error {
     position: absolute;
     background: red;
@@ -85,7 +104,7 @@ const Container = styled.div`
     }
   }
   .iframe-container {
-    flex: 3;
+    flex: 2.5;
     iframe {
       width: 100%;
       height: 100%;
