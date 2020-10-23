@@ -7,7 +7,7 @@ export type Invoice = {
   items: Item[]
 }
 
-type Item = {
+export type Item = {
   Title: string
   Description: string
   Price: number
@@ -15,34 +15,22 @@ type Item = {
 }
 
 export default {
-  fileName: 'invoice.pdf',
+  fileName: 'Arve_2019052201.pdf',
   From: 'Ettevõte OÜ',
-  'From-description': 'Elektritööd',
-  'To-description': 'Klient OÜ',
-  'To-title': 'Kodused elektritööd',
+  'From-description': 'Kõvad veebivennad',
+  'To-title': 'Klient OÜ',
+  'To-description': 'Üks kõva veebipood',
   items: [
     {
-      Title: 'Cabeling',
-      Description: 'I put wire in',
-      Price: 100,
+      Title: 'Disain',
+      Description: 'Et asi oleks hea',
+      Price: 4500,
       Quantity: 1,
     },
     {
-      Title: 'Cabeling',
-      Description: 'I put wire in',
-      Price: 100,
-      Quantity: 1,
-    },
-    {
-      Title: 'Cabeling',
-      Description: 'I put wire in',
-      Price: 100,
-      Quantity: 1,
-    },
-    {
-      Title: 'Cabeling',
-      Description: 'I put wire in',
-      Price: 100,
+      Title: 'Arendus',
+      Description: 'Et asi töötaks',
+      Price: 4500,
       Quantity: 1,
     },
   ],

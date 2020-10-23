@@ -2,7 +2,7 @@ import { FC } from 'react'
 import ReactPDF, { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer'
 import initial from '../static/initialInput'
 import { template } from '../static/designTemplate'
-import { Invoice as InvoiceData } from '../static/initialInput'
+import { Invoice as InvoiceData, Item } from '../static/initialInput'
 
 type Props = {
   data?: InvoiceData
@@ -25,7 +25,9 @@ export const Invoice: FC<Props> = ({ data: inputs }) => {
         })}>
         {textNodes.map((node, i) => (
           <Text key={i} style={getTextStyles(node)}>
-            {getText(node.name, node.characters, data)}
+            {node.name === 'topay-summary-value'
+              ? summarizTotalCost(data.items)
+              : getText(node.name, node.characters, data)}
           </Text>
         ))}
         {verticalLayoutNodes.map((node, i) => (
@@ -36,7 +38,7 @@ export const Invoice: FC<Props> = ({ data: inputs }) => {
   )
 }
 
-function AutoLayout({ template, data }) {
+function AutoLayout({ template, data }: { template: any; data: { items: Item[] } }) {
   const instances = template.children.filter(item => item.type === 'INSTANCE')
   const { absoluteBoundingBox, itemSpacing } = template
   const { x: containerX, y: containerY } = absoluteBoundingBox
@@ -53,7 +55,7 @@ function AutoLayout({ template, data }) {
         }).absolute
       }>
       {instances.length > 0 &&
-        data.items.map(({ Title }, i) => {
+        data.items.map((_, i) => {
           const { absoluteBoundingBox } = instances[0]
           const { height } = absoluteBoundingBox
           const textNodes = findNodes(instances[0].children, { type: 'TEXT' })
@@ -76,7 +78,9 @@ function AutoLayout({ template, data }) {
                 }
                 return (
                   <Text key={j} style={styles}>
-                    {getText(node.name, node.characters, data)}
+                    {node.name === 'Total'
+                      ? summarizLineCost(data.items[i])
+                      : getText(node.name, node.characters, data.items[i])}
                   </Text>
                 )
               })}
@@ -86,6 +90,19 @@ function AutoLayout({ template, data }) {
     </View>
   )
 }
+
+const summarizLineCost = (node: Item) =>
+  formatMoney(node.Price * node.Quantity, {
+    maximumSignificantDigits: 2,
+  })
+const summarizTotalCost = items => {
+  const sum = items.reduce((total, item) => total + item.Price * item.Quantity, 0)
+  return formatMoney(sum)
+}
+const formatMoney = (amount: number, options = {}) =>
+  amount
+    .toLocaleString('en-EE', { style: 'currency', currency: 'EUR', ...options })
+    .replace(',', ' ')
 
 const getColor = ({ r, g, b, a }) => `rgba(${r}, ${g}, ${b}, ${a})`
 const getAlignMent = (string: string) => {

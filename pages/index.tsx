@@ -65,7 +65,8 @@ const Container = styled.div`
   background: #525659;
   .error {
     position: absolute;
-    color: red;
+    background: red;
+    color: white;
   }
   > div {
     flex: 1;
