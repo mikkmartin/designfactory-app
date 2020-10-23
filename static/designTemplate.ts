@@ -241,13 +241,13 @@ export const template = {
     },
     {
       id: '1:56',
-      name: 'Body Content',
+      name: 'items',
       type: 'FRAME',
       blendMode: 'PASS_THROUGH',
       children: [
         {
           id: '1:44',
-          name: 'sybol-list-item',
+          name: 'item',
           type: 'INSTANCE',
           blendMode: 'PASS_THROUGH',
           children: [
@@ -521,7 +521,7 @@ export const template = {
         },
         {
           id: '1:57',
-          name: 'Group 2',
+          name: 'item',
           type: 'INSTANCE',
           blendMode: 'PASS_THROUGH',
           children: [
@@ -795,7 +795,7 @@ export const template = {
         },
         {
           id: '1:65',
-          name: 'Group 3',
+          name: 'item',
           type: 'INSTANCE',
           blendMode: 'PASS_THROUGH',
           children: [
@@ -1069,7 +1069,7 @@ export const template = {
         },
         {
           id: '1:71',
-          name: 'Group 4',
+          name: 'item',
           type: 'INSTANCE',
           blendMode: 'PASS_THROUGH',
           children: [
@@ -1583,7 +1583,7 @@ export const template = {
       },
       constraints: {
         vertical: 'TOP',
-        horizontal: 'RIGHT',
+        horizontal: 'LEFT_RIGHT',
       },
       clipsContent: true,
       background: [],
@@ -1599,6 +1599,7 @@ export const template = {
       },
       layoutGrids: [],
       layoutMode: 'VERTICAL',
+      counterAxisSizingMode: 'FIXED',
       itemSpacing: 20,
       effects: [],
     },
@@ -2030,7 +2031,7 @@ export const template = {
           absoluteBoundingBox: {
             x: 55,
             y: 182,
-            width: 117,
+            width: 315,
             height: 30,
           },
           constraints: {
@@ -2060,7 +2061,7 @@ export const template = {
             fontFamily: 'Wigrum',
             fontPostScriptName: 'Wigrum-Medium',
             fontWeight: 500,
-            textAutoResize: 'WIDTH_AND_HEIGHT',
+            textAutoResize: 'HEIGHT',
             fontSize: 20,
             textAlignHorizontal: 'LEFT',
             textAlignVertical: 'TOP',

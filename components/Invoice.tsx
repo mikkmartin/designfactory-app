@@ -12,7 +12,11 @@ type Props = {
 export const Invoice: FC<Props> = ({ data: inputs }) => {
   const data = { ...initial, ...inputs }
   const { width, height } = template.absoluteBoundingBox
-  const textNodes = findNodes('TEXT', template.children)
+  const textNodes = findNodes({ type: 'TEXT' }, template.children)
+  /*
+   */
+  const verticalLayoutNodes = findNodes({ layoutMode: 'VERTICAL' }, template.children)
+  console.log(verticalLayoutNodes)
 
   const getColor = ({ r, g, b, a }) => `rgba(${r}, ${g}, ${b}, ${a})`
   const getAlignMent = (string: string) => {
@@ -69,10 +73,15 @@ export const Invoice: FC<Props> = ({ data: inputs }) => {
   )
 }
 
-function findNodes(type, arr) {
+function findNodes(nodeProps, arr) {
   return arr.reduce((a, node) => {
-    if (node.type === type) return [...a, node]
-    if (node.children) return [...a, ...findNodes(type, node.children)]
+    const hasProps = Object.keys(nodeProps).reduce(
+      (last, key) => last && node[key] === nodeProps[key],
+      true
+    )
+    if (hasProps) a = [...a, node] //add node to array
+    if (node.children) return [...a, ...findNodes(nodeProps, node.children)]
+    return a
   }, [])
 }
 
