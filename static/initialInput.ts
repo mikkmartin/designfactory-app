@@ -33,5 +33,17 @@ export default {
       Price: 100,
       Quantity: 1,
     },
+    {
+      Title: 'Cabeling',
+      Description: 'I put wire in',
+      Price: 100,
+      Quantity: 1,
+    },
+    {
+      Title: 'Cabeling',
+      Description: 'I put wire in',
+      Price: 100,
+      Quantity: 1,
+    },
   ],
 } as Invoice

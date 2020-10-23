@@ -28,58 +28,62 @@ export const Invoice: FC<Props> = ({ data: inputs }) => {
             {getText(node.name, node.characters, data)}
           </Text>
         ))}
-        {verticalLayoutNodes.map(({ absoluteBoundingBox, children }, i) => {
-          const instances = children.filter(item => item.type === 'INSTANCE')
-          //const items = children.filter(item => item.type !== 'INSTANCE')
+        {verticalLayoutNodes.map((node, i) => (
+          <AutoLayout template={node} data={data} key={i} />
+        ))}
+      </Page>
+    </Document>
+  )
+}
 
+function AutoLayout({ template, data }) {
+  const instances = template.children.filter(item => item.type === 'INSTANCE')
+  const { absoluteBoundingBox, itemSpacing } = template
+  const { x: containerX, y: containerY } = absoluteBoundingBox
+  //const items = children.filter(item => item.type !== 'INSTANCE')
+  return (
+    <View
+      style={
+        StyleSheet.create({
+          absolute: {
+            position: 'absolute',
+            top: absoluteBoundingBox.y,
+            left: absoluteBoundingBox.x,
+          },
+        }).absolute
+      }>
+      {instances.length > 0 &&
+        data.items.map(({ Title }, i) => {
+          const { absoluteBoundingBox } = instances[0]
+          const { height } = absoluteBoundingBox
+          const textNodes = findNodes(instances[0].children, { type: 'TEXT' })
           return (
             <View
               key={i}
               style={
                 StyleSheet.create({
-                  absolute: {
-                    position: 'absolute',
-                    top: absoluteBoundingBox.y,
-                    left: absoluteBoundingBox.x,
+                  style: {
+                    marginTop: i && height + (i && itemSpacing),
                   },
-                }).absolute
+                }).style
               }>
-              {instances.length > 0 &&
-                inputs.items.map(({ Title }, i) => {
-                  const { absoluteBoundingBox } = instances[0]
-                  const { height } = absoluteBoundingBox
-                  const textNodes = findNodes(instances[0].children, { type: 'TEXT' })
-                  return (
-                    <View
-                      key={i}
-                      style={
-                        StyleSheet.create({
-                          style: {
-                            marginTop: i && height,
-                          },
-                        }).style
-                      }>
-                      {textNodes.map((node, i) => {
-                        const { left, top, ...absoluteStyles } = getTextStyles(node)
-                        const styles = {
-                          ...absoluteStyles,
-                          left: node.absoluteBoundingBox.x - 100,
-                          top: node.absoluteBoundingBox.y - 200,
-                        }
-                        return (
-                          <Text key={i} style={styles}>
-                            {getText(node.name, node.characters, data)}
-                          </Text>
-                        )
-                      })}
-                    </View>
-                  )
-                })}
+              {textNodes.map((node, j) => {
+                const { left, top, ...absoluteStyles } = getTextStyles(node)
+                const styles = {
+                  ...absoluteStyles,
+                  left: node.absoluteBoundingBox.x - containerX,
+                  top: node.absoluteBoundingBox.y - containerY,
+                }
+                return (
+                  <Text key={j} style={styles}>
+                    {getText(node.name, node.characters, data)}
+                  </Text>
+                )
+              })}
             </View>
           )
         })}
-      </Page>
-    </Document>
+    </View>
   )
 }
 
@@ -122,7 +126,8 @@ function findNodes(arr, requiredProps) {
       true
     )
     if (hasProps) a = [...a, node] //add node to array
-    if (node.children) return [...a, ...findNodes(node.children, requiredProps)]
+    if (node.children && node.name !== 'items')
+      return [...a, ...findNodes(node.children, requiredProps)]
     return a
   }, [])
 }
