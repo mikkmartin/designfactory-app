@@ -12,6 +12,15 @@ npm run dev
 yarn dev
 ```
 
+## Todo
+
+- [ ] Support editing more fields
+- [ ] Persist input data from the GUI
+- [ ] Support multiple pages/page overflow
+- [ ] Add a better GUI editing experience (possibly [Monaco editor with a JSON schema](https://microsoft.github.io/monaco-editor/playground.html#extending-language-services-configure-json-defaults))
+- [ ] Use live template data via the [Figma API](https://www.figma.com/developers/api)
+- [ ] Add support for multiple designs
+
 ## Deploy your own
 
 Clone and deploy with [Vercel](https://vercel.com):
