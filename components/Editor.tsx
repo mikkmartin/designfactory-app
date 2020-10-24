@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import baseURL from '../static/baseURL'
 import { getSchema } from '../static/initialInput'
@@ -11,6 +12,7 @@ export { useEditor }
 const Editor = () => {
   const [ref, { width, height }] = useMeasure()
   const { json, setJson } = useEditor()
+  const [jsonString, setJsonString] = useState<string>(JSON.stringify(json, null, 2))
 
   const onWillMount: EditorWillMount = monaco => {
     monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
@@ -26,22 +28,22 @@ const Editor = () => {
     }
   }
 
-  function parseJson(string: string) {
+  useEffect(() => {
     try {
-      const json = JSON.parse(string)
+      const json = JSON.parse(jsonString)
       setJson(json)
     } catch (e) {
       //console.error(e)
     }
-  }
+  }, [jsonString])
 
   return (
     <Container ref={ref}>
       <MonacoEditor
         editorWillMount={onWillMount}
         editorDidMount={onDidMount}
-        onChange={parseJson}
-        value={JSON.stringify(json, null, 2)}
+        onChange={setJsonString}
+        value={jsonString}
         language="json"
         theme="vs-dark"
         width={width}
