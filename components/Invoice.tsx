@@ -17,7 +17,7 @@ export const Invoice: FC<Props> = ({ data: inputs }) => {
   const fillText = ({ name, characters }) => {
     switch (true) {
       case name === 'topay-summary-value':
-        return data.paidInCash ? 'Makstud' : summarizTotalCost(data.items)
+        return data.paidInCash ? 'Makstud' : summarizeTotalCost(data.items)
       case name === 'topay-summary-description' && data.paidInCash:
         return 'Sularaha makse'
       default:
@@ -89,7 +89,7 @@ function AutoLayout({ template, data }: { template: any; data: InvoiceData }) {
                 return (
                   <Text key={j} style={styles}>
                     {node.name === 'Total'
-                      ? summarizLineCost(data.items[i])
+                      ? summarizeLineCost(data.items[i])
                       : getText(node.name, node.characters, data.items[i])}
                   </Text>
                 )
@@ -101,11 +101,11 @@ function AutoLayout({ template, data }: { template: any; data: InvoiceData }) {
   )
 }
 
-const summarizLineCost = (node: Item) =>
+const summarizeLineCost = (node: Item) =>
   formatMoney(node.Price * node.Quantity, {
     maximumSignificantDigits: 2,
   })
-const summarizTotalCost = items => {
+const summarizeTotalCost = items => {
   const sum = items.reduce((total, item) => total + item.Price * item.Quantity, 0)
   return formatMoney(sum)
 }
