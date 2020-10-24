@@ -1,28 +1,25 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import initialInput from '../static/initialInput'
 import { PDFViewer } from '@react-pdf/renderer'
 import { Invoice } from '../components/Invoice'
 import { useDebounce } from 'react-use'
 import baseURL from '../static/baseURL'
+import Editor, { useEditor } from '../components/Editor'
 
 export default function Index() {
-  const [input, setInput] = useState(JSON.stringify(initialInput, null, 2))
-  const errorRef = useRef<string>('')
-  const jsonRef = useRef()
-  const json = parseJson(input)
+  const { json } = useEditor()
   const [pdfData, setPdfData] = useState(json)
-  const [url, setUrl] = useState(input)
+  const [url, setUrl] = useState('')
   const [renderIframe, setRenderIframe] = useState(false)
   const [showDesign, setShowDesign] = useState(false)
   useEffect(() => setRenderIframe(true), [])
-  useEffect(() => setUrl(getUrl()), [input])
-  useDebounce(() => setPdfData(json), 300, [input])
+  useEffect(() => setUrl(getUrl()), [json])
+  useDebounce(() => setPdfData(json), 300, [json])
   const figmaUrl =
     'https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FQFHu9LnnywkAKOdpuTZcgE%2Finvoice-mikkmartin-v1%3Fnode-id%3D0%253A2'
 
   const getUrl = function () {
-    const { fileName, items, ...obj } = parseJson(input)
+    const { fileName, items, ...obj } = json
     var str = []
     for (var p in obj) {
       if (obj.hasOwnProperty(p)) str.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]))
@@ -31,23 +28,10 @@ export default function Index() {
     return `${baseURL}/invoice/${fileName}?${str.join('&')}`
   }
 
-  function parseJson(string: string) {
-    try {
-      const json = JSON.parse(string)
-      errorRef.current = ''
-      jsonRef.current = json
-      return json
-    } catch (e) {
-      errorRef.current = 'Invalid JSON'
-      return jsonRef.current
-    }
-  }
-
   return (
     <Container>
       <div className="controls">
-        {errorRef.current !== '' && <div className="error">{errorRef.current}</div>}
-        <textarea cols={40} rows={5} value={input} onChange={ev => setInput(ev.target.value)} />
+        <Editor />
         <input type="text" onFocus={ev => ev.target.select()} readOnly value={url} />
         <DesignToggle onClick={() => setShowDesign(!showDesign)}>
           {showDesign ? 'PDF' : 'Design'}
@@ -82,25 +66,18 @@ const Container = styled.div`
   .controls {
     position: relative;
   }
-  .error {
-    position: absolute;
-    background: red;
-    color: white;
-  }
   > div {
     flex: 1;
     display: flex;
     flex-direction: column;
     height: 100%;
-    textarea,
-    input {
-      padding: 16px;
-    }
-    textarea {
-      flex: 1;
-    }
     input {
       height: 54px;
+      padding: 16px 0 16px 16px;
+      background: #454545;
+      border: 0;
+      color: white;
+      outline: none;
     }
   }
   .iframe-container {

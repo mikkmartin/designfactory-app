@@ -6,6 +6,8 @@ const MonacoEditor = dynamic(import('react-monaco-editor'), { ssr: false })
 import styled from 'styled-components'
 import { useMeasure } from 'react-use'
 import { useEditor } from './Editor/EditorContext'
+import { useRef } from 'react'
+export { useEditor }
 
 const Editor = () => {
   const [ref, { width, height }] = useMeasure()
@@ -25,12 +27,21 @@ const Editor = () => {
     }
   }
 
+  function parseJson(string: string) {
+    try {
+      const json = JSON.parse(string)
+      setJson(json)
+    } catch (e) {
+      //console.error(e)
+    }
+  }
+
   return (
     <Container ref={ref}>
       <MonacoEditor
         editorWillMount={onWillMount}
         editorDidMount={onDidMount}
-        onChange={v => setJson(JSON.parse(v))}
+        onChange={parseJson}
         value={JSON.stringify(json, null, 2)}
         language="json"
         theme="vs-dark"
@@ -53,8 +64,9 @@ const Editor = () => {
 }
 
 const Container = styled.div`
-  width: 450px;
-  height: 100vh;
+  height: 100%;
+  min-width: 350px;
+  position: relative;
 `
 
 export default Editor
