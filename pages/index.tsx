@@ -32,7 +32,13 @@ export default function Index() {
     <Container>
       <div className="controls">
         <Editor />
-        <input type="text" onFocus={ev => ev.target.select()} readOnly value={url} />
+        <input
+          type="text"
+          onFocus={ev => ev.target.select()}
+          onClick={ev => ev.stopPropagation()}
+          readOnly
+          value={url}
+        />
         <DesignToggle onClick={() => setShowDesign(!showDesign)}>
           {showDesign ? 'PDF' : 'Design'}
         </DesignToggle>

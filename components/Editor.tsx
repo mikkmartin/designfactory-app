@@ -6,7 +6,6 @@ const MonacoEditor = dynamic(import('react-monaco-editor'), { ssr: false })
 import styled from 'styled-components'
 import { useMeasure } from 'react-use'
 import { useEditor } from './Editor/EditorContext'
-import { useRef } from 'react'
 export { useEditor }
 
 const Editor = () => {
