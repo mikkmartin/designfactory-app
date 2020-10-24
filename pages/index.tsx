@@ -82,8 +82,13 @@ const Container = styled.div`
       padding: 16px 0 16px 16px;
       background: #454545;
       border: 0;
-      color: white;
+      color: #858585;
       outline: none;
+      &::selection {
+        //color: white;
+        background: white;
+        color: #1E1E1E;
+      }
     }
   }
   .iframe-container {
