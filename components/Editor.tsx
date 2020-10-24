@@ -1,17 +1,15 @@
-import { useState } from 'react'
 import dynamic from 'next/dynamic'
 import baseURL from '../static/baseURL'
-import initialInput, { getSchema } from '../static/initialInput'
+import { getSchema } from '../static/initialInput'
 import { EditorDidMount, EditorWillMount } from 'react-monaco-editor'
 const MonacoEditor = dynamic(import('react-monaco-editor'), { ssr: false })
 import styled from 'styled-components'
 import { useMeasure } from 'react-use'
-
-const initialCode = JSON.stringify(initialInput, null, 2)
+import { useEditor } from './Editor/EditorContext'
 
 const Editor = () => {
-  const [postBody, setPostBody] = useState(initialCode)
   const [ref, { width, height }] = useMeasure()
+  const { json, setJson } = useEditor()
 
   const onWillMount: EditorWillMount = monaco => {
     monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
@@ -32,10 +30,10 @@ const Editor = () => {
       <MonacoEditor
         editorWillMount={onWillMount}
         editorDidMount={onDidMount}
-        onChange={setPostBody}
+        onChange={v => setJson(JSON.parse(v))}
+        value={JSON.stringify(json, null, 2)}
         language="json"
         theme="vs-dark"
-        value={postBody}
         width={width}
         height={height}
         options={{
