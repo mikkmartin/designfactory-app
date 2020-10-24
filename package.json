@@ -8,9 +8,14 @@
   },
   "dependencies": {
     "@react-pdf/renderer": "^1.6.11",
+    "@zeit/next-css": "^1.0.1",
+    "css-loader": "^5.0.0",
+    "monaco-editor-webpack-plugin": "^2.0.0",
     "next": "latest",
+    "next-transpile-modules": "^4.1.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
+    "react-monaco-editor": "^0.40.0",
     "react-use": "^15.3.4",
     "styled-components": "^5.0.0"
   },
