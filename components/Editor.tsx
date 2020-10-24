@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import { useMeasure } from 'react-use'
 import { useEditor } from './Editor/EditorContext'
 export { ApiLink } from './Editor/ApiLink'
+export { Figma } from './Editor/Figma'
 export { useEditor }
 
 const Editor = () => {

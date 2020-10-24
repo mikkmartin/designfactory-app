@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { PDFViewer } from '@react-pdf/renderer'
 import { Invoice } from '../components/Invoice'
 import { useDebounce } from 'react-use'
-import Editor, { useEditor, ApiLink } from '../components/Editor'
+import Editor, { useEditor, ApiLink, Figma } from '../components/Editor'
 
 export default function Index() {
   const { json } = useEditor()
@@ -12,8 +12,6 @@ export default function Index() {
   const [showDesign, setShowDesign] = useState(false)
   useEffect(() => setRenderIframe(true), [])
   useDebounce(() => setPdfData(json), 300, [json])
-  const figmaUrl =
-    'https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FQFHu9LnnywkAKOdpuTZcgE%2Finvoice-mikkmartin-v1%3Fnode-id%3D0%253A2'
 
   return (
     <Container>
@@ -26,7 +24,7 @@ export default function Index() {
       </div>
       <div className="iframe-container">
         {showDesign ? (
-          <iframe src={figmaUrl} />
+          <Figma />
         ) : (
           renderIframe && (
             <PDFViewer>
