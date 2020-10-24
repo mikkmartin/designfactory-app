@@ -19,7 +19,7 @@ yarn dev
 - [ ] Support multiple languages & currencies
 - [ ] Support multiple pages/page overflow
 - [x] ~~Add a better GUI editing experience (possibly [Monaco editor with a JSON schema](https://microsoft.github.io/monaco-editor/playground.html#extending-language-services-configure-json-defaults))~~
-- [ ] Use live template data via the [Figma API](https://www.figma.com/developers/api)
+- [x] ~~Use live template data via the [Figma API](https://www.figma.com/developers/api)~~
 - [ ] Add support for multiple designs
 
 ## Deploy your own
