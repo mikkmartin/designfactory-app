@@ -49,26 +49,11 @@ const Container = styled.div`
   height: 100vh;
   background: #525659;
   .controls {
+    display: flex;
+    flex: 1;
     position: relative;
     background: #1e1e1e;
-  }
-  > div {
-    flex: 1;
-    display: flex;
     flex-direction: column;
-    height: 100%;
-    input {
-      height: 54px;
-      padding: 16px 0 16px 16px;
-      background: #454545;
-      border: 0;
-      color: rgba(0, 0, 0, 0.9);
-      outline: none;
-      &::selection {
-        background: white;
-        color: #1e1e1e;
-      }
-    }
   }
   .iframe-container {
     flex: 2.5;

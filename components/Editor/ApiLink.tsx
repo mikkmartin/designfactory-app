@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useEditor } from '../Editor'
 import baseURL from '../../static/baseURL'
+import styled from 'styled-components'
 
 export const ApiLink = () => {
   const { json } = useEditor()
@@ -18,7 +19,7 @@ export const ApiLink = () => {
   }
 
   return (
-    <input
+    <Input
       type="text"
       onFocus={ev => ev.target.select()}
       onClick={ev => ev.stopPropagation()}
@@ -27,3 +28,16 @@ export const ApiLink = () => {
     />
   )
 }
+
+const Input = styled.input`
+  height: 54px;
+  padding: 16px 0 16px 16px;
+  background: #454545;
+  border: 0;
+  color: rgba(0, 0, 0, 0.9);
+  outline: none;
+  &::selection {
+    background: white;
+    color: #1e1e1e;
+  }
+`
