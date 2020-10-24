@@ -7,7 +7,6 @@ export const summarizeLineCost = (node: Item) =>
   })
 
 export const summarizeTotalCost = items => {
-  console.log(items)
   const sum = items.reduce((total, item) => total + item.Price * item.Quantity, 0)
   return formatMoney(sum)
 }

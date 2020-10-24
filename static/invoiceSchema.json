@@ -3,7 +3,16 @@
   "$id": "http://example.com/example.json",
   "type": "object",
   "title": "Invoice",
-  "required": ["fileName", "ibanNr", "From", "From-description", "To", "To-description", "items"],
+  "required": [
+    "From",
+    "From-description",
+    "To",
+    "To-description",
+    "items",
+    "myCompanyRegistrationNr",
+    "ibanLabel",
+    "ibanNr"
+  ],
   "properties": {
     "fileName": {
       "$id": "#/properties/fileName",
@@ -48,7 +57,7 @@
     "tax": {
       "$id": "#/properties/To-description",
       "type": "number",
-      "default": 0.2
+      "default": 0
     },
     "items": {
       "$id": "#/properties/items",

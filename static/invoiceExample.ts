@@ -29,6 +29,8 @@ delete example.date
 delete example.invoiceNr
 delete example.tax
 delete example.dueDate
+delete example.email
+delete example.website
 export default example
 
 type Schema = {
@@ -52,6 +54,8 @@ export type Invoice = {
   items: Item[]
   phoneNr?: number
   tax?: number
+  email?: string
+  website?: string
 }
 
 export type Item = {
