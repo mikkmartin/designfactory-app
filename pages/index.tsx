@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { PDFViewer } from '@react-pdf/renderer'
-import { Invoice } from '../components/Invoice'
+import { Invoice } from '../components/Pdf'
 import { useDebounce } from 'react-use'
 import Editor, { useEditor, ApiLink, Figma } from '../components/Editor'
 
