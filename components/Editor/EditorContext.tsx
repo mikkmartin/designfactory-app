@@ -1,5 +1,5 @@
 import { FC, createContext, useContext, useState, Dispatch, SetStateAction } from 'react'
-import initialInput, { Invoice } from '../../static/invoiceExample'
+import { Invoice, defaults } from '../../static/invoiceExample'
 
 type Values = {
   json: Invoice
@@ -10,7 +10,7 @@ type Values = {
 const Context = createContext<Values>()
 
 export const EditorProvider: FC = ({ children }) => {
-  const [json, setJson] = useState(initialInput)
+  const [json, setJson] = useState(defaults)
 
   return <Context.Provider value={{ json, setJson }}>{children}</Context.Provider>
 }

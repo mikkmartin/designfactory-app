@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { streamDocument } from '../../components/Pdf'
-import initialData from '../../static/invoiceExample'
+import { defaults } from '../../static/invoiceExample'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { items: arrayString, ...params } = req.query as any
     const items = JSON.parse(arrayString)
-    const stream = await streamDocument({ data: { ...initialData, ...params, items } })
+    const stream = await streamDocument({ data: { ...defaults, ...params, items } })
     res.setHeader('Content-Type', 'application/pdf')
     res.statusCode = 200
     res.send(stream)

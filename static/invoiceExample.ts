@@ -5,7 +5,7 @@ const formatDate = d => ''
 const dateToInvoiceNr = d => 0
 const formatFileName = d => `Arve_${dateToInvoiceNr(now)}.pdf`
 
-const defaults = Object.keys(_schema.properties).reduce((all, k) => {
+export const defaults = Object.keys(_schema.properties).reduce((all, k) => {
   if (Array.isArray(_schema.properties[k].default)) all[k] = _schema.properties[k].default[0]
   else all[k] = _schema.properties[k].default
   return all
