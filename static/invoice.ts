@@ -1,9 +1,9 @@
 import _schema from './invoiceSchema.json'
 
 const now = new Date()
-const formatDate = d => ''
-const dateToInvoiceNr = d => 0
-const formatFileName = d => `Arve_${dateToInvoiceNr(now)}.pdf`
+const formatDate = _ => ''
+const dateToInvoiceNr = _ => 0
+const formatFileName = d => `Arve_${dateToInvoiceNr(d)}.pdf`
 
 export const defaults = Object.keys(_schema.properties).reduce((all, k) => {
   if (Array.isArray(_schema.properties[k].default)) all[k] = _schema.properties[k].default[0]
