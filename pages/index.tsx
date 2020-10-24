@@ -1,17 +1,26 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, FC } from 'react'
 import styled from 'styled-components'
 import { PDFViewer } from '@react-pdf/renderer'
 import { Invoice } from '../components/Pdf'
 import { useDebounce } from 'react-use'
 import Editor, { useEditor, ApiLink, Figma } from '../components/Editor'
+import { getTemplate } from '../data/figma'
+import { Frame } from 'figma-js'
 
-export default function Index() {
-  const { json } = useEditor()
+type Props = {
+  template: Frame
+}
+
+const Index: FC<Props> = ({ template: _template }) => {
+  const { json, template, setTemplate } = useEditor()
   const [pdfData, setPdfData] = useState(json)
   const [renderIframe, setRenderIframe] = useState(false)
   const [showDesign, setShowDesign] = useState(false)
-  useEffect(() => setRenderIframe(true), [])
   useDebounce(() => setPdfData(json), 300, [json])
+  useEffect(() => {
+    setTemplate(_template)
+    setRenderIframe(true)
+  }, [])
 
   return (
     <Container>
@@ -28,7 +37,7 @@ export default function Index() {
         ) : (
           renderIframe && (
             <PDFViewer>
-              <Invoice data={pdfData} />
+              <Invoice template={template} data={pdfData} />
             </PDFViewer>
           )
         )}
@@ -36,6 +45,18 @@ export default function Index() {
     </Container>
   )
 }
+
+export const getStaticProps = async () => {
+  const template = await getTemplate('QFHu9LnnywkAKOdpuTZcgE')
+  return {
+    props: {
+      template,
+    },
+    revalidate: 1,
+  }
+}
+
+export default Index
 
 const DesignToggle = styled.button`
   position: absolute;

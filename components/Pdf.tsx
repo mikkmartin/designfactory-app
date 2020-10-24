@@ -2,16 +2,19 @@ import { FC } from 'react'
 import ReactPDF, { Page, Text, Document, StyleSheet } from '@react-pdf/renderer'
 import { findNodes, summarizeTotalCost, getText, getTextStyles, getColor } from './Pdf/utilities'
 import initial from '../static/invoice'
-import { template } from '../static/designTemplate'
 import { Invoice as InvoiceData } from '../static/invoice'
 import { AutoLayout } from './Pdf/AutoLayout'
+import { Frame } from 'figma-js'
+import { getTemplate } from '../data/figma'
 
 type Props = {
   data?: InvoiceData
+  template: Frame
 }
 
-export const Invoice: FC<Props> = ({ data: inputs }) => {
+export const Invoice: FC<Props> = ({ template, data: inputs }) => {
   const data = { ...initial, ...inputs }
+  console.log({ template })
   const { width, height } = template.absoluteBoundingBox
   const textNodes = findNodes(template.children, { type: 'TEXT' })
   const verticalLayoutNodes = findNodes(template.children, { layoutMode: 'VERTICAL' })
@@ -50,5 +53,6 @@ export const Invoice: FC<Props> = ({ data: inputs }) => {
 }
 
 export async function streamDocument({ data }: Props) {
-  return ReactPDF.renderToStream(<Invoice data={data} />)
+  const template = await getTemplate('QFHu9LnnywkAKOdpuTZcgE')
+  return ReactPDF.renderToStream(<Invoice template={template} data={data} />)
 }
