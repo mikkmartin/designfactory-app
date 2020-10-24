@@ -1,4 +1,4 @@
-import Editor from '../components/MonacoEditor'
+import Editor from '../components/Editor'
 
 const Test = () => {
   return <Editor />

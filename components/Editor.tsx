@@ -1,35 +1,26 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import dynamic from 'next/dynamic'
-import initialInput from '../static/initialInput'
+import baseURL from '../static/baseURL'
+import initialInput, { getSchema } from '../static/initialInput'
+import { EditorDidMount, EditorWillMount } from 'react-monaco-editor'
+const MonacoEditor = dynamic(import('react-monaco-editor'), { ssr: false })
 import styled from 'styled-components'
 import { useMeasure } from 'react-use'
-const MonacoEditor = dynamic(import('react-monaco-editor'), { ssr: false })
+
 const initialCode = JSON.stringify(initialInput, null, 2)
 
 const Editor = () => {
   const [postBody, setPostBody] = useState(initialCode)
   const [ref, { width, height }] = useMeasure()
 
-  const onWillMount = monaco => {
+  const onWillMount: EditorWillMount = monaco => {
     monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
       validate: true,
-      schemas: [
-        {
-          fileMatch: ['*'],
-          schema: {
-            type: 'object',
-            properties: {
-              p1: {
-                enum: ['v1', 'v2'],
-              },
-            },
-          },
-        },
-      ],
+      schemas: [getSchema(baseURL + '/schema.json')],
     })
   }
 
-  const onDidMount = () => {
+  const onDidMount: EditorDidMount = () => {
     //@ts-ignore
     window.MonacoEnvironment.getWorkerUrl = (_moduleId: string, label: string) => {
       if (label === 'json') return '_next/static/json.worker.js'
@@ -42,14 +33,20 @@ const Editor = () => {
         editorWillMount={onWillMount}
         editorDidMount={onDidMount}
         onChange={setPostBody}
-        width={width}
-        height={height}
         language="json"
         theme="vs-dark"
         value={postBody}
+        width={width}
+        height={height}
         options={{
+          scrollBeyondLastLine: false,
+          //@ts-ignore
+          lineNumbers: false,
           minimap: {
             enabled: false,
+          },
+          scrollbar: {
+            horizontal: 'auto',
           },
         }}
       />

@@ -35,3 +35,71 @@ export default {
     },
   ],
 } as Invoice
+
+export const getSchema = (uri: string) => ({
+  uri,
+  fileMatch: ['*'],
+  schema: {
+    type: 'object',
+    properties: {
+      fileName: {
+        type: 'string',
+      },
+      From: {
+        type: 'string',
+      },
+      'From-description': {
+        type: 'string',
+      },
+      'To-title': {
+        type: 'string',
+      },
+      'To-description': {
+        type: 'string',
+      },
+      items: {
+        type: 'array',
+        items: [
+          {
+            type: 'object',
+            properties: {
+              Title: {
+                type: 'string',
+              },
+              Description: {
+                type: 'string',
+              },
+              Price: {
+                type: 'integer',
+              },
+              Quantity: {
+                type: 'integer',
+              },
+            },
+            required: ['Title', 'Description', 'Price', 'Quantity'],
+          },
+          {
+            type: 'object',
+            properties: {
+              Title: {
+                type: 'string',
+              },
+              Description: {
+                type: 'string',
+              },
+              Price: {
+                type: 'integer',
+              },
+              Quantity: {
+                type: 'integer',
+              },
+            },
+            required: ['Title', 'Price', 'Quantity'],
+          },
+        ],
+      },
+    },
+    required: ['From', 'From-description', 'To-title', 'To-description', 'items'],
+    additionalProperties: false,
+  },
+})
