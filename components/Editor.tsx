@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import baseURL from '../static/baseURL'
-import { getSchema } from '../static/initialInput'
 import { EditorDidMount, EditorWillMount } from 'react-monaco-editor'
 const MonacoEditor = dynamic(import('react-monaco-editor'), { ssr: false })
 import styled from 'styled-components'
 import { useMeasure } from 'react-use'
 import { useEditor } from './Editor/EditorContext'
+import schema from '../static/invoiceSchema.json'
 export { ApiLink } from './Editor/ApiLink'
 export { Figma } from './Editor/Figma'
 export { useEditor }
@@ -19,7 +19,7 @@ const Editor = () => {
   const onWillMount: EditorWillMount = monaco => {
     monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
       validate: true,
-      schemas: [getSchema(baseURL + '/schema.json')],
+      schemas: [{ schema, uri: baseURL + '/schema.json', fileMatch: ['*'] }],
     })
   }
 

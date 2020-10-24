@@ -1,0 +1,149 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "title": "Invoice",
+  "default": {
+    "fileName": "Arve_2019052201.pdf",
+    "From": "Ettevõte OÜ",
+    "From-description": "Kõvad veebivennad",
+    "To": "Klient OÜ",
+    "To-description": "Üks kõva veebipood",
+    "items": [
+      {
+        "Title": "Disain",
+        "Description": "Et asi oleks nice",
+        "Price": 4500,
+        "Quantity": 1
+      },
+      {
+        "Title": "Arendus",
+        "Description": "Et asi töötaks",
+        "Price": 4500,
+        "Quantity": 1
+      }
+    ],
+    "ibanLabel": "LHV",
+    "ibanNr": "EE907700771001360230"
+  },
+  "required": ["fileName", "ibanNr", "From", "From-description", "To", "To-description", "items"],
+  "properties": {
+    "fileName": {
+      "$id": "#/properties/fileName",
+      "type": "string",
+      "default": "Arve_2019052201.pdf"
+    },
+    "ibanLabel": {
+      "$id": "#/properties/ibanLabel",
+      "type": "string",
+      "default": "LHV"
+    },
+    "ibanNr": {
+      "$id": "#/properties/ibanNr",
+      "type": "string",
+      "default": "EE907700771001360230"
+    },
+    "From": {
+      "$id": "#/properties/From",
+      "type": "string",
+      "default": "Ettevõte OÜ"
+    },
+    "invoiceNr": {
+      "$id": "#/properties/invoiceNr",
+      "type": "integer",
+      "default": 2019052201
+    },
+    "date": {
+      "$id": "#/properties/date",
+      "type": "string",
+      "default": "22-05-2019"
+    },
+    "dueDate": {
+      "$id": "#/properties/dueDate",
+      "type": "string",
+      "default": "22-06-2019"
+    },
+    "From-description": {
+      "$id": "#/properties/From-description",
+      "type": "string",
+      "default": "Kõvad veebivennad"
+    },
+    "To": {
+      "$id": "#/properties/To",
+      "type": "string",
+      "default": "Klient OÜ"
+    },
+    "To-description": {
+      "$id": "#/properties/To-description",
+      "type": "string",
+      "default": "Üks kõva veebipood"
+    },
+    "tax": {
+      "$id": "#/properties/To-description",
+      "type": "number",
+      "default": 0.2
+    },
+    "items": {
+      "$id": "#/properties/items",
+      "type": "array",
+      "default": [
+        [
+          {
+            "Title": "Disain",
+            "Description": "Et asi oleks nice",
+            "Price": 4500,
+            "Quantity": 1
+          },
+          {
+            "Title": "Arendus",
+            "Description": "Et asi töötaks",
+            "Price": 4500,
+            "Quantity": 1
+          }
+        ]
+      ],
+      "additionalItems": true,
+      "items": {
+        "$id": "#/properties/items/items",
+        "anyOf": [
+          {
+            "$id": "#/properties/items/items/anyOf/0",
+            "type": "object",
+            "default": {
+              "Title": "Disain",
+              "Description": "Et asi oleks nice",
+              "Price": 4500,
+              "Quantity": 1
+            },
+            "required": ["Title", "Description", "Price"],
+            "properties": {
+              "Title": {
+                "$id": "#/properties/items/items/anyOf/0/properties/Title",
+                "type": "string",
+                "title": "Name",
+                "description": "Name of the product/service.",
+                "default": "Disain"
+              },
+              "Description": {
+                "$id": "#/properties/items/items/anyOf/0/properties/Description",
+                "type": "string",
+                "default": "Et asi oleks nice"
+              },
+              "Price": {
+                "$id": "#/properties/items/items/anyOf/0/properties/Price",
+                "type": "integer",
+                "default": 4500
+              },
+              "Quantity": {
+                "$id": "#/properties/items/items/anyOf/0/properties/Quantity",
+                "type": "integer",
+                "default": 1
+              }
+            },
+            "additionalProperties": true
+          }
+        ]
+      }
+    }
+  }
+}

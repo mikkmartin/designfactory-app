@@ -1,4 +1,4 @@
-import { Item } from '../../static/initialInput'
+import { Item } from '../../static/invoiceExample'
 import { StyleSheet } from '@react-pdf/renderer'
 
 export const summarizeLineCost = (node: Item) =>

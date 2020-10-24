@@ -1,5 +1,5 @@
 import { Text, View, StyleSheet } from '@react-pdf/renderer'
-import { Invoice as InvoiceData } from '../../static/initialInput'
+import { Invoice as InvoiceData } from '../../static/invoiceExample'
 import { findNodes, getText, getTextStyles, summarizeLineCost } from './utilities'
 
 export const AutoLayout = ({ template, data }: { template: any; data: InvoiceData }) => {
