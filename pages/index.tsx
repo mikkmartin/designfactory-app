@@ -71,6 +71,7 @@ const Container = styled.div`
   background: #525659;
   .controls {
     position: relative;
+    background: #1E1E1E;
   }
   > div {
     flex: 1;
