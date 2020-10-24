@@ -3,43 +3,12 @@
   "$id": "http://example.com/example.json",
   "type": "object",
   "title": "Invoice",
-  "default": {
-    "fileName": "Arve_2019052201.pdf",
-    "From": "Ettevõte OÜ",
-    "From-description": "Kõvad veebivennad",
-    "To": "Klient OÜ",
-    "To-description": "Üks kõva veebipood",
-    "items": [
-      {
-        "Title": "Disain",
-        "Description": "Et asi oleks nice",
-        "Price": 4500
-      },
-      {
-        "Title": "Arendus",
-        "Description": "Et asi töötaks",
-        "Price": 4500
-      }
-    ],
-    "ibanLabel": "LHV",
-    "ibanNr": "EE907700771001360230"
-  },
   "required": ["fileName", "ibanNr", "From", "From-description", "To", "To-description", "items"],
   "properties": {
     "fileName": {
       "$id": "#/properties/fileName",
       "type": "string",
       "default": "Arve_2019052201.pdf"
-    },
-    "ibanLabel": {
-      "$id": "#/properties/ibanLabel",
-      "type": "string",
-      "default": "LHV"
-    },
-    "ibanNr": {
-      "$id": "#/properties/ibanNr",
-      "type": "string",
-      "default": "EE907700771001360230"
     },
     "From": {
       "$id": "#/properties/From",
@@ -142,6 +111,31 @@
           }
         ]
       }
+    },
+    "myCompanyRegistrationNr": {
+      "$id": "#/properties/myCompanyRegistrationNr",
+      "type": "number",
+      "default": 12702285
+    },
+    "ibanLabel": {
+      "$id": "#/properties/ibanLabel",
+      "type": "string",
+      "default": "LHV"
+    },
+    "ibanNr": {
+      "$id": "#/properties/ibanNr",
+      "type": "string",
+      "default": "EE907700771001360230"
+    },
+    "website": {
+      "$id": "#/properties/website",
+      "type": "string",
+      "default": "mikkmartin.co"
+    },
+    "email": {
+      "$id": "#/properties/email",
+      "type": "string",
+      "default": "mikkmartin@gmail.com"
     }
   },
   "additionalProperties": false

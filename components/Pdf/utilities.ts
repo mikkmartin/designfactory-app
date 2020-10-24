@@ -5,16 +5,20 @@ export const summarizeLineCost = (node: Item) =>
   formatMoney(node.Price * node.Quantity, {
     maximumSignificantDigits: 2,
   })
+
 export const summarizeTotalCost = items => {
+  console.log(items)
   const sum = items.reduce((total, item) => total + item.Price * item.Quantity, 0)
   return formatMoney(sum)
 }
+
 export const formatMoney = (amount: number, options = {}) =>
   amount
     .toLocaleString('en-EE', { style: 'currency', currency: 'EUR', ...options })
     .replace(',', ' ')
 
 export const getColor = ({ r, g, b, a }) => `rgba(${r}, ${g}, ${b}, ${a})`
+
 export const getAlignMent = (string: string) => {
   switch (string) {
     case 'RIGHT':
@@ -23,6 +27,7 @@ export const getAlignMent = (string: string) => {
       return 'left'
   }
 }
+
 export const getText = (name: string, templateCharacters: string, data) => {
   let text
   for (const [key, value] of Object.entries(data)) {
@@ -31,6 +36,7 @@ export const getText = (name: string, templateCharacters: string, data) => {
   }
   return text
 }
+
 export const getTextStyles = ({ absoluteBoundingBox, style, opacity }) =>
   StyleSheet.create({
     style: {

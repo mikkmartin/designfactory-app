@@ -6,7 +6,7 @@ const MonacoEditor = dynamic(import('react-monaco-editor'), { ssr: false })
 import styled from 'styled-components'
 import { useMeasure } from 'react-use'
 import { useEditor } from './Editor/EditorContext'
-import schema from '../static/invoiceSchema.json'
+import { schema } from '../static/invoiceExample'
 export { ApiLink } from './Editor/ApiLink'
 export { Figma } from './Editor/Figma'
 export { useEditor }

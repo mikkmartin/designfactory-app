@@ -1,5 +1,40 @@
-import schema from './invoiceSchema.json'
-const example = schema.default
+import _schema from './invoiceSchema.json'
+
+const now = new Date()
+const formatDate = d => ''
+const dateToInvoiceNr = d => 0
+const formatFileName = d => `Arve_${dateToInvoiceNr(now)}.pdf`
+
+const defaults = Object.keys(_schema.properties).reduce((all, k) => {
+  if (Array.isArray(_schema.properties[k].default)) all[k] = _schema.properties[k].default[0]
+  else all[k] = _schema.properties[k].default
+  return all
+}, {}) as Invoice
+
+export const schema: Schema = {
+  ..._schema,
+  default: {
+    ...defaults,
+    date: formatDate(now),
+    invoiceNr: dateToInvoiceNr(now),
+    fileName: formatFileName(now),
+    items: defaults.items.map(item => ({ ...item, Quantity: 1 })),
+  },
+}
+
+//examples displayed in the editor
+let example: Invoice = schema.default
+delete example.fileName
+delete example.date
+delete example.invoiceNr
+delete example.tax
+delete example.dueDate
+export default example
+
+type Schema = {
+  default: Invoice
+  [key: string]: any
+}
 
 export type Invoice = {
   fileName: string
@@ -23,12 +58,5 @@ export type Item = {
   Title: string
   Description: string
   Price: number
-  Quantity: number
+  Quantity?: number
 }
-
-const formatDate = d => ''
-const dateToInvoiceNr = d => 0
-
-export default {
-  ...example,
-} as Invoice
