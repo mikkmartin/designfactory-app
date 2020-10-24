@@ -1,9 +1,9 @@
 import { FC } from 'react'
 import ReactPDF, { Page, Text, Document, StyleSheet } from '@react-pdf/renderer'
 import { findNodes, summarizeTotalCost, getText, getTextStyles, getColor } from './Pdf/utilities'
-import initial from '../static/invoiceExample'
+import initial from '../static/invoice'
 import { template } from '../static/designTemplate'
-import { Invoice as InvoiceData } from '../static/invoiceExample'
+import { Invoice as InvoiceData } from '../static/invoice'
 import { AutoLayout } from './Pdf/AutoLayout'
 
 type Props = {

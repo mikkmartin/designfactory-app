@@ -1,5 +1,5 @@
 import { FC, createContext, useContext, useState, Dispatch, SetStateAction } from 'react'
-import { Invoice, defaults } from '../../static/invoiceExample'
+import { Invoice, defaults } from '../../static/invoice'
 
 type Values = {
   json: Invoice
