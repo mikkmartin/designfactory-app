@@ -4,6 +4,7 @@ export type Invoice = {
   'From-description': string
   'To-description': string
   'To-title': string
+  paidInCash: boolean,
   items: Item[]
 }
 
@@ -56,6 +57,9 @@ export const getSchema = (uri: string) => ({
       },
       'To-description': {
         type: 'string',
+      },
+      paidInCash: {
+        type: 'boolean',
       },
       items: {
         type: 'array',

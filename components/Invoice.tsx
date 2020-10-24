@@ -14,6 +14,17 @@ export const Invoice: FC<Props> = ({ data: inputs }) => {
   const textNodes = findNodes(template.children, { type: 'TEXT' })
   const verticalLayoutNodes = findNodes(template.children, { layoutMode: 'VERTICAL' })
 
+  const fillText = ({ name, characters }) => {
+    switch (true) {
+      case name === 'topay-summary-value':
+        return data.paidInCash ? 'Makstud' : summarizTotalCost(data.items)
+      case name === 'topay-summary-description' && data.paidInCash:
+        return 'Sularaha makse'
+      default:
+        return getText(name, characters, data)
+    }
+  }
+
   return (
     <Document>
       <Page
@@ -25,9 +36,7 @@ export const Invoice: FC<Props> = ({ data: inputs }) => {
         })}>
         {textNodes.map((node, i) => (
           <Text key={i} style={getTextStyles(node)}>
-            {node.name === 'topay-summary-value'
-              ? summarizTotalCost(data.items)
-              : getText(node.name, node.characters, data)}
+            {fillText(node)}
           </Text>
         ))}
         {verticalLayoutNodes.map((node, i) => (
@@ -38,11 +47,12 @@ export const Invoice: FC<Props> = ({ data: inputs }) => {
   )
 }
 
-function AutoLayout({ template, data }: { template: any; data: { items: Item[] } }) {
+function AutoLayout({ template, data }: { template: any; data: InvoiceData }) {
   const instances = template.children.filter(item => item.type === 'INSTANCE')
   const { absoluteBoundingBox, itemSpacing } = template
   const { x: containerX, y: containerY } = absoluteBoundingBox
   //const items = children.filter(item => item.type !== 'INSTANCE')
+
   return (
     <View
       style={
