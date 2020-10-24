@@ -13,14 +13,12 @@
       {
         "Title": "Disain",
         "Description": "Et asi oleks nice",
-        "Price": 4500,
-        "Quantity": 1
+        "Price": 4500
       },
       {
         "Title": "Arendus",
         "Description": "Et asi töötaks",
-        "Price": 4500,
-        "Quantity": 1
+        "Price": 4500
       }
     ],
     "ibanLabel": "LHV",
@@ -145,5 +143,6 @@
         ]
       }
     }
-  }
+  },
+  "additionalProperties": false
 }
