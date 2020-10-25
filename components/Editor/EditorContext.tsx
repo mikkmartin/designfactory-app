@@ -1,6 +1,7 @@
 import { FC, createContext, useContext, useState, Dispatch, SetStateAction } from 'react'
 import { Invoice, defaults } from '../../static/invoice'
 import { Frame } from 'figma-js'
+import useSWR from 'swr'
 
 type Values = {
   json: Invoice
@@ -14,7 +15,12 @@ const Context = createContext<Values>()
 
 export const EditorProvider: FC = ({ children }) => {
   const [json, setJson] = useState(defaults)
-  const [template, setTemplate] = useState<Frame | null>(null)
+  const [initialData, setTemplate] = useState<Frame | null>(null)
+  const fetcher = () => fetch('/api/figma').then(r => r.json())
+  const { data: template } = useSWR('figmaFile', fetcher, {
+    initialData,
+    focusThrottleInterval: 0
+  })
 
   return (
     <Context.Provider value={{ json, setJson, template, setTemplate }}>{children}</Context.Provider>

@@ -35,8 +35,9 @@ const Index: FC<Props> = ({ template: _template }) => {
         {showDesign ? (
           <Figma />
         ) : (
-          renderIframe && (
-            <PDFViewer>
+          renderIframe &&
+          template && (
+            <PDFViewer key={Math.random()}>
               <Invoice template={template} data={pdfData} />
             </PDFViewer>
           )
