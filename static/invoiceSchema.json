@@ -121,6 +121,11 @@
         ]
       }
     },
+    "paidInCash": {
+      "$id": "#/properties/paidInCash",
+      "type": "boolean",
+      "default": false
+    },
     "myCompanyRegistrationNr": {
       "$id": "#/properties/myCompanyRegistrationNr",
       "type": "number",

@@ -6,7 +6,7 @@ const MonacoEditor = dynamic(import('react-monaco-editor'), { ssr: false })
 import styled from 'styled-components'
 import { useMeasure } from 'react-use'
 import { useEditor } from './Editor/EditorContext'
-import { schema } from '../static/invoice'
+import { schema, example } from '../static/invoice'
 export { ApiLink } from './Editor/ApiLink'
 export { Figma } from './Editor/Figma'
 export { useEditor }
@@ -14,7 +14,7 @@ export { useEditor }
 const Editor = () => {
   const [ref, { width, height }] = useMeasure()
   const { json, setJson } = useEditor()
-  const [jsonString, setJsonString] = useState<string>(JSON.stringify(json, null, 2))
+  const [jsonString, setJsonString] = useState<string>(JSON.stringify(example, null, 2))
 
   const onWillMount: EditorWillMount = monaco => {
     monaco.languages.json.jsonDefaults.setDiagnosticsOptions({

@@ -23,15 +23,16 @@ export const schema: Schema = {
 }
 
 //examples displayed in the editor
-let example: Invoice = schema.default
-delete example.fileName
-delete example.date
-delete example.invoiceNr
-delete example.tax
-delete example.dueDate
-delete example.email
-delete example.website
-export default example
+export const example: Invoice = {
+  From: defaults.From,
+  'From-description': defaults['From-description'],
+  To: defaults.To,
+  'To-description': defaults['To-description'],
+  items: defaults.items,
+  myCompanyRegistrationNr: defaults.myCompanyRegistrationNr,
+  ibanLabel: defaults.ibanLabel,
+  ibanNr: defaults.ibanNr,
+}
 
 type Schema = {
   default: Invoice
@@ -39,19 +40,19 @@ type Schema = {
 }
 
 export type Invoice = {
-  fileName: string
-  ibanNr?: string
-  ibanLabel?: string
-  invoiceNr?: number
-  date?: string
-  dueDate?: string
-  myCompanyRegistrationNr: number
   From: string
   'From-description': string
   To: string
   'To-description': string
-  paidInCash?: boolean
   items: Item[]
+  fileName?: string
+  ibanLabel: string
+  ibanNr: string
+  invoiceNr?: number
+  date?: string
+  dueDate?: string
+  myCompanyRegistrationNr: number
+  paidInCash?: boolean
   phoneNr?: number
   tax?: number
   email?: string

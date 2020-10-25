@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { Page, Text, Document, StyleSheet } from '@react-pdf/renderer'
 import { findNodes, summarizeTotalCost, getText, getTextStyles, getColor } from './utilities'
-import initial from '../../static/invoice'
+import { defaults } from '../../static/invoice'
 import { Invoice as InvoiceData } from '../../static/invoice'
 import { AutoLayout } from './AutoLayout'
 import { Frame } from 'figma-js'
@@ -12,7 +12,7 @@ type Props = {
 }
 
 export const InvoicePage: FC<Props> = ({ template, data: inputs }) => {
-  const data = { ...initial, ...inputs }
+  const data = { ...defaults, ...inputs }
 
   const { width, height } = template.absoluteBoundingBox
   const textNodes = findNodes(template.children, { type: 'TEXT' })
