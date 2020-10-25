@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useEditor } from '../Editor'
 import baseURL from '../../static/baseURL'
 import styled from 'styled-components'
+import { defaults } from '../../static/invoice'
 
 export const ApiLink = () => {
   const { json } = useEditor()
@@ -9,7 +10,7 @@ export const ApiLink = () => {
   useEffect(() => setUrl(getUrl()), [json])
 
   const getUrl = function () {
-    const { fileName, items, ...obj } = json
+    const { fileName = defaults.fileName, items, ...obj } = json
     var str = []
     for (var p in obj) {
       if (obj.hasOwnProperty(p)) str.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]))
