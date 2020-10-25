@@ -2,12 +2,15 @@ import { Item } from '../../static/invoice'
 import { StyleSheet } from '@react-pdf/renderer'
 
 export const summarizeLineCost = (node: Item) =>
-  formatMoney(node.Price * node.Quantity, {
+  formatMoney(node.Price * (node.Quantity ? node.Quantity : 1), {
     maximumSignificantDigits: 2,
   })
 
-export const summarizeTotalCost = items => {
-  const sum = items.reduce((total, item) => total + item.Price * item.Quantity, 0)
+export const summarizeTotalCost = (items: Item[]) => {
+  const sum = items.reduce(
+    (total, item) => total + item.Price * (item.Quantity ? item.Quantity : 1),
+    0
+  )
   return formatMoney(sum)
 }
 

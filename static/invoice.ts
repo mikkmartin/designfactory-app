@@ -28,7 +28,7 @@ export const example: Invoice = {
   'From-description': defaults['From-description'],
   To: defaults.To,
   'To-description': defaults['To-description'],
-  items: defaults.items,
+  items: defaults.items.map(({ Title, Description, Price }) => ({ Title, Description, Price })),
   myCompanyRegistrationNr: defaults.myCompanyRegistrationNr,
   ibanLabel: defaults.ibanLabel,
   ibanNr: defaults.ibanNr,
