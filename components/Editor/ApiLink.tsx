@@ -20,23 +20,56 @@ export const ApiLink = () => {
   }
 
   return (
-    <Input
-      type="text"
-      onFocus={ev => ev.target.select()}
-      onClick={ev => ev.stopPropagation()}
-      readOnly
-      value={url}
-    />
+    <Container>
+      <Input
+        type="text"
+        onFocus={ev => ev.target.select()}
+        onClick={ev => ev.stopPropagation()}
+        readOnly
+        value={url}
+      />
+    </Container>
   )
 }
 
-const Input = styled.input`
+const Container = styled.div`
   height: 54px;
-  padding: 16px 0 16px 16px;
-  background: #454545;
+  position: relative;
+  &::before,
+  &::after {
+    position: absolute;
+    pointer-events: none;
+  }
+  &::before {
+    content: 'GET';
+    width: 64px;
+    height: 100%;
+    display: grid;
+    place-content: center;
+    color: #0097ff;
+    font-family: sans-serif;
+    font-size: 12px;
+  }
+  &::after {
+    content: ' ';
+    white-space: pre;
+    background: linear-gradient(90deg, rgba(50, 54, 62, 0) 0%, rgba(50, 54, 62, 1) 86%);
+    right: 0;
+    width: 8px;
+    height: 100%;
+  }
+`
+
+const Input = styled.input`
+  width: 100%;
+  height: 100%;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  padding: 16px 0 16px 64px;
+  background: #32363e;
   border: 0;
-  color: rgba(0, 0, 0, 0.9);
+  color: white;
   outline: none;
+  font-size: 12px;
   &::selection {
     background: white;
     color: #1e1e1e;
