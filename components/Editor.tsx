@@ -13,7 +13,7 @@ export { useEditor }
 
 const Editor = () => {
   const [ref, { width, height }] = useMeasure()
-  const { json, setJson } = useEditor()
+  const { setJson } = useEditor()
   const [jsonString, setJsonString] = useState<string>(JSON.stringify(example, null, 2))
 
   const onWillMount: EditorWillMount = monaco => {
