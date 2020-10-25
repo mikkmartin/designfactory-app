@@ -1,58 +1,24 @@
-import { FC } from 'react'
-import ReactPDF, { Page, Text, Document, StyleSheet } from '@react-pdf/renderer'
-import { findNodes, summarizeTotalCost, getText, getTextStyles, getColor } from './Pdf/utilities'
-import initial from '../static/invoice'
-import { Invoice as InvoiceData } from '../static/invoice'
-import { AutoLayout } from './Pdf/AutoLayout'
-import { Frame } from 'figma-js'
-import { getTemplate } from '../data/figma'
+import { useState, useMemo, useEffect, FC } from 'react'
+import { PDFViewer } from '@react-pdf/renderer'
+import { InvoicePage } from './Pdf/InvoicePage'
+import { useDebounce } from 'react-use'
+import { useEditor } from './Editor'
 
-type Props = {
-  data?: InvoiceData
-  template: Frame
-}
+export const Pdf: FC = () => {
+  const { json, template } = useEditor()
+  const [pdfData, setPdfData] = useState(json)
+  const [renderIframe, setRenderIframe] = useState(false)
+  useDebounce(() => setPdfData(json), 300, [json])
+  useEffect(() => setRenderIframe(true), [])
 
-export const Invoice: FC<Props> = ({ template, data: inputs }) => {
-  const data = { ...initial, ...inputs }
-
-  const { width, height } = template.absoluteBoundingBox
-  const textNodes = findNodes(template.children, { type: 'TEXT' })
-  const verticalLayoutNodes = findNodes(template.children, { layoutMode: 'VERTICAL' })
-
-  const fillText = ({ name, characters }) => {
-    switch (true) {
-      case name === 'topay-summary-value':
-        return data.paidInCash ? 'Makstud' : summarizeTotalCost(data.items)
-      case name === 'topay-summary-description' && data.paidInCash:
-        return 'Sularaha makse'
-      default:
-        return getText(name, characters, data)
-    }
-  }
-
-  return (
-    <Document>
-      <Page
-        size={{ width, height }}
-        style={StyleSheet.create({
-          page: {
-            backgroundColor: getColor(template.backgroundColor),
-          },
-        })}>
-        {textNodes.map((node, i) => (
-          <Text key={i} style={getTextStyles(node)}>
-            {fillText(node)}
-          </Text>
-        ))}
-        {verticalLayoutNodes.map((node, i) => (
-          <AutoLayout template={node} data={data} key={i} />
-        ))}
-      </Page>
-    </Document>
+  return useMemo(
+    () =>
+      renderIframe &&
+      template && (
+        <PDFViewer key={Math.random()}>
+          <InvoicePage template={template} data={pdfData} />
+        </PDFViewer>
+      ),
+    [renderIframe, template, pdfData]
   )
-}
-
-export async function streamDocument({ data }) {
-  const template = await getTemplate('QFHu9LnnywkAKOdpuTZcgE')
-  return ReactPDF.renderToStream(<Invoice template={template} data={data} />)
 }
