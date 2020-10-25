@@ -1,10 +1,10 @@
-import { FC, useMemo } from 'react'
+import { FC } from 'react'
 import ReactPDF, { Page, Text, Document, StyleSheet } from '@react-pdf/renderer'
 import { findNodes, summarizeTotalCost, getText, getTextStyles, getColor } from './Pdf/utilities'
 import initial from '../static/invoice'
 import { Invoice as InvoiceData } from '../static/invoice'
 import { AutoLayout } from './Pdf/AutoLayout'
-import Figma, { Frame } from 'figma-js'
+import { Frame } from 'figma-js'
 import { getTemplate } from '../data/figma'
 
 type Props = {
