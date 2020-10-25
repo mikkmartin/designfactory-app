@@ -1,8 +1,9 @@
 import { useState, useMemo, useEffect, FC } from 'react'
-import { PDFViewer } from '@react-pdf/renderer'
+import ReactPDF, { PDFViewer } from '@react-pdf/renderer'
 import { InvoicePage } from './Pdf/InvoicePage'
 import { useDebounce } from 'react-use'
 import { useEditor } from './Editor'
+import { getTemplate } from '../data/figma'
 
 export const Pdf: FC = () => {
   const { json, template } = useEditor()
@@ -21,4 +22,9 @@ export const Pdf: FC = () => {
       ),
     [renderIframe, template, pdfData]
   )
+}
+
+export async function streamDocument({ data }) {
+  const template = await getTemplate('QFHu9LnnywkAKOdpuTZcgE')
+  return ReactPDF.renderToStream(<InvoicePage template={template} data={data} />)
 }

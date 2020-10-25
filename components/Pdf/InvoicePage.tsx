@@ -1,11 +1,10 @@
 import { FC } from 'react'
-import ReactPDF, { Page, Text, Document, StyleSheet } from '@react-pdf/renderer'
+import { Page, Text, Document, StyleSheet } from '@react-pdf/renderer'
 import { findNodes, summarizeTotalCost, getText, getTextStyles, getColor } from './utilities'
 import initial from '../../static/invoice'
 import { Invoice as InvoiceData } from '../../static/invoice'
 import { AutoLayout } from './AutoLayout'
 import { Frame } from 'figma-js'
-import { getTemplate } from '../../data/figma'
 
 type Props = {
   data?: InvoiceData
@@ -50,9 +49,4 @@ export const InvoicePage: FC<Props> = ({ template, data: inputs }) => {
       </Page>
     </Document>
   )
-}
-
-export async function streamDocument({ data }) {
-  const template = await getTemplate('QFHu9LnnywkAKOdpuTZcgE')
-  return ReactPDF.renderToStream(<InvoicePage template={template} data={data} />)
 }
