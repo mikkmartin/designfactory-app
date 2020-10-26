@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { Page, Text, Document, StyleSheet } from '@react-pdf/renderer'
-import { findNodes, summarizeTotalCost, getText, getTextStyles, getColor } from './utilities'
+import { findNodes, getTextStyles, getColor, fillText } from './utilities'
 import { defaults } from '../../static/invoice'
 import { Invoice as InvoiceData } from '../../static/invoice'
 import { AutoLayout } from './AutoLayout'
@@ -18,17 +18,6 @@ export const InvoicePage: FC<Props> = ({ template, data: inputs }) => {
   const textNodes = findNodes(template.children, { type: 'TEXT' })
   const verticalLayoutNodes = findNodes(template.children, { layoutMode: 'VERTICAL' })
 
-  const fillText = ({ name, characters }) => {
-    switch (true) {
-      case name === 'topay-summary-value':
-        return data.paidInCash ? 'Makstud' : summarizeTotalCost(data.items)
-      case name === 'topay-summary-description' && data.paidInCash:
-        return 'Sularaha makse'
-      default:
-        return getText(name, characters, data)
-    }
-  }
-
   return (
     <Document>
       <Page
@@ -40,7 +29,7 @@ export const InvoicePage: FC<Props> = ({ template, data: inputs }) => {
         })}>
         {textNodes.map((node, i) => (
           <Text key={i} style={getTextStyles(node)}>
-            {fillText(node)}
+            {fillText(node, data)}
           </Text>
         ))}
         {verticalLayoutNodes.map((node, i) => (

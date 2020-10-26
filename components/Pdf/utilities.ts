@@ -2,23 +2,42 @@ import { Item } from '../../static/invoice'
 import { StyleSheet } from '@react-pdf/renderer'
 import { Text } from 'figma-js'
 
-export const summarizeLineCost = (node: Item) =>
-  formatMoney(node.Price * (node.Quantity ? node.Quantity : 1), {
-    maximumSignificantDigits: 2,
-  })
+const withNoZeros = {
+  maximumSignificantDigits: 2,
+}
 
-export const summarizeTotalCost = (items: Item[]) => {
+export const fillText = ({ name, characters }, data) => {
+  switch (true) {
+    case name === 'topay-subtotal-value':
+      return data.paidInCash ? 'Makstud' : summarizeTotalCost(data.items, withNoZeros)
+    case name === 'Price':
+      return formatMoney(data.Price, withNoZeros)
+    case name === 'Total':
+      return summarizeLineCost(data)
+    case name === 'topay-summary-value':
+      return data.paidInCash ? 'Makstud' : summarizeTotalCost(data.items)
+    case name === 'topay-summary-description' && data.paidInCash:
+      return 'Sularaha makse'
+    default:
+      return getText(name, characters, data)
+  }
+}
+
+export const summarizeLineCost = (node: Item) =>
+  formatMoney(node.Price * (node.Quantity ? node.Quantity : 1), withNoZeros)
+
+export const summarizeTotalCost = (items: Item[], options?: object) => {
   const sum = items.reduce(
     (total, item) => total + item.Price * (item.Quantity ? item.Quantity : 1),
     0
   )
-  return formatMoney(sum)
+  return formatMoney(sum, options)
 }
 
 export const formatMoney = (amount: number, options = {}) =>
   amount
-    .toLocaleString('en-EE', { style: 'currency', currency: 'EUR', ...options })
-    .replace(',', ' ')
+    .toLocaleString('et-EE', { style: 'currency', currency: 'EUR', ...options })
+    .replace('\xa0€', '€')
 
 export const getColor = ({ r, g, b, a }) => `rgba(${r}, ${g}, ${b}, ${a})`
 

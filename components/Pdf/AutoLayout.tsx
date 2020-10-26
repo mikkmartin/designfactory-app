@@ -1,12 +1,22 @@
 import { Text, View, StyleSheet } from '@react-pdf/renderer'
 import { Invoice as InvoiceData } from '../../static/invoice'
-import { findNodes, getText, getTextStyles } from './utilities'
+import { findNodes, getText, getTextStyles, fillText, summarizeLineCost } from './utilities'
 import Figma from 'figma-js'
 
-export const AutoLayout = ({ template, data }: { template: any; data: InvoiceData }) => {
-  const children: Figma.Node[] = template.children
+export const AutoLayout = ({
+  template,
+  data,
+  marginTop = 0,
+  position = 'absolute',
+}: {
+  template: any
+  data: InvoiceData
+  marginTop?: number
+  position?: 'absolute' | 'relative'
+}) => {
+  const children = template.children
   const { absoluteBoundingBox, itemSpacing } = template
-  const { y: top, x: left, width } = absoluteBoundingBox
+  const { y: parentTop, x: parentLeft, width } = absoluteBoundingBox
 
   let foundItem = false
   return (
@@ -14,27 +24,53 @@ export const AutoLayout = ({ template, data }: { template: any; data: InvoiceDat
       style={
         StyleSheet.create({
           absolute: {
-            position: 'absolute',
-            top,
-            left,
+            position,
+            marginTop,
+            top: position === 'absolute' ? parentTop : 0,
+            left: position === 'absolute' ? parentLeft : 0,
             width,
             display: 'flex',
+            ...getLayoutAlignment(template),
           },
         }).absolute
       }>
-      {children.reduce((all, child) => {
+      {children.reduce((all, child, i) => {
         if (child.name === 'item' && !foundItem) {
           foundItem = true
           all = [
             ...all,
-            ...data.items.map((data, i) => (
-              <Item key={i} template={child} data={data} marginTop={i ? itemSpacing : 0} />
+            ...data.items.map((data, j) => (
+              <Item key={j} template={child} data={data} marginTop={j ? itemSpacing : 0} />
             )),
           ]
         } else if (child.type === 'GROUP') {
-          all = [...all, <Group node={child} data={data} marginTop={itemSpacing} />]
-        } else {
-          //console.log(child.type)
+          all = [...all, <Group key={i} node={child} data={data} marginTop={itemSpacing} />]
+        } else if (child.layoutMode === 'VERTICAL') {
+          console.log('AutoLayout')
+          console.log(child)
+          all = [
+            ...all,
+            <AutoLayout
+              key={i}
+              template={child}
+              data={data}
+              marginTop={itemSpacing}
+              position="relative"
+            />,
+          ]
+        } else if (child.type === 'TEXT') {
+          const { left, top, ...absoluteStyles } = getTextStyles(child)
+          const styles = {
+            ...absoluteStyles,
+            top: top - parentTop,
+            left: left - parentLeft,
+          }
+          all = [
+            ...all,
+            <Text key={i} style={styles}>
+              {fillText(child, data)}
+            </Text>,
+          ]
         }
         return all
       }, [])}
@@ -65,7 +101,7 @@ const Item = ({ template, data, marginTop }) => {
         }
         return (
           <Text key={j} style={styles}>
-            {getText(node.name, node.characters, data)}
+            {fillText(node, data)}
           </Text>
         )
       })}
@@ -85,7 +121,7 @@ const Group = ({ node, marginTop, data }: { node: Figma.Group; marginTop: number
             marginTop,
             width,
             height,
-            alignSelf: 'flex-end',
+            ...getLayoutAlignment(node),
           },
         }).style
       }>
@@ -98,10 +134,19 @@ const Group = ({ node, marginTop, data }: { node: Figma.Group; marginTop: number
         }
         return (
           <Text key={j} style={styles}>
-            {getText(node.name, node.characters, data)}
+            {fillText(node, data)}
           </Text>
         )
       })}
     </View>
   )
+}
+
+const getLayoutAlignment = (node: Figma.Group): any => {
+  switch (node.layoutAlign) {
+    case 'MAX':
+      return { alignSelf: 'flex-end' }
+    case 'MIN':
+      return { alignSelf: 'flex-start' }
+  }
 }
