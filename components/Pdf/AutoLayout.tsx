@@ -1,57 +1,107 @@
 import { Text, View, StyleSheet } from '@react-pdf/renderer'
 import { Invoice as InvoiceData } from '../../static/invoice'
-import { findNodes, getText, getTextStyles, summarizeLineCost } from './utilities'
+import { findNodes, getText, getTextStyles } from './utilities'
+import Figma from 'figma-js'
 
 export const AutoLayout = ({ template, data }: { template: any; data: InvoiceData }) => {
-  const instances = template.children.filter(item => item.type === 'INSTANCE')
+  const children: Figma.Node[] = template.children
   const { absoluteBoundingBox, itemSpacing } = template
-  const { x: containerX, y: containerY } = absoluteBoundingBox
-  //const items = children.filter(item => item.type !== 'INSTANCE')
+  const { y: top, x: left, width } = absoluteBoundingBox
 
+  let foundItem = false
   return (
     <View
       style={
         StyleSheet.create({
           absolute: {
             position: 'absolute',
-            top: absoluteBoundingBox.y,
-            left: absoluteBoundingBox.x,
+            top,
+            left,
+            width,
+            display: 'flex',
           },
         }).absolute
       }>
-      {instances.length > 0 &&
-        data.items.map((_, i) => {
-          const { absoluteBoundingBox } = instances[0]
-          const { height } = absoluteBoundingBox
-          const textNodes = findNodes(instances[0].children, { type: 'TEXT' })
-          return (
-            <View
-              key={i}
-              style={
-                StyleSheet.create({
-                  style: {
-                    marginTop: i && height + (i && itemSpacing),
-                  },
-                }).style
-              }>
-              {textNodes.map((node, j) => {
-                const { left, top, ...absoluteStyles } = getTextStyles(node)
-                const styles = {
-                  ...absoluteStyles,
-                  left: node.absoluteBoundingBox.x - containerX,
-                  top: node.absoluteBoundingBox.y - containerY,
-                }
-                return (
-                  <Text key={j} style={styles}>
-                    {node.name === 'Total'
-                      ? summarizeLineCost(data.items[i])
-                      : getText(node.name, node.characters, data.items[i])}
-                  </Text>
-                )
-              })}
-            </View>
-          )
-        })}
+      {children.reduce((all, child) => {
+        if (child.name === 'item' && !foundItem) {
+          foundItem = true
+          all = [
+            ...all,
+            ...data.items.map((data, i) => (
+              <Item key={i} template={child} data={data} marginTop={i ? itemSpacing : 0} />
+            )),
+          ]
+        } else if (child.type === 'GROUP') {
+          all = [...all, <Group node={child} data={data} marginTop={itemSpacing} />]
+        } else {
+          //console.log(child.type)
+        }
+        return all
+      }, [])}
+    </View>
+  )
+}
+
+const Item = ({ template, data, marginTop }) => {
+  const { y: parentTop, x: parentLeft, width, height } = template.absoluteBoundingBox
+  const textNodes = findNodes(template.children, { type: 'TEXT' }) as Figma.Text[]
+  return (
+    <View
+      style={
+        StyleSheet.create({
+          style: {
+            marginTop,
+            width,
+            height,
+          },
+        }).style
+      }>
+      {textNodes.map((node, j) => {
+        const { left, top, ...absoluteStyles } = getTextStyles(node)
+        const styles = {
+          ...absoluteStyles,
+          top: top - parentTop,
+          left: left - parentLeft,
+        }
+        return (
+          <Text key={j} style={styles}>
+            {getText(node.name, node.characters, data)}
+          </Text>
+        )
+      })}
+    </View>
+  )
+}
+
+const Group = ({ node, marginTop, data }: { node: Figma.Group; marginTop: number; data: any }) => {
+  const { y: parentTop, x: parentLeft, width, height } = node.absoluteBoundingBox
+  const textNodes = findNodes(node.children, { type: 'TEXT' }) as Figma.Text[]
+
+  return (
+    <View
+      style={
+        StyleSheet.create({
+          style: {
+            marginTop,
+            width,
+            height,
+            alignSelf: 'flex-end',
+          },
+        }).style
+      }>
+      {textNodes.map((node, j) => {
+        const { left, top, ...absoluteStyles } = getTextStyles(node)
+        const styles = {
+          ...absoluteStyles,
+          top: top - parentTop,
+          left: left - parentLeft,
+        }
+        return (
+          <Text key={j} style={styles}>
+            {getText(node.name, node.characters, data)}
+          </Text>
+        )
+      })}
     </View>
   )
 }

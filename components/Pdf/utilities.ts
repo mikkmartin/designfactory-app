@@ -1,5 +1,6 @@
 import { Item } from '../../static/invoice'
 import { StyleSheet } from '@react-pdf/renderer'
+import { Text } from 'figma-js'
 
 export const summarizeLineCost = (node: Item) =>
   formatMoney(node.Price * (node.Quantity ? node.Quantity : 1), {
@@ -39,7 +40,7 @@ export const getText = (name: string, templateCharacters: string, data) => {
   return text
 }
 
-export const getTextStyles = ({ absoluteBoundingBox, style, opacity }) =>
+export const getTextStyles = ({ absoluteBoundingBox, style, opacity }: Text) =>
   StyleSheet.create({
     style: {
       position: 'absolute',
@@ -52,7 +53,7 @@ export const getTextStyles = ({ absoluteBoundingBox, style, opacity }) =>
       letterSpacing: style.letterSpacing,
       opacity: opacity,
     },
-  }).style
+  }).style as any
 
 export const findNodes = (arr, requiredProps) => {
   return arr.reduce((a, node) => {
