@@ -17,7 +17,7 @@ export const InvoicePage: FC<Props> = ({ template, data: inputs }) => {
 
   const { width, height } = template.absoluteBoundingBox
   const vectorNodes = findNodes(template.children, { type: 'VECTOR' })
-  const textNodes = findNodes(template.children, { type: 'TEXT' })
+  const textNodes = findNodes(template.children, { type: 'TEXT' }, { layoutMode: 'VERTICAL' })
   const verticalLayoutNodes = findNodes(template.children, { layoutMode: 'VERTICAL' })
 
   return (

@@ -60,7 +60,7 @@ export const getText = (name: string, templateCharacters: string, data) => {
   return text
 }
 
-export const getTextStyles = ({ absoluteBoundingBox, style, opacity }: Text) =>
+export const getTextStyles = ({ absoluteBoundingBox, style, opacity, fills }: Text) =>
   StyleSheet.create({
     style: {
       position: 'absolute',
@@ -71,19 +71,26 @@ export const getTextStyles = ({ absoluteBoundingBox, style, opacity }: Text) =>
       width: absoluteBoundingBox.width,
       fontSize: style.fontSize,
       letterSpacing: style.letterSpacing,
+      color: getColor(fills[0].color),
       opacity: opacity,
     },
   }).style as any
 
-export const findNodes = (arr, requiredProps) => {
+export const findNodes = (arr, requiredProps, skipProps = undefined) => {
   return arr.reduce((a, node) => {
     const hasProps = Object.keys(requiredProps).reduce(
       (last, key) => last && node[key] === requiredProps[key],
       true
     )
+    if (skipProps) {
+      const shouldEscape = Object.keys(skipProps).reduce((last, key) => {
+        return !last && node[key] === skipProps[key]
+      }, false)
+      if (shouldEscape) return a
+    }
     if (hasProps) a = [...a, node] //add node to array
     if (node.children && node.name !== 'items')
-      return [...a, ...findNodes(node.children, requiredProps)]
+      return [...a, ...findNodes(node.children, requiredProps, skipProps)]
     return a
   }, [])
 }
