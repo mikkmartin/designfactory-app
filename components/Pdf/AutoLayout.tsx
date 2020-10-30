@@ -46,8 +46,6 @@ export const AutoLayout = ({
         } else if (child.type === 'GROUP') {
           all = [...all, <Group key={i} node={child} data={data} marginTop={itemSpacing} />]
         } else if (child.layoutMode === 'VERTICAL') {
-          console.log('AutoLayout')
-          console.log(child)
           all = [
             ...all,
             <AutoLayout

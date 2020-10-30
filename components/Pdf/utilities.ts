@@ -1,6 +1,7 @@
 import { Item } from '../../static/invoice'
 import { StyleSheet } from '@react-pdf/renderer'
 import { Text } from 'figma-js'
+import Color from 'color'
 
 const withNoZeros = {
   maximumSignificantDigits: 2,
@@ -39,7 +40,7 @@ export const formatMoney = (amount: number, options = {}) =>
     .toLocaleString('et-EE', { style: 'currency', currency: 'EUR', ...options })
     .replace('\xa0€', '€')
 
-export const getColor = ({ r, g, b, a }) => `rgba(${r}, ${g}, ${b}, ${a})`
+export const getColor = ({ r, g, b, a }) => Color({ r: r * 255, g: g * 255, b: b * 255 }).hex()
 
 export const getAlignMent = (string: string) => {
   switch (string) {

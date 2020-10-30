@@ -4,6 +4,7 @@ import { findNodes, getTextStyles, getColor, fillText } from './utilities'
 import { defaults } from '../../static/invoice'
 import { Invoice as InvoiceData } from '../../static/invoice'
 import { AutoLayout } from './AutoLayout'
+import { Vector } from './Vector'
 import { Frame } from 'figma-js'
 
 type Props = {
@@ -15,6 +16,7 @@ export const InvoicePage: FC<Props> = ({ template, data: inputs }) => {
   const data = { ...defaults, ...inputs }
 
   const { width, height } = template.absoluteBoundingBox
+  const vectorNodes = findNodes(template.children, { type: 'VECTOR' })
   const textNodes = findNodes(template.children, { type: 'TEXT' })
   const verticalLayoutNodes = findNodes(template.children, { layoutMode: 'VERTICAL' })
 
@@ -27,6 +29,9 @@ export const InvoicePage: FC<Props> = ({ template, data: inputs }) => {
             backgroundColor: getColor(template.backgroundColor),
           },
         })}>
+        {vectorNodes.map((vector, i) => (
+          <Vector key={i} vector={vector} />
+        ))}
         {textNodes.map((node, i) => (
           <Text key={i} style={getTextStyles(node)}>
             {fillText(node, data)}
