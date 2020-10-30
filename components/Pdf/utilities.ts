@@ -88,6 +88,7 @@ export const getTextStyles = ({ absoluteBoundingBox, style, opacity, fills }: Te
       lineHeight: style.lineHeightPx / 10,
       width: absoluteBoundingBox.width,
       fontSize: style.fontSize,
+      fontWeight: style.fontWeight,
       letterSpacing: style.letterSpacing,
       color: getColor(fills[0].color),
       opacity: opacity,
