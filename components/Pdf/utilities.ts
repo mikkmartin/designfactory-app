@@ -40,7 +40,7 @@ export const formatMoney = (amount: number, options = {}) =>
     .toLocaleString('et-EE', { style: 'currency', currency: 'EUR', ...options })
     .replace('\xa0€', '€')
 
-export const getColor = ({ r, g, b, a }) => Color({ r: r * 255, g: g * 255, b: b * 255 }).hex()
+export const getColor = ({ r, g, b }) => Color({ r: r * 255, g: g * 255, b: b * 255 }).hex()
 
 export const getAlignMent = (string: string) => {
   switch (string) {

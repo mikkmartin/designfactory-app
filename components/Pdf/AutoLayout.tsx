@@ -1,6 +1,6 @@
 import { Text, View, StyleSheet } from '@react-pdf/renderer'
 import { Invoice as InvoiceData } from '../../static/invoice'
-import { findNodes, getText, getTextStyles, fillText, summarizeLineCost } from './utilities'
+import { findNodes, getTextStyles, fillText } from './utilities'
 import Figma from 'figma-js'
 
 export const AutoLayout = ({
