@@ -1,25 +1,33 @@
 import _schema from './invoiceSchema.json'
+import dayjs from 'dayjs'
 
 const now = new Date()
-const formatDate = _ => ''
-const dateToInvoiceNr = _ => 0
+const formatDate = d => d.toISOString().slice(0, 10).split('-').reverse().join('-')
+const dateToInvoiceNr = d => d.toISOString().slice(0, 10).split('-').join('') * 100 + 1
 const formatFileName = d => `Arve_${dateToInvoiceNr(d)}.pdf`
 
-export const defaults = Object.keys(_schema.properties).reduce((all, k) => {
+const schemaDefaults = Object.keys(_schema.properties).reduce((all, k) => {
   if (Array.isArray(_schema.properties[k].default)) all[k] = _schema.properties[k].default[0]
   else all[k] = _schema.properties[k].default
   return all
 }, {}) as Invoice
 
+export const defaults = {
+  ...schemaDefaults,
+  date: formatDate(now),
+  dueDate: formatDate(dayjs(now).add(1, 'month')),
+  invoiceNr: dateToInvoiceNr(now),
+  fileName: formatFileName(now),
+  items: schemaDefaults.items.map(item => ({ ...item, Quantity: 1 })),
+}
+
 export const schema: Schema = {
   ..._schema,
-  default: {
-    ...defaults,
-    date: formatDate(now),
-    invoiceNr: dateToInvoiceNr(now),
-    fileName: formatFileName(now),
-    items: defaults.items.map(item => ({ ...item, Quantity: 1 })),
-  },
+  default: defaults,
+  properties: Object.keys(_schema.properties).reduce(
+    (obj, prop) => ({ ...obj, [prop]: defaults[prop] }),
+    {}
+  ),
 }
 
 //examples displayed in the editor

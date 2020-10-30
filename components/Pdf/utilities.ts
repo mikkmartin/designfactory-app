@@ -19,8 +19,26 @@ export const fillText = ({ name, characters }, data) => {
       return data.paidInCash ? 'Makstud' : summarizeTotalCost(data.items)
     case name === 'topay-summary-description' && data.paidInCash:
       return 'Sularaha makse'
+    case name === 'iban-label':
+      return data.ibanLabel
+    case name === 'iban-number-value':
+      return data.ibanNr
+    case name === 'invoice-number-value':
+      return data.invoiceNr
+    case name === 'date-value':
+      return formatDate(data.date)
+    case name === 'due-date-value':
+      return formatDate(data.dueDate)
     default:
       return getText(name, characters, data)
+  }
+}
+
+const formatDate = str => {
+  try {
+    return str.split('-').join('.')
+  } catch (e) {
+    return '---'
   }
 }
 
