@@ -144,12 +144,20 @@
     "website": {
       "$id": "#/properties/website",
       "type": "string",
-      "default": "mikkmartin.co"
+      "examples": ["mikkmartin.co"],
+      "default": ""
     },
     "email": {
       "$id": "#/properties/email",
       "type": "string",
-      "default": "mikkmartin@gmail.com"
+      "examples": ["mikk.martin@gmail.com"],
+      "default": ""
+    },
+    "phoneNr": {
+      "$id": "#/properties/phoneNr",
+      "type": "string",
+      "examples": ["+372 555 55 555"],
+      "default": ""
     }
   },
   "additionalProperties": false

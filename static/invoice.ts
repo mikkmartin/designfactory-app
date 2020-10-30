@@ -25,7 +25,13 @@ export const schema: Schema = {
   ..._schema,
   default: defaults,
   properties: Object.keys(_schema.properties).reduce(
-    (obj, prop) => ({ ...obj, [prop]: defaults[prop] }),
+    (obj, prop) => ({
+      ...obj,
+      [prop]: {
+        ..._schema.properties[prop],
+        default: defaults[prop],
+      },
+    }),
     {}
   ),
 }
@@ -43,7 +49,7 @@ export const example: Invoice = {
 }
 
 type Schema = {
-  default: Invoice
+  default: Invoice,
   [key: string]: any
 }
 

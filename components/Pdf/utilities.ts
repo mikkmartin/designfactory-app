@@ -10,7 +10,7 @@ const withNoZeros = {
 export const fillText = ({ name, characters }, data) => {
   switch (true) {
     case name === 'topay-subtotal-value':
-      return data.paidInCash ? 'Makstud' : summarizeTotalCost(data.items, withNoZeros)
+      return summarizeTotalCost(data.items, withNoZeros)
     case name === 'Price':
       return formatMoney(data.Price, withNoZeros)
     case name === 'Total':
