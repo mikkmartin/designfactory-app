@@ -1,6 +1,6 @@
 import { useState, FC } from 'react'
 import styled from 'styled-components'
-import Editor, { useEditor, ApiLink, Figma } from '../components/Editor'
+import Editor, { useEditor, ApiLink, Figma, Header } from '../components/Editor'
 import { getTemplate } from '../data/figma'
 import { Frame } from 'figma-js'
 import { Pdf } from '../components/Pdf'
@@ -17,10 +17,8 @@ const Index: FC<Props> = ({ template }) => {
   return (
     <Container>
       <div className="controls">
+        <Header />
         <Editor />
-        <DesignToggle onClick={() => setShowDesign(!showDesign)}>
-          {showDesign ? 'PDF' : 'Design'}
-        </DesignToggle>
         <ApiLink />
       </div>
       <div className="iframe-container">{showDesign ? <Figma /> : <Pdf />}</div>
@@ -35,12 +33,6 @@ export const getStaticProps = async () => {
     revalidate: 1,
   }
 }
-
-const DesignToggle = styled.button`
-  position: absolute;
-  top: 8px;
-  right: 8px;
-`
 
 const Container = styled.div`
   display: flex;

@@ -7,7 +7,8 @@ export const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
   }
   :root {
-    font-family: monospace;
+    font-family: 'SFMono-Regular',Consolas,'Liberation Mono',Menlo,Courier,monospace;
+    --highlight: #0097ff;
   }
   body, #__next {
     min-height: 100vh;

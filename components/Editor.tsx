@@ -9,6 +9,7 @@ import { useEditor } from './Editor/EditorContext'
 import { schema, example } from '../static/invoice'
 export { ApiLink } from './Editor/ApiLink'
 export { Figma } from './Editor/Figma'
+export { Header } from './Editor/Header'
 export { useEditor }
 
 const Editor = () => {

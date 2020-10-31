@@ -64,9 +64,9 @@ const Container = styled.div`
 const Input = styled.input`
   width: 100%;
   height: 100%;
-  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  font-family: inherit;
   padding: 16px 0 16px 64px;
-  background: #32363e;
+  background: rgba(255, 255, 255, 0.1);
   border: 0;
   color: white;
   outline: none;
