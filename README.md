@@ -14,7 +14,7 @@ yarn dev
 
 ## Todo
 
-- [ ] Support editing more fields
+- [x] ~~Support editing more fields~~
 - [ ] Persist input data from the GUI
 - [ ] Support multiple languages & currencies
 - [ ] Support multiple pages/page overflow
