@@ -8,19 +8,23 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useClickAway } from 'react-use'
 
 export const Header = () => {
-  const { json } = useEditor()
+  const { json, blobUrl } = useEditor()
   const [infoOpen, setInfoOpen] = useState(false)
+  const fileName = json.fileName || defaults.fileName
+  const linkAttributes = blobUrl ? { href: blobUrl, download: fileName } : {}
 
   return (
     <Container>
-      <h1>{json.fileName || defaults.fileName}</h1>
+      <h1>{fileName}</h1>
       <div className="buttons">
         <Button onClick={() => setInfoOpen(!infoOpen)}>
           <Info />
         </Button>
-        <Button>
-          <Download />
-        </Button>
+        <a {...linkAttributes}>
+          <Button>
+            <Download />
+          </Button>
+        </a>
       </div>
       <AnimatePresence>
         {infoOpen && <InfoPanel close={() => setInfoOpen(!infoOpen)} />}

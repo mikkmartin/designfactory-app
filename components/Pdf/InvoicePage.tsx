@@ -11,9 +11,10 @@ import { useFonts } from './PdfContext'
 type Props = {
   data?: InvoiceData
   template: Frame
+  onRender?: () => void
 }
 
-export const InvoicePage: FC<Props> = ({ template, data: inputs }) => {
+export const InvoicePage: FC<Props> = ({ template, data: inputs, onRender }) => {
   const data = { ...defaults, ...inputs }
   const { width, height } = template.absoluteBoundingBox
   const vectorNodes = findNodes(template.children, { type: 'VECTOR' })
@@ -22,7 +23,7 @@ export const InvoicePage: FC<Props> = ({ template, data: inputs }) => {
   const { fontFamilies } = useFonts()
 
   return (
-    <Document>
+    <Document onRender={onRender}>
       <Page
         size={{ width, height }}
         style={StyleSheet.create({

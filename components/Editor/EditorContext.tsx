@@ -8,6 +8,8 @@ type Values = {
   setJson: Dispatch<SetStateAction<Invoice>>
   template: Frame | null
   setTemplate: Dispatch<SetStateAction<Frame>>
+  blobUrl: string
+  setBlobUrl: Dispatch<SetStateAction<string>>
 }
 
 //@ts-ignore
@@ -16,14 +18,17 @@ const Context = createContext<Values>()
 export const EditorProvider: FC = ({ children }) => {
   const [json, setJson] = useState(defaults)
   const [initialData, setTemplate] = useState<Frame | null>(null)
+  const [blobUrl, setBlobUrl] = useState<string | null>(null)
   const fetcher = () => fetch('/api/figma').then(r => r.json())
   const { data: template } = useSWR('figmaFile', fetcher, {
     initialData,
-    focusThrottleInterval: 0
+    focusThrottleInterval: 0,
   })
 
   return (
-    <Context.Provider value={{ json, setJson, template, setTemplate }}>{children}</Context.Provider>
+    <Context.Provider value={{ json, setJson, template, setTemplate, setBlobUrl, blobUrl }}>
+      {children}
+    </Context.Provider>
   )
 }
 
