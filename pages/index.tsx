@@ -43,7 +43,7 @@ const Container = styled.div`
     display: flex;
     flex: 1;
     position: relative;
-    background: #1e1e1e;
+    background: #282C34;
     flex-direction: column;
   }
   .iframe-container {

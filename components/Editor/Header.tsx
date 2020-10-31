@@ -23,7 +23,7 @@ export const Header = () => {
         </Button>
       </div>
       <AnimatePresence>
-        {infoOpen && <InfoPanel close={() => setInfoOpen(false)} />}
+        {infoOpen && <InfoPanel close={() => setInfoOpen(!infoOpen)} />}
       </AnimatePresence>
     </Container>
   )
@@ -54,8 +54,8 @@ const pTransition = {
 const InfoPanel = ({ close }) => {
   const childAnimations = { variants: pVairants, transition: pTransition }
   const ref = useRef()
-  useClickAway(ref, close)
-  
+  useClickAway(ref, close, ['click'])
+
   return (
     <InfoPanelContainer
       ref={ref}
@@ -95,7 +95,7 @@ const InfoPanel = ({ close }) => {
 
 const InfoPanelContainer = styled(motion.div)`
   position: absolute;
-  background: #3d4148;
+  background: #3e4249;
   top: 56px;
   left: 0;
   z-index: 1;
@@ -120,7 +120,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-left: 16px;
+  padding-left: 24px;
   h1 {
     font-size: 18px;
     font-weight: 300;
