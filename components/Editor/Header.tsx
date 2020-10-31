@@ -21,7 +21,7 @@ export const Header = () => {
           <Info />
         </Button>
         <a {...linkAttributes}>
-          <Button>
+          <Button background={'var(--highlight)'}>
             <Download />
           </Button>
         </a>
