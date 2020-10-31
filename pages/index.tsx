@@ -1,6 +1,6 @@
-import { useState, FC } from 'react'
+import { FC } from 'react'
 import styled from 'styled-components'
-import Editor, { useEditor, ApiLink, Figma, Header } from '../components/Editor'
+import Editor, { useEditor, ApiLink, Header } from '../components/Editor'
 import { getTemplate } from '../data/figma'
 import { Frame } from 'figma-js'
 import { Pdf } from '../components/Pdf'
@@ -10,7 +10,6 @@ type Props = {
 }
 
 const Index: FC<Props> = ({ template }) => {
-  const [showDesign, setShowDesign] = useState(false)
   const { setTemplate } = useEditor()
   setTemplate(template)
 
@@ -21,7 +20,9 @@ const Index: FC<Props> = ({ template }) => {
         <Editor />
         <ApiLink />
       </div>
-      <div className="iframe-container">{showDesign ? <Figma /> : <Pdf />}</div>
+      <div className="iframe-container">
+        <Pdf />
+      </div>
     </Container>
   )
 }
@@ -43,7 +44,7 @@ const Container = styled.div`
     display: flex;
     flex: 1;
     position: relative;
-    background: #282C34;
+    background: #282c34;
     flex-direction: column;
   }
   .iframe-container {
