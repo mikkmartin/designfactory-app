@@ -47,7 +47,7 @@ const Container = styled.div`
     height: 100%;
     display: grid;
     place-content: center;
-    color: #0097ff;
+    color: var(--highlight);
     font-family: sans-serif;
     font-size: 12px;
   }
