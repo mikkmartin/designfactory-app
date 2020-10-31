@@ -78,7 +78,10 @@ export const getText = (name: string, templateCharacters: string, data) => {
   return text
 }
 
-export const getTextStyles = ({ absoluteBoundingBox, style, opacity, fills }: Text) =>
+export const getTextStyles = (
+  { absoluteBoundingBox, style, opacity, fills }: Text,
+  fontFamilies: string[]
+) =>
   StyleSheet.create({
     style: {
       position: 'absolute',
@@ -89,6 +92,7 @@ export const getTextStyles = ({ absoluteBoundingBox, style, opacity, fills }: Te
       width: absoluteBoundingBox.width,
       fontSize: style.fontSize,
       fontWeight: style.fontWeight,
+      fontFamily: fontFamilies.find(family => family === style.fontFamily),
       letterSpacing: style.letterSpacing,
       color: getColor(fills[0].color),
       opacity: opacity,

@@ -2,6 +2,7 @@ import { Text, View, StyleSheet } from '@react-pdf/renderer'
 import { Invoice as InvoiceData } from '../../static/invoice'
 import { findNodes, getTextStyles, fillText } from './utilities'
 import Figma from 'figma-js'
+import { useFonts } from './PdfContext'
 
 export const AutoLayout = ({
   template,
@@ -17,6 +18,7 @@ export const AutoLayout = ({
   const children = template.children
   const { absoluteBoundingBox, itemSpacing } = template
   const { y: parentTop, x: parentLeft, width } = absoluteBoundingBox
+  const { fontFamilies } = useFonts()
 
   let foundItem = false
   return (
@@ -57,7 +59,7 @@ export const AutoLayout = ({
             />,
           ]
         } else if (child.type === 'TEXT') {
-          const { left, top, ...absoluteStyles } = getTextStyles(child)
+          const { left, top, ...absoluteStyles } = getTextStyles(child, fontFamilies)
           const styles = {
             ...absoluteStyles,
             top: top - parentTop,
@@ -79,6 +81,7 @@ export const AutoLayout = ({
 const Item = ({ template, data, marginTop }) => {
   const { y: parentTop, x: parentLeft, width, height } = template.absoluteBoundingBox
   const textNodes = findNodes(template.children, { type: 'TEXT' }) as Figma.Text[]
+  const { fontFamilies } = useFonts()
   return (
     <View
       style={
@@ -91,7 +94,7 @@ const Item = ({ template, data, marginTop }) => {
         }).style
       }>
       {textNodes.map((node, j) => {
-        const { left, top, ...absoluteStyles } = getTextStyles(node)
+        const { left, top, ...absoluteStyles } = getTextStyles(node, fontFamilies)
         const styles = {
           ...absoluteStyles,
           top: top - parentTop,
@@ -110,6 +113,7 @@ const Item = ({ template, data, marginTop }) => {
 const Group = ({ node, marginTop, data }: { node: Figma.Group; marginTop: number; data: any }) => {
   const { y: parentTop, x: parentLeft, width, height } = node.absoluteBoundingBox
   const textNodes = findNodes(node.children, { type: 'TEXT' }) as Figma.Text[]
+  const { fontFamilies } = useFonts()
 
   return (
     <View
@@ -124,7 +128,7 @@ const Group = ({ node, marginTop, data }: { node: Figma.Group; marginTop: number
         }).style
       }>
       {textNodes.map((node, j) => {
-        const { left, top, ...absoluteStyles } = getTextStyles(node)
+        const { left, top, ...absoluteStyles } = getTextStyles(node, fontFamilies)
         const styles = {
           ...absoluteStyles,
           top: top - parentTop,

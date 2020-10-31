@@ -10,12 +10,13 @@ export const ApiLink = () => {
   useEffect(() => setUrl(getUrl()), [json])
 
   const getUrl = function () {
-    const { fileName = defaults.fileName, items, ...obj } = json
+    const { fileName = defaults.fileName, items, fonts, ...obj } = json
     var str = []
     for (var p in obj) {
       if (obj.hasOwnProperty(p)) str.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]))
     }
     str.push(`items=${encodeURIComponent(JSON.stringify(items))}`)
+    if (fonts) str.push(`fonts=${encodeURIComponent(JSON.stringify(fonts))}`)
     return `${baseURL}/invoice/${fileName}?${str.join('&')}`
   }
 

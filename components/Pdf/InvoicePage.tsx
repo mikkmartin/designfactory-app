@@ -6,6 +6,7 @@ import { Invoice as InvoiceData } from '../../static/invoice'
 import { AutoLayout } from './AutoLayout'
 import { Vector } from './Vector'
 import { Frame } from 'figma-js'
+import { useFonts } from './PdfContext'
 
 type Props = {
   data?: InvoiceData
@@ -14,11 +15,11 @@ type Props = {
 
 export const InvoicePage: FC<Props> = ({ template, data: inputs }) => {
   const data = { ...defaults, ...inputs }
-
   const { width, height } = template.absoluteBoundingBox
   const vectorNodes = findNodes(template.children, { type: 'VECTOR' })
   const textNodes = findNodes(template.children, { type: 'TEXT' }, { layoutMode: 'VERTICAL' })
   const verticalLayoutNodes = findNodes(template.children, { layoutMode: 'VERTICAL' })
+  const { fontFamilies } = useFonts()
 
   return (
     <Document>
@@ -33,12 +34,12 @@ export const InvoicePage: FC<Props> = ({ template, data: inputs }) => {
           <Vector key={i} vector={vector} />
         ))}
         {textNodes.map((node, i) => (
-          <Text key={i} style={getTextStyles(node)}>
+          <Text key={i} style={getTextStyles(node, fontFamilies)}>
             {fillText(node, data)}
           </Text>
         ))}
         {verticalLayoutNodes.map((node, i) => (
-          <AutoLayout template={node} data={data} key={i} />
+          <AutoLayout key={i} template={node} data={data} />
         ))}
       </Page>
     </Document>

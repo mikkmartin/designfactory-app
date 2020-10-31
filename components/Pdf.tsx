@@ -4,6 +4,7 @@ import { InvoicePage } from './Pdf/InvoicePage'
 import { useDebounce } from 'react-use'
 import { useEditor } from './Editor'
 import { getTemplate } from '../data/figma'
+import { PdfProvider } from './Pdf/PdfContext'
 
 export const Pdf: FC = () => {
   const { json, template } = useEditor()
@@ -16,8 +17,10 @@ export const Pdf: FC = () => {
     () =>
       renderIframe &&
       template && (
-        <PDFViewer key={Math.random()}>
-          <InvoicePage template={template} data={pdfData} />
+        <PDFViewer>
+          <PdfProvider fonts={pdfData.fonts}>
+            <InvoicePage template={template} data={pdfData} />
+          </PdfProvider>
         </PDFViewer>
       ),
     [renderIframe, template, pdfData]
@@ -26,5 +29,9 @@ export const Pdf: FC = () => {
 
 export async function streamDocument({ data }) {
   const template = await getTemplate('QFHu9LnnywkAKOdpuTZcgE')
-  return ReactPDF.renderToStream(<InvoicePage template={template} data={data} />)
+  return ReactPDF.renderToStream(
+    <PdfProvider fonts={data.fonts}>
+      <InvoicePage template={template} data={data} />
+    </PdfProvider>
+  )
 }

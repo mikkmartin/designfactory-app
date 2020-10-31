@@ -158,6 +158,90 @@
       "type": "string",
       "examples": ["+372 555 55 555"],
       "default": ""
+    },
+    "fonts": {
+      "default": [],
+      "description": "An array of custom fonts to load.",
+      "examples": [
+        [
+          {
+            "family": "Wigrum",
+            "fonts": [
+              {
+                "src": "https://yourwebsite.com/fonts/Wigrum-Regular.ttf",
+                "fontWeight": "Regular"
+              }
+            ]
+          }
+        ]
+      ],
+      "title": "Custom fonts",
+      "additionalItems": true,
+      "items": {
+        "$id": "#/properties/fonts/items",
+        "anyOf": [
+          {
+            "examples": [
+              {
+                "family": "Wigrum",
+                "fonts": [
+                  {
+                    "src": "/fonts/Wigrum-Light.ttf",
+                    "fontWeight": "light"
+                  }
+                ]
+              }
+            ],
+            "required": ["family", "fonts"],
+            "title": "Font object",
+            "properties": {
+              "family": {
+                "examples": ["Wigrum"],
+                "title": "Font family name"
+              },
+              "fonts": {
+                "examples": [
+                  [
+                    {
+                      "src": "/fonts/Wigrum-Light.ttf",
+                      "fontWeight": "light"
+                    }
+                  ]
+                ],
+                "additionalItems": true,
+                "items": {
+                  "$id": "#/properties/fonts/items/anyOf/0/properties/fonts/items",
+                  "anyOf": [
+                    {
+                      "examples": [
+                        {
+                          "src": "/fonts/Wigrum-Light.ttf",
+                          "fontWeight": "light"
+                        }
+                      ],
+                      "required": ["src", "fontWeight"],
+                      "title": "Font weight object",
+                      "properties": {
+                        "src": {
+                          "examples": ["/fonts/Wigrum-Light.ttf"],
+                          "title": "Url"
+                        },
+                        "fontWeight": {
+                          "default": "",
+                          "examples": ["Regular"],
+                          "title": "Font weight"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  ]
+                }
+              }
+            },
+            "additionalProperties": true
+          }
+        ]
+      }
     }
   },
   "additionalProperties": false
