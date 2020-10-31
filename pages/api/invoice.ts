@@ -5,9 +5,10 @@ import { defaults } from '../../static/invoice'
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { items: itemsArrayString, fonts: fontsArrayString, ...params } = req.query as any
-    const items = JSON.parse(itemsArrayString)
-    const fonts = JSON.parse(fontsArrayString)
-    const stream = await streamDocument({ data: { ...defaults, ...params, items, fonts } })
+    let data = defaults
+    data = { ...data, items: JSON.parse(itemsArrayString) }
+    if (fontsArrayString) data = { ...data, fonts: JSON.parse(fontsArrayString) }
+    const stream = await streamDocument({ data })
     res.setHeader('Content-Type', 'application/pdf')
     res.statusCode = 200
     res.send(stream)
