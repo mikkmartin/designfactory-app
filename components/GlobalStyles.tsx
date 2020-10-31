@@ -9,8 +9,17 @@ export const GlobalStyles = createGlobalStyle`
   :root {
     font-family: 'SFMono-Regular',Consolas,'Liberation Mono',Menlo,Courier,monospace;
     --highlight: #0097ff;
+    font-size: 12px;
   }
   body, #__next {
     min-height: 100vh;
+  }
+  a {
+    text-decoration: none;
+    color: #0097ff;
+    :hover {
+      background: #0097ff;
+      color: white;
+    }
   }
 `
