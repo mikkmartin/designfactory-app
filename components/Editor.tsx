@@ -20,14 +20,15 @@ const Editor = () => {
 
   const onWillMount: EditorWillMount = monaco => {
     //@ts-ignore
-    monaco.editor.defineTheme('monokai-dok', theme)
+    monaco.editor.defineTheme('dok-theme', theme)
     monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
       validate: true,
       schemas: [{ schema, uri: baseURL + '/schema.json', fileMatch: ['*'] }],
     })
   }
 
-  const onDidMount: EditorDidMount = () => {
+  const onDidMount: EditorDidMount = (_, monaco) => {
+    monaco.editor.setTheme('dok-theme')
     //@ts-ignore
     window.MonacoEnvironment.getWorkerUrl = (_moduleId: string, label: string) => {
       if (label === 'json') return '_next/static/json.worker.js'
@@ -55,7 +56,7 @@ const Editor = () => {
         width={width}
         height={height}
         options={{
-          theme: 'monokai-dok',
+          theme: 'dok-theme',
           folding: false,
           padding: { top: 15 },
           scrollBeyondLastLine: false,
