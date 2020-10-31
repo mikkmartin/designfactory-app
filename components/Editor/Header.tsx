@@ -1,10 +1,11 @@
 import { useEditor } from '../Editor'
 import { defaults } from '../../static/invoice'
-import { snappy, smooth } from '../../static/transitions'
+import { snappy } from '../../static/transitions'
 import styled from 'styled-components'
 import { Info, Download } from '../Icons'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useClickAway } from 'react-use'
 
 export const Header = () => {
   const { json } = useEditor()
@@ -29,7 +30,7 @@ export const Header = () => {
 }
 
 const containerVariants = {
-  closed: { height: 0, transition: { ...snappy, stiffness: 3000 } },
+  closed: { height: 0, transition: { ...snappy, stiffness: 2500 } },
   open: {
     height: 'auto',
     transition: {
@@ -52,8 +53,12 @@ const pTransition = {
 
 const InfoPanel = ({ close }) => {
   const childAnimations = { variants: pVairants, transition: pTransition }
+  const ref = useRef()
+  useClickAway(ref, close)
+  
   return (
     <InfoPanelContainer
+      ref={ref}
       initial="closed"
       animate="open"
       exit="closed"
