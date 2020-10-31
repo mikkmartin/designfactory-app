@@ -1,4 +1,4 @@
-import { FC, createContext, useContext, useMemo, useState } from 'react'
+import { FC, createContext, useContext } from 'react'
 import { Font } from '@react-pdf/renderer'
 
 export type Fonts = {
