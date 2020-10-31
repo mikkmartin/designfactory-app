@@ -1,6 +1,6 @@
 import _schema from './invoiceSchema.json'
+import { Fonts } from "../components/Pdf/PdfContext";
 import dayjs from 'dayjs'
-import { Fonts } from '../components/Pdf/fonts'
 
 const now = new Date()
 const formatDate = d => d.toISOString().slice(0, 10).split('-').reverse().join('-')
