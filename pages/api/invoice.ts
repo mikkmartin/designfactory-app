@@ -4,17 +4,30 @@ import { defaults } from '../../static/invoice'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const { items: itemsArrayString, fonts: fontsArrayString, ...params } = req.query as any
-    let data = { defaults, ...params }
-    data = { ...data, items: JSON.parse(itemsArrayString) }
-    if (fontsArrayString) data = { ...data, fonts: JSON.parse(fontsArrayString) }
+    const data = parseData(req)
     const stream = await streamDocument({ data })
     res.setHeader('Content-Type', 'application/pdf')
     res.statusCode = 200
     res.send(stream)
   } catch (e) {
-    console.error(e)
     res.statusCode = 500
-    res.send('Things got fucked')
+    console.error(e)
+    res.send(e)
+  }
+}
+
+const parseData = (req: NextApiRequest) => {
+  if (req.method === 'GET') {
+    return {
+      ...defaults,
+      ...Object.entries(req.query).reduce((obj, [k, v]: [string, string]) => {
+        if (k.includes('[]')) return { ...obj, [k]: JSON.parse(v) }
+        else return { ...obj, [k]: v }
+      }, {}),
+    }
+  } else if (req.method === 'POST') {
+    return { ...defaults, ...req.body }
+  } else {
+    throw 'Error parsing data'
   }
 }
