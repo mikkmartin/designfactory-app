@@ -7,6 +7,7 @@ import { useMeasure } from 'react-use'
 import { useEditor } from './Editor/EditorContext'
 import { schema, example } from '../static/invoice'
 import theme from './Editor/theme.json'
+import packagejson from '../package.json'
 const MonacoEditor = dynamic(import('react-monaco-editor'), { ssr: false })
 export { ApiLink } from './Editor/ApiLink'
 export { Figma } from './Editor/Figma'
@@ -70,9 +71,20 @@ const Editor = () => {
           },
         }}
       />
+      <Version>v{packagejson.version} Beta</Version>
     </Container>
   )
 }
+
+const Version = styled.div`
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  opacity: 0.1;
+  font-size: 19px;
+  color: #ffffff;
+  pointer-events: none;
+`
 
 const Container = styled.div`
   height: 100%;
