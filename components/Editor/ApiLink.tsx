@@ -13,8 +13,8 @@ export const ApiLink = () => {
     const { fileName = defaults.fileName, ...obj } = json
     const query = Object.entries(obj)
       .map(([k, v]) => {
-        if (Array.isArray(obj[k])) return `${k}[]=${JSON.stringify(v)}`
-        else return `${k}=${v}`
+        if (Array.isArray(obj[k])) return encodeURI(`${k}[]=${JSON.stringify(v)}`)
+        else return encodeURI(`${k}=${v}`)
       })
       .join('&')
     return `${baseURL}/invoice/${fileName}?${query}`
