@@ -21,7 +21,7 @@ const parseData = (req: NextApiRequest) => {
     return {
       ...defaults,
       ...Object.entries(req.query).reduce((obj, [k, v]: [string, string]) => {
-        if (k.includes('[]')) return { ...obj, [k]: JSON.parse(v) }
+        if (k.includes('[]')) return { ...obj, [k.split('[]')[0]]: JSON.parse(v) }
         else return { ...obj, [k]: v }
       }, {}),
     }
