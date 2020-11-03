@@ -28,7 +28,7 @@ const Index: FC<Props> = ({ template }) => {
 }
 
 export const getStaticProps = async () => {
-  const template = await getTemplate('QFHu9LnnywkAKOdpuTZcgE')
+  const template = await getTemplate('qQJ7d5IKYTCVpaAMNptPH4')
   return {
     props: { template },
     revalidate: 1,

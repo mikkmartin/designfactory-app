@@ -1,5 +1,5 @@
 import _schema from './invoiceSchema.json'
-import { Fonts } from "../components/Pdf/PdfContext";
+import { Fonts } from '../components/Pdf/PdfContext'
 import dayjs from 'dayjs'
 
 const now = new Date()
@@ -73,6 +73,7 @@ export type Invoice = {
   email?: string
   website?: string
   fonts?: Fonts[]
+  template?: string
 }
 
 export type Item = {
