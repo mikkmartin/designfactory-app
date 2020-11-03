@@ -150,5 +150,7 @@ const getLayoutAlignment = (node: Figma.Group): any => {
       return { alignSelf: 'flex-end' }
     case 'MIN':
       return { alignSelf: 'flex-start' }
+    case 'CENTER':
+      return { alignSelf: 'center' }
   }
 }
