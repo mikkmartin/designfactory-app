@@ -159,6 +159,11 @@
       "examples": ["+372 555 55 555"],
       "default": ""
     },
+    "template": {
+      "$id": "#/properties/template",
+      "type": "string",
+      "default": "qQJ7d5IKYTCVpaAMNptPH4"
+    },
     "fonts": {
       "default": [],
       "description": "An array of custom fonts to load.",

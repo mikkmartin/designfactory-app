@@ -4,6 +4,7 @@ import Editor, { useEditor, ApiLink, Header } from '../components/Editor'
 import { getTemplate } from '../data/figma'
 import { Frame } from 'figma-js'
 import { Pdf } from '../components/Pdf'
+import { defaults } from '../static/invoice'
 
 type Props = {
   template: Frame
@@ -28,7 +29,7 @@ const Index: FC<Props> = ({ template }) => {
 }
 
 export const getStaticProps = async () => {
-  const template = await getTemplate('qQJ7d5IKYTCVpaAMNptPH4')
+  const template = await getTemplate(defaults.template)
   return {
     props: { template },
     revalidate: 1,

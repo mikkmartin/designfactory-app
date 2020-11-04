@@ -5,6 +5,7 @@ import { useDebounce } from 'react-use'
 import { useEditor } from './Editor'
 import { getTemplate } from '../data/figma'
 import { PdfProvider } from './Pdf/PdfContext'
+import { defaults } from '../static/invoice'
 
 export const Pdf: FC = () => {
   const ref = useRef<HTMLIFrameElement>()
@@ -43,7 +44,7 @@ export const Pdf: FC = () => {
 }
 
 export async function streamDocument({ data }) {
-  const template = await getTemplate('qQJ7d5IKYTCVpaAMNptPH4')
+  const template = await getTemplate(defaults.template)
   return ReactPDF.renderToStream(
     <PdfProvider fonts={data.fonts}>
       <InvoicePage template={template} data={data} />

@@ -19,8 +19,9 @@ export const EditorProvider: FC = ({ children }) => {
   const [json, setJson] = useState(defaults)
   const [initialData, setTemplate] = useState<Frame | null>(null)
   const [blobUrl, setBlobUrl] = useState<string | null>(null)
-  const fetcher = () => fetch('/api/figma').then(r => r.json())
-  const { data: template } = useSWR('figmaFile', fetcher, {
+  const fetcher = (url, templateID) =>
+    fetch(`${url}?template=${templateID || defaults.template}`).then(r => r.json())
+  const { data: template } = useSWR(['/api/figma', json.template], fetcher, {
     initialData,
     focusThrottleInterval: 0,
   })
