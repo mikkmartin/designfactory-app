@@ -6,6 +6,7 @@ import { Info, Download } from '../Icons'
 import { useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useClickAway } from 'react-use'
+import { Button } from './Button'
 
 export const Header = () => {
   const { json, blobUrl } = useEditor()
@@ -133,20 +134,4 @@ const Container = styled.div`
     display: flex;
     gap: 1px;
   }
-`
-
-const Button = styled(motion.button)<{ width?: any; background?: any }>`
-  width: ${props => (props.width ? props.width : '56px')};
-  height: 56px;
-  border: 0;
-  color: white;
-  background: ${props => (props.background ? props.background : 'rgba(255, 255, 255, 0.05)')};
-  cursor: pointer;
-  :hover {
-    background: rgba(255, 255, 255, 0.1);
-  }
-  :active {
-    background: var(--highlight);
-  }
-  outline: none;
 `

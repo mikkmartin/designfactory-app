@@ -3,10 +3,14 @@ import { useEditor } from '../Editor'
 import baseURL from '../../static/baseURL'
 import styled from 'styled-components'
 import { defaults } from '../../static/invoice'
+import { Button } from './Button'
+import { Copy } from '../Icons'
+import { motion } from 'framer-motion'
 
 export const ApiLink = () => {
   const { json } = useEditor()
   const [url, setUrl] = useState('')
+  const [copied, setCopied] = useState(false)
   useEffect(() => setUrl(getUrl()), [json])
 
   const getUrl = function () {
@@ -20,6 +24,17 @@ export const ApiLink = () => {
     return `${baseURL}/invoice/${fileName}?${query}`
   }
 
+  const copy = () => {
+    const url = getUrl()
+    setCopied(true)
+    navigator.clipboard.writeText(url)
+  }
+
+  useEffect(() => {
+    const id = setTimeout(() => setCopied(false), 1500)
+    return () => clearTimeout(id)
+  }, [copied])
+
   return (
     <Container>
       <Input
@@ -29,6 +44,20 @@ export const ApiLink = () => {
         readOnly
         value={url}
       />
+      <Button onTap={copy} animate="initial" whileHover="hover">
+        <motion.div variants={{ hover: { scale: 0.85, originY: -1 } }}>
+          <Copy />
+        </motion.div>
+        <motion.small
+          transition={{ duration: 0.15, opacity: { duration: 0.1 } }}
+          style={{ originY: 1.2 }}
+          variants={{
+            initial: { opacity: 0, scale: 0 },
+            hover: { opacity: 1, scale: 1 },
+          }}>
+          {!copied ? 'copy' : 'copied'}
+        </motion.small>
+      </Button>
     </Container>
   )
 }
@@ -51,13 +80,21 @@ const Container = styled.div`
     font-family: sans-serif;
     font-size: 12px;
   }
-  &::after {
-    content: ' ';
-    white-space: pre;
-    background: linear-gradient(90deg, rgba(50, 54, 62, 0) 0%, rgba(50, 54, 62, 1) 86%);
+  button {
+    font-family: inherit;
+    position: absolute;
     right: 0;
-    width: 8px;
-    height: 100%;
+    z-index: 2;
+    background: rgba(61, 65, 72, 0.5);
+    backdrop-filter: blur(8px);
+    overflow: hidden;
+    small {
+      position: absolute;
+      width: 100%;
+      bottom: 11px;
+      text-align: center;
+      left: 0;
+    }
   }
 `
 
