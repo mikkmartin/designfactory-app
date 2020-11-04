@@ -4,10 +4,10 @@
   "type": "object",
   "title": "Invoice",
   "required": [
-    "From",
-    "From-description",
-    "To",
-    "To-description",
+    "from",
+    "fromDescription",
+    "to",
+    "description",
     "items",
     "myCompanyRegistrationNr",
     "ibanLabel",
@@ -19,8 +19,8 @@
       "type": "string",
       "default": "Arve_2019052201.pdf"
     },
-    "From": {
-      "$id": "#/properties/From",
+    "from": {
+      "$id": "#/properties/from",
       "type": "string",
       "default": "Ettevõte OÜ"
     },
@@ -39,23 +39,23 @@
       "type": "string",
       "default": "22-06-2019"
     },
-    "From-description": {
-      "$id": "#/properties/From-description",
+    "fromDescription": {
+      "$id": "#/properties/fromDescription",
       "type": "string",
       "default": "Kõvad veebivennad"
     },
-    "To": {
-      "$id": "#/properties/To",
+    "to": {
+      "$id": "#/properties/to",
       "type": "string",
       "default": "Klient OÜ"
     },
-    "To-description": {
-      "$id": "#/properties/To-description",
+    "description": {
+      "$id": "#/properties/description",
       "type": "string",
       "default": "Üks kõva veebipood"
     },
     "tax": {
-      "$id": "#/properties/To-description",
+      "$id": "#/properties/tax",
       "type": "number",
       "default": 0
     },
@@ -65,16 +65,16 @@
       "default": [
         [
           {
-            "Title": "Disain",
-            "Description": "Et asi oleks nice",
-            "Price": 4500,
-            "Quantity": 1
+            "title": "Disain",
+            "description": "Et asi oleks nice",
+            "price": 4500,
+            "quantity": 1
           },
           {
-            "Title": "Arendus",
-            "Description": "Et asi töötaks",
-            "Price": 4500,
-            "Quantity": 1
+            "title": "Arendus",
+            "description": "Et asi töötaks",
+            "price": 4500,
+            "quantity": 1
           }
         ]
       ],
@@ -86,32 +86,32 @@
             "$id": "#/properties/items/items/anyOf/0",
             "type": "object",
             "default": {
-              "Title": "Disain",
-              "Description": "Et asi oleks nice",
-              "Price": 4500,
-              "Quantity": 1
+              "title": "Disain",
+              "description": "Et asi oleks nice",
+              "price": 4500,
+              "quantity": 1
             },
-            "required": ["Title", "Description", "Price"],
+            "required": ["title", "description", "price"],
             "properties": {
-              "Title": {
-                "$id": "#/properties/items/items/anyOf/0/properties/Title",
+              "title": {
+                "$id": "#/properties/items/items/anyOf/0/properties/title",
                 "type": "string",
                 "title": "Name",
                 "description": "Name of the product/service.",
                 "default": "Disain"
               },
-              "Description": {
-                "$id": "#/properties/items/items/anyOf/0/properties/Description",
+              "description": {
+                "$id": "#/properties/items/items/anyOf/0/properties/description",
                 "type": "string",
                 "default": "Et asi oleks nice"
               },
-              "Price": {
-                "$id": "#/properties/items/items/anyOf/0/properties/Price",
+              "price": {
+                "$id": "#/properties/items/items/anyOf/0/properties/price",
                 "type": "integer",
                 "default": 4500
               },
-              "Quantity": {
-                "$id": "#/properties/items/items/anyOf/0/properties/Quantity",
+              "quantity": {
+                "$id": "#/properties/items/items/anyOf/0/properties/quantity",
                 "type": "integer",
                 "default": 1
               }
@@ -162,6 +162,7 @@
     "template": {
       "$id": "#/properties/template",
       "type": "string",
+      "examples": ["qQJ7d5IKYTCVpaAMNptPH4", "DN3gWyD2L6g7EZzk8rBC0U", "QFHu9LnnywkAKOdpuTZcgE"],
       "default": "qQJ7d5IKYTCVpaAMNptPH4"
     },
     "fonts": {

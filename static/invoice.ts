@@ -37,16 +37,26 @@ export const schema: Schema = {
   ),
 }
 
+const {
+  from,
+  fromDescription,
+  to,
+  description,
+  items,
+  myCompanyRegistrationNr,
+  ibanLabel,
+  ibanNr,
+} = defaults
 //examples displayed in the editor
 export const example: Invoice = {
-  From: defaults.From,
-  'From-description': defaults['From-description'],
-  To: defaults.To,
-  'To-description': defaults['To-description'],
-  items: defaults.items.map(({ Title, Description, Price }) => ({ Title, Description, Price })),
-  myCompanyRegistrationNr: defaults.myCompanyRegistrationNr,
-  ibanLabel: defaults.ibanLabel,
-  ibanNr: defaults.ibanNr,
+  from,
+  fromDescription,
+  to,
+  description,
+  items: items.map(({ quantity, ...rest }) => rest),
+  myCompanyRegistrationNr,
+  ibanLabel,
+  ibanNr,
 }
 
 type Schema = {
@@ -55,10 +65,10 @@ type Schema = {
 }
 
 export type Invoice = {
-  From: string
-  'From-description': string
-  To: string
-  'To-description': string
+  from: string
+  fromDescription: string
+  to: string
+  description: string
   items: Item[]
   fileName?: string
   ibanLabel: string
@@ -77,8 +87,8 @@ export type Invoice = {
 }
 
 export type Item = {
-  Title: string
-  Description: string
-  Price: number
-  Quantity?: number
+  title: string
+  description: string
+  price: number
+  quantity?: number
 }

@@ -11,9 +11,9 @@ export const fillText = ({ name, characters }, data) => {
   switch (true) {
     case name === 'topay-subtotal-value':
       return summarizeTotalCost(data.items, withNoZeros)
-    case name === 'Price':
-      return formatMoney(data.Price, withNoZeros)
-    case name === 'Total':
+    case name === 'price':
+      return formatMoney(data.price, withNoZeros)
+    case name === 'total':
       return summarizeLineCost(data)
     case name === 'topay-summary-value':
       return data.paidInCash ? 'Makstud' : summarizeTotalCost(data.items)
@@ -43,11 +43,11 @@ const formatDate = str => {
 }
 
 export const summarizeLineCost = (node: Item) =>
-  formatMoney(node.Price * (node.Quantity ? node.Quantity : 1), withNoZeros)
+  formatMoney(node.price * (node.quantity ? node.quantity : 1), withNoZeros)
 
 export const summarizeTotalCost = (items: Item[], options?: object) => {
   const sum = items.reduce(
-    (total, item) => total + item.Price * (item.Quantity ? item.Quantity : 1),
+    (total, item) => total + item.price * (item.quantity ? item.quantity : 1),
     0
   )
   return formatMoney(sum, options)
