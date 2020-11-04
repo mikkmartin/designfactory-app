@@ -10,11 +10,13 @@ import { motion } from 'framer-motion'
 export const ApiLink = () => {
   const { json } = useEditor()
   const [url, setUrl] = useState('')
+  const [method, setMethod] = useState('GET')
   const [copied, setCopied] = useState(false)
-  useEffect(() => setUrl(getUrl()), [json])
+  useEffect(() => setUrl(getUrl()), [json, method])
 
   const getUrl = function () {
     const { fileName = defaults.fileName, ...obj } = json
+    if (method === 'POST') return `${baseURL}/invoice/${fileName}`
     const query = Object.entries(obj)
       .map(([k, v]) => {
         if (Array.isArray(obj[k])) return encodeURI(`${k}[]=${JSON.stringify(v)}`)
@@ -37,6 +39,11 @@ export const ApiLink = () => {
 
   return (
     <Container>
+      <Button
+        className={`method ${method}`}
+        onTap={() => setMethod(method === 'GET' ? 'POST' : 'GET')}>
+        {method}
+      </Button>
       <Input
         type="text"
         onFocus={ev => ev.target.select()}
@@ -44,7 +51,7 @@ export const ApiLink = () => {
         readOnly
         value={url}
       />
-      <Button onTap={copy} animate="initial" whileHover="hover">
+      <Button className="clipboard" onTap={copy} animate="initial" whileHover="hover">
         <motion.div variants={{ hover: { scale: 0.85, originY: -1 } }}>
           <Copy />
         </motion.div>
@@ -65,27 +72,35 @@ export const ApiLink = () => {
 const Container = styled.div`
   height: 54px;
   position: relative;
-  &::before,
-  &::after {
-    position: absolute;
-    pointer-events: none;
+  display: flex;
+  background: rgba(255, 255, 255, 0.05);
+  button {
+    :hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    :not(:hover) {
+      background: transparent;
+    }
   }
-  &::before {
-    content: 'GET';
-    width: 64px;
+  button.method {
+    width: 80px;
     height: 100%;
     display: grid;
     place-content: center;
-    color: var(--highlight);
     font-family: sans-serif;
     font-size: 12px;
+    &.GET {
+      color: var(--highlight);
+    }
+    &.POST {
+      color: #53D810;
+    }
   }
-  button {
+  button.clipboard {
     font-family: inherit;
     position: absolute;
     right: 0;
     z-index: 2;
-    background: rgba(61, 65, 72, 0.5);
     backdrop-filter: blur(8px);
     overflow: hidden;
     small {
@@ -102,8 +117,8 @@ const Input = styled.input`
   width: 100%;
   height: 100%;
   font-family: inherit;
-  padding: 16px 0 16px 64px;
-  background: rgba(255, 255, 255, 0.1);
+  padding: 16px 0 16px 8px;
+  background: transparent;
   border: 0;
   color: white;
   outline: none;
