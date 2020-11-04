@@ -162,7 +162,6 @@
     "template": {
       "$id": "#/properties/template",
       "type": "string",
-      "examples": ["qQJ7d5IKYTCVpaAMNptPH4", "DN3gWyD2L6g7EZzk8rBC0U", "QFHu9LnnywkAKOdpuTZcgE"],
       "default": "qQJ7d5IKYTCVpaAMNptPH4"
     },
     "fonts": {
