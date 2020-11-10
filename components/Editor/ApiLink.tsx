@@ -5,13 +5,15 @@ import styled from 'styled-components'
 import { defaults } from '../../static/invoice'
 import { Button } from './Button'
 import { Copy } from '../Icons'
-import { motion } from 'framer-motion'
+import { snappy } from '../../static/transitions'
+import { motion, AnimatePresence } from 'framer-motion'
 
 export const ApiLink = () => {
   const { json } = useEditor()
   const [url, setUrl] = useState('')
-  const [method, setMethod] = useState('GET')
+  const [method, setMethod] = useState<'GET' | 'POST'>('GET')
   const [copied, setCopied] = useState(false)
+  const [toastShown, setToastShown] = useState(false)
   useEffect(() => setUrl(getUrl()), [json, method])
 
   const getUrl = function () {
@@ -37,8 +39,40 @@ export const ApiLink = () => {
     return () => clearTimeout(id)
   }, [copied])
 
+  useEffect(() => {
+    if (method === 'POST') {
+      setToastShown(true)
+      const id = setTimeout(() => setToastShown(false), 2500)
+      return () => clearTimeout(id)
+    } else {
+      setToastShown(false)
+    }
+  }, [method])
+
   return (
     <Container>
+      <AnimatePresence>
+        {toastShown && (
+          <Toast
+            initial="hidden"
+            animate="shown"
+            exit="hidden"
+            transition={snappy}
+            variants={{
+              hidden: { scale: 1, opacity: 0, y: '-100%' },
+              shown: { scale: 1, opacity: 1 },
+            }}>
+            <motion.span
+              transition={snappy}
+              variants={{
+                hidden: { y: '100%' },
+                shown: { y: '0%' },
+              }}>
+              Include the above as the request body
+            </motion.span>
+          </Toast>
+        )}
+      </AnimatePresence>
       <Button
         className={`method ${method}`}
         onTap={() => setMethod(method === 'GET' ? 'POST' : 'GET')}>
@@ -69,6 +103,19 @@ export const ApiLink = () => {
   )
 }
 
+const Toast = styled(motion.div)`
+  position: absolute;
+  top: 0;
+  height: 56px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #3d4148;
+  color: white;
+`
+
 const Container = styled.div`
   height: 54px;
   position: relative;
@@ -93,7 +140,7 @@ const Container = styled.div`
       color: var(--highlight);
     }
     &.POST {
-      color: #53D810;
+      color: #53d810;
     }
   }
   button.clipboard {
