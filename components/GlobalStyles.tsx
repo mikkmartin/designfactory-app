@@ -13,6 +13,7 @@ export const GlobalStyles = createGlobalStyle`
   }
   body, #__next {
     min-height: 100vh;
+    overflow: hidden;
   }
   a {
     text-decoration: none;
