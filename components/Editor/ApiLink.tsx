@@ -106,14 +106,15 @@ export const ApiLink = () => {
 const Toast = styled(motion.div)`
   position: absolute;
   top: 0;
-  height: 56px;
+  height: 48px;
   width: 100%;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #3d4148;
-  color: white;
+  color: rgba(255, 255, 255, 0.5);
+  font-style: italic;
 `
 
 const Container = styled.div`
