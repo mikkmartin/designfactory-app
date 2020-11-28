@@ -15,7 +15,7 @@ yarn dev
 ## Todo
 
 - [x] ~~Support editing more fields~~
-- [ ] Persist input data from the GUI
+- [x] ~~Persist input data from the GUI~~
 - [ ] Support multiple languages & currencies
 - [ ] Support multiple pages/page overflow
 - [x] ~~Add a better GUI editing experience (possibly [Monaco editor with a JSON schema](https://microsoft.github.io/monaco-editor/playground.html#extending-language-services-configure-json-defaults))~~

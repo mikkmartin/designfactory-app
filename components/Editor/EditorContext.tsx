@@ -1,7 +1,8 @@
 import { FC, createContext, useContext, useState, Dispatch, SetStateAction } from 'react'
-import { Invoice, defaults } from '../../static/invoice'
+import { Invoice, defaults, example } from '../../static/invoice'
 import { Frame } from 'figma-js'
 import useSWR from 'swr'
+import { useLocalStorage } from 'react-use'
 
 type Values = {
   json: Invoice
@@ -16,7 +17,7 @@ type Values = {
 const Context = createContext<Values>()
 
 export const EditorProvider: FC = ({ children }) => {
-  const [json, setJson] = useState(defaults)
+  const [json, setJson] = useLocalStorage('invoiceData', example)
   const [initialData, setTemplate] = useState<Frame | null>(null)
   const [blobUrl, setBlobUrl] = useState<string | null>(null)
   const fetcher = (url, templateID) =>
