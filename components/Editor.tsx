@@ -5,7 +5,7 @@ import { EditorDidMount, EditorWillMount } from 'react-monaco-editor'
 import styled from 'styled-components'
 import { useMeasure } from 'react-use'
 import { useEditor } from './Editor/EditorContext'
-import { schema, example } from '../static/invoice'
+import { schema } from '../static/invoice'
 import theme from './Editor/theme.json'
 import packagejson from '../package.json'
 const MonacoEditor = dynamic(import('react-monaco-editor'), { ssr: false })
