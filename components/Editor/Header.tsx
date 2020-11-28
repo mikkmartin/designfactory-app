@@ -48,7 +48,7 @@ const Container = styled.div`
   justify-content: space-between;
   padding-left: 24px;
   h1 {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 300;
   }
   .buttons {
