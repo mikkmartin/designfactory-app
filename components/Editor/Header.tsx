@@ -3,25 +3,25 @@ import { defaults } from '../../static/invoice'
 import styled from 'styled-components'
 import { Info, Droplet, Download } from '../Icons'
 import { useState } from 'react'
-import { AnimatePresence } from 'framer-motion'
 import { InfoPanel } from './InfoPanel'
+import { TemplatePanel } from './TemplatePanel'
 import { Button } from './Button'
+import { Drawer } from './Drawer'
 
 export const Header = () => {
   const { json, blobUrl } = useEditor()
-  const [infoOpen, setInfoOpen] = useState(false)
-  const [designOpen, setDesignOpen] = useState(false)
   const fileName = json.fileName || defaults.fileName
   const linkAttributes = blobUrl ? { href: blobUrl, download: fileName } : {}
+  const [openPanel, setOpenPanel] = useState<'templates' | 'info' | false>(false)
 
   return (
     <Container>
       <h1>{fileName}</h1>
       <div className="buttons">
-        <Button onClick={() => setInfoOpen(!infoOpen)}>
+        <Button onClick={() => setOpenPanel(openPanel !== 'info' ? 'info' : false)}>
           <Info />
         </Button>
-        <Button onClick={() => setDesignOpen(!designOpen)}>
+        <Button onClick={() => setOpenPanel(openPanel !== 'templates' ? 'templates' : false)}>
           <Droplet />
         </Button>
         <a {...linkAttributes}>
@@ -30,10 +30,10 @@ export const Header = () => {
           </Button>
         </a>
       </div>
-      <AnimatePresence>
-        {designOpen && <InfoPanel close={() => setDesignOpen(!designOpen)} />}
-        {infoOpen && <InfoPanel close={() => setInfoOpen(!infoOpen)} />}
-      </AnimatePresence>
+      <Drawer onClickAway={() => setOpenPanel(false)}>
+        {openPanel === 'templates' && <TemplatePanel key={1} />}
+        {openPanel === 'info' && <InfoPanel key={2} close={() => setOpenPanel(false)} />}
+      </Drawer>
     </Container>
   )
 }

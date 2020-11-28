@@ -1,23 +1,12 @@
-import { useRef } from 'react'
-import { useClickAway } from 'react-use'
 import { motion } from 'framer-motion'
 import { snappy } from '../../static/transitions'
 import { Button } from './Button'
-import styled from 'styled-components'
 
 export const InfoPanel = ({ close }) => {
   const childAnimations = { variants: pVairants, transition: pTransition }
-  const ref = useRef()
-  useClickAway(ref, close, ['click'])
 
   return (
-    <InfoPanelContainer
-      ref={ref}
-      initial="closed"
-      animate="open"
-      exit="closed"
-      variants={containerVariants}
-      transition={snappy}>
+    <>
       <div>
         <motion.p {...childAnimations}>
           <b>Author:</b> Mikk Martin –{' '}
@@ -43,19 +32,8 @@ export const InfoPanel = ({ close }) => {
       <Button onClick={close} {...childAnimations} width="100%" background="transparent">
         Close
       </Button>
-    </InfoPanelContainer>
+    </>
   )
-}
-const containerVariants = {
-  closed: { height: 0, transition: { ...snappy, stiffness: 2500 } },
-  open: {
-    height: 'auto',
-    transition: {
-      ...snappy,
-      delayChildren: 0.03,
-      staggerChildren: 0.03,
-    },
-  },
 }
 
 const pVairants = {
@@ -67,22 +45,3 @@ const pTransition = {
   ...snappy,
   opacity: { duration: 0.2 },
 }
-
-const InfoPanelContainer = styled(motion.div)`
-  position: absolute;
-  background: #3e4249;
-  top: 56px;
-  left: 0;
-  z-index: 1;
-  width: 100%;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  div {
-    padding: 16px 16px 0 16px;
-    p {
-      margin: 16px 8px;
-    }
-  }
-`
