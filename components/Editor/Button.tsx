@@ -1,13 +1,23 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { motion } from 'framer-motion'
 
-export const Button = styled(motion.button)<{ width?: any; background?: any }>`
+type Props = {
+  width?: any,
+  selected?: boolean,
+  primary?: boolean
+}
+
+export const Button = styled(motion.button) <Props>`
   width: ${props => (props.width ? props.width : '56px')};
   height: 56px;
   border: 0;
   color: white;
-  background: ${props => (props.background ? props.background : 'rgba(255, 255, 255, 0.05)')};
   cursor: pointer;
+  background: ${props => props.primary ? 'var(--highlight)' : 'transparent'};
+  ${props => props.selected && css`
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: inset 0 1px 0 0 white;
+  `};
   :hover {
     background: rgba(255, 255, 255, 0.1);
   }

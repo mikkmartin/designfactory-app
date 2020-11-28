@@ -1,40 +1,59 @@
 import { useEditor } from '../Editor'
 import { defaults } from '../../static/invoice'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { Info, Droplet, Download } from '../Icons'
 import { useState } from 'react'
-import { InfoPanel } from './InfoPanel'
-import { TemplatePanel } from './TemplatePanel'
 import { Button } from './Button'
 import { Drawer } from './Drawer'
+
+export type PanelState = 'templates' | 'info' | 'addtemplate' | false
 
 export const Header = () => {
   const { json, blobUrl } = useEditor()
   const fileName = json.fileName || defaults.fileName
   const linkAttributes = blobUrl ? { href: blobUrl, download: fileName } : {}
-  const [openPanel, setOpenPanel] = useState<'templates' | 'info' | false>(false)
+  const [openPanel, setOpenPanel] = useState<PanelState>(false)
 
   return (
     <Container>
       <h1>{fileName}</h1>
       <div className="buttons">
-        <Button onClick={() => setOpenPanel(openPanel !== 'info' ? 'info' : false)}>
-          <Info />
-        </Button>
-        <Button onClick={() => setOpenPanel(openPanel !== 'templates' ? 'templates' : false)}>
-          <Droplet />
-        </Button>
+        {['info', 'templates'].map(name =>
+          <TabButton
+            name={name}
+            state={openPanel}
+            onClick={state => setOpenPanel(state)} />
+        )}
         <a {...linkAttributes}>
-          <Button background={'var(--highlight)'}>
+          <Button primary>
             <Download />
           </Button>
         </a>
       </div>
-      <Drawer onClickAway={() => setOpenPanel(false)}>
-        {openPanel === 'templates' && <TemplatePanel key={1} />}
-        {openPanel === 'info' && <InfoPanel key={2} close={() => setOpenPanel(false)} />}
-      </Drawer>
+      <Drawer panel={openPanel} setOpenPanel={(state) => setOpenPanel(state)} />
     </Container>
+  )
+}
+
+const TabButton = ({ name, state, onClick }) => {
+  const icon = () => {
+    switch (name) {
+      case 'info':
+        return <Info />
+      case 'templates':
+        return <Droplet />
+    }
+  }
+
+  const handleClick = () => {
+    if (state === name) onClick(false)
+    else onClick(name)
+  }
+
+  return (
+    <Button onClick={handleClick} selected={state === name}>
+      {icon()}
+    </Button>
   )
 }
 
@@ -53,6 +72,5 @@ const Container = styled.div`
   }
   .buttons {
     display: flex;
-    gap: 1px;
   }
 `

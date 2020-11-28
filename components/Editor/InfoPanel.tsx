@@ -29,7 +29,7 @@ export const InfoPanel = ({ close }) => {
           </a>
         </motion.p>
       </div>
-      <Button onClick={close} {...childAnimations} width="100%" background="transparent">
+      <Button onClick={close} {...childAnimations} width="100%">
         Close
       </Button>
     </>
