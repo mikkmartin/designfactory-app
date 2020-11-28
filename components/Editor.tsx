@@ -16,8 +16,8 @@ export { useEditor }
 
 const Editor = () => {
   const [ref, { width, height }] = useMeasure()
-  const { setJson } = useEditor()
-  const [jsonString, setJsonString] = useState<string>(JSON.stringify(example, null, 2))
+  const { setJson, json } = useEditor()
+  const [jsonString, setJsonString] = useState<string>(JSON.stringify(json, null, 2))
 
   const onWillMount: EditorWillMount = monaco => {
     //@ts-ignore
