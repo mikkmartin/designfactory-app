@@ -16,7 +16,10 @@ export const TemplatePanel = ({ close, onModify = () => { } }) => {
       <ul>
         {templates.map(({ name, hash }, i) =>
           <motion.ul key={i} {...childAnimations}>
-            {name} <a href={`https://www.google.com/search?q=${hash}`} target="_blank" onClick={onModify}>edit</a>
+            {name} <a
+            //href={`https://www.google.com/search?q=${hash}`}
+            //target="_blank"
+            onClick={onModify}>edit</a>
           </motion.ul>
         )}
       </ul>

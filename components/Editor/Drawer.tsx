@@ -1,7 +1,7 @@
 import { FC, useRef } from 'react'
 import { useClickAway } from 'react-use'
 import { AnimatePresence, motion } from 'framer-motion'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { snappy } from '../../static/transitions'
 import { PanelState } from './Header'
 import { InfoPanel } from './InfoPanel'
@@ -30,13 +30,24 @@ export const Drawer: FC<Props> = ({ panel, setOpenPanel }) => {
     }
   }
 
+  const lastDir = useRef(0)
+
   const tabProps = {
     transition: snappy,
     key: panelKey(),
     custom: panelKey(),
     initial: "out", animate: "in", exit: "out", variants: {
-      out: (dir) => ({ x: dir ? '100%' : '-100%' }),
+      out: (dir) => {
+        //console.log({ dir, lastDir: lastDir.current })
+        return { x: lastDir.current >= dir ? '-100%' : '100%' }
+      },
       in: { x: '0%' }
+    },
+    onAnimationStart: function () {
+      if (this.custom != lastDir.current) {
+        //console.log(this.custom)
+        lastDir.current = this.custom
+      }
     }
   }
 
@@ -47,7 +58,7 @@ export const Drawer: FC<Props> = ({ panel, setOpenPanel }) => {
       case 'templates':
         return <Tab {...tabProps}><TemplatePanel close={close} onModify={() => setOpenPanel('addtemplate')} /></Tab>
       case 'addtemplate':
-        return <Tab {...tabProps}><AddTemplate /></Tab>
+        return <Tab {...tabProps}><AddTemplate onCancel={() => setOpenPanel('templates')} /></Tab>
     }
   }
 
@@ -74,6 +85,13 @@ const Tab = styled(motion.div)`
   height: 100%;
   position: absolute;
   top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`
+
+export const drawerContent = css`
+  padding: 16px 16px 0;
 `
 
 const containerVariants = {
