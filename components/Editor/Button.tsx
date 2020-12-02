@@ -13,7 +13,7 @@ export const Button = styled(motion.button) <Props>`
   border: 0;
   color: white;
   cursor: pointer;
-  background: ${props => props.primary ? 'var(--highlight)' : 'transparent'};
+  background: ${props => props.primary ? 'var(--highlight)' : 'rgba(255, 255, 255, 0.05)'};
   :hover {
     background: rgba(255, 255, 255, 0.1);
   }
@@ -21,9 +21,6 @@ export const Button = styled(motion.button) <Props>`
     background: rgba(255, 255, 255, 0.05);
     box-shadow: inset 0 1px 0 0 white;
   `};
-  :hover {
-    background: rgba(255, 255, 255, 0.05);
-  }
   :active {
     background: var(--highlight);
   }

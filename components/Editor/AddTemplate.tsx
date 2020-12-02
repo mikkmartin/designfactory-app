@@ -1,6 +1,5 @@
 import { Button } from './Button'
-import styled from 'styled-components'
-import { drawerContent } from './Drawer'
+import { ButtonStack, Content } from './Drawer'
 
 export const AddTemplate = ({ onCancel }) => {
   return (
@@ -12,24 +11,10 @@ export const AddTemplate = ({ onCancel }) => {
           If the template uses custom fonts – make sure you add them in the parematers (fonts: [])
         </p>
       </Content>
-      <Footer>
+      <ButtonStack>
         <Button width="inherit" onClick={onCancel}>Cancel</Button>
         <Button width="inherit" primary>Add template</Button>
-      </Footer>
+      </ButtonStack>
     </>
   )
 }
-
-const Content = styled.div`
-  ${drawerContent}
-  text-align: center;
-  p {
-    opacity: 0.4;
-    padding: 16px 32px;
-  }
-`
-
-const Footer = styled.div`
-  display: flex;
-  width: 100%;
-`

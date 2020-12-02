@@ -89,9 +89,16 @@ const Tab = styled(motion.div)`
   flex-direction: column;
   justify-content: space-between;
 `
-
-export const drawerContent = css`
+export const Content = styled.div`
   padding: 16px 16px 0;
+`
+export const ButtonStack = styled.div`
+  display: flex;
+  width: 100%;
+  gap: 1px;
+  button {
+    flex: 1;
+  }
 `
 
 const containerVariants = {
