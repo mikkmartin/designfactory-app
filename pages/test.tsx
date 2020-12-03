@@ -8,33 +8,35 @@ const items = ['one', 'two', 'three']
 export default function Test() {
   const [current, setCurrent] = useState(items[0])
   const previous = usePrevious(current)
-  const direction = items.indexOf(previous) - items.indexOf(current)
+  //console.log(items.indexOf(previous), items.indexOf(current))
+
 
 
   const childVariants = {
-    out: (index) => {
-      console.log(index)
+    out: (c) => {
+      let dir
+      dir = current !== c ?
+        items.indexOf(previous) - items.indexOf(c) :
+        false
       return {
-        x: index ? '100%' : '-100%',
-        scale: .5
+        x: dir < 0 ? '100%' : '-100%',
+        scale: .2
       }
     },
     in: { x: 0, scale: 1 },
   }
 
   return (
-    <>
-      <Container>
-        {items.map(name => <button onClick={() => setCurrent(name)}>{name}</button>)}
-        <AnimatePresence custom={direction}>
-          {items.map((name, i) => name === current && (
-            <Item key={i} custom={direction} initial="out" animate="in" exit="out" variants={childVariants}>
-              <h1>{name}</h1>
-            </Item>
-          ))}
-        </AnimatePresence>
-      </Container>
-    </>
+    <Container>
+      {items.map(name => <button key={name} onClick={() => setCurrent(name)}>{name}</button>)}
+      <AnimatePresence>
+        {items.map((name, i) => name === current && (
+          <Item key={i} custom={name} initial="out" animate="in" exit="out" variants={childVariants}>
+            <h1>{name}</h1>
+          </Item>
+        ))}
+      </AnimatePresence>
+    </Container>
   )
 }
 
