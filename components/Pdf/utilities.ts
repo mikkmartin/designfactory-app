@@ -80,6 +80,10 @@ export const getAlignMent = (string: string) => {
   switch (string) {
     case 'RIGHT':
       return 'right'
+    case 'LEFT':
+      return 'left'
+    case 'CENTER':
+      return 'center'
     default:
       return 'left'
   }
