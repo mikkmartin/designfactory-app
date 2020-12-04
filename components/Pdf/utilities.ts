@@ -3,18 +3,14 @@ import { StyleSheet } from '@react-pdf/renderer'
 import { Text } from 'figma-js'
 import Color from 'color'
 
-const withNoZeros = {
-  maximumSignificantDigits: 2,
-}
-
 export const fillText = ({ name, characters }, data) => {
   switch (true) {
     case name === 'topay-subtotal-value':
-      return summarizeTotalCost(data.items, withNoZeros)
+      return summarizeTotalCost(data.items)
     case name === 'price':
-      return formatMoney(data.price, withNoZeros)
+      return formatLineCost(data.price)
     case name === 'total':
-      return summarizeLineCost(data)
+      return summarizeLineTotalCost(data)
     case name === 'topay-summary-value':
       return data.paidInCash ? 'Makstud' : summarizeTotalCost(data.items)
     case name === 'topay-summary-description' && data.paidInCash:
@@ -34,6 +30,16 @@ export const fillText = ({ name, characters }, data) => {
   }
 }
 
+const formatLineCost = (value: number) => {
+  const options = hasSignificantDecimals(value)
+    ? {}
+    : {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      }
+  return formatMoney(value, options)
+}
+
 const formatDate = str => {
   try {
     return str.split('-').join('.')
@@ -42,8 +48,18 @@ const formatDate = str => {
   }
 }
 
-export const summarizeLineCost = (node: Item) =>
-  formatMoney(node.price * (node.quantity ? node.quantity : 1), withNoZeros)
+const hasSignificantDecimals = sum => parseInt(sum.toString().split('.')[1]) > 0
+
+export const summarizeLineTotalCost = (node: Item) => {
+  const sum = node.price * (node.quantity ? node.quantity : 1)
+  const options = hasSignificantDecimals(sum)
+    ? {}
+    : {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      }
+  return formatMoney(sum, options)
+}
 
 export const summarizeTotalCost = (items: Item[], options?: object) => {
   const sum = items.reduce(
@@ -64,6 +80,10 @@ export const getAlignMent = (string: string) => {
   switch (string) {
     case 'RIGHT':
       return 'right'
+    case 'LEFT':
+      return 'left'
+    case 'CENTER':
+      return 'center'
     default:
       return 'left'
   }
@@ -88,7 +108,7 @@ export const getTextStyles = (
       top: absoluteBoundingBox.y,
       left: absoluteBoundingBox.x,
       textAlign: getAlignMent(style.textAlignHorizontal),
-      lineHeight: style.lineHeightPx / 10,
+      //lineHeight: style.lineHeightPx / 10,
       width: absoluteBoundingBox.width,
       fontSize: style.fontSize,
       fontWeight: style.fontWeight,
