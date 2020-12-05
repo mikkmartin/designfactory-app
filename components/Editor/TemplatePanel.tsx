@@ -44,6 +44,7 @@ export const TemplatePanel = ({ close, onModify = () => { } }) => {
 }
 
 const Item = styled(motion.li)`
+  list-style-type: none;
   button {
     height: 56px;
     display: flex;

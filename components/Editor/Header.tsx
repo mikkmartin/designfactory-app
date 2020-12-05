@@ -13,6 +13,7 @@ export const Header = () => {
   const fileName = json.fileName || defaults.fileName
   const linkAttributes = blobUrl ? { href: blobUrl, download: fileName } : {}
   const [openPanel, setOpenPanel] = useState<PanelState>(false)
+  const panels = ['info', 'templates', 'addtemplate']
 
   return (
     <Container>
@@ -30,7 +31,7 @@ export const Header = () => {
           </Button>
         </a>
       </div>
-      <Drawer panel={openPanel} setOpenPanel={(state) => setOpenPanel(state)} />
+      <Drawer panels={panels} panel={openPanel} setOpenPanel={(state) => setOpenPanel(state)} />
     </Container>
   )
 }

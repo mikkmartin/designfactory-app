@@ -7,47 +7,32 @@ import { PanelState } from './Header'
 import { InfoPanel } from './InfoPanel'
 import { TemplatePanel } from './TemplatePanel'
 import { AddTemplate } from './AddTemplate'
+import { usePrevious } from 'react-use'
 
 type Props = {
+  panels: string[]
   panel: PanelState
   setOpenPanel: (state: PanelState) => void
 }
 
-export const Drawer: FC<Props> = ({ panel, setOpenPanel }) => {
+export const Drawer: FC<Props> = ({ panels, panel, setOpenPanel }) => {
+  const previousPanel = usePrevious(panel) as string
   const close = () => setOpenPanel(false)
   const ref = useRef()
   useClickAway(ref, close, ['click'])
 
-
-  const panelKey = () => {
-    switch (panel) {
-      case 'info':
-        return 0
-      case 'templates':
-        return 1
-      case 'addtemplate':
-        return 2
-    }
-  }
-
-  const lastDir = useRef(0)
+  const directionVariant = (dir: boolean) => ({
+    x: dir ? "100%" : "-100%"
+  });
 
   const tabProps = {
     transition: snappy,
-    key: panelKey(),
-    custom: panelKey(),
-    initial: "out", animate: "in", exit: "out", variants: {
-      out: (dir) => {
-        //console.log({ dir, lastDir: lastDir.current })
-        return { x: lastDir.current >= dir ? '-100%' : '100%' }
-      },
+    key: panel as string,
+    custom: panel,
+    initial: "enter", exit: "exit", animate: "in", variants: {
+      enter: (p) => directionVariant(panels.indexOf(p) > panels.indexOf(previousPanel)),
+      exit: (p) => directionVariant(panels.indexOf(p) < panels.indexOf(panel as string)),
       in: { x: '0%' }
-    },
-    onAnimationStart: function () {
-      if (this.custom != lastDir.current) {
-        //console.log(this.custom)
-        lastDir.current = this.custom
-      }
     }
   }
 
@@ -71,7 +56,7 @@ export const Drawer: FC<Props> = ({ panel, setOpenPanel }) => {
         variants={containerVariants}
         transition={snappy}>
         <div>
-          <AnimatePresence initial={false}>
+          <AnimatePresence initial={false} custom={panel}>
             {currentPanel()}
           </AnimatePresence>
         </div>
