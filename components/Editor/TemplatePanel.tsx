@@ -3,7 +3,7 @@ import { snappy } from '../../static/transitions'
 import { Button } from './Button'
 import styled from 'styled-components'
 import { Droplet, Copy } from '../Icons'
-import { ButtonStack } from './Drawer'
+import { ButtonStack } from './Drawer/Tab'
 
 export const TemplatePanel = ({ close, onModify = () => { } }) => {
   const templates = [
