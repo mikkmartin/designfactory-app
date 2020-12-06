@@ -27,19 +27,19 @@ export const Drawer: FC<Props> = ({ panels, panel, setOpenPanel }) => {
     switch (panel) {
       case 'info':
         return (
-          <Tab {...props}>
+          <Tab {...props} key={panel}>
             <InfoPanel close={close} />
           </Tab>
         )
       case 'templates':
         return (
-          <Tab {...props}>
+          <Tab {...props} key={panel}>
             <TemplatePanel close={close} onModify={() => setOpenPanel('addtemplate')} />
           </Tab>
         )
       case 'addtemplate':
         return (
-          <Tab {...props}>
+          <Tab {...props} key={panel}>
             <AddTemplate onCancel={() => setOpenPanel('templates')} />
           </Tab>
         )

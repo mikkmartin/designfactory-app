@@ -1,13 +1,11 @@
 import { motion } from 'framer-motion'
-import { snappy } from '../../../static/transitions'
 import { Button } from '../Button'
+import { childAnimations, Content } from "./Tab";
 
 export const InfoPanel = ({ close }) => {
-  const childAnimations = { variants: pVairants, transition: pTransition }
-
   return (
     <>
-      <div>
+      <Content>
         <motion.p {...childAnimations}>
           <b>Author:</b> Mikk Martin –{' '}
           <a href="https://mikkmartin.co" target="_blank">
@@ -28,21 +26,10 @@ export const InfoPanel = ({ close }) => {
             Post a bug or a suggestion on github.
           </a>
         </motion.p>
-      </div>
-      <Button onClick={close} {...childAnimations} width="100%">
+      </Content>
+      <Button {...childAnimations} onClick={close} width="100%">
         Close
       </Button>
     </>
   )
-}
-
-const pVairants = {
-  initial: { opacity: 0, y: -20 },
-  in: { opacity: 1, y: 0 },
-}
-
-const pTransition = {
-  ...snappy,
-  delay: 0.5,
-  opacity: { duration: 0.2 },
 }

@@ -13,7 +13,6 @@ type Props = {
 export const Tab: FC<Props> = ({ children, panels, panel, previousPanel, initial }) => {
   const tabProps = (initial = false) => ({
     transition: snappy,
-    key: panel as string,
     custom: panel,
     exit: 'exit',
     initial: [!initial && 'enter', initial && 'hidden'],
@@ -42,6 +41,9 @@ export const childAnimations = {
 }
 export const Content = styled.div`
   padding: 16px 16px 0;
+  p {
+    margin: 16px 8px;
+  }
 `
 export const ButtonStack = styled(motion.div)`
   display: flex;
