@@ -31,6 +31,7 @@ export const Button = styled(motion.button) <Props>`
   &:disabled, &[disabled] {
     color: rgba(255, 255, 255, 0.2);
     background: rgba(255, 255, 255, 0.05);
+    cursor: default;
   }
   outline: none;
 `
