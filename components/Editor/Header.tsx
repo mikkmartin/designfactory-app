@@ -21,6 +21,7 @@ export const Header = () => {
       <div className="buttons">
         {['info', 'templates'].map(name =>
           <TabButton
+            key={name}
             name={name}
             state={openPanel}
             onClick={state => setOpenPanel(state)} />
