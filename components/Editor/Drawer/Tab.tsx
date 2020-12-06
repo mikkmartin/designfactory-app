@@ -42,7 +42,7 @@ export const childAnimations = {
 export const Content = styled.div`
   padding: 16px 16px 0;
   p {
-    margin: 16px 8px;
+    margin: 8px 8px;
   }
 `
 export const ButtonStack = styled(motion.div)`
