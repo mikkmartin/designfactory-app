@@ -9,18 +9,11 @@ import { defaults } from '../../../static/invoice'
 export const TemplatePanel = ({ close, onModify = () => { } }) => {
   const { json, setJson } = useEditor()
   const currentTemplate = json.template || defaults.template
-
   const templates = [
     { name: 'default.fig', template: defaults.template },
     { name: 'invoice-mikkmartin-v1.1.fig', template: 'QFHu9LnnywkAKOdpuTZcgE' },
     { name: 'classy-design.fig', template: '9672lt3BzKaOxtdM6yT7f0' },
   ]
-
-  const updateTemplate = (template) => {
-    console.log(json)
-    console.log(template)
-    setJson({ ...json, template })
-  }
 
   return (
     <>
@@ -29,7 +22,7 @@ export const TemplatePanel = ({ close, onModify = () => { } }) => {
           <Item {...childAnimations} key={i}>
             <Button width="100%"
               highlight={template === currentTemplate}
-              onClick={() => updateTemplate(template)}>
+              onClick={() => setJson({ ...json, template })}>
               <Droplet />
               <a
                 //href={`https://www.google.com/search?q=${template}`}

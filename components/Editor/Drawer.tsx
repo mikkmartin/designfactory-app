@@ -18,9 +18,10 @@ type Props = {
 
 export const Drawer: FC<Props> = ({ panels, panel, setOpenPanel }) => {
   const previousPanel = usePrevious(panel) as string
-  const close = () => setOpenPanel(false)
   const ref = useRef()
-  useClickAway(ref, close, ['click'])
+  useClickAway(ref, (ev: any) => {
+    if (!ev.target.className.includes('Button')) setOpenPanel(false)
+  }, ['click'])
 
   const currentPanel = (initial) => {
     const props = { panels, panel, initial, previousPanel }
@@ -50,6 +51,7 @@ export const Drawer: FC<Props> = ({ panels, panel, setOpenPanel }) => {
     <AnimatePresence>
       {panel &&
         <Container
+          ref={ref}
           initial="closed"
           animate="open"
           exit="closed"

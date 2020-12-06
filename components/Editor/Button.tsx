@@ -28,5 +28,9 @@ export const Button = styled(motion.button) <Props>`
   :active {
     background: var(--highlight);
   }
+  &:disabled, &[disabled] {
+    color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+  }
   outline: none;
 `

@@ -73,5 +73,8 @@ const Container = styled.div`
   }
   .buttons {
     display: flex;
+    svg {
+      pointer-events: none;
+    }
   }
 `
