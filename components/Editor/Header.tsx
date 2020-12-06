@@ -52,7 +52,7 @@ const TabButton = ({ name, state, onClick }) => {
   }
 
   return (
-    <Button onClick={handleClick} selected={state === name}>
+    <Button onClick={handleClick} selected={state === name || name === 'templates' && state === 'addtemplate'}>
       {icon()}
     </Button>
   )

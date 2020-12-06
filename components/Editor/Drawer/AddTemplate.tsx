@@ -12,7 +12,7 @@ export const AddTemplate = ({ onCancel }) => {
         </p>
       </Content>
       <ButtonStack>
-        <Button width="inherit" onClick={onCancel}>Cancel</Button>
+        <Button width="inherit" highlight onClick={onCancel}>Cancel</Button>
         <Button width="inherit" primary>Add template</Button>
       </ButtonStack>
     </>

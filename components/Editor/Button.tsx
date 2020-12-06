@@ -5,6 +5,7 @@ type Props = {
   width?: any,
   selected?: boolean,
   primary?: boolean
+  highlight?: boolean
 }
 
 export const Button = styled(motion.button) <Props>`
@@ -13,7 +14,10 @@ export const Button = styled(motion.button) <Props>`
   border: 0;
   color: white;
   cursor: pointer;
-  background: ${props => props.primary ? 'var(--highlight)' : 'rgba(255, 255, 255, 0.05)'};
+  background: ${props => props.primary ? 'var(--highlight)' :
+    props.highlight ?
+      'rgba(255, 255, 255, 0.05)' :
+      'transparent'};
   :hover {
     background: rgba(255, 255, 255, 0.1);
   }

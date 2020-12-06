@@ -30,10 +30,10 @@ export const TemplatePanel = ({ close, onModify = () => { } }) => {
         )}
       </ul>
       <ButtonStack {...childAnimations}>
-        <Button onClick={close}>
+        <Button highlight onClick={close}>
           Close
         </Button>
-        <Button onClick={close}>
+        <Button highlight onClick={close}>
           Add template
         </Button>
       </ButtonStack>
