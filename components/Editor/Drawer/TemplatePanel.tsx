@@ -1,9 +1,8 @@
 import { motion } from 'framer-motion'
-import { snappy } from '../../static/transitions'
-import { Button } from './Button'
+import { Button } from '../Button'
 import styled from 'styled-components'
-import { Droplet, Copy } from '../Icons'
-import { ButtonStack } from './Drawer/Tab'
+import { Droplet, Copy } from '../../Icons'
+import { ButtonStack, childAnimations } from './Tab'
 
 export const TemplatePanel = ({ close, onModify = () => { } }) => {
   const templates = [
@@ -12,19 +11,11 @@ export const TemplatePanel = ({ close, onModify = () => { } }) => {
     { name: 'West coast customs.fig', hash: 'sfaksmödlfkmasöld' },
   ]
 
-  const animations = {
-    variants: {
-      hidden: { scale: 1, y: -25, opacity: 0 },
-      revealed: { scale: 1, y: 0, opacity: 1 }
-    },
-    transition: { ...snappy, opacity: { duration: 0.2 } }
-  }
-
   return (
     <>
       <ul>
         {templates.map(({ name, hash }, i) =>
-          <Item {...animations} key={i}>
+          <Item {...childAnimations} key={i}>
             <Button width="100%">
               <Droplet />
               <div>
@@ -38,7 +29,7 @@ export const TemplatePanel = ({ close, onModify = () => { } }) => {
           </Item>
         )}
       </ul>
-      <ButtonStack {...animations}>
+      <ButtonStack {...childAnimations}>
         <Button onClick={close}>
           Close
         </Button>

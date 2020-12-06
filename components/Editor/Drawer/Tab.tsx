@@ -33,7 +33,13 @@ export const Tab: FC<Props> = ({ children, panels, panel, previousPanel, initial
   return <Container {...tabProps(initial)}>{children}</Container>
 }
 
-
+export const childAnimations = {
+  variants: {
+    hidden: { scale: 1, y: -25, opacity: 0 },
+    revealed: { scale: 1, y: 0, opacity: 1 }
+  },
+  transition: { ...snappy, opacity: { duration: 0.2 } }
+}
 export const Content = styled.div`
   padding: 16px 16px 0;
 `

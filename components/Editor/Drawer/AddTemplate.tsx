@@ -1,5 +1,5 @@
-import { Button } from './Button'
-import { ButtonStack, Content } from './Drawer/Tab'
+import { Button } from '../Button'
+import { ButtonStack, Content } from './Tab'
 
 export const AddTemplate = ({ onCancel }) => {
   return (

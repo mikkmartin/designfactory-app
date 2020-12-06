@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
-import { snappy } from '../../static/transitions'
-import { Button } from './Button'
+import { snappy } from '../../../static/transitions'
+import { Button } from '../Button'
 
 export const InfoPanel = ({ close }) => {
   const childAnimations = { variants: pVairants, transition: pTransition }
