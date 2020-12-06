@@ -25,44 +25,70 @@ export const Drawer: FC<Props> = ({ panels, panel, setOpenPanel }) => {
     x: dir ? "100%" : "-100%"
   });
 
-  const tabProps = {
+  const tabProps = (initial = false) => ({
     transition: snappy,
     key: panel as string,
     custom: panel,
-    initial: "enter", exit: "exit", animate: "in", variants: {
+    exit: 'exit',
+    initial: [!initial && 'enter', initial && 'hidden'],
+    animate: ['in', 'revealed'],
+    variants: {
       enter: (p) => directionVariant(panels.indexOf(p) > panels.indexOf(previousPanel)),
       exit: (p) => directionVariant(panels.indexOf(p) < panels.indexOf(panel as string)),
-      in: { x: '0%' }
+      in: { x: '0%' },
+      revealed: { transition: { staggerChildren: 0.05 } }
     }
-  }
+  })
 
-  const currentPanel = () => {
+  const currentPanel = (initial) => {
     switch (panel) {
       case 'info':
-        return <Tab {...tabProps}><InfoPanel close={close} /></Tab>
+        return (
+          <Tab {...tabProps(initial)}>
+            <InfoPanel close={close} />
+          </Tab>
+        )
       case 'templates':
-        return <Tab {...tabProps}><TemplatePanel close={close} onModify={() => setOpenPanel('addtemplate')} /></Tab>
+        return (
+          <Tab {...tabProps(initial)}>
+            <TemplatePanel close={close} onModify={() => setOpenPanel('addtemplate')} />
+          </Tab>
+        )
       case 'addtemplate':
-        return <Tab {...tabProps}><AddTemplate onCancel={() => setOpenPanel('templates')} /></Tab>
+        return (
+          <Tab {...tabProps(initial)}>
+            <AddTemplate onCancel={() => setOpenPanel('templates')} />
+          </Tab>
+        )
     }
   }
 
   return (
     <AnimatePresence>
-      {panel && <Container
-        initial="closed"
-        animate="open"
-        exit="closed"
-        variants={containerVariants}
-        transition={snappy}>
-        <div>
-          <AnimatePresence initial={false} custom={panel}>
-            {currentPanel()}
-          </AnimatePresence>
-        </div>
-      </Container>}
+      {panel &&
+        <Container
+          initial="closed"
+          animate="open"
+          exit="closed"
+          variants={containerVariants}
+          transition={snappy}>
+          <div>
+            <AnimatePresence custom={panel}>
+              {currentPanel(!previousPanel)}
+            </AnimatePresence>
+          </div>
+        </Container>
+      }
     </AnimatePresence>
   )
+}
+
+const containerVariants = {
+  closed: { height: 0, transition: { ...snappy, stiffness: 2500 } },
+  open: {
+    height: 'auto',
+    transition: snappy
+  },
 }
 
 const Tab = styled(motion.div)`
@@ -77,7 +103,7 @@ const Tab = styled(motion.div)`
 export const Content = styled.div`
   padding: 16px 16px 0;
 `
-export const ButtonStack = styled.div`
+export const ButtonStack = styled(motion.div)`
   display: flex;
   width: 100%;
   gap: 1px;
@@ -85,19 +111,6 @@ export const ButtonStack = styled.div`
     flex: 1;
   }
 `
-
-const containerVariants = {
-  closed: { height: 0, transition: { ...snappy, stiffness: 2500 } },
-  open: {
-    height: 'auto',
-    transition: {
-      ...snappy,
-      delayChildren: 0.03,
-      staggerChildren: 0.03,
-    },
-  },
-}
-
 const Container = styled(motion.div)`
   position: absolute;
   background: #3e4249;

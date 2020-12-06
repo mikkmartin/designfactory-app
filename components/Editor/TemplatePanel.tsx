@@ -6,18 +6,25 @@ import { Droplet, Copy } from '../Icons'
 import { ButtonStack } from './Drawer'
 
 export const TemplatePanel = ({ close, onModify = () => { } }) => {
-  const childAnimations = { variants: pVairants, transition: pTransition }
   const templates = [
     { name: 'Classy design.fig', hash: 'sfaksmödlfkmasöld' },
     { name: 'My very pretty design.fig', hash: 'sfaksmödlfkmasöld' },
     { name: 'West coast customs.fig', hash: 'sfaksmödlfkmasöld' },
   ]
 
+  const animations = {
+    variants: {
+      hidden: { scale: 1, y: -25, opacity: 0 },
+      revealed: { scale: 1, y: 0, opacity: 1 }
+    },
+    transition: { ...snappy, opacity: { duration: 0.2 } }
+  }
+
   return (
     <>
       <ul>
         {templates.map(({ name, hash }, i) =>
-          <Item key={i} {...childAnimations}>
+          <Item {...animations} key={i}>
             <Button width="100%">
               <Droplet />
               <div>
@@ -31,7 +38,7 @@ export const TemplatePanel = ({ close, onModify = () => { } }) => {
           </Item>
         )}
       </ul>
-      <ButtonStack>
+      <ButtonStack {...animations}>
         <Button onClick={close}>
           Close
         </Button>
@@ -96,14 +103,3 @@ const Item = styled(motion.li)`
     }
   }
 `
-
-const pVairants = {
-  closed: { opacity: 0, y: -20 },
-  open: { opacity: 1, y: 0 },
-}
-
-const pTransition = {
-  ...snappy,
-  delay: 1,
-  opacity: { duration: 0.2 },
-}
