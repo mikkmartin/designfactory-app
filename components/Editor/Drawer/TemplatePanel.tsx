@@ -1,25 +1,38 @@
 import { motion } from 'framer-motion'
 import { Button } from '../Button'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { Droplet, Copy } from '../../Icons'
 import { ButtonStack, childAnimations } from './Tab'
+import { useEditor } from '../../Editor'
+import { defaults } from '../../../static/invoice'
 
 export const TemplatePanel = ({ close, onModify = () => { } }) => {
+  const { json, setJson } = useEditor()
+  const currentTemplate = json.template || defaults.template
+
   const templates = [
-    { name: 'Classy design.fig', hash: 'sfaksmödlfkm!!' },
-    { name: 'My very pretty design.fig', hash: 'sfaksmödlfkmasöld' },
-    { name: 'West coast customs.fig', hash: 'sfaksmödlfkmasöld' },
+    { name: 'default.fig', template: defaults.template },
+    { name: 'invoice-mikkmartin-v1.1.fig', template: 'QFHu9LnnywkAKOdpuTZcgE' },
+    { name: 'classy-design.fig', template: '9672lt3BzKaOxtdM6yT7f0' },
   ]
+
+  const updateTemplate = (template) => {
+    console.log(json)
+    console.log(template)
+    setJson({ ...json, template })
+  }
 
   return (
     <>
       <ul>
-        {templates.map(({ name, hash }, i) =>
+        {templates.map(({ name, template }, i) =>
           <Item {...childAnimations} key={i}>
-            <Button width="100%" highlight={hash === 'sfaksmödlfkm!!'}>
+            <Button width="100%"
+              highlight={template === currentTemplate}
+              onClick={() => updateTemplate(template)}>
               <Droplet />
               <a
-                //href={`https://www.google.com/search?q=${hash}`}
+                //href={`https://www.google.com/search?q=${template}`}
                 //target="_blank"
                 onClick={onModify}><Copy /></a>
               <div>
