@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion'
 import { Button } from '../Button'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { Droplet, Copy } from '../../Icons'
 import { ButtonStack, childAnimations } from './Tab'
 
 export const TemplatePanel = ({ close, onModify = () => { } }) => {
   const templates = [
-    { name: 'Classy design.fig', hash: 'sfaksmödlfkmasöld' },
+    { name: 'Classy design.fig', hash: 'sfaksmödlfkm!!' },
     { name: 'My very pretty design.fig', hash: 'sfaksmödlfkmasöld' },
     { name: 'West coast customs.fig', hash: 'sfaksmödlfkmasöld' },
   ]
@@ -16,15 +16,15 @@ export const TemplatePanel = ({ close, onModify = () => { } }) => {
       <ul>
         {templates.map(({ name, hash }, i) =>
           <Item {...childAnimations} key={i}>
-            <Button width="100%">
+            <Button width="100%" highlight={hash === 'sfaksmödlfkm!!'}>
               <Droplet />
-              <div>
-                <span>{name}</span><i>– Duplicate template</i>
-              </div>
               <a
                 //href={`https://www.google.com/search?q=${hash}`}
                 //target="_blank"
                 onClick={onModify}><Copy /></a>
+              <div>
+                <span>{name}</span><i>– Duplicate template</i>
+              </div>
             </Button>
           </Item>
         )}
@@ -50,6 +50,30 @@ const Item = styled(motion.li)`
     position: relative;
     justify-content: space-between;
     font-family: inherit;
+    a {
+      display: flex;
+      height: 100%;
+      align-items: center;
+      opacity: 0;
+      order: 3;
+      cursor: pointer;
+    }
+    div > i {
+      display: none;
+      opacity: 0.35;
+      padding-left: 3px;
+      padding-right: 12px;
+    }
+    &:hover a {
+      opacity: 0.35;
+      &:hover{
+        opacity: 1;
+        background: rgba(255, 255, 255, 0.05);
+        ~ div i {
+        display: inline-block;
+        }
+      }
+    }
     > div {
       flex: 1;
       display: flex;
@@ -59,14 +83,6 @@ const Item = styled(motion.li)`
         overflow: hidden;
         text-overflow: ellipsis;
       }
-      i {
-        display: none;
-        opacity: 0.5;
-        padding-left: 3px;
-      }
-    }
-    &:hover > div > i {
-      //display: inline;
     }
     &:after {
       content: ' ';
@@ -79,18 +95,6 @@ const Item = styled(motion.li)`
     }
     svg {
       width: 56px;
-    }
-    svg:hover ~ div > i {
-      display: block;
-    }
-    a {
-      display: none;
-      height: 100%;
-      display: flex;
-      align-items: center;
-    }
-    &:hover > a {
-      display: block;
     }
   }
 `

@@ -1,9 +1,9 @@
-import styled, { css } from 'styled-components'
+import styled, { css, CSSProp } from 'styled-components'
 import { motion } from 'framer-motion'
 
 type Props = {
   width?: any,
-  selected?: boolean,
+  selected?: boolean | CSSProp,
   primary?: boolean
   highlight?: boolean
 }
@@ -21,10 +21,10 @@ export const Button = styled(motion.button) <Props>`
   :hover {
     background: rgba(255, 255, 255, 0.1);
   }
-  ${props => props.selected && css`
+  ${props => typeof props.selected === 'boolean' && props.selected === true ? css`
     background: rgba(255, 255, 255, 0.05);
     box-shadow: inset 0 1px 0 0 white;
-  `};
+  ` : props.selected};
   :active {
     background: var(--highlight);
   }
