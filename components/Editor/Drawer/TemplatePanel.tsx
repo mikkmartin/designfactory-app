@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { Button } from '../Button'
 import styled from 'styled-components'
-import { Droplet, Copy } from '../../Icons'
+import { Droplet, More } from '../../Icons'
 import { ButtonStack, childAnimations } from './Tab'
 import { useEditor } from '../../Editor'
 import { defaults } from '../../../static/invoice'
@@ -15,6 +15,15 @@ export const TemplatePanel = ({ close, onModify = () => { } }) => {
     { name: 'classy-design.fig', template: '9672lt3BzKaOxtdM6yT7f0' },
   ]
 
+  const onSelect = (ev, template) => {
+    if (ev.target.type === 'submit') setJson({ ...json, template })
+  }
+
+  const openMenu = () => {
+    console.log('openMenu()')
+    //onModify()
+  }
+
   return (
     <>
       <ul>
@@ -22,14 +31,14 @@ export const TemplatePanel = ({ close, onModify = () => { } }) => {
           <Item {...childAnimations} key={i}>
             <Button width="100%"
               highlight={template === currentTemplate}
-              onClick={() => setJson({ ...json, template })}>
+              onClick={(ev) => onSelect(ev, template)}>
               <Droplet />
               <a
                 //href={`https://www.google.com/search?q=${template}`}
                 //target="_blank"
-                onClick={onModify}><Copy /></a>
+                onClick={openMenu}><More /></a>
               <div>
-                <span>{name}</span><i>– Duplicate template</i>
+                <span>{name}</span>
               </div>
             </Button>
           </Item>
@@ -60,24 +69,15 @@ const Item = styled(motion.li)`
       display: flex;
       height: 100%;
       align-items: center;
-      opacity: 0;
+      color: white;
+      opacity: 0.35;
       order: 3;
       cursor: pointer;
     }
-    div > i {
-      display: none;
-      opacity: 0.35;
-      padding-left: 3px;
-      padding-right: 12px;
-    }
     &:hover a {
-      opacity: 0.35;
       &:hover{
-        opacity: 1;
         background: rgba(255, 255, 255, 0.05);
-        ~ div i {
-        display: inline-block;
-        }
+        opacity: 1;
       }
     }
     > div {
