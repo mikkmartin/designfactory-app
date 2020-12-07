@@ -3,13 +3,23 @@ import { ButtonStack, Content } from './Tab'
 import styled from 'styled-components'
 import { useRef, useState } from 'react'
 
-export const AddTemplate = ({ onCancel }) => {
+export const AddTemplate = ({ onCancel, onAdd }) => {
   const ref = useRef<HTMLInputElement>(null)
   const [hasInput, setHasInput] = useState(false)
 
   const handleChange = (ev) => {
     if (ref.current.value.length >= 22) setHasInput(true)
     else setHasInput(false)
+  }
+
+  const handleConfirm = () => {
+    const str = ref.current.value
+    try {
+      const [template, name] = str.split('/file/')[1].split('/')
+      onAdd({ template, name: name + '.fig' })
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   return (
@@ -23,7 +33,7 @@ export const AddTemplate = ({ onCancel }) => {
       </Container>
       <ButtonStack>
         <Button width="inherit" highlight onClick={onCancel}>Cancel</Button>
-        <Button width="inherit" primary disabled={!hasInput}>Add template</Button>
+        <Button width="inherit" onClick={handleConfirm} primary disabled={!hasInput}>Add template</Button>
       </ButtonStack>
     </>
   )

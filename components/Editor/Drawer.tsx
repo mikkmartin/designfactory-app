@@ -9,6 +9,7 @@ import { TemplatePanel } from './Drawer/TemplatePanel'
 import { AddTemplate } from './Drawer/AddTemplate'
 import { usePrevious } from 'react-use'
 import { Tab } from './Drawer/Tab'
+import { useLocalStorage } from 'react-use'
 
 type Props = {
   panels: string[]
@@ -19,9 +20,19 @@ type Props = {
 export const Drawer: FC<Props> = ({ panels, panel, setOpenPanel }) => {
   const previousPanel = usePrevious(panel) as string
   const ref = useRef()
+  const [customTemplates, setCustomTemplates] = useLocalStorage('designTemplates', [])
   useClickAway(ref, (ev: any) => {
     if (!ev.target.className.includes('Button')) setOpenPanel(false)
   }, ['click'])
+
+  const handleAddTemplate = ({ template, name }) => {
+    const previousTemplates = customTemplates === undefined ? [] : customTemplates
+    setCustomTemplates([
+      ...previousTemplates,
+      { dateAdded: new Date(), template, name }
+    ])
+    setOpenPanel('templates')
+  }
 
   const currentPanel = (initial) => {
     const props = { panels, panel, initial, previousPanel }
@@ -35,16 +46,13 @@ export const Drawer: FC<Props> = ({ panels, panel, setOpenPanel }) => {
       case 'templates':
         return (
           <Tab {...props} key={panel}>
-            <TemplatePanel close={close} onModify={() => {
-              console.log('hello')
-              //setOpenPanel('addtemplate')
-            }} />
+            <TemplatePanel close={close} onModify={() => setOpenPanel('addtemplate')} />
           </Tab>
         )
       case 'addtemplate':
         return (
           <Tab {...props} key={panel}>
-            <AddTemplate onCancel={() => setOpenPanel('templates')} />
+            <AddTemplate onCancel={() => setOpenPanel('templates')} onAdd={handleAddTemplate} />
           </Tab>
         )
     }

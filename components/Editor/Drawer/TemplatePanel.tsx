@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Button } from '../Button'
 import styled from 'styled-components'
@@ -5,44 +6,75 @@ import { Droplet, More } from '../../Icons'
 import { ButtonStack, childAnimations } from './Tab'
 import { useEditor } from '../../Editor'
 import { defaults } from '../../../static/invoice'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
+import { useLocalStorage } from 'react-use'
 
-export const TemplatePanel = ({ close, onModify = () => { } }) => {
+type TemplateObject = {
+  name: string
+  template: string
+  dateAdded?: string
+}
+
+export const TemplatePanel = ({ close, onModify }) => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { json, setJson } = useEditor()
   const currentTemplate = json.template || defaults.template
-  const templates = [
+  const [customTemplates, setCustomTemplates] = useLocalStorage<TemplateObject[]>('designTemplates')
+  const [selectedTemplate, setSelectedTemplate] = useState<TemplateObject | null>(null)
+  const templates: TemplateObject[] = [
+    ...customTemplates,
     { name: 'default.fig', template: defaults.template },
     { name: 'invoice-mikkmartin-v1.1.fig', template: 'QFHu9LnnywkAKOdpuTZcgE' },
     { name: 'classy-design.fig', template: '9672lt3BzKaOxtdM6yT7f0' },
   ]
 
   const onSelect = (ev, template) => {
+    ev.preventDefault()
     if (ev.target.type === 'submit') setJson({ ...json, template })
   }
 
-  const openMenu = () => {
-    console.log('openMenu()')
-    //onModify()
+  const handleOpenMenu = (ev: React.MouseEvent<HTMLAnchorElement>, template: TemplateObject) => {
+    setSelectedTemplate(template)
+    setAnchorEl(ev.currentTarget);
+  }
+
+  const handleCloseMenu = () => {
+    setSelectedTemplate(null)
+    setAnchorEl(null);
+  };
+
+  const handleDuplicate = () => {
+    onModify()
+    setAnchorEl(null);
+  }
+
+  const handleRemove = () => {
+    setCustomTemplates([...customTemplates.filter(t => t !== selectedTemplate)])
+    handleCloseMenu()
   }
 
   return (
     <>
       <ul>
-        {templates.map(({ name, template }, i) =>
-          <Item {...childAnimations} key={i}>
-            <Button width="100%"
-              highlight={template === currentTemplate}
-              onClick={(ev) => onSelect(ev, template)}>
-              <Droplet />
-              <a
-                //href={`https://www.google.com/search?q=${template}`}
-                //target="_blank"
-                onClick={openMenu}><More /></a>
-              <div>
-                <span>{name}</span>
-              </div>
-            </Button>
-          </Item>
-        )}
+        {templates.map((templateObject, i) => {
+          const { template, name } = templateObject
+          return (
+            <Item {...childAnimations} key={i}>
+              <Button width="100%"
+                highlight={template === currentTemplate}
+                onClick={(ev) => onSelect(ev, template)}>
+                <Droplet />
+                <a href="0" onClick={ev => handleOpenMenu(ev, templateObject)}>
+                  <More />
+                </a>
+                <div>
+                  <span>{name}</span>
+                </div>
+              </Button>
+            </Item>
+          )
+        })}
       </ul>
       <ButtonStack {...childAnimations}>
         <Button highlight onClick={close}>
@@ -52,6 +84,14 @@ export const TemplatePanel = ({ close, onModify = () => { } }) => {
           Add template
         </Button>
       </ButtonStack>
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleCloseMenu}
+      >
+        <MenuItem onClick={handleDuplicate}>Edit</MenuItem>
+        <MenuItem disabled={Boolean(!selectedTemplate?.dateAdded)} onClick={handleRemove}>Remove</MenuItem>
+      </Menu>
     </>
   )
 }

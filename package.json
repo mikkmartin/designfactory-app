@@ -7,6 +7,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@material-ui/core": "^4.11.2",
     "@react-pdf/renderer": "^1.6.11",
     "@zeit/next-css": "^1.0.1",
     "color": "^3.1.3",
