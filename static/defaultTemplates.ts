@@ -7,7 +7,7 @@ export type TemplateObject = {
 }
 
 export const defaultTemplates: TemplateObject[] = [
-  { name: 'default.fig', template: defaults.template },
-  { name: 'invoice-mikkmartin-v1.1.fig', template: 'QFHu9LnnywkAKOdpuTZcgE' },
-  { name: 'classy-design.fig', template: '9672lt3BzKaOxtdM6yT7f0' },
+  { name: 'default', template: defaults.template },
+  { name: 'invoice-mikkmartin-v1.1', template: 'QFHu9LnnywkAKOdpuTZcgE' },
+  { name: 'classy-design', template: '9672lt3BzKaOxtdM6yT7f0' },
 ]

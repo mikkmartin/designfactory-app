@@ -16,7 +16,7 @@ export const AddTemplate = ({ onCancel, onAdd }) => {
     const str = ref.current.value
     try {
       const [template, name] = str.split('/file/')[1].split('/')
-      onAdd({ template, name: name + '.fig' })
+      onAdd({ template, name })
     } catch (e) {
       console.error(e)
     }
