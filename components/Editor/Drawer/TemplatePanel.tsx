@@ -62,7 +62,7 @@ export const TemplatePanel = ({ close, onModify }) => {
                 {selected && <motion.div layoutId="highlight" className="highlight" transition={snappy} />}
                 <Button
                   width="100%"
-                  noHover={!selected}
+                  noHover={selected}
                   onClick={(ev) => onSelect(ev, template)}
                 >
                   <Check checked={selected} />
