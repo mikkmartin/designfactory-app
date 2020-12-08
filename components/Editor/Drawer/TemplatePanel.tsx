@@ -60,7 +60,11 @@ export const TemplatePanel = ({ close, onModify }) => {
             return (
               <Item layout {...childAnimations} key={template}>
                 {selected && <motion.div layoutId="highlight" className="highlight" transition={snappy} />}
-                <Button width="100%" onClick={(ev) => onSelect(ev, template)}>
+                <Button
+                  width="100%"
+                  noHover={!selected}
+                  onClick={(ev) => onSelect(ev, template)}
+                >
                   <Check checked={selected} />
                   <div className="text">
                     <span>{name}</span>

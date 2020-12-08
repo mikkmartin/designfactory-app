@@ -6,6 +6,7 @@ type Props = {
   selected?: boolean | CSSProp,
   primary?: boolean
   highlight?: boolean
+  noHover?: boolean
 }
 
 export const Button = styled(motion.button) <Props>`
@@ -18,9 +19,11 @@ export const Button = styled(motion.button) <Props>`
     props.highlight ?
       'rgba(255, 255, 255, 0.05)' :
       'transparent'};
-  :hover {
-    background: rgba(255, 255, 255, 0.1);
-  }
+  ${props => props.noHover === true && css`
+    :hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+  `}
   ${props => typeof props.selected === 'boolean' && props.selected === true ? css`
     background: rgba(255, 255, 255, 0.05);
     box-shadow: inset 0 1px 0 0 white;
