@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { motion, AnimateSharedLayout } from 'framer-motion'
 import { Button } from '../Button'
 import styled from 'styled-components'
@@ -6,23 +5,15 @@ import { More } from '../../Icons'
 import { ButtonStack, childAnimations } from './Tab'
 import { useEditor } from '../../Editor'
 import { defaults } from '../../../static/invoice'
-import { defaultTemplates, TemplateObject } from '../../../static/defaultTemplates'
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
-import { useLocalStorage } from 'react-use'
 import { snappy } from '../../../static/transitions'
 import { Check } from "./Check";
+import { useDrawer } from "./DrawerContext";
+import { Dropdown } from "./Dropdown";
 
 export const TemplatePanel = ({ close, onModify }) => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { json, setJson } = useEditor()
+  const { openDropdown, templates } = useDrawer()
   const currentTemplate = json.template || defaults.template
-  const [customTemplates, setCustomTemplates] = useLocalStorage<TemplateObject[]>('designTemplates')
-  const [selectedTemplate, setSelectedTemplate] = useState<TemplateObject | null>(null)
-  const templates: TemplateObject[] = [
-    ...customTemplates,
-    ...defaultTemplates
-  ]
 
   const onSelect = (ev, template) => {
     ev.preventDefault()
@@ -30,31 +21,11 @@ export const TemplatePanel = ({ close, onModify }) => {
     setJson({ ...json, template })
   }
 
-  const handleOpenMenu = (ev: React.MouseEvent<HTMLAnchorElement>, template: TemplateObject) => {
-    setSelectedTemplate(template)
-    setAnchorEl(ev.currentTarget);
-  }
-
-  const handleCloseMenu = () => {
-    setSelectedTemplate(null)
-    setAnchorEl(null);
-  };
-
-  const handleDuplicate = () => {
-    onModify()
-    setAnchorEl(null);
-  }
-
-  const handleRemove = () => {
-    setCustomTemplates([...customTemplates.filter(t => t !== selectedTemplate)])
-    handleCloseMenu()
-  }
-
   return (
     <Container>
       <List>
         <AnimateSharedLayout>
-          {templates.map((templateObject, i) => {
+          {templates.map((templateObject) => {
             const { template, name } = templateObject
             const selected = template === currentTemplate
             return (
@@ -69,7 +40,7 @@ export const TemplatePanel = ({ close, onModify }) => {
                   <div className="text">
                     <span>{name}</span>
                   </div>
-                  <a href="0" onClick={ev => handleOpenMenu(ev, templateObject)}>
+                  <a href="0" onClick={ev => openDropdown(ev, templateObject)}>
                     <More />
                   </a>
                 </Button>
@@ -86,14 +57,7 @@ export const TemplatePanel = ({ close, onModify }) => {
           Add template
         </Button>
       </ButtonStack>
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleCloseMenu}
-      >
-        <MenuItem onClick={handleDuplicate}>Edit</MenuItem>
-        <MenuItem disabled={Boolean(!selectedTemplate?.dateAdded)} onClick={handleRemove}>Remove</MenuItem>
-      </Menu>
+      <Dropdown />
     </Container>
   )
 }

@@ -8,32 +8,21 @@ import { TemplatePanel } from './Drawer/TemplatePanel'
 import { AddTemplate } from './Drawer/AddTemplate'
 import { usePrevious } from 'react-use'
 import { Tab } from './Drawer/Tab'
-import { useLocalStorage } from 'react-use'
 import { useDrawer } from "./Drawer/DrawerContext";
 
 export const Drawer = () => {
-  const [customTemplates, setCustomTemplates] = useLocalStorage('designTemplates', [])
-  const { setPanel, panel, panels } = useDrawer()
+  const { setPanel, panel, panels, addTemplate } = useDrawer()
   const previousPanel = usePrevious(panel) as string
   const ref = useRef()
 
   useClickAway(ref, (ev: any) => {
     const el = ev.target
     const exptions =
-      !!['Button', 'MuiPopover-root'].find(str => el.className.includes(str))
+      !!['Button', 'MuiPopover-root', 'MuiMenu-list'].find(str => el.className.includes(str))
       || el.getAttribute('aria-hidden') === 'true'
     if (!exptions) setPanel(false)
   }, ['click'])
-
-  const handleAddTemplate = ({ template, name }) => {
-    const previousTemplates = customTemplates === undefined ? [] : customTemplates
-    setCustomTemplates([
-      ...previousTemplates,
-      { dateAdded: new Date(), template, name }
-    ])
-    setPanel('templates')
-  }
-
+  
   const currentPanel = (initial) => {
     const props = { panels, panel, initial, previousPanel }
     switch (panel) {
@@ -57,7 +46,7 @@ export const Drawer = () => {
           <Tab {...props} key={panel}>
             <AddTemplate
               onCancel={() => setPanel('templates')}
-              onAdd={handleAddTemplate}
+              onAdd={addTemplate}
             />
           </Tab>
         )

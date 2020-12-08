@@ -3,7 +3,7 @@ import { defaults } from './invoice'
 export type TemplateObject = {
   name: string
   template: string
-  dateAdded?: string
+  dateAdded?: Date
 }
 
 export const defaultTemplates: TemplateObject[] = [
