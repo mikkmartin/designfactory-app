@@ -1,33 +1,28 @@
-import { FC, useRef } from 'react'
+import { useRef } from 'react'
 import { useClickAway } from 'react-use'
 import { AnimatePresence, motion } from 'framer-motion'
 import styled from 'styled-components'
 import { snappy } from '../../static/transitions'
-import { PanelState } from './Header'
 import { InfoPanel } from './Drawer/InfoPanel'
 import { TemplatePanel } from './Drawer/TemplatePanel'
 import { AddTemplate } from './Drawer/AddTemplate'
 import { usePrevious } from 'react-use'
 import { Tab } from './Drawer/Tab'
 import { useLocalStorage } from 'react-use'
+import { useDrawer } from "./Drawer/DrawerContext";
 
-type Props = {
-  panels: string[]
-  panel: PanelState
-  setOpenPanel: (state: PanelState) => void
-}
-
-export const Drawer: FC<Props> = ({ panels, panel, setOpenPanel }) => {
+export const Drawer = () => {
+  const [customTemplates, setCustomTemplates] = useLocalStorage('designTemplates', [])
+  const { setPanel, panel, panels } = useDrawer()
   const previousPanel = usePrevious(panel) as string
   const ref = useRef()
-  const [customTemplates, setCustomTemplates] = useLocalStorage('designTemplates', [])
 
   useClickAway(ref, (ev: any) => {
     const el = ev.target
     const exptions =
       !!['Button', 'MuiPopover-root'].find(str => el.className.includes(str))
       || el.getAttribute('aria-hidden') === 'true'
-    if (!exptions) setOpenPanel(false)
+    if (!exptions) setPanel(false)
   }, ['click'])
 
   const handleAddTemplate = ({ template, name }) => {
@@ -36,7 +31,7 @@ export const Drawer: FC<Props> = ({ panels, panel, setOpenPanel }) => {
       ...previousTemplates,
       { dateAdded: new Date(), template, name }
     ])
-    setOpenPanel('templates')
+    setPanel('templates')
   }
 
   const currentPanel = (initial) => {
@@ -45,15 +40,15 @@ export const Drawer: FC<Props> = ({ panels, panel, setOpenPanel }) => {
       case 'info':
         return (
           <Tab {...props} key={panel}>
-            <InfoPanel close={() => setOpenPanel(false)} />
+            <InfoPanel close={() => setPanel(false)} />
           </Tab>
         )
       case 'templates':
         return (
           <Tab {...props} key={panel}>
             <TemplatePanel
-              close={() => setOpenPanel(false)}
-              onModify={() => setOpenPanel('addtemplate')}
+              close={() => setPanel(false)}
+              onModify={() => setPanel('addtemplate')}
             />
           </Tab>
         )
@@ -61,7 +56,7 @@ export const Drawer: FC<Props> = ({ panels, panel, setOpenPanel }) => {
         return (
           <Tab {...props} key={panel}>
             <AddTemplate
-              onCancel={() => setOpenPanel('templates')}
+              onCancel={() => setPanel('templates')}
               onAdd={handleAddTemplate}
             />
           </Tab>

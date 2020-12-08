@@ -1,61 +1,35 @@
 import { useEditor } from '../Editor'
 import { defaults } from '../../static/invoice'
-import styled, { css } from 'styled-components'
-import { Info, Droplet, Download } from '../Icons'
-import { useState } from 'react'
+import styled from 'styled-components'
+import { Download } from '../Icons'
 import { Button } from './Button'
 import { Drawer } from './Drawer'
-
-export type PanelState = 'templates' | 'info' | 'addtemplate' | false
+import { DrawerProvider } from './Drawer/DrawerContext'
+import { TabButton } from './Drawer/TabButton'
 
 export const Header = () => {
   const { json, blobUrl } = useEditor()
   const fileName = json.fileName || defaults.fileName
   const linkAttributes = blobUrl ? { href: blobUrl, download: fileName } : {}
-  const [openPanel, setOpenPanel] = useState<PanelState>(false)
-  const panels = ['info', 'templates', 'addtemplate']
+  const buttonLabels = ['info', 'templates']
 
   return (
-    <Container>
-      <h1>{fileName}</h1>
-      <div className="buttons">
-        {['info', 'templates'].map(name =>
-          <TabButton
-            key={name}
-            name={name}
-            state={openPanel}
-            onClick={state => setOpenPanel(state)} />
-        )}
-        <a {...linkAttributes}>
-          <Button primary>
-            <Download />
-          </Button>
-        </a>
-      </div>
-      <Drawer panels={panels} panel={openPanel} setOpenPanel={(state) => setOpenPanel(state)} />
-    </Container>
-  )
-}
-
-const TabButton = ({ name, state, onClick }) => {
-  const icon = () => {
-    switch (name) {
-      case 'info':
-        return <Info />
-      case 'templates':
-        return <Droplet />
-    }
-  }
-
-  const handleClick = () => {
-    if (state === name) onClick(false)
-    else onClick(name)
-  }
-
-  return (
-    <Button onClick={handleClick} selected={state === name || name === 'templates' && state === 'addtemplate'}>
-      {icon()}
-    </Button>
+    <DrawerProvider panels={[...buttonLabels, 'addtemplate']}>
+      <Container>
+        <h1>{fileName}</h1>
+        <div className="buttons">
+          {['info', 'templates'].map(name =>
+            <TabButton key={name} name={name} />
+          )}
+          <a {...linkAttributes}>
+            <Button primary>
+              <Download />
+            </Button>
+          </a>
+        </div>
+        <Drawer />
+      </Container>
+    </DrawerProvider>
   )
 }
 
