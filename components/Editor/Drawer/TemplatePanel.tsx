@@ -78,7 +78,7 @@ export const TemplatePanel = ({ close, onModify }) => {
         <Button highlight onClick={close}>
           Close
         </Button>
-        <Button highlight onClick={close}>
+        <Button highlight onClick={onModify}>
           Add template
         </Button>
       </ButtonStack>

@@ -45,19 +45,25 @@ export const Drawer: FC<Props> = ({ panels, panel, setOpenPanel }) => {
       case 'info':
         return (
           <Tab {...props} key={panel}>
-            <InfoPanel close={close} />
+            <InfoPanel close={() => setOpenPanel(false)} />
           </Tab>
         )
       case 'templates':
         return (
           <Tab {...props} key={panel}>
-            <TemplatePanel close={close} onModify={() => setOpenPanel('addtemplate')} />
+            <TemplatePanel
+              close={() => setOpenPanel(false)}
+              onModify={() => setOpenPanel('addtemplate')}
+            />
           </Tab>
         )
       case 'addtemplate':
         return (
           <Tab {...props} key={panel}>
-            <AddTemplate onCancel={() => setOpenPanel('templates')} onAdd={handleAddTemplate} />
+            <AddTemplate
+              onCancel={() => setOpenPanel('templates')}
+              onAdd={handleAddTemplate}
+            />
           </Tab>
         )
     }
