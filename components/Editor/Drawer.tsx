@@ -80,7 +80,7 @@ export const Drawer: FC<Props> = ({ panels, panel, setOpenPanel }) => {
 }
 
 const containerVariants = {
-  closed: { height: 0, transition: { ...snappy, stiffness: 2500 } },
+  closed: { height: 0, transition: snappy },
   open: {
     height: 'auto',
     transition: snappy
@@ -100,7 +100,7 @@ const Container = styled(motion.div)`
   > div {
     position: relative;
     width: 100%;
-    min-height: 240px;
+    height: 256px;
     background: rgba(255, 255, 255, 0.05);
   }
 `
