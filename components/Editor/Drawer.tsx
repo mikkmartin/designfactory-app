@@ -21,8 +21,13 @@ export const Drawer: FC<Props> = ({ panels, panel, setOpenPanel }) => {
   const previousPanel = usePrevious(panel) as string
   const ref = useRef()
   const [customTemplates, setCustomTemplates] = useLocalStorage('designTemplates', [])
+
   useClickAway(ref, (ev: any) => {
-    if (!ev.target.className.includes('Button')) setOpenPanel(false)
+    const el = ev.target
+    const exptions =
+      !!['Button', 'MuiPopover-root'].find(str => el.className.includes(str))
+      || el.getAttribute('aria-hidden') === 'true'
+    if (!exptions) setOpenPanel(false)
   }, ['click'])
 
   const handleAddTemplate = ({ template, name }) => {
