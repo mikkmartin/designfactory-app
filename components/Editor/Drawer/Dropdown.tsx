@@ -7,11 +7,12 @@ export const Dropdown = () => {
   const { dropdownTarget, setDropdownTarget, removeTemplate, setPanel, selectedTemplate } = useDrawer()
 
   const handleCloseMenu = () => {
-    //setSelectedTemplate(null)
     setDropdownTarget(null);
   };
 
   const handleDuplicate = () => {
+    const url = `https://www.figma.com/file/${selectedTemplate.template}/duplicate`
+    window.open(url, '_blank')
     setPanel('addtemplate')
     setDropdownTarget(null);
   }
