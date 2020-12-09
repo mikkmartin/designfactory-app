@@ -15,7 +15,8 @@ export const AddTemplate = ({ onCancel, onAdd }) => {
   const handleConfirm = () => {
     const str = ref.current.value
     try {
-      const [template, name] = str.split('/file/')[1].split('/')
+      const [template, filename] = str.split('/file/')[1].split('/')
+      const name = filename.split('?')[0]
       onAdd({ template, name })
     } catch (e) {
       console.error(e)
