@@ -7,7 +7,7 @@ export const AddTemplate = ({ onCancel, onAdd }) => {
   const ref = useRef<HTMLInputElement>(null)
   const [hasInput, setHasInput] = useState(false)
 
-  const handleChange = (ev) => {
+  const handleChange = () => {
     if (ref.current.value.length >= 22) setHasInput(true)
     else setHasInput(false)
   }
