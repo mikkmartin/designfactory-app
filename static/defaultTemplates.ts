@@ -7,7 +7,7 @@ export type TemplateObject = {
 }
 
 export const defaultTemplates: TemplateObject[] = [
-  { name: 'default', template: defaults.template },
-  { name: 'invoice-mikkmartin-v1.1', template: 'QFHu9LnnywkAKOdpuTZcgE' },
-  { name: 'classy-design', template: '9672lt3BzKaOxtdM6yT7f0' },
+  { name: 'Simple', template: defaults.template },
+  { name: 'Brutalist', template: 'UC7DTEsW3PgoS2ApXyn3V9' },
+  { name: 'Fun', template: '9672lt3BzKaOxtdM6yT7f0' },
 ]
