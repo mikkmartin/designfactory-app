@@ -101,9 +101,11 @@ export const getText = (name: string, templateCharacters: string, data) => {
 export const getTextStyles = (
   { absoluteBoundingBox, style, opacity, fills }: Text,
   fontFamilies: string[]
-) =>
-  StyleSheet.create({
+) => {
+  console.log(style.textCase)
+  return StyleSheet.create({
     style: {
+      textTransform: getTextCase(style.textCase),
       position: 'absolute',
       top: absoluteBoundingBox.y,
       left: absoluteBoundingBox.x,
@@ -118,6 +120,19 @@ export const getTextStyles = (
       opacity: opacity,
     },
   }).style as any
+}
+
+type TextCase = 'ORIGINAL' | 'UPPER' | 'LOWER' | 'TITLE'
+const getTextCase = (type: TextCase) => {
+  switch (type) {
+    case 'UPPER':
+      return 'uppercase'
+    case 'LOWER':
+      return 'lowercase'
+    case 'TITLE':
+      return 'capitalize'
+  }
+}
 
 export const findNodes = (arr, requiredProps, skipProps = undefined) => {
   return arr.reduce((a, node) => {
