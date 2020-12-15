@@ -23,4 +23,23 @@ export const GlobalStyles = createGlobalStyle`
       color: white;
     }
   }
+  p {
+    line-height: 150%;
+  }
+  input {
+    border: 0;
+    font-family: inherit;
+    color: white;
+    background: rgba(255, 255, 255, 0.05);
+    &:hover {
+      background: rgba(255, 255, 255, 0.075);
+    }
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+    }
+    &:focus {
+      background: rgba(255, 255, 255, 0.1);
+      outline: none;
+    }
+  }
 `

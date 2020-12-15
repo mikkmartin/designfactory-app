@@ -45,6 +45,14 @@ const Editor = () => {
     }
   }, [jsonString])
 
+
+  useEffect(() => {
+    const currentJson = JSON.parse(jsonString)
+    if (json !== currentJson) {
+      setJsonString(JSON.stringify(json, null, 2))
+    }
+  }, [json])
+
   return (
     <Container ref={ref}>
       <MonacoEditor
