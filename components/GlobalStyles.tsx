@@ -9,17 +9,20 @@ export const GlobalStyles = createGlobalStyle`
   :root {
     font-family: 'SFMono-Regular',Consolas,'Liberation Mono',Menlo,Courier,monospace;
     --highlight: #0097ff;
+    --background: #282C34;
     font-size: 12px;
+    background: var(--background);
   }
   body, #__next {
     min-height: 100vh;
     overflow: hidden;
+    color: white;
   }
   a {
     text-decoration: none;
-    color: #0097ff;
+    color: var(--highlight);
     :hover {
-      background: #0097ff;
+      background: var(--highlight);
       color: white;
     }
   }

@@ -56,16 +56,37 @@ const CheckoutForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-row">
-        <label for="card-element">Credit or debit card</label>
+        <button>-</button>
+        <input type="number" />
+        <button>+</button>
+        <br />
+        <input name="type" type="radio" value="monthly" checked />
+        <label htmlFor="monthly">Monthly</label><br />
+        <input name="type" type="radio" value="one-time" />
+        <label htmlFor="one-time">One time</label><br />
+        <p>Donate 30€ or more to help found this project and get designfactory free forever.</p>
+        <a>Cancel a previous pledge</a>
+
+
+        <br />
+        <input name="method" type="radio" value="paypal" checked />
+        <label htmlFor="female">Paypal</label><br />
+        <input name="method" type="radio" value="card" />
+        <label htmlFor="male">Card</label><br />
+        <input type="email" />
         <CardElement id="card-element" options={CARD_ELEMENT_OPTIONS} onChange={handleChange} />
+
         {/*
           <input ref={emailRef} type="email" />
         */}
         <div className="card-errors" role="alert">
           {error}
         </div>
+        <div className="success" role="sucess">
+          Thanks!
+        </div>
       </div>
-      <button type="submit">Submit Payment</button>
+      <button type="submit">Donate</button>
     </form>
   )
 }
@@ -82,7 +103,7 @@ const App = () => {
 
 // POST the token ID to your backend.
 async function stripeTokenHandler(token) {
-  const response = await fetch('/api/payment-subscribe', {
+  const response = await fetch('/api/payment/subscribe', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
