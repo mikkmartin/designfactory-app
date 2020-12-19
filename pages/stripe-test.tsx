@@ -6,10 +6,7 @@ import { CardElement, Elements, useElements, useStripe } from '@stripe/react-str
 const CARD_ELEMENT_OPTIONS = {
   style: {
     base: {
-      color: '#32325d',
-      fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-      fontSmoothing: 'antialiased',
-      fontSize: '16px',
+      fontFamily: 'inherit',
       '::placeholder': {
         color: '#aab7c4',
       },
@@ -23,10 +20,10 @@ const CARD_ELEMENT_OPTIONS = {
 
 const CheckoutForm = () => {
   const [error, setError] = useState(null)
+  const [success, setSuccess] = useState(false)
   const stripe = useStripe()
   const elements = useElements()
 
-  // Handle real-time validation errors from the card Element.
   const handleChange = event => {
     if (event.error) {
       setError(event.error.message)
@@ -35,7 +32,6 @@ const CheckoutForm = () => {
     }
   }
 
-  // Handle form submission.
   const handleSubmit = async event => {
     event.preventDefault()
     const card = elements.getElement(CardElement)
@@ -45,7 +41,7 @@ const CheckoutForm = () => {
       setError(result.error.message)
     } else {
       setError(null)
-      // Send the token to your server.
+      setSuccess(true)
       stripeTokenHandler(result.token)
     }
   }
@@ -57,7 +53,7 @@ const CheckoutForm = () => {
     <form onSubmit={handleSubmit}>
       <div className="form-row">
         <button>-</button>
-        <input type="number" />
+        <input type="number" value="5" />
         <button>+</button>
         <br />
         <input name="type" type="radio" value="monthly" checked />
@@ -82,9 +78,7 @@ const CheckoutForm = () => {
         <div className="card-errors" role="alert">
           {error}
         </div>
-        <div className="success" role="sucess">
-          Thanks!
-        </div>
+        {success && <h1>Thanks!</h1>}
       </div>
       <button type="submit">Donate</button>
     </form>
