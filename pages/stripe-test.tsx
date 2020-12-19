@@ -1,7 +1,9 @@
 import { useState, useRef } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
 import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js'
-import { NumberInput } from "../components/Editor/Input";
+import { NumberInput } from '../components/Editor/Input'
+import { RadioButtonGroup, RadioButton } from '../components/Editor/RadioButtonGroup'
+import { PayPal, CardTypes } from "../components/Icons/PaymentTypes";
 
 const CheckoutForm = () => {
   const [error, setError] = useState(null)
@@ -34,24 +36,38 @@ const CheckoutForm = () => {
   const emailRef = useRef(null)
   const [amount, setAmount] = useState(5)
 
+  const [paymentType, setPaymentType] = useState('Monthly')
+  const [paymentMethod, setPaymentMethod] = useState('one-time')
+
   return (
-    <form onSubmit={handleSubmit}>
-      <NumberInput withButtons value={amount} onChange={(v) => setAmount(v)} />
-      {/*
-        <RadioButtonGroup onChange={(v) => setValue(v)}>
-          <RadioButton value="one">One time</RadioButton>
-          <RadioButton value="flow">Monthly</RadioButton>
-        </RadioButtonGroup>
-      */}
+    <form style={{ textAlign: 'center' }} onSubmit={handleSubmit}>
+      <NumberInput value={amount} onChange={(v) => setAmount(v)} />
+      <RadioButtonGroup>
+        {
+          ['Monthly', 'One time']
+            .map(val => <RadioButton key={val} value={val} onChange={(v) => setPaymentType(v)} selected={paymentType === val}>{val}</RadioButton>)
+        }
+      </RadioButtonGroup>
       <p>Donate 30€ or more to help found this project and get designfactory free forever.</p>
       <a>Cancel a previous pledge</a>
 
+      <br />
 
-      <hr />
-      <input name="method" type="radio" value="paypal" checked />
-      <label htmlFor="female">Paypal</label><br />
-      <input name="method" type="radio" value="card" />
-      <label htmlFor="male">Card</label><br />
+      <RadioButtonGroup>
+        {
+          [{ value: 'Paypal', Icon: PayPal }, { value: 'Card', Icon: CardTypes }]
+            .map(({ value, Icon }) =>
+              <RadioButton
+                key={value}
+                value={value}
+                onChange={(v) => setPaymentMethod(v)}
+                selected={paymentMethod === value}>
+                <Icon />
+              </RadioButton>
+            )
+        }
+      </RadioButtonGroup>
+      <br />
       <input type="email" ref={emailRef} placeholder="E-mail (optional for an invoice)" />
       <CardElement id="card-element" options={{ hidePostalCode: true }} onChange={handleChange} />
 

@@ -4,12 +4,11 @@ import NumberFormat from 'react-number-format'
 import { Button } from "./Button";
 
 type Types = {
-  withButtons: boolean,
   value: number,
   onChange: (value: number) => void
 }
 
-export const NumberInput: FC<Types> = ({ withButtons, value, onChange }) => {
+export const NumberInput: FC<Types> = ({ value, onChange }) => {
   const ref = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
