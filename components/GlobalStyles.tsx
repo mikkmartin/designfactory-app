@@ -7,9 +7,11 @@ export const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
   }
   :root {
-    font-family: 'SFMono-Regular',Consolas,'Liberation Mono',Menlo,Courier,monospace;
     --highlight: #0097ff;
     --background: #282C34;
+    --error: #fa755a;
+    --placeholder: rgba(255, 255, 255, 0.3);
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
     font-size: 12px;
     background: var(--background);
   }
@@ -34,15 +36,22 @@ export const GlobalStyles = createGlobalStyle`
     font-family: inherit;
     color: white;
     background: rgba(255, 255, 255, 0.05);
+    caret-color: var(--highlight);
     &:hover {
       background: rgba(255, 255, 255, 0.075);
     }
     &::placeholder {
-      color: rgba(255, 255, 255, 0.3);
+      color: var(--placeholder);
     }
     &:focus {
       background: rgba(255, 255, 255, 0.1);
       outline: none;
+    }
+    position: relative;
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
     }
   }
 `
