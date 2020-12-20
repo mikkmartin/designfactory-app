@@ -10,7 +10,7 @@ export const Donation = ({ close, onDonate, onCancelSubscription }) => {
   const [paymentType, setPaymentType] = useState('Monthly')
 
   return (
-    <>
+    <div>
       <Container>
         <NumberInput value={amount} onChange={(v) => setAmount(v)} />
         <RadioButtonGroup>
@@ -41,7 +41,7 @@ export const Donation = ({ close, onDonate, onCancelSubscription }) => {
           Donate
       </Button>
       </ButtonStack>
-    </>
+    </div>
   )
 }
 
