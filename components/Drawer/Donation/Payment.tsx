@@ -9,6 +9,7 @@ import { fontFamily, placeholderColor } from '../../GlobalStyles'
 import { Input } from '../../Common/Input'
 import { Button } from '../../Common/Button'
 import styled from 'styled-components'
+//import { useDonation } from './DonationContext'
 
 export const Payment = ({ onBack, onDonate }) => {
   const [paymentMethod, setPaymentMethod] = useState('Card')

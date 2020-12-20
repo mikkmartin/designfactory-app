@@ -13,7 +13,7 @@ type Values = {
 const Context = createContext<Values>()
 
 export const DonationProvider: FC = ({ children }) => {
-  const [amount, setAmount] = useState(4)
+  const [amount, setAmount] = useState(3)
   const [paymentType, setPaymentType] = useState<Donation>('Monthly')
 
   return (
