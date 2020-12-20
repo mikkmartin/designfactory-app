@@ -1,5 +1,5 @@
-import { Info, Droplet, Thanks } from '../../Icons'
-import { Button } from '../Button'
+import { Info, Droplet, Thanks } from '../Icons'
+import { Button } from '../Common/Button'
 import { useDrawer } from './DrawerContext'
 
 export const TabButton = ({ name }) => {

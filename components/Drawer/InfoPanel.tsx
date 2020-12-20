@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Button } from '../Button'
+import { Button } from '../Common/Button'
 import { childAnimations, Content } from './Tab'
 
 export const InfoPanel = ({ close }) => {

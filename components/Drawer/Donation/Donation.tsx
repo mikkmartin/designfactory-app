@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { NumberInput } from '../Input'
-import { RadioButtonGroup, RadioButton } from '../RadioButtonGroup'
-import { childAnimations, Content, ButtonStack } from './Tab'
-import { Button } from '../Button'
+import { NumberInput } from '../../Common/Input'
+import { RadioButtonGroup, RadioButton } from '../../Editor/RadioButtonGroup'
+import { childAnimations, Content, ButtonStack } from '../Tab'
+import { Button } from '../../Common/Button'
 import styled from 'styled-components'
 
 export const Donation = ({ close, onDonate, onCancelSubscription }) => {

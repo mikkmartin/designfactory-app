@@ -2,10 +2,10 @@ import { useEditor } from '../Editor'
 import { defaults } from '../../static/invoice'
 import styled from 'styled-components'
 import { Download } from '../Icons'
-import { Button } from './Button'
+import { Button } from '../Common/Button'
 import { Drawer } from './Drawer'
-import { DrawerProvider } from './Drawer/DrawerContext'
-import { TabButton } from './Drawer/TabButton'
+import { DrawerProvider } from '../Drawer/DrawerContext'
+import { TabButton } from '../Drawer/TabButton'
 
 export const Header = () => {
   const { json, blobUrl } = useEditor()

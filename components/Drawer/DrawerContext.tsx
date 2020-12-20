@@ -1,7 +1,7 @@
 import { FC, createContext, useContext, useState, Dispatch, SetStateAction } from 'react'
-import { defaultTemplates, TemplateObject } from '../../../static/defaultTemplates'
+import { defaultTemplates, TemplateObject } from '../../static/defaultTemplates'
 import { useLocalStorage } from 'react-use'
-import { useEditor } from '../../Editor'
+import { useEditor } from '../Editor'
 
 type Values = {
   panels: string[]

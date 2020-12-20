@@ -1,13 +1,13 @@
 import { useState, useRef } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
-import { childAnimations, ButtonStack, Content } from './Tab'
-import { RadioButtonGroup, RadioButton } from '../RadioButtonGroup'
+import { childAnimations, ButtonStack, Content } from '../Tab'
+import { RadioButtonGroup, RadioButton } from '../../Editor/RadioButtonGroup'
 import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js'
 import { PayPal, CardTypes } from '../../Icons/PaymentTypes'
 import { Card } from '../../Icons'
 import { fontFamily, placeholderColor } from '../../GlobalStyles'
-import { Input } from '../Input'
-import { Button } from '../Button'
+import { Input } from '../../Common/Input'
+import { Button } from '../../Common/Button'
 import styled from 'styled-components'
 
 export const Payment = ({ onBack, onDonate }) => {

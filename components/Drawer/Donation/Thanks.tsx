@@ -1,5 +1,5 @@
-import { childAnimations, Content } from './Tab'
-import { Button } from '../Button'
+import { childAnimations, Content } from '../Tab'
+import { Button } from '../../Common/Button'
 import styled from 'styled-components'
 
 export const Thanks = ({ onDone }) => {
