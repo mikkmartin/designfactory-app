@@ -5,7 +5,7 @@ import { childAnimations, Content, ButtonStack } from './Tab'
 import { Button } from '../Button'
 import styled from 'styled-components'
 
-export const Donation = ({ close, onDonate }) => {
+export const Donation = ({ close, onDonate, onCancelSubscription }) => {
   const [amount, setAmount] = useState(3)
   const [paymentType, setPaymentType] = useState('Monthly')
 
@@ -30,7 +30,7 @@ export const Donation = ({ close, onDonate }) => {
         <p>
           Donate 30€ or more to help found this project and future
           versions of designfactory will be free forever.
-          <br /><a>Cancel a previous pledge</a>
+          <br /><a onClick={onCancelSubscription}>Cancel a previous pledge</a>
         </p>
       </Container>
       <ButtonStack>
@@ -56,6 +56,9 @@ const Container = styled(Content)`
   }
   p {
     color: rgba(255, 255, 255, 0.75);
+  }
+  a {
+    cursor: pointer;
   }
   p, a {
     font-size: 10px;

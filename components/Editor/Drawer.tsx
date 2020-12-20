@@ -59,14 +59,21 @@ export const Drawer = () => {
             <Donation
               close={() => setPanel(false)}
               onDonate={() => setPanel('payment')}
+              onCancelSubscription={() => setPanel('subscription-cancel')}
             />
+          </Tab>
+        )
+      case 'subscription-cancel':
+        return (
+          <Tab {...props} key={panel}>
+            Cancel subscription
           </Tab>
         )
       case 'payment':
         return (
           <Tab {...props} key={panel}>
             <Payment
-              onBack={() => setPanel('payment')}
+              onBack={() => setPanel('donation')}
               onDonate={() => setPanel('thank you')}
             />
           </Tab>

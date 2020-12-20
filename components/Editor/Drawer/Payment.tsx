@@ -78,7 +78,7 @@ export const Payment = ({ onBack, onDonate }) => {
       </Container>
       <ButtonStack>
         <Button {...childAnimations} highlight onClick={onBack}>
-          Close
+          Cancel
         </Button>
         <Button
           {...childAnimations}
