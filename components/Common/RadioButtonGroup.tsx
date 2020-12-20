@@ -16,9 +16,17 @@ export const RadioButtonGroup = ({ children }) => {
 export const RadioButton: FC<{ value: string, selected: boolean, onChange: any }> = ({ children, value, selected, onChange }) => {
   return (
     <>
-      <Input type="radio" id={value} onChange={v => onChange(v.target.value)} name="gender" value={value} />
+      <Input
+        type="radio"
+        id={value}
+        checked={selected}
+        onChange={v => onChange(v.target.value)}
+        name="gender" value={value}
+      />
       <Button htmlFor={value}>
-        {selected && <HighLight transition={snappy} layoutId="highlight" />}
+        {selected &&
+          <HighLight transition={snappy} layoutId="highlight" />
+        }
         <div>{children}</div>
       </Button>
     </>
