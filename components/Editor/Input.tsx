@@ -2,6 +2,7 @@ import { FC, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import NumberFormat from 'react-number-format'
 import { Button } from "./Button";
+import { Email } from "../Icons";
 
 type Types = {
   value: number,
@@ -38,6 +39,38 @@ export const NumberInput: FC<Types> = ({ value, onChange }) => {
     </Container>
   )
 }
+
+export const Input = ({ type = 'email', ref, icon = 'email' }) => {
+  return (
+    <StyledInput>
+      <input ref={ref} type={type} placeholder="E-mail" />
+      {icon === 'email' && <Email />}
+    </StyledInput>
+  )
+}
+
+const StyledInput = styled.div`
+  height: 48px;
+  position: relative;
+  input {
+    width: 100%;
+    height: 100%;
+    padding-left: 44px;
+    &:not(:focus) ~ svg {
+      opacity: 0.3;
+      transition: opacity 0.1s;
+    }
+  }
+  svg {
+    transition: opacity 0.2s;
+    position: absolute;
+    left: 0;
+    height: 100%;
+    stroke-width: 1px;
+    margin-left: 16px;
+    width: 20px;
+  }
+`
 
 const Container = styled.div`
   height: 58px;

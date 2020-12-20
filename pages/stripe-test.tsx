@@ -1,22 +1,27 @@
 import { useState, useRef } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
 import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js'
-import { NumberInput } from '../components/Editor/Input'
+import { NumberInput, Input } from '../components/Editor/Input'
 import { RadioButtonGroup, RadioButton } from '../components/Editor/RadioButtonGroup'
 import { PayPal, CardTypes } from "../components/Icons/PaymentTypes";
+import { Card } from "../components/Icons";
+import { fontFamily, placeholderColor } from '../components/GlobalStyles'
+import styled from 'styled-components'
 
 const CheckoutForm = () => {
   const [error, setError] = useState(null)
   const [success, setSuccess] = useState(false)
   const stripe = useStripe()
   const elements = useElements()
+  const [iconState, setIconState] = useState('unknown')
+  const [complete, setComplete] = useState(false)
 
   const handleChange = event => {
-    if (event.error) {
-      setError(event.error.message)
-    } else {
-      setError(null)
-    }
+    console.log(event)
+    setIconState(event.brand)
+    setComplete(event.complete)
+    if (event.error) setError(event.error.message)
+    else setError(null)
   }
 
   const handleSubmit = async event => {
@@ -37,7 +42,7 @@ const CheckoutForm = () => {
   const [amount, setAmount] = useState(3)
 
   const [paymentType, setPaymentType] = useState('Monthly')
-  const [paymentMethod, setPaymentMethod] = useState('one-time')
+  const [paymentMethod, setPaymentMethod] = useState('Card')
 
   return (
     <form style={{ textAlign: 'center' }} onSubmit={handleSubmit}>
@@ -68,20 +73,69 @@ const CheckoutForm = () => {
         }
       </RadioButtonGroup>
       <br />
-      <input type="email" ref={emailRef} placeholder="E-mail (optional for an invoice)" />
-      <CardElement id="card-element" options={{ hidePostalCode: true }} onChange={handleChange} />
+      <Input ref={emailRef} />
+      <CardContainer showCustomIcon={iconState === 'unknown'}>
+        <CardElement
+          onChange={handleChange}
+          options={{
+            hidePostalCode: true,
+            //hideIcon: true,
+            style: {
+              base: {
+                iconColor: 'transparent',
+                fontFamily,
+                fontSize: '14px',
+                lineHeight: '48px',
+                color: 'white',
+                ':-webkit-autofill': {
+                  color: '#fce883',
+                },
+                '::placeholder': {
+                  color: placeholderColor,
+                },
+              },
+              invalid: {
+                color: 'tomato',
+                iconColor: 'tomato',
+              },
+            },
+          }}
+        />
+        <Card />
+      </CardContainer>
+      {iconState}
+      <br />
+      {'complete: ' + complete}
+      <br />
 
-      {/*
-          <input ref={emailRef} type="email" />
-        */}
-      <div className="card-errors" role="alert">
+      <button disabled={!complete} type="submit">Donate</button>
+      <div role="alert">
         {error}
       </div>
       {success && <h1>💖 Thanks!</h1>}
-      <button type="submit">Donate</button>
     </form>
   )
 }
+
+const CardContainer = styled.div<{ showCustomIcon: boolean }>`
+  position: relative;
+  svg {
+    stroke-width: 1px;
+    width: 22px;
+    padding: 0 1px;
+    position: absolute;
+    top: 0;
+    left: 14px;
+    height: 100%;
+    z-index: 2;
+    opacity: ${p => p.showCustomIcon ? 0.3 : 0};
+  }
+  .StripeElement {
+    background: rgba(255, 255, 255, 0.05);
+    height: 48px;
+    padding-left: 15px;
+  }
+`
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
 

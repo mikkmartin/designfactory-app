@@ -1,5 +1,7 @@
 import { createGlobalStyle } from 'styled-components'
 
+export const fontFamily = "'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace"
+export const placeholderColor = 'rgba(255, 255, 255, 0.3)'
 export const GlobalStyles = createGlobalStyle`
   * {
     margin: 0;
@@ -10,8 +12,8 @@ export const GlobalStyles = createGlobalStyle`
     --highlight: #0097ff;
     --background: #282C34;
     --error: #fa755a;
-    --placeholder: rgba(255, 255, 255, 0.3);
-    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    --placeholder: ${placeholderColor};
+    font-family: ${fontFamily};
     font-size: 12px;
     background: var(--background);
   }
@@ -34,6 +36,7 @@ export const GlobalStyles = createGlobalStyle`
   input {
     border: 0;
     font-family: inherit;
+    font-size: 14px;
     color: white;
     background: rgba(255, 255, 255, 0.05);
     caret-color: var(--highlight);
