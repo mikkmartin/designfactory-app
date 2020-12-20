@@ -12,6 +12,7 @@ import { useDrawer } from '../Drawer/DrawerContext'
 import { Donation } from '../Drawer/Donation/Donation'
 import { Payment } from '../Drawer/Donation/Payment'
 import { Thanks } from '../Drawer/Donation/Thanks'
+import { DonationProvider } from "../Drawer/Donation/DonationContext";
 
 export const Drawer = () => {
   const { setPanel, panel, panels, addTemplate } = useDrawer()
@@ -98,9 +99,11 @@ export const Drawer = () => {
           variants={containerVariants}
           transition={snappy}>
           <div>
-            <AnimatePresence custom={panel}>
-              {currentPanel(!previousPanel)}
-            </AnimatePresence>
+            <DonationProvider>
+              <AnimatePresence custom={panel}>
+                {currentPanel(!previousPanel)}
+              </AnimatePresence>
+            </DonationProvider>
           </div>
         </Container>
       }

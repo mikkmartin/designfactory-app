@@ -4,9 +4,10 @@ import { RadioButtonGroup, RadioButton } from '../../Common/RadioButtonGroup'
 import { childAnimations, Content, ButtonStack } from '../Tab'
 import { Button } from '../../Common/Button'
 import styled from 'styled-components'
+import { useDonation } from './DonationContext'
 
 export const Donation = ({ close, onDonate, onCancelSubscription }) => {
-  const [amount, setAmount] = useState(3)
+  const { amount, setAmount } = useDonation()
   const [paymentType, setPaymentType] = useState('Monthly')
 
   return (
