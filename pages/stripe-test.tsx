@@ -17,7 +17,6 @@ const CheckoutForm = () => {
   const [complete, setComplete] = useState(false)
 
   const handleChange = event => {
-    console.log(event)
     setIconState(event.brand)
     setComplete(event.complete)
     if (event.error) setError(event.error.message)
@@ -38,8 +37,29 @@ const CheckoutForm = () => {
     }
   }
 
+  const getStyle = () => ({
+    base: {
+      iconColor: iconState !== 'unknown' ? 'white' : 'transparent',
+      fontFamily,
+      fontSize: '14px',
+      lineHeight: '48px',
+      color: 'white',
+      ':-webkit-autofill': {
+        color: '#fce883',
+      },
+      '::placeholder': {
+        color: placeholderColor,
+      },
+    },
+    invalid: {
+      color: 'tomato',
+      iconColor: 'tomato',
+    },
+  })
+
   const emailRef = useRef(null)
   const [amount, setAmount] = useState(3)
+  const [focused, setFocus] = useState(false)
 
   const [paymentType, setPaymentType] = useState('Monthly')
   const [paymentMethod, setPaymentMethod] = useState('Card')
@@ -74,39 +94,18 @@ const CheckoutForm = () => {
       </RadioButtonGroup>
       <br />
       <Input ref={emailRef} />
-      <CardContainer showCustomIcon={iconState === 'unknown'}>
+      <CardContainer showCustomIcon={iconState === 'unknown' && !Boolean(error)} focused={focused}>
         <CardElement
           onChange={handleChange}
+          onFocus={() => setFocus(true)}
+          onBlur={() => setFocus(false)}
           options={{
             hidePostalCode: true,
-            //hideIcon: true,
-            style: {
-              base: {
-                iconColor: 'transparent',
-                fontFamily,
-                fontSize: '14px',
-                lineHeight: '48px',
-                color: 'white',
-                ':-webkit-autofill': {
-                  color: '#fce883',
-                },
-                '::placeholder': {
-                  color: placeholderColor,
-                },
-              },
-              invalid: {
-                color: 'tomato',
-                iconColor: 'tomato',
-              },
-            },
+            style: getStyle(),
           }}
         />
         <Card />
       </CardContainer>
-      {iconState}
-      <br />
-      {'complete: ' + complete}
-      <br />
 
       <button disabled={!complete} type="submit">Donate</button>
       <div role="alert">
@@ -117,7 +116,7 @@ const CheckoutForm = () => {
   )
 }
 
-const CardContainer = styled.div<{ showCustomIcon: boolean }>`
+const CardContainer = styled.div<{ showCustomIcon: boolean, focused: boolean }>`
   position: relative;
   svg {
     stroke-width: 1px;
@@ -127,11 +126,12 @@ const CardContainer = styled.div<{ showCustomIcon: boolean }>`
     top: 0;
     left: 14px;
     height: 100%;
-    z-index: 2;
-    opacity: ${p => p.showCustomIcon ? 0.3 : 0};
+    opacity: ${p => p.showCustomIcon ? p.focused ? 1 : 0.3 : 0};
+    transition: ${p => p.focused ? 'opacity 0.2s' : 'opacity 0.1s'};
   }
   .StripeElement {
-    background: rgba(255, 255, 255, 0.05);
+    background: ${p => p.focused ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.05)'};
+    caret-color: red;
     height: 48px;
     padding-left: 15px;
   }
