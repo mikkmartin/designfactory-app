@@ -19,7 +19,7 @@ export const RadioButton: FC<{ value: string, selected: boolean, onChange: any }
       <Input type="radio" id={value} onChange={v => onChange(v.target.value)} name="gender" value={value} />
       <Button htmlFor={value}>
         {selected && <HighLight transition={snappy} layoutId="highlight" />}
-        <span>{children}</span>
+        <div>{children}</div>
       </Button>
     </>
   )
@@ -37,7 +37,7 @@ const Container = styled(motion.form)`
 
 const Input = styled.input`
   display: none;
-  &:not(:checked) + label span {
+  &:not(:checked) + label div {
     opacity: 0.6;
   }
 `
@@ -50,10 +50,10 @@ const Button = styled.label`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  &:hover span {
+  &:hover div {
     opacity: 1 !important;
   }
-  span {
+  div {
     z-index: 2;
   } 
 `

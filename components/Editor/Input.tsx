@@ -10,6 +10,7 @@ type Types = {
 
 export const NumberInput: FC<Types> = ({ value, onChange }) => {
   const ref = useRef<HTMLInputElement>(null)
+  const highlight = useRef(true)
 
   useEffect(() => {
     if (!ref.current) return
@@ -21,7 +22,9 @@ export const NumberInput: FC<Types> = ({ value, onChange }) => {
     <Container>
       <Button highlight onClick={() => Boolean(value) && onChange(value - 1)}>-</Button>
       <NumberFormat
-        onClick={() => !(ref.current === document.activeElement) && ref.current.select()}
+        onMouseDown={() => document.activeElement !== ref.current ? highlight.current = true : highlight.current = false}
+        onMouseMove={() => highlight.current && (highlight.current = false)}
+        onClick={() => highlight.current && ref.current.select()}
         value={'' + value}
         getInputRef={ref}
         allowEmptyFormatting
@@ -40,6 +43,7 @@ const Container = styled.div`
   height: 58px;
   display: flex;
   align-items: center;
+  justify-content: center;
   input {
     font-size: 48px;
     font-weight: 200;

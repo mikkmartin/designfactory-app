@@ -4,7 +4,7 @@ export default function CardTypes() {
       xmlns="http://www.w3.org/2000/svg"
       width="97"
       height="14"
-      viewBox="0 0 97 14"
+      viewBox="0 -2 97 16"
     >
       <g fill="none" fillRule="evenodd" stroke="none" strokeWidth="1">
         <g fillRule="nonzero">

@@ -34,7 +34,7 @@ const CheckoutForm = () => {
   }
 
   const emailRef = useRef(null)
-  const [amount, setAmount] = useState(5)
+  const [amount, setAmount] = useState(3)
 
   const [paymentType, setPaymentType] = useState('Monthly')
   const [paymentMethod, setPaymentMethod] = useState('one-time')
@@ -55,7 +55,7 @@ const CheckoutForm = () => {
 
       <RadioButtonGroup>
         {
-          [{ value: 'Paypal', Icon: PayPal }, { value: 'Card', Icon: CardTypes }]
+          [{ value: 'Card', Icon: CardTypes }, { value: 'Paypal', Icon: PayPal }]
             .map(({ value, Icon }) =>
               <RadioButton
                 key={value}
