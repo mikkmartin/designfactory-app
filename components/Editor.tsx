@@ -11,7 +11,7 @@ import packagejson from '../package.json'
 const MonacoEditor = dynamic(import('react-monaco-editor'), { ssr: false })
 export { ApiLink } from './Editor/ApiLink'
 export { Figma } from './Editor/Figma'
-export { Header } from './Editor/Header'
+export { Header } from './Header'
 export { useEditor }
 
 const Editor = () => {

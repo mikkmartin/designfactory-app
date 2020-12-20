@@ -21,7 +21,9 @@ export const TabButton = ({ name }) => {
     else setPanel(name)
   }
 
-  const isSelected = panel === name || name === 'templates' && panel === 'addtemplate'
+  const isSelected = panel === name
+    || name === 'templates' && panel === 'addtemplate'
+    || name === 'donation' && ['payment', 'subscription-cancel', 'thank you'].includes(panel)
 
   return (
     <Button onClick={handleClick} selected={isSelected}>
