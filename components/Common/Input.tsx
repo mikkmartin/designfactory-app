@@ -20,7 +20,12 @@ export const NumberInput: FC<Types> = ({ value, onChange }) => {
 
   return (
     <Container>
-      <Button highlight onClick={() => Boolean(value) && onChange(value - 1)}>-</Button>
+      <Button
+        highlight
+        disabled={value <= 1}
+        onClick={() => value > 1 && onChange(value - 1)}>
+        -
+      </Button>
       <NumberFormat
         style={{ width: '160px' }}
         onMouseDown={() => document.activeElement !== ref.current ? highlight.current = true : highlight.current = false}
