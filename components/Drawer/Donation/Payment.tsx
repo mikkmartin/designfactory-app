@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
 import { childAnimations, ButtonStack, Content } from '../Tab'
-import { RadioButtonGroup, RadioButton } from '../../Editor/RadioButtonGroup'
+import { RadioButtonGroup, RadioButton } from '../../Common/RadioButtonGroup'
 import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js'
 import { PayPal, CardTypes } from '../../Icons/PaymentTypes'
 import { Card } from '../../Icons'
