@@ -16,7 +16,7 @@ type Values = {
   templates: TemplateObject[]
 }
 
-type Panels = 'templates' | 'info' | 'addtemplate'
+export type Panels = 'templates' | 'info' | 'addtemplate' | 'donation' | 'payment' | 'subscription-cancel' | 'thank you'
 export type PanelState = Panels | false
 
 //@ts-ignore

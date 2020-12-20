@@ -16,13 +16,14 @@ export const NumberInput: FC<Types> = ({ value, onChange }) => {
   useEffect(() => {
     if (!ref.current) return
     ref.current.focus()
-    ref.current.select()
+    //ref.current.select()
   }, [])
 
   return (
     <Container>
       <Button highlight onClick={() => Boolean(value) && onChange(value - 1)}>-</Button>
       <NumberFormat
+        style={{width: '160px'}}
         onMouseDown={() => document.activeElement !== ref.current ? highlight.current = true : highlight.current = false}
         onMouseMove={() => highlight.current && (highlight.current = false)}
         onClick={() => highlight.current && ref.current.select()}

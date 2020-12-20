@@ -11,14 +11,14 @@ export const Header = () => {
   const { json, blobUrl } = useEditor()
   const fileName = json.fileName || defaults.fileName
   const linkAttributes = blobUrl ? { href: blobUrl, download: fileName } : {}
-  const buttonLabels = ['info', 'templates']
+  const buttonLabels = ['templates', 'info', 'donation']
 
   return (
-    <DrawerProvider panels={[...buttonLabels, 'addtemplate']}>
+    <DrawerProvider panels={['addtemplate', ...buttonLabels, 'payment', 'subscription-cancel', 'thank you']}>
       <Container>
         <h1>{fileName}</h1>
         <div className="buttons">
-          {['info', 'templates'].map(name =>
+          {buttonLabels.map(name =>
             <TabButton key={name} name={name} />
           )}
           <a {...linkAttributes}>

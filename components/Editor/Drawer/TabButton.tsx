@@ -1,6 +1,6 @@
-import { Info, Droplet } from '../../Icons'
+import { Info, Droplet, Thanks } from '../../Icons'
 import { Button } from '../Button'
-import { useDrawer } from "./DrawerContext";
+import { useDrawer } from './DrawerContext'
 
 export const TabButton = ({ name }) => {
   const { panel, setPanel } = useDrawer()
@@ -11,6 +11,8 @@ export const TabButton = ({ name }) => {
         return <Info />
       case 'templates':
         return <Droplet />
+      case 'donation':
+        return <Thanks />
     }
   }
 

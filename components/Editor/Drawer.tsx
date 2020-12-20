@@ -8,7 +8,10 @@ import { TemplatePanel } from './Drawer/TemplatePanel'
 import { AddTemplate } from './Drawer/AddTemplate'
 import { usePrevious } from 'react-use'
 import { Tab } from './Drawer/Tab'
-import { useDrawer } from "./Drawer/DrawerContext";
+import { useDrawer } from './Drawer/DrawerContext'
+import { Donation } from './Drawer/Donation'
+import { Payment } from './Drawer/Payment'
+import { Thanks } from './Drawer/Thanks'
 
 export const Drawer = () => {
   const { setPanel, panel, panels, addTemplate } = useDrawer()
@@ -22,7 +25,7 @@ export const Drawer = () => {
       || el.getAttribute('aria-hidden') === 'true'
     if (!exptions) setPanel(false)
   }, ['click'])
-  
+
   const currentPanel = (initial) => {
     const props = { panels, panel, initial, previousPanel }
     switch (panel) {
@@ -48,6 +51,30 @@ export const Drawer = () => {
               onCancel={() => setPanel('templates')}
               onAdd={addTemplate}
             />
+          </Tab>
+        )
+      case 'donation':
+        return (
+          <Tab {...props} key={panel}>
+            <Donation
+              close={() => setPanel(false)}
+              onDonate={() => setPanel('payment')}
+            />
+          </Tab>
+        )
+      case 'payment':
+        return (
+          <Tab {...props} key={panel}>
+            <Payment
+              onBack={() => setPanel('payment')}
+              onDonate={() => setPanel('thank you')}
+            />
+          </Tab>
+        )
+      case 'thank you':
+        return (
+          <Tab {...props} key={panel}>
+            <Thanks onDone={() => setPanel(false)} />
           </Tab>
         )
     }
