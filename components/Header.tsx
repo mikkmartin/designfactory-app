@@ -45,6 +45,12 @@ const Container = styled.div`
   h1 {
     font-size: 16px;
     font-weight: 300;
+    width: 1fr;
+    text-overflow: ellipsis;
+    overflow: hidden; 
+    height: 1.2em;
+    white-space: nowrap;
+    padding-right: 4px;
   }
   .buttons {
     display: flex;

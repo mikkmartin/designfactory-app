@@ -47,6 +47,7 @@ const Container = styled.div`
     position: relative;
     background: #282c34;
     flex-direction: column;
+    max-width: 420px;
   }
   .iframe-container {
     flex: 2.5;
