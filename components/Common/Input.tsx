@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef } from 'react'
+import { FC, useEffect, useRef, forwardRef } from 'react'
 import styled from 'styled-components'
 import NumberFormat from 'react-number-format'
 import { Button } from "./Button";
@@ -45,14 +45,34 @@ export const NumberInput: FC<Types> = ({ value, onChange }) => {
   )
 }
 
-export const Input = ({ type = 'email', ref, icon = 'email' }) => {
+const Container = styled.div`
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  input {
+    font-size: 48px;
+    font-weight: 200;
+    width: 160px;
+    text-align: center;
+    background: none !important;
+  }
+  button {
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    font-weight: 200;
+  }
+`
+
+export const Input = forwardRef<HTMLInputElement, any>(({ type = 'email', icon = 'email' }, ref) => {
   return (
     <StyledInput>
       <input ref={ref} type={type} placeholder="E-mail" />
       {icon === 'email' && <Email />}
     </StyledInput>
   )
-}
+})
 
 const StyledInput = styled.div`
   height: 48px;
@@ -74,25 +94,5 @@ const StyledInput = styled.div`
     stroke-width: 1px;
     margin-left: 16px;
     width: 20px;
-  }
-`
-
-const Container = styled.div`
-  height: 58px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  input {
-    font-size: 48px;
-    font-weight: 200;
-    width: 160px;
-    text-align: center;
-    background: none !important;
-  }
-  button {
-    width: 40px;
-    height: 40px;
-    font-size: 24px;
-    font-weight: 200;
   }
 `

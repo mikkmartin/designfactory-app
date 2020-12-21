@@ -9,7 +9,7 @@ export const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
   }
   :root {
-    --highlight: #0097ff;
+    --highlight: #007AFF;
     --background: #282C34;
     --error: #fa755a;
     --placeholder: ${placeholderColor};

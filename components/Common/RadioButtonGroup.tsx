@@ -21,7 +21,7 @@ export const RadioButton: FC<{ value: string, selected: boolean, onChange: any }
         id={value}
         checked={selected}
         onChange={v => onChange(v.target.value)}
-        name="gender" value={value}
+        value={value}
       />
       <Button htmlFor={value}>
         {selected &&
