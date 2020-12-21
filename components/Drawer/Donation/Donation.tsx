@@ -28,7 +28,7 @@ export const Donation = ({ close, onDonate, onCancelSubscription }) => {
         </RadioButtonGroup>
         <p>
           Donate 30€ or more to help found this project and future
-          versions of designfactory will be free forever.
+          permium features will be free forever.
           <br /><a onClick={onCancelSubscription}>Cancel a previous pledge</a>
         </p>
       </Container>
