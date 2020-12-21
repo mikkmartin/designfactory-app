@@ -39,7 +39,10 @@ export const Payment = ({ onBack, onDonate }) => {
         </Button>
         <Button
           {...childAnimations}
-          //disabled={!complete}
+          disabled={
+            //!complete ||
+            paymentMethod === 'Paypal'
+          }
           primary onClick={onDonate}>
           Donate
         </Button>

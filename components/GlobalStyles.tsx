@@ -24,7 +24,7 @@ export const GlobalStyles = createGlobalStyle`
   }
   a {
     text-decoration: none;
-    color: var(--highlight);
+    color: #0097ff;
     :hover {
       background: var(--highlight);
       color: white;
