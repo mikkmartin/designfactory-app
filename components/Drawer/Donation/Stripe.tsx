@@ -1,4 +1,4 @@
-import { FC, useState, useRef } from 'react'
+import { FC, useState, useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import { Card } from '../../Icons'
 import { loadStripe } from '@stripe/stripe-js'
@@ -15,6 +15,7 @@ export const Stripe: FC<{ shown: boolean }> = ({ shown }) => {
   const emailRef = useRef(null)
   const [error, setError] = useState(null)
   const [, setComplete] = useState(false)
+  const [el, setEl] = useState(null)
 
   const getStyle = () => ({
     base: {
@@ -53,6 +54,10 @@ export const Stripe: FC<{ shown: boolean }> = ({ shown }) => {
     style: { pointerEvents: shown ? 'auto' : 'none' }
   }
 
+  useEffect(() => {
+    if (shown && Boolean(el)) el.focus()
+  }, [shown])
+
   return (
     <Elements stripe={stripe}>
       <CardContainer
@@ -62,7 +67,7 @@ export const Stripe: FC<{ shown: boolean }> = ({ shown }) => {
       >
         <CardElement
           onChange={handleChange}
-          onReady={el => el.focus()}
+          onReady={_el => { setEl(_el); _el.focus() }}
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
           options={{
