@@ -14,7 +14,7 @@ export const Stripe: FC<{ shown: boolean }> = ({ shown }) => {
   const [iconState, setIconState] = useState('unknown')
   const emailRef = useRef(null)
   const [error, setError] = useState(null)
-  const [complete, setComplete] = useState(false)
+  const [, setComplete] = useState(false)
 
   const getStyle = () => ({
     base: {
