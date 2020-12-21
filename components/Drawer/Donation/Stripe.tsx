@@ -62,6 +62,7 @@ export const Stripe: FC<{ shown: boolean }> = ({ shown }) => {
       >
         <CardElement
           onChange={handleChange}
+          onReady={el => el.focus()}
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
           options={{
