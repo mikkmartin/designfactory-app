@@ -17,7 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       },
     ],
   })
-  console.log(subscriptionResponse.id)
+  //console.log(subscriptionResponse.id)
   //TODO send email to the person (with unsubscript button)
   res.json({ subscriptionResponse })
 }

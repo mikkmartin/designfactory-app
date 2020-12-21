@@ -102,7 +102,6 @@ export const getTextStyles = (
   { absoluteBoundingBox, style, opacity, fills }: Text,
   fontFamilies: string[]
 ) => {
-  console.log(style.textCase)
   return StyleSheet.create({
     style: {
       textTransform: getTextCase(style.textCase),

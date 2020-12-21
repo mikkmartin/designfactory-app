@@ -7,7 +7,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const subscriptionID = req.query.slug[0]
     //const unSubscriptionResponse = await stripe.subscriptions.
     const unsubsribeResponse = await stripe.subscriptions.del(subscriptionID)
-    console.log(unsubsribeResponse)
+    //console.log(unsubsribeResponse)
     res.end({ unsubsribeResponse })
   } catch (e) {
     req.statusCode = 500
