@@ -14,7 +14,7 @@ export const Stripe: FC<{ shown: boolean }> = ({ shown }) => {
   const [iconState, setIconState] = useState('unknown')
   const emailRef = useRef(null)
   const [error, setError] = useState(null)
-  const [, setComplete] = useState(false)
+  const [complete, setComplete] = useState(false)
   const [el, setEl] = useState(null)
 
   const getStyle = () => ({
@@ -55,7 +55,9 @@ export const Stripe: FC<{ shown: boolean }> = ({ shown }) => {
   }
 
   useEffect(() => {
-    if (shown && Boolean(el)) el.focus()
+    if (!shown) return
+    if (Boolean(el) && !complete) el.focus()
+    else setTimeout(() => emailRef.current.focus(), 120)
   }, [shown])
 
   return (
