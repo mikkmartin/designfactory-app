@@ -1,21 +1,55 @@
 import { FC, useState, useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import { Card } from '../../Icons'
-import { loadStripe } from '@stripe/stripe-js'
-import { CardElement, Elements } from '@stripe/react-stripe-js'
+import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { fontFamily, placeholderColor } from '../../GlobalStyles'
 import { Input } from '../../Common/Input'
 import { motion } from 'framer-motion'
 import { snappy } from '../../../static/transitions'
+import { useDonation } from './DonationContext'
 
-const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
-export const Stripe: FC<{ shown: boolean }> = ({ shown }) => {
+type Props = {
+  shown: boolean,
+  onReady: () => void
+}
+
+export const Stripe: FC<Props> = ({ shown, onReady }) => {
   const [focused, setFocus] = useState(false)
   const [iconState, setIconState] = useState('unknown')
   const emailRef = useRef(null)
   const [error, setError] = useState(null)
   const [complete, setComplete] = useState(false)
   const [el, setEl] = useState(null)
+  const {
+    setSubmitHandler,
+    error: responseError,
+    setError: setResponseError
+  } = useDonation()
+  const stripe = useStripe()
+  const elements = useElements()
+
+  const handleSubmit = async () => {
+    console.log('submit')
+    if (!stripe || !elements) return
+    const cardElement = elements.getElement(CardElement)
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
+      type: 'card',
+      card: cardElement,
+    })
+    if (error) {
+      setResponseError(error.message)
+      setTimeout(() => {
+        if (responseError === error.message) setResponseError('')
+        setResponseError('')
+      }, 2000)
+    } else {
+      console.log('[PaymentMethod]', paymentMethod);
+    }
+  }
+  useEffect(() => {
+    console.log('setting submit handler');
+    setSubmitHandler(handleSubmit)
+  }, [])
 
   const getStyle = () => ({
     base: {
@@ -57,14 +91,14 @@ export const Stripe: FC<{ shown: boolean }> = ({ shown }) => {
   useEffect(() => {
     if (!shown) return
     if (!complete) {
-      if (Boolean(el)) setTimeout(() => el.focus(), 100)
+      if (Boolean(el)) setTimeout(() => el.focus(), 300)
     } else {
-      setTimeout(() => emailRef.current.focus(), 120)
+      setTimeout(() => emailRef.current.focus(), 300)
     }
   }, [shown])
 
   return (
-    <Elements stripe={stripe}>
+    <>
       <CardContainer
         {...animations}
         focused={focused}
@@ -72,7 +106,11 @@ export const Stripe: FC<{ shown: boolean }> = ({ shown }) => {
       >
         <CardElement
           onChange={handleChange}
-          onReady={_el => { setEl(_el); _el.focus() }}
+          onReady={_el => {
+            setEl(_el)
+            _el.focus()
+            onReady()
+          }}
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
           options={{
@@ -85,7 +123,7 @@ export const Stripe: FC<{ shown: boolean }> = ({ shown }) => {
       <EmailContainer {...animations}>
         <Input ref={emailRef} />
       </EmailContainer>
-    </Elements>
+    </>
   )
 }
 

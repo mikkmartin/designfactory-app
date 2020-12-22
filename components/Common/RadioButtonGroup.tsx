@@ -33,7 +33,7 @@ export const RadioButton: FC<{ value: string, selected: boolean, onChange: any }
   )
 }
 
-const Container = styled(motion.form)`
+const Container = styled(motion.div)`
   height: 48px;
   display: inline-flex;
   width: 100%;

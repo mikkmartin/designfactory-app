@@ -75,7 +75,7 @@ export const Drawer = () => {
           <Tab {...props} key={panel}>
             <Payment
               onBack={() => setPanel('donation')}
-              onDonate={() => setPanel('thank you')}
+              onDonationComplete={() => setPanel('thank you')}
             />
           </Tab>
         )
