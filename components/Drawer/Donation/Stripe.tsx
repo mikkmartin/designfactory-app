@@ -1,11 +1,10 @@
 import { FC, useState, useRef, useEffect } from 'react'
+import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
+import { validateEmail, animations, stripeInputStyle, stripeTokenHandler } from './utils'
 import styled from 'styled-components'
 import { Card } from '../../Icons'
-import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
-import { fontFamily, placeholderColor } from '../../GlobalStyles'
 import { Input } from '../../Common/Input'
 import { motion } from 'framer-motion'
-import { snappy } from '../../../static/transitions'
 import { useDonation } from './DonationContext'
 
 type Props = {
@@ -15,35 +14,44 @@ type Props = {
 }
 
 export const Stripe: FC<Props> = ({ shown, onReady, onSuccess }) => {
-  const [focused, setFocus] = useState(false)
+  const { setSubmitHandler, showError, paymentType, amount, loading, setLoading } = useDonation()
   const [iconState, setIconState] = useState('unknown')
-  const emailRef = useRef(null)
+  const [focused, setFocus] = useState(false)
+  const emailRef = useRef<HTMLInputElement>(null)
   const [error, setError] = useState(null)
   const [complete, setComplete] = useState(false)
   const [el, setEl] = useState(null)
-  const {
-    setSubmitHandler,
-    error: responseError,
-    setError: setResponseError
-  } = useDonation()
   const stripe = useStripe()
   const elements = useElements()
 
   const handleSubmit = async () => {
     console.log('submit')
-    if (!stripe || !elements) return
+    const email = emailRef.current?.value
+    const emailValid = validateEmail(email)
+    if (!emailValid) showError('Email invalid.')
+    if (!stripe || !elements || !emailValid) return
+
+    setLoading(true)
     const card = elements.getElement(CardElement)
-    const result = await stripe.createToken(card)
-    if (result.error) {
-      setResponseError(result.error.message)
-      setTimeout(() => {
-        if (responseError === result.error.message) setResponseError('')
-        setResponseError('')
-      }, 2000)
+    const { error, token } = await stripe.createToken(card)
+
+    if (error) {
+      showError(error.message)
+      setLoading(false)
     } else {
-      const res = await stripeTokenHandler(result.token)
-      console.log(res)
-      setError('')
+      const res = await stripeTokenHandler({
+        token: token.id,
+        email,
+        amount,
+        paymentType
+      })
+      setLoading(false)
+      if (res.error) {
+        showError(res.error)
+      } else {
+        onSuccess()
+        setError('')
+      }
     }
   }
 
@@ -61,16 +69,6 @@ export const Stripe: FC<Props> = ({ shown, onReady, onSuccess }) => {
     else setError(null)
   }
 
-  const animations = {
-    transition: { ...snappy, opacity: { duration: 0.075 } },
-    animate: shown ? 'shown' : 'hidden',
-    variants: {
-      shown: { x: 0, opacity: 1 },
-      hidden: { x: -50, opacity: 0 },
-    },
-    style: { pointerEvents: shown ? 'auto' : 'none' }
-  }
-
   useEffect(() => {
     if (!shown) return
     if (!complete) {
@@ -83,7 +81,7 @@ export const Stripe: FC<Props> = ({ shown, onReady, onSuccess }) => {
   return (
     <>
       <CardContainer
-        {...animations}
+        {...animations(shown, -1)}
         focused={focused}
         showCustomIcon={iconState === 'unknown' && !Boolean(error)}
       >
@@ -94,56 +92,21 @@ export const Stripe: FC<Props> = ({ shown, onReady, onSuccess }) => {
           onBlur={() => setFocus(false)}
           options={{
             hidePostalCode: true,
-            style: getStyle(iconState),
+            style: stripeInputStyle(iconState)
           }}
         />
         <Card />
       </CardContainer>
-      <EmailContainer {...animations}>
+      <EmailContainer {...animations(shown, -1)}>
         <Input ref={emailRef} />
       </EmailContainer>
     </>
   )
 }
 
-async function stripeTokenHandler(token) {
-  const response = await fetch('/api/payment/subscribe', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      token: token.id,
-    }),
-  })
-
-  return response.json()
-}
-
-const getStyle = (iconState) => ({
-  base: {
-    iconColor: iconState !== 'unknown' ? 'white' : 'transparent',
-    fontFamily,
-    fontSize: '14px',
-    lineHeight: '48px',
-    color: 'white',
-    ':-webkit-autofill': {
-      color: '#fce883',
-    },
-    '::placeholder': {
-      color: placeholderColor,
-    },
-  },
-  invalid: {
-    color: 'tomato',
-    iconColor: 'tomato',
-  },
-})
-
 const EmailContainer = styled(motion.div) <any>`
   grid-area: 3 / 1 / 4 / 2;
 `
-
 const CardContainer = styled(motion.div) <any>`
   grid-area: 2 / 1 / 3 / 2;
   position: relative;
@@ -160,7 +123,6 @@ const CardContainer = styled(motion.div) <any>`
   }
   .StripeElement {
     background: ${p => p.focused ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.05)'};
-    caret-color: red;
     height: 48px;
     padding-left: 15px;
   }

@@ -12,8 +12,7 @@ import { ErrorToast } from '../../Common/ErrorToast'
 
 export const Payment = ({ onBack, onDonationComplete }) => {
   const [paymentMethod, setPaymentMethod] = useState('Card')
-  const [loading, setLoading] = useState(true)
-  const { handleSubmit, error } = useDonation()
+  const { handleSubmit, loading, setLoading, error } = useDonation()
 
   const handleSubmitEvent = (ev) => {
     ev.preventDefault()
