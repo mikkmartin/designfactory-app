@@ -56,8 +56,11 @@ export const Stripe: FC<{ shown: boolean }> = ({ shown }) => {
 
   useEffect(() => {
     if (!shown) return
-    if (Boolean(el) && !complete) el.focus()
-    else setTimeout(() => emailRef.current.focus(), 120)
+    if (!complete) {
+      if (Boolean(el)) setTimeout(() => el.focus(), 100)
+    } else {
+      setTimeout(() => emailRef.current.focus(), 120)
+    }
   }, [shown])
 
   return (

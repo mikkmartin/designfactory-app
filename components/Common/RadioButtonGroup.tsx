@@ -63,6 +63,7 @@ const Button = styled.label`
     opacity: 1 !important;
   }
   div {
+    user-select: none;
     z-index: 2;
   } 
 `
