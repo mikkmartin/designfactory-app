@@ -10,10 +10,11 @@ import { useDonation } from './DonationContext'
 
 type Props = {
   shown: boolean,
-  onReady: () => void
+  onReady: () => void,
+  onSuccess: () => void
 }
 
-export const Stripe: FC<Props> = ({ shown, onReady }) => {
+export const Stripe: FC<Props> = ({ shown, onReady, onSuccess }) => {
   const [focused, setFocus] = useState(false)
   const [iconState, setIconState] = useState('unknown')
   const emailRef = useRef(null)
@@ -31,45 +32,28 @@ export const Stripe: FC<Props> = ({ shown, onReady }) => {
   const handleSubmit = async () => {
     console.log('submit')
     if (!stripe || !elements) return
-    const cardElement = elements.getElement(CardElement)
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: 'card',
-      card: cardElement,
-    })
-    if (error) {
-      setResponseError(error.message)
+    const card = elements.getElement(CardElement)
+    const result = await stripe.createToken(card)
+    if (result.error) {
+      setResponseError(result.error.message)
       setTimeout(() => {
         if (responseError === error.message) setResponseError('')
         setResponseError('')
       }, 2000)
     } else {
-      console.log('[PaymentMethod]', paymentMethod);
+      const res = await stripeTokenHandler(result.token)
+      console.log(res)
+      setError('')
     }
   }
-  useEffect(() => {
-    console.log('setting submit handler');
-    setSubmitHandler(handleSubmit)
-  }, [])
 
-  const getStyle = () => ({
-    base: {
-      iconColor: iconState !== 'unknown' ? 'white' : 'transparent',
-      fontFamily,
-      fontSize: '14px',
-      lineHeight: '48px',
-      color: 'white',
-      ':-webkit-autofill': {
-        color: '#fce883',
-      },
-      '::placeholder': {
-        color: placeholderColor,
-      },
-    },
-    invalid: {
-      color: 'tomato',
-      iconColor: 'tomato',
-    },
-  })
+  const handleReady = _el => {
+    setEl(_el)
+    _el.focus()
+    onReady()
+    console.log('ready, setting submit handler')
+    setSubmitHandler(handleSubmit)
+  }
 
   const handleChange = event => {
     setIconState(event.brand)
@@ -106,16 +90,12 @@ export const Stripe: FC<Props> = ({ shown, onReady }) => {
       >
         <CardElement
           onChange={handleChange}
-          onReady={_el => {
-            setEl(_el)
-            _el.focus()
-            onReady()
-          }}
+          onReady={handleReady}
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
           options={{
             hidePostalCode: true,
-            style: getStyle(),
+            style: getStyle(iconState),
           }}
         />
         <Card />
@@ -126,6 +106,40 @@ export const Stripe: FC<Props> = ({ shown, onReady }) => {
     </>
   )
 }
+
+async function stripeTokenHandler(token) {
+  const response = await fetch('/api/payment/subscribe', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      token: token.id,
+    }),
+  })
+
+  return response.json()
+}
+
+const getStyle = (iconState) => ({
+  base: {
+    iconColor: iconState !== 'unknown' ? 'white' : 'transparent',
+    fontFamily,
+    fontSize: '14px',
+    lineHeight: '48px',
+    color: 'white',
+    ':-webkit-autofill': {
+      color: '#fce883',
+    },
+    '::placeholder': {
+      color: placeholderColor,
+    },
+  },
+  invalid: {
+    color: 'tomato',
+    iconColor: 'tomato',
+  },
+})
 
 const EmailContainer = styled(motion.div) <any>`
   grid-area: 3 / 1 / 4 / 2;

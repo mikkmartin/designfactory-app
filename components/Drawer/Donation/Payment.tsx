@@ -19,6 +19,7 @@ export const Payment = ({ onBack, onDonationComplete }) => {
     ev.preventDefault()
     if (Boolean(handleSubmit)) handleSubmit()
     else console.log('no')
+    console.log({ handleSubmit })
   }
 
   return (
@@ -40,7 +41,10 @@ export const Payment = ({ onBack, onDonationComplete }) => {
               )
           }
         </RadioButtonGroup>
-        <Stripe shown={paymentMethod === 'Card'} onReady={() => setLoading(false)} />
+        <Stripe shown={paymentMethod === 'Card'}
+          onReady={() => setLoading(false)}
+          onSuccess={onDonationComplete}
+        />
         <PayPal shown={paymentMethod === 'Paypal'} />
 
       </Container>
