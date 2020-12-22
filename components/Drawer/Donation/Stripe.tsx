@@ -37,7 +37,7 @@ export const Stripe: FC<Props> = ({ shown, onReady, onSuccess }) => {
     if (result.error) {
       setResponseError(result.error.message)
       setTimeout(() => {
-        if (responseError === error.message) setResponseError('')
+        if (responseError === result.error.message) setResponseError('')
         setResponseError('')
       }, 2000)
     } else {
@@ -49,7 +49,6 @@ export const Stripe: FC<Props> = ({ shown, onReady, onSuccess }) => {
 
   const handleReady = _el => {
     setEl(_el)
-    _el.focus()
     onReady()
     console.log('ready, setting submit handler')
     setSubmitHandler(handleSubmit)
@@ -67,7 +66,7 @@ export const Stripe: FC<Props> = ({ shown, onReady, onSuccess }) => {
     animate: shown ? 'shown' : 'hidden',
     variants: {
       shown: { x: 0, opacity: 1 },
-      hidden: { x: -150, opacity: 0 },
+      hidden: { x: -50, opacity: 0 },
     },
     style: { pointerEvents: shown ? 'auto' : 'none' }
   }
@@ -75,9 +74,9 @@ export const Stripe: FC<Props> = ({ shown, onReady, onSuccess }) => {
   useEffect(() => {
     if (!shown) return
     if (!complete) {
-      if (Boolean(el)) setTimeout(() => el.focus(), 300)
+      if (Boolean(el)) setTimeout(() => el.focus(), 50)
     } else {
-      setTimeout(() => emailRef.current.focus(), 300)
+      setTimeout(() => emailRef.current.focus(), 50)
     }
   }, [shown])
 

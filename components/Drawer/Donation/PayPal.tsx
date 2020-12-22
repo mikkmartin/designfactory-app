@@ -11,7 +11,7 @@ export const PayPal: FC<{ shown: boolean }> = ({ shown }) => {
     animate: shown ? 'shown' : 'hidden',
     variants: {
       shown: { x: 0, opacity: 1 },
-      hidden: { x: 150, opacity: 0 },
+      hidden: { x: 50, opacity: 0 },
     },
     style: { pointerEvents: shown ? 'auto' : 'none' }
   }
