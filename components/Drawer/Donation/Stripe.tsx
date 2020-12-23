@@ -23,13 +23,17 @@ export const Stripe: FC<Props> = ({ shown, onReady, onSuccess }) => {
   const [el, setEl] = useState(null)
   const stripe = useStripe()
   const elements = useElements()
+  const [emailInvalid, setEmailInvalid] = useState(false)
 
   const handleSubmit = async () => {
     console.log('submit')
     const email = emailRef.current?.value
     const emailValid = validateEmail(email)
-    if (!emailValid) showError('Email invalid.')
-    if (!stripe || !elements || !emailValid) return
+    if (!emailValid) {
+      showError('Email invalid.')
+      setEmailInvalid(true)
+    }
+    if (!stripe || !elements || !emailValid || !loading) return
 
     setLoading(true)
     const card = elements.getElement(CardElement)
@@ -98,7 +102,7 @@ export const Stripe: FC<Props> = ({ shown, onReady, onSuccess }) => {
         <Card />
       </CardContainer>
       <EmailContainer {...animations(shown, false)}>
-        <Input ref={emailRef} />
+        <Input ref={emailRef} invalid={emailInvalid} onChange={() => setEmailInvalid(false)} />
       </EmailContainer>
     </>
   )

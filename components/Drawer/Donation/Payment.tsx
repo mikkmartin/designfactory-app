@@ -56,7 +56,7 @@ export const Payment = ({ onBack, onDonationComplete }) => {
           type="submit"
           {...childAnimations}
           disabled={
-            //!complete ||
+            loading ||
             paymentMethod === 'Paypal'
           }
           onClick={handleSubmitEvent}

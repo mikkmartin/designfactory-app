@@ -1,5 +1,5 @@
 import { FC, useEffect, useRef, forwardRef } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import NumberFormat from 'react-number-format'
 import { Button } from "./Button";
 import { Email } from "../Icons";
@@ -65,16 +65,21 @@ const Container = styled.div`
   }
 `
 
-export const Input = forwardRef<HTMLInputElement, any>(({ type = 'email', icon = 'email' }, ref) => {
+export const Input = forwardRef<HTMLInputElement, any>(({
+  type = 'email',
+  icon = 'email',
+  onChange = () => { },
+  invalid = false
+}, ref) => {
   return (
-    <StyledInput>
-      <input ref={ref} type={type} placeholder="E-mail" />
+    <StyledInput invalid={invalid}>
+      <input ref={ref} type={type} placeholder="E-mail" onChange={onChange} />
       {icon === 'email' && <Email />}
     </StyledInput>
   )
 })
 
-const StyledInput = styled.div`
+const StyledInput = styled.div<{ invalid: boolean }>`
   height: 48px;
   position: relative;
   input {
@@ -95,4 +100,14 @@ const StyledInput = styled.div`
     margin-left: 16px;
     width: 20px;
   }
+  ${p => p.invalid && css`
+    input {
+      caret-color: var(--error);
+      color: var(--error);
+    }
+    svg {
+      opacity: 1 !important;
+      stroke: var(--error);
+    }
+  `}
 `
