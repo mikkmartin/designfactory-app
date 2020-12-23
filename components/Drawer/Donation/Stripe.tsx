@@ -33,7 +33,7 @@ export const Stripe: FC<Props> = ({ shown, onReady, onSuccess }) => {
       showError('Email invalid.')
       setEmailInvalid(true)
     }
-    if (!stripe || !elements || !emailValid || !loading) return
+    if (!stripe || !elements || !emailValid || loading) return
 
     setLoading(true)
     const card = elements.getElement(CardElement)
