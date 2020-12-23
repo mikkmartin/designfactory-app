@@ -1,29 +1,19 @@
 import { FC } from 'react'
 import { motion } from 'framer-motion'
 import styled from 'styled-components'
-import { snappy } from '../../../static/transitions'
 import { PayPal as PayPalIcon } from '../../Icons/PaymentTypes'
 import { ExternalLink } from '../../Icons'
+import { animations } from "./utils";
 
 export const PayPal: FC<{ shown: boolean }> = ({ shown }) => {
-  const animations = {
-    transition: { ...snappy, opacity: { duration: 0.075 } },
-    animate: shown ? 'shown' : 'hidden',
-    variants: {
-      shown: { x: 0, opacity: 1 },
-      hidden: { x: 50, opacity: 0 },
-    },
-    style: { pointerEvents: shown ? 'auto' : 'none' }
-  }
-
   return (
     <Container
-      {...animations}
+      {...animations(shown, true)}
       href="https://www.paypal.com/donate/?hosted_button_id=BKQUWKGLRKNCQ"
       target="_blank"
     >
       <PayPalIcon />
-      <small>Open donation link <ExternalLink/></small>
+      <small>Open donation link <ExternalLink /></small>
     </Container>
   )
 }

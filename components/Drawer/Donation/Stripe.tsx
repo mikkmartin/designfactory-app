@@ -81,7 +81,7 @@ export const Stripe: FC<Props> = ({ shown, onReady, onSuccess }) => {
   return (
     <>
       <CardContainer
-        {...animations(shown, -1)}
+        {...animations(shown, false)}
         focused={focused}
         showCustomIcon={iconState === 'unknown' && !Boolean(error)}
       >
@@ -97,7 +97,7 @@ export const Stripe: FC<Props> = ({ shown, onReady, onSuccess }) => {
         />
         <Card />
       </CardContainer>
-      <EmailContainer {...animations(shown, -1)}>
+      <EmailContainer {...animations(shown, false)}>
         <Input ref={emailRef} />
       </EmailContainer>
     </>

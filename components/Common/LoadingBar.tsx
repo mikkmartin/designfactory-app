@@ -23,6 +23,7 @@ export const LoadingBar: FC<{ loading: boolean }> = ({ loading }) => {
   return (
     <Container>
       <motion.div
+        style={{x: '-100%'}}
         animate={controls}
         onAnimationComplete={onAnimationComplete}
       />
