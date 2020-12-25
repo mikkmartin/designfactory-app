@@ -8,7 +8,7 @@ type Values = {
 //@ts-ignore
 const Context = createContext<Values>()
 
-export const PageProvider: FC<{ offset: Rect }> = ({ children, offset }) => {
+export const ParentProvider: FC<{ offset: Rect }> = ({ children, offset }) => {
 
   return (
     <Context.Provider value={{
@@ -19,4 +19,4 @@ export const PageProvider: FC<{ offset: Rect }> = ({ children, offset }) => {
   )
 }
 
-export const usePage = () => useContext(Context)
+export const useParent = () => useContext(Context)

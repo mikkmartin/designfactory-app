@@ -1,12 +1,12 @@
 import { Canvas } from '@react-pdf/renderer'
 import { FC } from 'react'
 import { getStyle } from './common'
-import { usePage } from '../PageContext'
+import { useParent } from './PageContext'
 import { Rectangle } from 'figma-js'
 
 export const Rect: FC<{ node: Rectangle }> = ({ node }) => {
   const { x, y, width, height } = node.absoluteBoundingBox
-  const { offset } = usePage()
+  const { offset } = useParent()
   const style = getStyle(offset)
 
   return (
