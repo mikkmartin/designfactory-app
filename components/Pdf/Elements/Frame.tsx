@@ -9,10 +9,11 @@ export const Frame: FC<{ node: FrameType }> = ({ node }) => {
   //const { x, y, width, height } = node.absoluteBoundingBox
   //const { absoluteBoundingBox } = useContainer()
   const style = getLayout(node.absoluteBoundingBox)
+  console.log('Frame')
   console.log(style)
 
   return (
-    <View style={style}>
+    <View style={{...style, backgroundColor: 'yellow'}}>
       {node.children.map(renderElement)}
     </View>
   )

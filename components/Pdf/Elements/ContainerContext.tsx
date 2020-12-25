@@ -5,8 +5,16 @@ import { FC, createContext, useContext } from 'react'
 const Context = createContext<Frame>()
 
 export const ContainerProvider: FC<{ frame: Frame }> = ({ frame, children }) => {
+  const parent = useContainer()
   return (
-    <Context.Provider value={frame}>
+    <Context.Provider value={Boolean(parent) ? {
+      ...frame, absoluteBoundingBox: {
+        x: frame.absoluteBoundingBox.x - parent.absoluteBoundingBox.x,
+        y: frame.absoluteBoundingBox.y - parent.absoluteBoundingBox.y,
+        width: frame.absoluteBoundingBox.width - parent.absoluteBoundingBox.width,
+        height: frame.absoluteBoundingBox.height - parent.absoluteBoundingBox.height
+      }
+    } : frame}>
       {children}
     </Context.Provider>
   )
