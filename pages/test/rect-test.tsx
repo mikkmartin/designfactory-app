@@ -3,7 +3,7 @@ import { renderElement } from '../../components/Pdf/Elements/renderElement'
 import * as Figma from 'figma-js'
 import { FC, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { ParentProvider } from '../../components/Pdf/Elements/PageContext'
+import { ContainerProvider } from '../../components/Pdf/Elements/ContainerContext'
 
 const Test: FC<{ pages: Figma.Frame[] }> = ({ pages }) => {
   const [render, setRender] = useState(false)
@@ -17,11 +17,11 @@ const Test: FC<{ pages: Figma.Frame[] }> = ({ pages }) => {
           {pages.map((page, i) => {
             const { width, height } = page.absoluteBoundingBox
             return (
-              <ParentProvider key={i} offset={page.absoluteBoundingBox}>
+              <ContainerProvider key={i} frame={page}>
                 <Page size={{ width, height }}>
                   {page.children.map(renderElement)}
                 </Page>
-              </ParentProvider>
+              </ContainerProvider>
             )
           })}
         </Document>

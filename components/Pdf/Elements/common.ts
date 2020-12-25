@@ -1,9 +1,10 @@
 import { StyleSheet } from '@react-pdf/renderer'
-import { useParent } from './PageContext'
+import { useContainer } from './ContainerContext'
 
-export const getStyle = ({ x: left, y: top, width, height }) => {
-  const { offset } = useParent()
-  const { x, y } = offset
+export const getLayout = ({ x: left, y: top, width, height }) => {
+  const {
+    absoluteBoundingBox: { x, y },
+  } = useContainer()
 
   return StyleSheet.create({
     style: {
