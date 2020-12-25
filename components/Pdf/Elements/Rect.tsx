@@ -9,7 +9,6 @@ export const Rect: FC<{ node: Rectangle }> = ({ node }) => {
   const { absoluteBoundingBox: parentOffset } = useContainer()
   const style = getLayout(parentOffset)
 
-
   return (
     <Canvas style={style} paint={painter => {
       node.fills.forEach(({ color, opacity }) => {
