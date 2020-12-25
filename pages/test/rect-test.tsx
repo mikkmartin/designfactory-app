@@ -7,10 +7,7 @@ import { ParentProvider } from '../../components/Pdf/Elements/PageContext'
 
 const Test: FC<{ pages: Figma.Frame[] }> = ({ pages }) => {
   const [render, setRender] = useState(false)
-  useEffect(() => {
-    console.log(pages)
-    setRender(true)
-  }, [render])
+  useEffect(() => { setRender(true) }, [render])
 
   if (!render) return null
   return (
