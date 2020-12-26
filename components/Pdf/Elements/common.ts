@@ -12,7 +12,8 @@ export const getLayout = (node: Instance | Rectangle | Frame) => {
       ? {
           width,
           height,
-          marginBottom: itemSpacing
+          marginBottom: itemSpacing,
+          marginRight: itemSpacing,
         }
       : {
           position: 'absolute',

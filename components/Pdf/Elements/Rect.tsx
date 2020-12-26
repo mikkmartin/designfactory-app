@@ -12,7 +12,8 @@ export const Rect: FC<{ node: Rectangle, i: number }> = ({ node, i }) => {
     height: node.size.y + padding * 2,
     marginLeft: -padding,
     marginTop: -padding,
-    marginBottom: layout.marginBottom as number - padding
+    marginBottom: layout.marginBottom as number - padding,
+    marginRight: layout.marginBottom as number - padding
   }
   const width = node.size.x
   const height = node.size.y

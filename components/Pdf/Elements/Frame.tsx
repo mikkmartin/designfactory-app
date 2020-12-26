@@ -6,11 +6,16 @@ import { Frame as FrameType } from 'figma-js'
 import { renderElement } from "./renderElement";
 
 export const Frame: FC<{ node: FrameType }> = ({ node }) => {
-  const style = getLayout(node)
+  const layout = getLayout(node)
+  const flexDirection = node.layoutMode === 'HORIZONTAL' ? 'row' : 'column'
 
   return (
     <ContainerProvider frame={node}>
-      <View style={{ ...style }}>
+      <View style={{
+        ...layout,
+        display: 'flex',
+        flexDirection
+      }}>
         {node.children.map(renderElement)}
       </View>
     </ContainerProvider>
