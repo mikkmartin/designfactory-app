@@ -1,20 +1,18 @@
-import { View, Text } from '@react-pdf/renderer'
+import { View } from '@react-pdf/renderer'
 import { FC } from 'react'
 import { getLayout } from './common'
-import { useContainer } from './ContainerContext'
+import { ContainerProvider } from './ContainerContext'
 import { Frame as FrameType } from 'figma-js'
 import { renderElement } from "./renderElement";
 
 export const Frame: FC<{ node: FrameType }> = ({ node }) => {
-  //const { x, y, width, height } = node.absoluteBoundingBox
-  //const { absoluteBoundingBox } = useContainer()
-  const style = getLayout(node.absoluteBoundingBox)
-  console.log('Frame')
-  console.log(style)
+  const style = getLayout(node)
 
   return (
-    <View style={{...style, backgroundColor: 'yellow'}}>
-      {node.children.map(renderElement)}
-    </View>
+    <ContainerProvider frame={node}>
+      <View style={{ ...style }}>
+        {node.children.map(renderElement)}
+      </View>
+    </ContainerProvider>
   )
 }

@@ -1,22 +1,23 @@
 import { StyleSheet } from '@react-pdf/renderer'
+import { Instance, Rectangle, Frame } from 'figma-js'
 import { useContainer } from './ContainerContext'
 
-export const getLayout = ({ x: left, y: top, width, height }) => {
-  const {
-    layoutMode,
-    absoluteBoundingBox: { x, y },
-  } = useContainer()
+export const getLayout = (node: Instance | Rectangle | Frame) => {
+  const { layoutMode, itemSpacing } = useContainer()
+  const width = node.size.x
+  const height = node.size.y
 
   return StyleSheet.create({
     style: Boolean(layoutMode)
       ? {
           width,
           height,
+          marginBottom: itemSpacing
         }
       : {
           position: 'absolute',
-          top: top - y,
-          left: left - x,
+          top: node.relativeTransform[1][2],
+          left: node.relativeTransform[0][2],
           width,
           height,
         },

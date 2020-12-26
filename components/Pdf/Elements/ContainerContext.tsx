@@ -11,8 +11,8 @@ export const ContainerProvider: FC<{ frame: Frame }> = ({ frame, children }) => 
       ...frame, absoluteBoundingBox: {
         x: frame.absoluteBoundingBox.x - parent.absoluteBoundingBox.x,
         y: frame.absoluteBoundingBox.y - parent.absoluteBoundingBox.y,
-        width: frame.absoluteBoundingBox.width - parent.absoluteBoundingBox.width,
-        height: frame.absoluteBoundingBox.height - parent.absoluteBoundingBox.height
+        width: frame.absoluteBoundingBox.width,
+        height: frame.absoluteBoundingBox.height
       }
     } : frame}>
       {children}
