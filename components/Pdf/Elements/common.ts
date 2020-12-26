@@ -42,7 +42,7 @@ export const getColor = (fills: Paint[]) =>
   fills
     .reduce((previousColor, paint) => {
       if (paint.color) {
-        const { r, g, b, a } = paint.color
+        const { r, g, b } = paint.color
         return previousColor.mix(Color([r * 255, g * 255, b * 255]), paint.opacity)
       } else {
         return previousColor
