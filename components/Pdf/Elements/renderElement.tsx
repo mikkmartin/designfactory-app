@@ -10,7 +10,7 @@ export const renderElement = (node: Node, i) => {
     case 'RECTANGLE':
       return <Rect key={i} node={node} nth={i + 1} />
     case 'FRAME':
-      return <Frame key={i} node={node} />
+      return <Frame key={i} node={node} nth={i + 1} />
     default:
       console.warn(`Node type: ${node.type} not supported!`)
   }

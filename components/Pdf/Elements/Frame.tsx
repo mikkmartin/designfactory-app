@@ -10,11 +10,11 @@ type FrameType = FrameBase & {
   counterAxisAlignItems?: "MIN" | "CENTER" | "MAX"
 }
 
-export const Frame: FC<{ node: FrameType }> = ({ node }) => {
+export const Frame: FC<{ node: FrameType, nth?: number }> = ({ node, nth }) => {
   return (
     <ContainerProvider frame={node}>
       <View style={{
-        ...getLayout(node),
+        ...getLayout(node, nth),
         display: 'flex',
         justifyContent: getJustifyContent(node.primaryAxisAlignItems),
         alignItems: getAlignItems(node.counterAxisAlignItems),
@@ -42,7 +42,7 @@ const getAlignItems = (align) => {
 
 const getJustifyContent = (align) => {
   switch (align) {
-    case 'MAX':
+    case 'MIN':
       return 'flex-start'
     case 'CENTER':
       return 'center'

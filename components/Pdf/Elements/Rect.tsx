@@ -21,7 +21,7 @@ export const Rect: FC<{ node: Rectangle, nth: number }> = ({ node, nth }) => {
       marginLeft: -padding,
       marginTop: -padding,
       marginBottom: layout.marginBottom as number - padding,
-      marginRight: layout.marginBottom as number - padding
+      marginRight: layout.marginRight as number - padding
     }
   }
 

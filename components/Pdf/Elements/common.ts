@@ -8,7 +8,6 @@ export const getLayout = (node: Node, nth?: number) => {
   const { layoutMode, itemSpacing, children } = useContainer()
   const width = node.size.x
   const height = node.size.y
-  console.log({ layoutMode })
   const gap = nth !== children.length ? itemSpacing : 0
 
   return StyleSheet.create({
@@ -16,8 +15,8 @@ export const getLayout = (node: Node, nth?: number) => {
       ? {
           width,
           height,
-          marginBottom: gap,
-          marginRight: gap,
+          marginBottom: layoutMode === 'VERTICAL' ? gap : 0,
+          marginRight: layoutMode === 'HORIZONTAL' ? gap : 0,
         }
       : {
           position: 'absolute',
