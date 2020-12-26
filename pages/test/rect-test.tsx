@@ -40,6 +40,7 @@ const Container = styled.div`
 
 export async function getStaticProps() {
   const template = await fetch('http://localhost:3000/api/figma?template=QBeNqpKnj2exAqyWMNYbWM&pages=yup')
+    //const template = await fetch('http://localhost:3000/api/figma?template=Mvq0zGG8sy5EeHNeqjX5L4&pages=yup')
     .then(r => r.json())
   return {
     props: {
