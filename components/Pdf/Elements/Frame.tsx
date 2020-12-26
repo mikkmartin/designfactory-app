@@ -11,13 +11,14 @@ type FrameType = FrameBase & { primaryAxisAlignItems: AlignItems }
 export const Frame: FC<{ node: FrameType }> = ({ node }) => {
   const layout = getLayout(node)
   const flexDirection = node.layoutMode === 'HORIZONTAL' ? 'row' : 'column'
+  const justifyContent = getAlignment(node.primaryAxisAlignItems)
 
   return (
     <ContainerProvider frame={node}>
       <View style={{
         ...layout,
         display: 'flex',
-        justifyContent: getAlignment(node.primaryAxisAlignItems),
+        justifyContent,
         flexDirection
       }}>
         {node.children.map(renderElement)}
