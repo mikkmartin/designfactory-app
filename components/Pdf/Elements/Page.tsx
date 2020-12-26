@@ -3,15 +3,16 @@ import { FC } from 'react'
 import { ContainerProvider } from './ContainerContext'
 import { Frame } from 'figma-js'
 import { renderElement } from './renderElement'
-import { getStyle } from './common'
+import { getColor } from './common'
 
 export const Page: FC<{ node: Frame }> = ({ node }) => {
-  const { width, height } = node.absoluteBoundingBox
-  const style = getStyle(node)
+  const { absoluteBoundingBox, background } = node
+  const { width, height } = absoluteBoundingBox
+  const backgroundColor = getColor([...background])
 
   return (
     <ContainerProvider frame={node}>
-      <PDFPage size={{ width, height }} style={style}>
+      <PDFPage size={{ width, height }} style={{ backgroundColor }}>
         {node.children && node.children.map(renderElement)}
       </PDFPage>
     </ContainerProvider>
