@@ -1,9 +1,8 @@
-import { PDFViewer, Document, Page, Text } from '@react-pdf/renderer'
-import { renderElement } from '../../components/Pdf/Elements/renderElement'
+import { PDFViewer, Document } from '@react-pdf/renderer'
+import { Page } from '../../components/Pdf/Elements/Page'
 import * as Figma from 'figma-js'
 import { FC, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { ContainerProvider } from '../../components/Pdf/Elements/ContainerContext'
 
 const Test: FC<{ pages: Figma.Frame[] }> = ({ pages }) => {
   const [render, setRender] = useState(false)
@@ -14,16 +13,7 @@ const Test: FC<{ pages: Figma.Frame[] }> = ({ pages }) => {
     <Container>
       <PDFViewer>
         <Document>
-          {pages.map((page, i) => {
-            const { width, height } = page.absoluteBoundingBox
-            return (
-              <ContainerProvider key={i} frame={page}>
-                <Page size={{ width, height }}>
-                  {page.children.map(renderElement)}
-                </Page>
-              </ContainerProvider>
-            )
-          })}
+          {pages.map((node) => <Page node={node} />)}
         </Document>
       </PDFViewer>
     </Container>
@@ -39,8 +29,10 @@ const Container = styled.div`
 `
 
 export async function getStaticProps() {
-  const template = await fetch('http://localhost:3000/api/figma?template=QBeNqpKnj2exAqyWMNYbWM&pages=yup')
-    //const template = await fetch('http://localhost:3000/api/figma?template=Mvq0zGG8sy5EeHNeqjX5L4&pages=yup')
+  const id = 'QBeNqpKnj2exAqyWMNYbWM' //test
+  //const id = 'Mvq0zGG8sy5EeHNeqjX5L4' // Brutal invoice
+  //const id = '9672lt3BzKaOxtdM6yT7f0' // Fun invoices
+  const template = await fetch(`http://localhost:3000/api/figma?template=${id}&pages=yup`)
     .then(r => r.json())
   return {
     props: {
