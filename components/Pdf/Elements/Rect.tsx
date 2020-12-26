@@ -3,9 +3,9 @@ import { FC } from 'react'
 import { getLayout } from './common'
 import { Rectangle } from 'figma-js'
 
-export const Rect: FC<{ node: Rectangle, i: number }> = ({ node, i }) => {
+export const Rect: FC<{ node: Rectangle, nth: number }> = ({ node, nth }) => {
   const padding = node.strokeWeight
-  const layout = getLayout(node)
+  const layout = getLayout(node, nth)
 
   const strokeInside = node.strokeAlign === 'INSIDE'
   let style = {
@@ -47,7 +47,7 @@ export const Rect: FC<{ node: Rectangle, i: number }> = ({ node, i }) => {
   })
 
   return (
-    <Canvas key={i} style={style} paint={painter => {
+    <Canvas style={style} paint={painter => {
       if (node.strokeAlign === 'OUTSIDE') {
         paintStrokes(painter)
         paintFills(painter)

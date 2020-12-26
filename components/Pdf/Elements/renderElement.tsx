@@ -8,7 +8,7 @@ export const renderElement = (node: Node, i) => {
     case 'TEXT':
       return <Text key={i}>{node.characters}</Text>
     case 'RECTANGLE':
-      return <Rect key={i} node={node} />
+      return <Rect key={i} node={node} nth={i + 1} />
     case 'FRAME':
       return <Frame key={i} node={node} />
     default:

@@ -5,21 +5,20 @@ import { ContainerProvider } from './ContainerContext'
 import { Frame as FrameBase } from 'figma-js'
 import { renderElement } from "./renderElement";
 
-type AlignItems = "SPACE_BETWEEN" | "CENTER" | "MAX"
-type FrameType = FrameBase & { primaryAxisAlignItems: AlignItems }
+type FrameType = FrameBase & {
+  primaryAxisAlignItems?: "MIN" | "CENTER" | "MAX" | "SPACE_BETWEEN"
+  counterAxisAlignItems?: "MIN" | "CENTER" | "MAX"
+}
 
 export const Frame: FC<{ node: FrameType }> = ({ node }) => {
-  const layout = getLayout(node)
-  const flexDirection = node.layoutMode === 'HORIZONTAL' ? 'row' : 'column'
-  const justifyContent = getAlignment(node.primaryAxisAlignItems)
-
   return (
     <ContainerProvider frame={node}>
       <View style={{
-        ...layout,
+        ...getLayout(node),
         display: 'flex',
-        justifyContent,
-        flexDirection
+        justifyContent: getJustifyContent(node.primaryAxisAlignItems),
+        alignItems: getAlignItems(node.counterAxisAlignItems),
+        flexDirection: node.layoutMode === 'HORIZONTAL' ? 'row' : 'column'
       }}>
         {node.children.map(renderElement)}
       </View>
@@ -27,15 +26,32 @@ export const Frame: FC<{ node: FrameType }> = ({ node }) => {
   )
 }
 
-const getAlignment = (align: AlignItems) => {
+const getAlignItems = (align) => {
   switch (align) {
-    case 'SPACE_BETWEEN':
-      return 'space-between'
-    case 'MAX':
-      return 'flex-end'
+    case 'MIN':
+      return 'flex-start'
     case 'CENTER':
       return 'center'
+    case 'MAX':
+      return 'flex-end'
     default:
+      Boolean(align) && console.warn('Unknown alignment: ' + align)
+      return 'flex-start'
+  }
+}
+
+const getJustifyContent = (align) => {
+  switch (align) {
+    case 'MAX':
+      return 'flex-start'
+    case 'CENTER':
+      return 'center'
+    case 'MAX':
+      return 'flex-end'
+    case 'SPACE_BETWEEN':
+      return 'space-between'
+    default:
+      Boolean(align) && console.warn('Unknown alignment: ' + align)
       return 'flex-start'
   }
 }

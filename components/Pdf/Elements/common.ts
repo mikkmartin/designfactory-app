@@ -4,18 +4,20 @@ import { useContainer } from './ContainerContext'
 
 type Node = Instance | Rectangle | Frame
 
-export const getLayout = (node: Node) => {
-  const { layoutMode, itemSpacing } = useContainer()
+export const getLayout = (node: Node, nth?: number) => {
+  const { layoutMode, itemSpacing, children } = useContainer()
   const width = node.size.x
   const height = node.size.y
+  console.log({ layoutMode })
+  const gap = nth !== children.length ? itemSpacing : 0
 
   return StyleSheet.create({
     style: Boolean(layoutMode)
       ? {
           width,
           height,
-          marginBottom: itemSpacing,
-          marginRight: itemSpacing,
+          marginBottom: gap,
+          marginRight: gap,
         }
       : {
           position: 'absolute',
