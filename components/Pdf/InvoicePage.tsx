@@ -5,7 +5,7 @@ import { defaults } from '../../static/invoice'
 import { Invoice as InvoiceData } from '../../static/invoice'
 import { AutoLayout } from './AutoLayout'
 import { Vector } from './Vector'
-import { Frame } from 'figma-js'
+import { Frame } from '@mikkmartin/figma-js'
 import { useFonts } from './PdfContext'
 
 type Props = {

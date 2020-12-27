@@ -1,4 +1,4 @@
-import { Frame } from 'figma-js'
+import { Frame } from '@mikkmartin/figma-js'
 import { FC, createContext, useContext } from 'react'
 
 //@ts-ignore

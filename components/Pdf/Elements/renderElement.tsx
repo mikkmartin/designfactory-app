@@ -1,5 +1,5 @@
 import { Text } from '@react-pdf/renderer'
-import { Node } from 'figma-js'
+import { Node } from '@mikkmartin/figma-js'
 import { Rect } from './Rect'
 import { Frame } from './Frame'
 

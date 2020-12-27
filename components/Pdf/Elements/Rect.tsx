@@ -1,7 +1,7 @@
 import { Canvas } from '@react-pdf/renderer'
 import { FC } from 'react'
 import { getLayout } from './common'
-import { Rectangle } from 'figma-js'
+import { Rectangle } from '@mikkmartin/figma-js'
 
 export const Rect: FC<{ node: Rectangle, nth: number }> = ({ node, nth }) => {
   const padding = node.strokeWeight

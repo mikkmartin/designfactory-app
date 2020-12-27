@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { StyleSheet, Canvas } from '@react-pdf/renderer'
-import { Vector as VectorType } from 'figma-js'
+import { Vector as VectorType } from '@mikkmartin/figma-js'
 import { getColor } from './utilities'
 
 export const Vector: FC<{ vector: VectorType }> = ({ vector }) => {

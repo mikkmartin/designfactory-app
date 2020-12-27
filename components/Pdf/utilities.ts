@@ -1,6 +1,6 @@
 import { Item } from '../../static/invoice'
 import { StyleSheet } from '@react-pdf/renderer'
-import { Text } from 'figma-js'
+import { Text } from '@mikkmartin/figma-js'
 import Color from 'color'
 
 export const fillText = ({ name, characters }, data) => {

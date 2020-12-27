@@ -1,7 +1,7 @@
 import { Page as PDFPage } from '@react-pdf/renderer'
 import { FC } from 'react'
 import { ContainerProvider } from './ContainerContext'
-import { Frame } from 'figma-js'
+import { Frame } from '@mikkmartin/figma-js'
 import { renderElement } from './renderElement'
 import { getColor } from './common'
 

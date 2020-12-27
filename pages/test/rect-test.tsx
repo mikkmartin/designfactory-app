@@ -1,6 +1,6 @@
 import { PDFViewer, Document } from '@react-pdf/renderer'
 import { Page } from '../../components/Pdf/Elements/Page'
-import * as Figma from 'figma-js'
+import * as Figma from '@mikkmartin/figma-js'
 import { FC, useEffect, useState } from 'react'
 import styled from 'styled-components'
 

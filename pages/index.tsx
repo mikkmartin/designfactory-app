@@ -2,7 +2,7 @@ import { FC } from 'react'
 import styled from 'styled-components'
 import Editor, { useEditor, ApiLink, Header } from '../components/Editor'
 import { getTemplate } from '../data/figma'
-import { Frame } from 'figma-js'
+import { Frame } from '@mikkmartin/figma-js'
 import { Pdf } from '../components/Pdf'
 import { defaults } from '../static/invoice'
 

@@ -1,6 +1,6 @@
 import { FC, createContext, useContext, useState, Dispatch, SetStateAction } from 'react'
 import { Invoice, defaults, example } from '../../static/invoice'
-import { Frame } from 'figma-js'
+import { Frame } from '@mikkmartin/figma-js'
 import useSWR from 'swr'
 import { useLocalStorage } from 'react-use'
 

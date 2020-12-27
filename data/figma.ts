@@ -1,4 +1,4 @@
-import * as Figma from 'figma-js'
+import * as Figma from '@mikkmartin/figma-js'
 
 const personalAccessToken = process.env.FIGMA_TOKEN
 const client = Figma.Client({ personalAccessToken })
