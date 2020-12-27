@@ -1194,10 +1194,10 @@
     prop-types "^15.7.2"
     react-is "^16.8.0 || ^17.0.0"
 
-"@mikkmartin/figma-js@^1.13.1":
-  version "1.13.1"
-  resolved "https://registry.yarnpkg.com/@mikkmartin/figma-js/-/figma-js-1.13.1.tgz#2c9fc63fcb30e7810e3ac5884f102c2b82004709"
-  integrity sha512-HZiOhzNfjYQ+irAN4fBfg5Xa8auQdsVCoHkkjA5JQ8Gavz7Jl0CnqMgW8hX+ckfwP7q7EzG679EhQCRDGKeg2w==
+"@mikkmartin/figma-js@^1.13.2":
+  version "1.13.2"
+  resolved "https://registry.yarnpkg.com/@mikkmartin/figma-js/-/figma-js-1.13.2.tgz#a0313f800756c4a2807064e3b3247e94a065d5af"
+  integrity sha512-M3NZrV3g/17nV/fVa97bUgx92ckihZ/6VaOHuhyzyKDkrjADt5oY/5phEDq6sCmRRBpfd9ZLDutC4cblt5xDzw==
   dependencies:
     axios "^0.19.0"
 
