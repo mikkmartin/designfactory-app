@@ -9,7 +9,7 @@ export const Text: FC<{ node: TextType, nth: number }> = ({ node, nth }) => {
   //@ts-ignore
   const autoResize: AutoResize = node.style.textAutoResize
   const { width, height, ...layout } = getLayout(node, nth)
-  const { fills } = node
+  const { fills, opacity } = node
   const {
     textCase,
     textAlignHorizontal,
@@ -20,16 +20,11 @@ export const Text: FC<{ node: TextType, nth: number }> = ({ node, nth }) => {
     letterSpacing,
   } = node.style
 
-  console.log({ name: node.name, lineHeightPercent })
-
   return (
-    <TextNode style={{
+    <TextNode debug style={{
       ...layout,
-      width: Boolean(autoResize) ? 'auto' : width,
-      height: Boolean(autoResize) ? 'auto' : height,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
+      width: autoResize === 'WIDTH_AND_HEIGHT' ? 'auto' : width,
+      height: autoResize === 'WIDTH_AND_HEIGHT' || autoResize === 'HEIGHT' ? 'auto' : height,
       textTransform: getTextCase(textCase),
       textAlign: getAlignMent(textAlignHorizontal),
       lineHeight: lineHeightPercent === 100 ? 'auto' : lineHeightPercent / 100 * 1.25,
@@ -37,9 +32,10 @@ export const Text: FC<{ node: TextType, nth: number }> = ({ node, nth }) => {
       fontWeight,
       //fontFamily: fontFamilies.find(family => family === style.fontFamily),
       letterSpacing: letterSpacing,
-      color: getColor([...fills])
+      color: getColor([...fills]),
+      opacity: opacity || 1
     }}>
-      {node.characters}
+      {node.characters === 'LHV' ? 'Swedbank' : node.characters}
     </TextNode>
   )
 }
