@@ -21,7 +21,7 @@ export const Text: FC<{ node: TextType, nth: number }> = ({ node, nth }) => {
   } = node.style
 
   return (
-    <TextNode debug style={{
+    <TextNode style={{
       ...layout,
       width: autoResize === 'WIDTH_AND_HEIGHT' ? 'auto' : width,
       height: autoResize === 'WIDTH_AND_HEIGHT' || autoResize === 'HEIGHT' ? 'auto' : height,
@@ -35,7 +35,7 @@ export const Text: FC<{ node: TextType, nth: number }> = ({ node, nth }) => {
       color: getColor([...fills]),
       opacity: opacity || 1
     }}>
-      {node.characters === 'LHV' ? 'Swedbank' : node.characters}
+      {node.characters}
     </TextNode>
   )
 }
