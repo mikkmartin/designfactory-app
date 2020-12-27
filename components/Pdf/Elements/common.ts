@@ -32,20 +32,21 @@ export const getLayout = (node: Node, nth?: number) => {
 export const getStyle = (node: Node) => {
   return StyleSheet.create({
     style: {
-      backgroundColor: 'yellow',
-      opacity: 1,
+      backgroundColor: getColor([...node.fills]),
     },
   }).style
 }
 
 export const getColor = (fills: Paint[]) =>
-  fills
-    .reduce((previousColor, paint) => {
-      if (paint.color) {
-        const { r, g, b } = paint.color
-        return previousColor.mix(Color([r * 255, g * 255, b * 255]), paint.opacity)
-      } else {
-        return previousColor
-      }
-    }, Color('white'))
-    .hex()
+  fills.length <= 0
+    ? 'transparent'
+    : fills
+        .reduce((previousColor, paint) => {
+          if (paint.color) {
+            const { r, g, b } = paint.color
+            return previousColor.mix(Color([r * 255, g * 255, b * 255]), paint.opacity)
+          } else {
+            return previousColor
+          }
+        }, Color('white'))
+        .hex()

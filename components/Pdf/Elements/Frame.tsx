@@ -1,9 +1,9 @@
 import { View } from '@react-pdf/renderer'
 import { FC } from 'react'
-import { getLayout } from './common'
+import { getLayout, getStyle } from './common'
 import { ContainerProvider } from './ContainerContext'
 import { Frame as FrameBase } from 'figma-js'
-import { renderElement } from "./renderElement";
+import { renderElement } from './renderElement'
 
 type FrameType = FrameBase & {
   primaryAxisAlignItems?: "MIN" | "CENTER" | "MAX" | "SPACE_BETWEEN"
@@ -15,6 +15,7 @@ export const Frame: FC<{ node: FrameType, nth?: number }> = ({ node, nth }) => {
     <ContainerProvider frame={node}>
       <View style={{
         ...getLayout(node, nth),
+        ...getStyle(node),
         display: 'flex',
         justifyContent: getJustifyContent(node.primaryAxisAlignItems),
         alignItems: getAlignItems(node.counterAxisAlignItems),
