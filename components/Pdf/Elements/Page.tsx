@@ -6,9 +6,9 @@ import { renderElement } from './renderElement'
 import { getColor } from './common'
 
 export const Page: FC<{ node: Frame }> = ({ node }) => {
-  const { absoluteBoundingBox, background } = node
+  const { absoluteBoundingBox, fills } = node
   const { width, height } = absoluteBoundingBox
-  const backgroundColor = getColor([...background])
+  const backgroundColor = getColor([...fills])
 
   return (
     <ContainerProvider frame={node}>
