@@ -1,9 +1,9 @@
 import { StyleSheet } from '@react-pdf/renderer'
-import { Instance, Rectangle, Frame, Paint } from '@mikkmartin/figma-js'
+import { Instance, Rectangle, Frame, Paint, Text } from '@mikkmartin/figma-js'
 import { useContainer } from './ContainerContext'
 import Color from 'color'
 
-type Node = Instance | Rectangle | Frame
+type Node = Instance | Rectangle | Frame | Text
 
 export const getLayout = (node: Node, nth?: number) => {
   const { layoutMode, itemSpacing, primaryAxisAlignItems, children } = useContainer()
@@ -57,8 +57,8 @@ export const getColor = (fills: Paint[]) =>
     : fills
         .reduce((previousColor, paint) => {
           if (paint.color) {
-            const { r, g, b } = paint.color
-            return previousColor.mix(Color([r * 255, g * 255, b * 255]), paint.opacity)
+            const { r, g, b, a } = paint.color
+            return previousColor.mix(Color([r * 255, g * 255, b * 255]), paint.opacity || a)
           } else {
             return previousColor
           }
