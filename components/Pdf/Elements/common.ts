@@ -1,5 +1,5 @@
 import { StyleSheet } from '@react-pdf/renderer'
-import { Instance, Rectangle, Frame, Paint, Node } from '@mikkmartin/figma-js'
+import { Instance, Rectangle, Frame, Paint } from '@mikkmartin/figma-js'
 import { useContainer } from './ContainerContext'
 import Color from 'color'
 
@@ -14,6 +14,7 @@ export const getLayout = (node: Node, nth?: number) => {
   const fixedGap = primaryAxisAlignItems === 'SPACE_BETWEEN'
   const gap = !lastItem && !fixedGap ? itemSpacing : 0
 
+  //@ts-ignore
   const { paddingLeft, paddingRight, paddingTop, paddingBottom } = node
   const padding = {
     paddingLeft,
