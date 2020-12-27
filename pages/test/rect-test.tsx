@@ -13,7 +13,7 @@ const Test: FC<{ pages: Figma.Frame[] }> = ({ pages }) => {
     <Container>
       <PDFViewer>
         <Document>
-          {pages.map((node) => <Page node={node} />)}
+          {pages.map((node, i) => <Page key={i} node={node} />)}
         </Document>
       </PDFViewer>
     </Container>
