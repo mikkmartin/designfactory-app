@@ -1,10 +1,12 @@
-import { Frame } from '@mikkmartin/figma-js'
+import { Frame, Group } from '@mikkmartin/figma-js'
 import { FC, createContext, useContext } from 'react'
 
-//@ts-ignore
-const Context = createContext<Frame>()
+type Node = Frame | Group
 
-export const ContainerProvider: FC<{ frame: Frame }> = ({ frame, children }) => {
+//@ts-ignore
+const Context = createContext<Node>()
+
+export const ContainerProvider: FC<{ frame: Node }> = ({ frame, children }) => {
   const parent = useContainer()
   return (
     <Context.Provider value={Boolean(parent) ? {
