@@ -13,7 +13,7 @@ export const renderElement = (node: Node, i) => {
     case 'FRAME':
       return <Frame key={i} node={node} nth={i + 1} />
     case 'GROUP':
-      return <Group key={i} node={node} />
+      return <Group key={i} node={node} nth={i + 1} />
     default:
       console.warn(`Node type: ${node.type} not supported!`)
   }
