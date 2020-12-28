@@ -2,10 +2,12 @@ import { FC } from 'react'
 import { Text as TextNode } from '@react-pdf/renderer'
 import { Text as TextType } from '@mikkmartin/figma-js'
 import { getLayout, getColor } from './common'
+import { useContainer } from './ContainerContext'
 
 type AutoResize = "NONE" | "WIDTH_AND_HEIGHT" | "HEIGHT"
 
 export const Text: FC<{ node: TextType, nth: number }> = ({ node, nth }) => {
+  const { layoutMode } = useContainer()
   //@ts-ignore
   const autoResize: AutoResize = node.style.textAutoResize
   const { width, height, ...layout } = getLayout(node, nth)
@@ -23,7 +25,7 @@ export const Text: FC<{ node: TextType, nth: number }> = ({ node, nth }) => {
   return (
     <TextNode style={{
       ...layout,
-      width: autoResize === 'WIDTH_AND_HEIGHT' ? 'auto' : width,
+      width: autoResize === 'WIDTH_AND_HEIGHT' && Boolean(layoutMode) ? 'auto' : width,
       height: autoResize === 'WIDTH_AND_HEIGHT' || autoResize === 'HEIGHT' ? 'auto' : height,
       textTransform: getTextCase(textCase),
       textAlign: getAlignMent(textAlignHorizontal),
