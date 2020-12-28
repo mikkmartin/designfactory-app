@@ -6,11 +6,16 @@ import { Frame as FrameType } from '@mikkmartin/figma-js'
 import { renderElement } from './renderElement'
 
 export const Frame: FC<{ node: FrameType, nth?: number }> = ({ node, nth }) => {
+  const { width, height, ...layout } = getLayout(node, nth)
+  const { counterAxisSizingMode, primaryAxisSizingMode } = node
+
   return (
     <ContainerProvider frame={node}>
       <View style={{
-        ...getLayout(node, nth),
         ...getStyle(node),
+        ...layout,
+        width: counterAxisSizingMode !== 'FIXED' ? 'auto' : width,
+        height: primaryAxisSizingMode !== 'FIXED' ? 'auto' : height,
         display: 'flex',
         justifyContent: getJustifyContent(node.primaryAxisAlignItems),
         alignItems: getAlignItems(node.counterAxisAlignItems),
