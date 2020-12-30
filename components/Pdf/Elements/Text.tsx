@@ -15,7 +15,7 @@ export const Text: FC<{ node: TextType, nth: number }> = ({ node, nth }) => {
   const {
     textCase,
     textAlignHorizontal,
-    fontFamily,
+    //fontFamily,
     lineHeightPercent,
     fontSize,
     fontWeight,

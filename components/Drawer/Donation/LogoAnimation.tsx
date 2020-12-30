@@ -20,6 +20,7 @@ export const LogoAnimation = () => {
   }
 
   const parentAnimation = {
+    initial: { opacity: 0 },
     transition: {
       ...transition,
       staggerChildren: 0.05,

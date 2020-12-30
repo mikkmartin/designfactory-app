@@ -1,6 +1,5 @@
-import { childAnimations, Content } from '../Tab'
+import { childAnimations } from '../Tab'
 import { Button } from '../../Common/Button'
-import styled from 'styled-components'
 import { LogoAnimation } from "./LogoAnimation";
 
 export const Thanks = ({ onDone }) => {
@@ -13,7 +12,3 @@ export const Thanks = ({ onDone }) => {
     </>
   )
 }
-
-const Container = styled(Content)`
-  //color: red;
-`

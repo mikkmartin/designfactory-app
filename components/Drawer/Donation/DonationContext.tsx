@@ -1,4 +1,4 @@
-import { FC, createContext, useContext, useState, Dispatch, SetStateAction, useRef, MutableRefObject } from 'react'
+import { FC, createContext, useContext, useState, Dispatch, SetStateAction, useRef } from 'react'
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 
