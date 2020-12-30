@@ -3,6 +3,7 @@ import { Page } from '../../components/Pdf/Elements/Page'
 import * as Figma from '@mikkmartin/figma-js'
 import { FC, useEffect, useState } from 'react'
 import styled from 'styled-components'
+import baseURL from '../../static/baseURL'
 
 const Test: FC<{ pages: Figma.Frame[] }> = ({ pages }) => {
   const [render, setRender] = useState(false)
@@ -33,7 +34,7 @@ export async function getStaticProps() {
   //const id = 'qQJ7d5IKYTCVpaAMNptPH4' //Simple invoice
   //const id = 'Mvq0zGG8sy5EeHNeqjX5L4' // Brutal invoice
   //const id = '9672lt3BzKaOxtdM6yT7f0' // Fun invoices
-  const template = await fetch(`http://localhost:3000/api/figma?template=${id}&pages=yup`)
+  const template = await fetch(`${baseURL}/api/figma?template=${id}&pages=yup`)
     .then(r => r.json())
   return {
     props: {
