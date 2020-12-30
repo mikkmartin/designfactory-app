@@ -3,6 +3,7 @@ import { Rect } from './Rect'
 import { Frame } from './Frame'
 import { Text } from './Text'
 import { Group } from './Group'
+import { Vector } from './Vector'
 
 export const renderElement = (node: Node, i) => {
   switch (node.type) {
@@ -10,6 +11,8 @@ export const renderElement = (node: Node, i) => {
       return <Text key={i} node={node} nth={i + 1} />
     case 'RECTANGLE':
       return <Rect key={i} node={node} nth={i + 1} />
+    case 'VECTOR':
+      return <Vector key={i} node={node} nth={i + 1} />
     case 'FRAME':
       return <Frame key={i} node={node} nth={i + 1} />
     case 'GROUP':
