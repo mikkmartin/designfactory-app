@@ -1,24 +1,25 @@
 import { PDFViewer, Document } from '@react-pdf/renderer'
 import { Page } from '../../components/Pdf/Elements/Page'
-import * as Figma from '@mikkmartin/figma-js'
+import { Node, Frame, Component } from '@mikkmartin/figma-js'
 import { FC, useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { TemplateProvider } from "../../components/TemplateContext";
 import baseURL from '../../static/baseURL'
 
-const Test: FC<{ template: Figma.Frame[] }> = ({ template }) => {
+const Test: FC<{ template: Node[] }> = ({ template }) => {
   const [render, setRender] = useState(false)
   useEffect(() => { setRender(true) }, [render])
-  const pages = template.filter(node => node.type === 'FRAME' && node.visible !== false)
-  template.forEach(node => {
-    if (node.type !== 'FRAME') console.log(node)
-  })
+  const pages = template.filter(node => node.type === 'FRAME' && node.visible !== false) as Frame[]
+  const components = template.filter(node => node.type === 'COMPONENT') as Component[]
 
   if (!render) return null
   return (
     <Container>
       <PDFViewer>
         <Document>
-          {pages.map((node, i) => <Page key={i} node={node} />)}
+          <TemplateProvider components={components} >
+            {pages.map((node, i) => <Page key={i} node={node} />)}
+          </TemplateProvider>
         </Document>
       </PDFViewer>
     </Container>

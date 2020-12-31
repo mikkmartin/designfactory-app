@@ -2,12 +2,19 @@ import { View } from '@react-pdf/renderer'
 import { FC } from 'react'
 import { getLayout, getStyle } from './common'
 import { ContainerProvider } from './ContainerContext'
-import { Frame as FrameType, Instance } from '@mikkmartin/figma-js'
+import { Frame as FrameType, Instance, Component } from '@mikkmartin/figma-js'
 import { renderElement } from './renderElement'
 
-export const Frame: FC<{ node: FrameType | Instance, nth?: number }> = ({ node, nth }) => {
+type Props = {
+  node: FrameType | Instance,
+  component?: Component,
+  nth?: number
+}
+
+export const Frame: FC<Props> = ({ node, component, nth }) => {
   const { width, height, ...layout } = getLayout(node, nth)
   const { counterAxisSizingMode, primaryAxisSizingMode } = node
+  if (component) console.log(component)
 
   return (
     <ContainerProvider frame={node}>

@@ -4,6 +4,7 @@ import { Frame } from './Frame'
 import { Text } from './Text'
 import { Group } from './Group'
 import { Vector } from './Vector'
+import { useTemplate } from "../../TemplateContext";
 
 export const renderElement = (node: Node, i) => {
   switch (node.type) {
@@ -16,7 +17,9 @@ export const renderElement = (node: Node, i) => {
     case 'FRAME':
       return <Frame key={i} node={node} nth={i + 1} />
     case 'INSTANCE':
-      return <Frame key={i} node={node} nth={i + 1} />
+      const { components } = useTemplate()
+      const component = components.find(({ id }) => id === node.componentId)
+      return <Frame key={i} node={node} component={component} nth={i + 1} />
     case 'GROUP':
       return <Group key={i} node={node} nth={i + 1} />
     case 'ELLIPSE':
