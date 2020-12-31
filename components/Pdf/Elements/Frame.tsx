@@ -2,10 +2,10 @@ import { View } from '@react-pdf/renderer'
 import { FC } from 'react'
 import { getLayout, getStyle } from './common'
 import { ContainerProvider } from './ContainerContext'
-import { Frame as FrameType } from '@mikkmartin/figma-js'
+import { Frame as FrameType, Instance } from '@mikkmartin/figma-js'
 import { renderElement } from './renderElement'
 
-export const Frame: FC<{ node: FrameType, nth?: number }> = ({ node, nth }) => {
+export const Frame: FC<{ node: FrameType | Instance, nth?: number }> = ({ node, nth }) => {
   const { width, height, ...layout } = getLayout(node, nth)
   const { counterAxisSizingMode, primaryAxisSizingMode } = node
 
@@ -14,8 +14,8 @@ export const Frame: FC<{ node: FrameType, nth?: number }> = ({ node, nth }) => {
       <View style={{
         ...getStyle(node),
         ...layout,
-        width: counterAxisSizingMode !== 'FIXED' ? 'auto' : width,
-        height: primaryAxisSizingMode !== 'FIXED' ? 'auto' : height,
+        width: counterAxisSizingMode === 'AUTO' ? 'auto' : width,
+        height: primaryAxisSizingMode === 'AUTO' ? 'auto' : height,
         display: 'flex',
         justifyContent: getJustifyContent(node.primaryAxisAlignItems),
         alignItems: getAlignItems(node.counterAxisAlignItems),

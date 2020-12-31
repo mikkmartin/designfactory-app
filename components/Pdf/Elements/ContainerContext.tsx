@@ -1,7 +1,7 @@
-import { Frame, Group } from '@mikkmartin/figma-js'
+import { Frame, Group, Instance } from '@mikkmartin/figma-js'
 import { FC, createContext, useContext } from 'react'
 
-type Node = Frame | Group
+type Node = Frame | Group | Instance
 
 //@ts-ignore
 const Context = createContext<Node>()

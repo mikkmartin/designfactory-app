@@ -15,6 +15,8 @@ export const renderElement = (node: Node, i) => {
       return <Vector key={i} node={node} nth={i + 1} />
     case 'FRAME':
       return <Frame key={i} node={node} nth={i + 1} />
+    case 'INSTANCE':
+      return <Frame key={i} node={node} nth={i + 1} />
     case 'GROUP':
       return <Group key={i} node={node} nth={i + 1} />
     default:
