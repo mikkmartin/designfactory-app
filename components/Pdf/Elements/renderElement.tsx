@@ -19,6 +19,10 @@ export const renderElement = (node: Node, i) => {
       return <Frame key={i} node={node} nth={i + 1} />
     case 'GROUP':
       return <Group key={i} node={node} nth={i + 1} />
+    case 'ELLIPSE':
+    case 'LINE':
+    case 'REGULAR_POLYGON':
+    case 'STAR':
     default:
       console.warn(`Node type: ${node.type} not supported!`)
   }
