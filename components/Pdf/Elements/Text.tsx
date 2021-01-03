@@ -23,10 +23,10 @@ export const Text: FC<{ node: TextType, nth: number }> = ({ node, nth }) => {
   } = node.style
 
   return (
-    <TextNode style={{
+    <TextNode debug style={{
       ...layout,
-      width: autoResize === 'WIDTH_AND_HEIGHT' && Boolean(layoutMode) ? 'auto' : width,
-      height: autoResize === 'WIDTH_AND_HEIGHT' || autoResize === 'HEIGHT' ? 'auto' : height,
+      width: getWidth(layoutMode, autoResize, width),
+      height: getHeight(autoResize, height),
       textTransform: getTextCase(textCase),
       textAlign: getAlignMent(textAlignHorizontal),
       lineHeight: lineHeightPercent === 100 ? 'auto' : lineHeightPercent / 100 * 1.25,
@@ -37,9 +37,24 @@ export const Text: FC<{ node: TextType, nth: number }> = ({ node, nth }) => {
       color: getColor([...fills]),
       opacity: opacity || 1
     }}>
-      {node.characters}
+      {node.characters === 'Tere' ? 'Superset OÜ' : node.characters}
     </TextNode>
   )
+}
+
+const getWidth = (layoutMode, autoResize: AutoResize, width) => {
+  if (Boolean(layoutMode) && autoResize === 'WIDTH_AND_HEIGHT') return 'auto'
+  else return width
+}
+
+const getHeight = (autoResize: AutoResize, height) => {
+  switch (autoResize) {
+    case 'WIDTH_AND_HEIGHT':
+    case 'HEIGHT':
+      return 'auto'
+    default:
+      return height
+  }
 }
 
 type TextCase = 'UPPER' | 'LOWER' | 'TITLE'

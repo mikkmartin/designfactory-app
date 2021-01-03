@@ -12,17 +12,24 @@ type Props = {
 }
 
 export const Frame: FC<Props> = ({ node, component, nth }) => {
-  const { width, height, ...layout } = getLayout(node, nth)
-  const { counterAxisSizingMode, primaryAxisSizingMode } = node
-  if (component) console.log(component)
+  let layout = getLayout(node, nth)
+  const { layoutMode, counterAxisSizingMode, primaryAxisSizingMode } = node
+  if (component) console.log({ node, component })
+
+  if (primaryAxisSizingMode === 'AUTO' || !primaryAxisSizingMode) {
+    if (layoutMode === 'VERTICAL') layout.height = 'auto'
+    if (layoutMode === 'HORIZONTAL') layout.width = 'auto'
+  }
+  if (counterAxisSizingMode === 'AUTO' || !counterAxisSizingMode) {
+    if (layoutMode === 'VERTICAL') layout.width = 'auto'
+    if (layoutMode === 'HORIZONTAL') layout.height = 'auto'
+  }
 
   return (
     <ContainerProvider frame={node}>
       <View style={{
         ...getStyle(node),
         ...layout,
-        width: counterAxisSizingMode === 'AUTO' ? 'auto' : width,
-        height: primaryAxisSizingMode === 'AUTO' ? 'auto' : height,
         display: 'flex',
         justifyContent: getJustifyContent(node.primaryAxisAlignItems),
         alignItems: getAlignItems(node.counterAxisAlignItems),
