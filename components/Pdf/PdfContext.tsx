@@ -2,7 +2,6 @@ import { FC, createContext, useContext, useRef } from 'react'
 import { Font } from '@react-pdf/renderer'
 import { FileResponse, Text } from '@mikkmartin/figma-js'
 import { Invoice } from '../../static/invoice'
-import { fillText } from './utilities'
 
 export type Fonts = {
   family: string

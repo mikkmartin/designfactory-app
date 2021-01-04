@@ -1,7 +1,6 @@
-import { Item } from '../../static/invoice'
+import { Item } from '../../../static/invoice'
 import { StyleSheet } from '@react-pdf/renderer'
 import { Text } from '@mikkmartin/figma-js'
-import Color from 'color'
 
 export const fillText = ({ name, characters }, data) => {
   switch (true) {
@@ -74,21 +73,6 @@ export const formatMoney = (amount: number, options = {}) =>
     .toLocaleString('et-EE', { style: 'currency', currency: 'EUR', ...options })
     .replace('\xa0€', '€')
 
-export const getColor = ({ r, g, b }) => Color({ r: r * 255, g: g * 255, b: b * 255 }).hex()
-
-export const getAlignMent = (string: string) => {
-  switch (string) {
-    case 'RIGHT':
-      return 'right'
-    case 'LEFT':
-      return 'left'
-    case 'CENTER':
-      return 'center'
-    default:
-      return 'left'
-  }
-}
-
 export const getText = (name: string, templateCharacters: string, data) => {
   let text
   for (const [key, value] of Object.entries(data)) {
@@ -104,50 +88,19 @@ export const getTextStyles = (
 ) => {
   return StyleSheet.create({
     style: {
-      textTransform: getTextCase(style.textCase),
+      //textTransform: getTextCase(style.textCase),
       position: 'absolute',
       top: absoluteBoundingBox.y,
       left: absoluteBoundingBox.x,
-      textAlign: getAlignMent(style.textAlignHorizontal),
+      //textAlign: getAlignMent(style.textAlignHorizontal),
       //lineHeight: style.lineHeightPx / 10,
       width: absoluteBoundingBox.width,
       fontSize: style.fontSize,
       fontWeight: style.fontWeight,
       fontFamily: fontFamilies.find(family => family === style.fontFamily),
       letterSpacing: style.letterSpacing,
-      color: getColor(fills[0].color),
+      //color: getColor(fills[0].color),
       opacity: opacity,
     },
   }).style as any
-}
-
-type TextCase = 'ORIGINAL' | 'UPPER' | 'LOWER' | 'TITLE'
-const getTextCase = (type: TextCase) => {
-  switch (type) {
-    case 'UPPER':
-      return 'uppercase'
-    case 'LOWER':
-      return 'lowercase'
-    case 'TITLE':
-      return 'capitalize'
-  }
-}
-
-export const findNodes = (arr, requiredProps, skipProps = undefined) => {
-  return arr.reduce((a, node) => {
-    const hasProps = Object.keys(requiredProps).reduce(
-      (last, key) => last && node[key] === requiredProps[key],
-      true
-    )
-    if (skipProps) {
-      const shouldEscape = Object.keys(skipProps).reduce((last, key) => {
-        return !last && node[key] === skipProps[key]
-      }, false)
-      if (shouldEscape) return a
-    }
-    if (hasProps) a = [...a, node] //add node to array
-    if (node.children && node.name !== 'items')
-      return [...a, ...findNodes(node.children, requiredProps, skipProps)]
-    return a
-  }, [])
 }
