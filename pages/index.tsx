@@ -1,37 +1,36 @@
 import { FC } from 'react'
 import styled from 'styled-components'
-import Editor, { useEditor, ApiLink, Header } from '../components/Editor'
+import Editor, { ApiLink, Header } from '../components/Editor'
 import { getTemplate } from '../data/figma'
-import { Frame } from '@mikkmartin/figma-js'
+import { FileResponse } from '@mikkmartin/figma-js'
 import { Pdf } from '../components/Pdf'
 import { defaults } from '../static/invoice'
+import { Invoice } from '../components/Pdf/Invoice'
+import { EditorProvider } from '../components/Editor/EditorContext'
 
-type Props = {
-  template: Frame
-}
-
-const Index: FC<Props> = ({ template }) => {
-  const { setTemplate } = useEditor()
-  setTemplate(template)
-
+const Index: FC<{ file: FileResponse }> = ({ file }) => {
   return (
-    <Container>
-      <div className="controls">
-        <Header />
-        <Editor />
-        <ApiLink />
-      </div>
-      <div className="iframe-container">
-        <Pdf />
-      </div>
-    </Container>
+    <EditorProvider template={file}>
+      <Container>
+        <div className="controls">
+          <Header />
+          <Editor />
+          <ApiLink />
+        </div>
+        <div className="iframe-container">
+          <Pdf>
+            <Invoice />
+          </Pdf>
+        </div>
+      </Container>
+    </EditorProvider>
   )
 }
 
 export const getStaticProps = async () => {
-  const template = await getTemplate(defaults.template)
+  const file = await getTemplate(defaults.template)
   return {
-    props: { template },
+    props: { file },
     revalidate: 1,
   }
 }

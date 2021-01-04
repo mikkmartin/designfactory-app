@@ -7,7 +7,7 @@ import { getTemplate } from '../data/figma'
 import { PdfProvider } from './Pdf/PdfContext'
 import { defaults } from '../static/invoice'
 
-export const Pdf: FC = () => {
+export const Pdf: FC = ({ children }) => {
   const ref = useRef<HTMLIFrameElement>()
   const { json, template, setBlobUrl } = useEditor()
   const [pdfData, setPdfData] = useState(json)
@@ -34,8 +34,8 @@ export const Pdf: FC = () => {
       renderIframe &&
       template && (
         <PDFViewer innerRef={element => (ref.current = element)}>
-          <PdfProvider fonts={pdfData.fonts}>
-            <InvoicePage template={template} data={pdfData} onRender={onRender} />
+          <PdfProvider fonts={pdfData.fonts} template={template} data={json}>
+            {children}
           </PdfProvider>
         </PDFViewer>
       ),
@@ -47,7 +47,7 @@ export async function streamDocument({ data }) {
   const template = await getTemplate(data.template || defaults.template)
   return ReactPDF.renderToStream(
     <PdfProvider fonts={data.fonts}>
-      <InvoicePage template={template} data={data} />
+      {/*<InvoicePage template={template} data={data} />*/}
     </PdfProvider>
   )
 }

@@ -1,14 +1,13 @@
 import { FC, createContext, useContext, useState, Dispatch, SetStateAction } from 'react'
 import { Invoice, defaults, example } from '../../static/invoice'
-import { Frame } from '@mikkmartin/figma-js'
+import { FileResponse } from '@mikkmartin/figma-js'
 import useSWR from 'swr'
 import { useLocalStorage } from 'react-use'
 
 type Values = {
   json: Invoice
   setJson: Dispatch<SetStateAction<Invoice>>
-  template: Frame | null
-  setTemplate: Dispatch<SetStateAction<Frame>>
+  template: FileResponse | null
   blobUrl: string
   setBlobUrl: Dispatch<SetStateAction<string>>
 }
@@ -16,9 +15,8 @@ type Values = {
 //@ts-ignore
 const Context = createContext<Values>()
 
-export const EditorProvider: FC = ({ children }) => {
+export const EditorProvider: FC<{ template: FileResponse }> = ({ children, template: initialData }) => {
   const [json, setJson] = useLocalStorage('invoiceData', example)
-  const [initialData, setTemplate] = useState<Frame | null>(null)
   const [blobUrl, setBlobUrl] = useState<string | null>(null)
   const fetcher = (url, templateID) =>
     fetch(`${url}?template=${templateID || defaults.template}`).then(r => r.json())
@@ -28,7 +26,7 @@ export const EditorProvider: FC = ({ children }) => {
   })
 
   return (
-    <Context.Provider value={{ json, setJson, template, setTemplate, setBlobUrl, blobUrl }}>
+    <Context.Provider value={{ json, setJson, template, setBlobUrl, blobUrl }}>
       {children}
     </Context.Provider>
   )
