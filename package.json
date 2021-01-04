@@ -1,5 +1,5 @@
 {
-  "name": "dok-maker",
+  "name": "designfactory",
   "version": "0.0.4",
   "scripts": {
     "dev": "next",

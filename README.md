@@ -27,7 +27,7 @@ yarn dev
 
 Clone and deploy with [Vercel](https://vercel.com):
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/mikkmartin/dok-maker)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/mikkmartin/designfactory)
 
 ## Notes
 
