@@ -46,21 +46,34 @@ export const getLayout = (node: Node, nth?: number) => {
 export const getStyle = (node: Node) => {
   return StyleSheet.create({
     style: {
-      backgroundColor: getColor([...node.fills]),
+      ...getColor(node.fills).getBackgroundProps()
     },
   }).style
 }
 
-export const getColor = (fills: Paint[]) =>
-  fills.length <= 0
-    ? 'transparent'
-    : fills
-        .reduce((previousColor, paint) => {
-          if (paint.color) {
-            const { r, g, b, a } = paint.color
-            return previousColor.mix(Color([r * 255, g * 255, b * 255]), paint.opacity || a)
-          } else {
-            return previousColor
-          }
-        }, Color('white'))
-        .hex()
+class ColorMixer {
+  _color
+  constructor(fills: readonly Paint[]) {
+    this._color = [...fills]
+      .filter(fill => fill.visible !== false)
+      .reduce((previousColor, paint) => {
+        if (paint.color) {
+          const { r, g, b, a } = paint.color
+          return previousColor.mix(Color([r * 255, g * 255, b * 255]), paint.opacity || a)
+        } else {
+          return previousColor
+        }
+      }, Color('white').alpha(0))
+  }
+  getBackgroundProps = () => {
+    return {
+      backgroundColor: Color(this._color).hex(),
+      opacity: this._color.valpha
+    }
+  }
+  hex = () => {
+    return this._color.hex()
+  }
+}
+
+export const getColor = (fills: readonly Paint[]) => new ColorMixer(fills)

@@ -8,7 +8,7 @@ import { getColor } from './common'
 export const Page: FC<{ node: Frame }> = ({ node }) => {
   const { absoluteBoundingBox, fills } = node
   const { width, height } = absoluteBoundingBox
-  const backgroundColor = getColor([...fills])
+  const backgroundColor = getColor([...fills]).hex()
 
   return (
     <ContainerProvider frame={node}>
