@@ -24,15 +24,16 @@ export const Vector: FC<{ node: VectorType, nth: number }> = ({ node, nth }) => 
   }
 
   const paintFills = (painter) => node.fills.forEach(({ color, opacity }) => {
-    const { path, windingRule } = node.fillGeometry[0]
-    if (!strokeInside) {
-      painter.translate(padding, padding)
-    }
-    painter.path(path)
-      .fillOpacity(opacity)
-      .fillColor([color.r * 255, color.g * 255, color.b * 255])
-      .fill(getWindingRule(windingRule))
-      .translate(-padding, -padding)
+    painter.save()
+    if (!strokeInside) painter.translate(padding, padding)
+    node.fillGeometry.forEach(({ path, windingRule }) => {
+      painter
+        .path(path)
+        .fillOpacity(opacity)
+        .fillColor([color.r * 255, color.g * 255, color.b * 255])
+        .fill(getWindingRule(windingRule))
+    })
+    painter.restore()
   })
 
   const paintStrokes = (painter) => node.strokes.forEach(({ color, opacity }) => {
@@ -66,7 +67,7 @@ export const Vector: FC<{ node: VectorType, nth: number }> = ({ node, nth }) => 
 const getWindingRule = (type: 'EVENODD' | 'NONZERO') => {
   switch (type) {
     case 'EVENODD':
-      return 'event-odd'
+      return 'even-odd'
     case 'NONZERO':
       return 'non-zero'
     default:
