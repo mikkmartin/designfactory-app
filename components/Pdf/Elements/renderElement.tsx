@@ -1,5 +1,6 @@
 import { Node } from '@mikkmartin/figma-js'
 import { Rect } from './Rect'
+import { Ellipse } from './Ellipse'
 import { Frame } from './Frame'
 import { Text } from './Text'
 import { Group } from './Group'
@@ -12,6 +13,8 @@ export const renderElement = (node: Node, i) => {
       return <Text key={i} node={node} nth={i + 1} />
     case 'RECTANGLE':
       return <Rect key={i} node={node} nth={i + 1} />
+    case 'ELLIPSE':
+      return <Ellipse key={i} node={node} nth={i + 1} />
     case 'VECTOR':
       return <Vector key={i} node={node} nth={i + 1} />
     case 'FRAME':

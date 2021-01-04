@@ -1,9 +1,9 @@
 import { StyleSheet } from '@react-pdf/renderer'
-import { Instance, Rectangle, Frame, Paint, Text, Group, Vector } from '@mikkmartin/figma-js'
+import { Instance, Rectangle, Frame, Paint, Text, Group, Vector, Ellipse } from '@mikkmartin/figma-js'
 import { useContainer } from './ContainerContext'
 import Color from 'color'
 
-type Node = Instance | Rectangle | Frame | Text | Group | Vector
+type Node = Instance | Rectangle | Ellipse | Frame | Text | Group | Vector
 
 export const getLayout = (node: Node, nth?: number) => {
   const { layoutMode, itemSpacing, primaryAxisAlignItems, children } = useContainer()
