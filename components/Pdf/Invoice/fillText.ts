@@ -1,5 +1,6 @@
 import { Text } from '@mikkmartin/figma-js'
 import { summarizeLineTotalCost, formatLineCost, summarizeTotalCost, formatDate } from './utilities'
+import { fillTextDefault } from '../fillTextDefault'
 
 export const fillText = (node: Text, data): string => {
   const { name } = node
@@ -27,15 +28,6 @@ export const fillText = (node: Text, data): string => {
       return formatDate(data.dueDate)
       */
     default:
-      return getText(node, data)
+      return fillTextDefault(node, data)
   }
-}
-
-export const getText = (node: Text, data) => {
-  let text
-  for (const [key, value] of Object.entries(data)) {
-    if (node.name === key) return value
-    text = node.characters
-  }
-  return text
 }

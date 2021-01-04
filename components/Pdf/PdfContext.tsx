@@ -2,6 +2,7 @@ import { FC, createContext, useContext, useRef } from 'react'
 import { Font } from '@react-pdf/renderer'
 import { FileResponse, Text } from '@mikkmartin/figma-js'
 import { Invoice } from '../../static/invoice'
+import { fillTextDefault } from './fillTextDefault'
 
 export type Fonts = {
   family: string
@@ -44,7 +45,7 @@ const Context = createContext<Values>({
 export const PdfProvider: FC<{ fonts: Fonts[], template: FileResponse, data: Invoice }> = ({ children, fonts, template, data }) => {
   Font.clear()
   const fontFamilies = fonts?.length > 0 ? registerFonts(fonts) : []
-  const fillTextFunction = useRef<FillText>(node => node.characters)
+  const fillTextFunction = useRef<FillText>(node => fillTextDefault(node, data))
 
   return (
     <Context.Provider value={{
