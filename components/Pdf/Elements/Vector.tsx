@@ -37,22 +37,23 @@ export const Vector: FC<{ node: VectorType, nth: number }> = ({ node, nth }) => 
   })
 
   const paintStrokes = (painter) => node.strokes.forEach(({ color, opacity }) => {
-    const { path, windingRule } = node.strokeGeometry[0]
-    if (strokeInside) {
-      painter.save()
-      painter
+    painter.save()
+    node.strokeGeometry.forEach(({ path, windingRule }) => {
+      if (strokeInside) {
+        painter
+          //.translate(padding, padding)
+          .path(node.fillGeometry[0].path)
+          .clip(path)
+          .translate(-padding, -padding)
+      }
+      painter.path(path)
         .translate(padding, padding)
-        .path(node.fillGeometry[0].path)
-        .clip(path)
+        .fillOpacity((node.opacity || 1) * (opacity || 1))
+        .fillColor([color.r * 255, color.g * 255, color.b * 255])
+        .fill(getWindingRule(windingRule))
         .translate(-padding, -padding)
-    }
-    painter.path(path)
-      .translate(padding, padding)
-      .fillOpacity((node.opacity || 1) * (opacity || 1))
-      .fillColor([color.r * 255, color.g * 255, color.b * 255])
-      .fill(getWindingRule(windingRule))
-      .translate(-padding, -padding)
-    if (strokeInside) painter.restore()
+      painter.restore()
+    })
   })
 
   return (
