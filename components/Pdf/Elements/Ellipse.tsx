@@ -34,15 +34,19 @@ export const Ellipse: FC<{ node: EllipseType, nth: number }> = ({ node, nth }) =
   const y = height / 2 + (Boolean(node.strokes.length) ? padding : 0)
 
   const paintFills = (painter) => node.fills.forEach(({ color, opacity }) => {
+    let fillOpacity = node.opacity
+    //if (opacity) fillOpacity = fillOpacity * opacity
     painter.ellipse(x, y, width / 2, height / 2)
-      .fillOpacity(opacity)
+      .fillOpacity(fillOpacity)
       .fill([color.r * 255, color.g * 255, color.b * 255])
   })
 
   const paintStrokes = (painter) => node.strokes.forEach(({ color, opacity }) => {
+    let strokeOpacity = node.opacity
+    //if (opacity) strokeOpacity = strokeOpacity * opacity
     painter.ellipse(x, y, width / 2, height / 2)
       .lineWidth(lineWidhth)
-      .strokeOpacity(opacity)
+      .strokeOpacity(strokeOpacity)
       .stroke([color.r * 255, color.g * 255, color.b * 255])
   })
 
