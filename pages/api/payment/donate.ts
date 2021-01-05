@@ -1,4 +1,4 @@
-import { DonationType } from '../../../components/Drawer/Donation/DonationContext'
+import { DonationType } from 'components/Drawer/Donation/DonationContext'
 import { NextApiRequest, NextApiResponse } from 'next'
 import Stripe from 'stripe'
 import { sendThankYou } from './email'

@@ -1,5 +1,5 @@
 import { childAnimations } from '../Tab'
-import { Button } from '../../Common/Button'
+import { Button } from 'components/Common/Button'
 import { LogoAnimation } from "./LogoAnimation";
 
 export const Thanks = ({ onDone }) => {

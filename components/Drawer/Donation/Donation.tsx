@@ -1,7 +1,7 @@
-import { NumberInput } from '../../Common/Input'
-import { RadioButtonGroup, RadioButton } from '../../Common/RadioButtonGroup'
+import { NumberInput } from 'components/Common/Input'
+import { RadioButtonGroup, RadioButton } from 'components/Common/RadioButtonGroup'
 import { childAnimations, Content, ButtonStack } from '../Tab'
-import { Button } from '../../Common/Button'
+import { Button } from 'components/Common/Button'
 import styled from 'styled-components'
 import { useDonation } from './DonationContext'
 

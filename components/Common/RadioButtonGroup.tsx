@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import styled from 'styled-components'
 import { motion, AnimateSharedLayout } from 'framer-motion'
-import { snappy } from "../../static/transitions";
+import { snappy } from 'static/transitions'
 
 export const RadioButtonGroup = ({ children }) => {
   return (

@@ -1,10 +1,10 @@
 import { PDFViewer, Document } from '@react-pdf/renderer'
-import { Page } from '../../components/Pdf/Elements/Page'
+import { Page } from 'components/Pdf/Elements/Page'
 import { Node, Frame, Component } from '@mikkmartin/figma-js'
 import { FC, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { TemplateProvider } from "../../components/TemplateContext";
-import baseURL from '../../static/baseURL'
+import { TemplateProvider } from 'components/TemplateContext'
+import baseURL from 'static/baseURL'
 
 const Test: FC<{ template: Node[] }> = ({ template }) => {
   const [render, setRender] = useState(false)

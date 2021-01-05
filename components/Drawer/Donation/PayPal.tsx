@@ -1,8 +1,8 @@
 import { FC } from 'react'
 import { motion } from 'framer-motion'
 import styled from 'styled-components'
-import { PayPal as PayPalIcon } from '../../Icons/PaymentTypes'
-import { ExternalLink } from '../../Icons'
+import { PayPal as PayPalIcon } from 'components/Icons/PaymentTypes'
+import { ExternalLink } from 'components/Icons'
 import { animations } from "./utils";
 
 export const PayPal: FC<{ shown: boolean }> = ({ shown }) => {

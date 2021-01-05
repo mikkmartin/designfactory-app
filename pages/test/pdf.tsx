@@ -1,9 +1,9 @@
 import { PDFViewer, Document } from '@react-pdf/renderer'
-import { Page } from '../../components/Pdf/Elements/Page'
+import { Page } from 'components/Pdf/Elements/Page'
 import * as Figma from '@mikkmartin/figma-js'
 import { FC, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import baseURL from '../../static/baseURL'
+import baseURL from 'static/baseURL'
 
 const Test: FC<{ pages: Figma.Frame[] }> = ({ pages }) => {
   const [render, setRender] = useState(false)

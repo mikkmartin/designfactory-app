@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import { childAnimations, ButtonStack, Content } from '../Tab'
-import { RadioButtonGroup, RadioButton } from '../../Common/RadioButtonGroup'
-import { PayPal as PayPalIcon, CardTypes } from '../../Icons/PaymentTypes'
-import { Button } from '../../Common/Button'
+import { RadioButtonGroup, RadioButton } from 'components/Common/RadioButtonGroup'
+import { PayPal as PayPalIcon, CardTypes } from 'components/Icons/PaymentTypes'
+import { Button } from 'components/Common/Button'
 import styled from 'styled-components'
 import { Stripe } from './Stripe'
 import { PayPal } from './PayPal'
 import { useDonation } from './DonationContext'
-import { LoadingBar } from '../../Common/LoadingBar'
-import { ErrorToast } from '../../Common/ErrorToast'
+import { LoadingBar } from 'components/Common/LoadingBar'
+import { ErrorToast } from 'components/Common/ErrorToast'
 
 export const Payment = ({ onBack, onDonationComplete }) => {
   const [paymentMethod, setPaymentMethod] = useState('Card')

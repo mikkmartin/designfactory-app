@@ -1,4 +1,4 @@
-import { Item } from '../../../static/invoice'
+import { Item } from 'static/invoice'
 import { StyleSheet } from '@react-pdf/renderer'
 import { Text } from '@mikkmartin/figma-js'
 

@@ -5,7 +5,7 @@ import { Frame } from './Frame'
 import { Text } from './Text'
 import { Group } from './Group'
 import { Vector } from './Vector'
-import { useTemplate } from "../../TemplateContext";
+import { useTemplate } from 'components/TemplateContext'
 
 export const renderElement = (node: Node, i) => {
   switch (node.type) {

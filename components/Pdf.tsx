@@ -1,6 +1,5 @@
 import { useState, useMemo, useEffect, FC, useRef } from 'react'
 import ReactPDF, { PDFViewer } from '@react-pdf/renderer'
-import { InvoicePage } from './Pdf/InvoicePage'
 import { useDebounce } from 'react-use'
 import { useEditor } from './Editor'
 import { getTemplate } from '../data/figma'

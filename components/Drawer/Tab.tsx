@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
-import { snappy } from '../../static/transitions'
+import { snappy } from 'static/transitions'
 
 type Props = {
   initial: boolean
