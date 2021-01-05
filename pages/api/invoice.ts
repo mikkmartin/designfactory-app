@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { streamDocument } from 'components/Pdf'
+import { streamDocument } from 'components/Pdf/Invoice'
 import { defaults } from 'static/invoice'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

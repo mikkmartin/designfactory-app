@@ -41,12 +41,3 @@ export const Pdf: FC = ({ children }) => {
     [renderIframe, template, pdfData]
   )
 }
-
-export async function streamDocument({ data }) {
-  const template = await getTemplate(data.template || defaults.template)
-  return ReactPDF.renderToStream(
-    <PdfProvider fonts={data.fonts}>
-      {/*<InvoicePage template={template} data={data} />*/}
-    </PdfProvider>
-  )
-}
