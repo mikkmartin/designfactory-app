@@ -1,12 +1,12 @@
 import { FC } from 'react'
 import styled from 'styled-components'
-import Editor, { ApiLink, Header } from '../components/Editor'
-import { getTemplate } from '../data/figma'
+import Editor, { ApiLink, Header } from 'components/Editor'
+import { getTemplate } from 'data/figma'
 import { FileResponse } from '@mikkmartin/figma-js'
-import { Pdf } from '../components/Pdf'
-import { defaults } from '../static/invoice'
-import { Invoice } from '../components/Pdf/Invoice'
-import { EditorProvider } from '../components/Editor/EditorContext'
+import { Pdf } from 'components/Pdf'
+import { defaults } from 'static/invoice'
+import { Invoice } from 'components/Pdf/Invoice'
+import { EditorProvider } from 'components/Editor/EditorContext'
 
 const Index: FC<{ file: FileResponse }> = ({ file }) => {
   return (
