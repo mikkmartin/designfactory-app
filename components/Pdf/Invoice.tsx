@@ -9,8 +9,8 @@ import { defaults } from 'static/invoice'
 import { PdfProvider } from '../Pdf/PdfContext'
 
 export const Invoice = () => {
-  const { template, setFillTextFunction, data, onRender } = usePdf()
-  setFillTextFunction(node => fillText(node, data))
+  const { template, setFillTextFunction, onRender } = usePdf()
+  setFillTextFunction(fillText)
   const node = getFirstPage(template)
 
   return (

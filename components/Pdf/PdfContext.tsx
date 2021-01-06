@@ -25,14 +25,14 @@ const registerFonts = (fonts: Fonts[]): string[] =>
 
 Font.registerHyphenationCallback(word => [word])
 
-type FillText = (node: Text) => string
+type FillTextFunction = (node: Text, data: Invoice) => string
 type Values = {
   fontFamilies: string[]
   template: FileResponse,
   data: Invoice,
   onRender?: () => any,
-  fillText: FillText,
-  setFillTextFunction: (fn: FillText) => void
+  fillText: FillTextFunction,
+  setFillTextFunction: (fn: FillTextFunction) => void
 }
 
 const Context = createContext<Values>({
@@ -40,7 +40,7 @@ const Context = createContext<Values>({
   template: null,
   data: null,
   fillText: node => node.characters,
-  setFillTextFunction: (fn) => fn
+  setFillTextFunction: (fn: FillTextFunction) => { }
 })
 
 type Props = { fonts: Fonts[], template: FileResponse, data: Invoice, onRender?: () => any }
@@ -48,7 +48,7 @@ type Props = { fonts: Fonts[], template: FileResponse, data: Invoice, onRender?:
 export const PdfProvider: FC<Props> = ({ children, fonts, template, data, onRender = () => { } }) => {
   Font.clear()
   const fontFamilies = fonts?.length > 0 ? registerFonts(fonts) : []
-  const fillTextFunction = useRef<FillText>(node => fillTextDefault(node, data))
+  const fillTextFunction = useRef<FillTextFunction>(node => fillTextDefault(node, data))
 
   return (
     <Context.Provider value={{
@@ -56,8 +56,10 @@ export const PdfProvider: FC<Props> = ({ children, fonts, template, data, onRend
       template,
       data,
       onRender,
-      fillText: fillTextFunction.current,
-      setFillTextFunction: (fn) => fillTextFunction.current = fn
+      fillText: (node) => fillTextFunction.current(node, data),
+      setFillTextFunction: (fn: FillTextFunction) => {
+        fillTextFunction.current = (node) => fn(node, data)
+      }
     }}>
       {children}
     </Context.Provider>
