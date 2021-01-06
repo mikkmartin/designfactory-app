@@ -30,6 +30,7 @@ type Values = {
   fontFamilies: string[]
   template: FileResponse,
   data: Invoice,
+  onRender?: () => any,
   fillText: FillText,
   setFillTextFunction: (fn: FillText) => void
 }
@@ -42,7 +43,9 @@ const Context = createContext<Values>({
   setFillTextFunction: (fn) => fn
 })
 
-export const PdfProvider: FC<{ fonts: Fonts[], template: FileResponse, data: Invoice }> = ({ children, fonts, template, data }) => {
+type Props = { fonts: Fonts[], template: FileResponse, data: Invoice, onRender?: () => any }
+
+export const PdfProvider: FC<Props> = ({ children, fonts, template, data, onRender = () => { } }) => {
   Font.clear()
   const fontFamilies = fonts?.length > 0 ? registerFonts(fonts) : []
   const fillTextFunction = useRef<FillText>(node => fillTextDefault(node, data))
@@ -52,6 +55,7 @@ export const PdfProvider: FC<{ fonts: Fonts[], template: FileResponse, data: Inv
       fontFamilies,
       template,
       data,
+      onRender,
       fillText: fillTextFunction.current,
       setFillTextFunction: (fn) => fillTextFunction.current = fn
     }}>

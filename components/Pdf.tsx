@@ -33,7 +33,12 @@ export const Pdf: FC = ({ children }) => {
       renderIframe &&
       template && (
         <PDFViewer innerRef={element => (ref.current = element)}>
-          <PdfProvider fonts={pdfData.fonts} template={template} data={json}>
+          <PdfProvider
+            fonts={pdfData.fonts}
+            template={template}
+            data={json}
+            onRender={onRender}
+          >
             {children}
           </PdfProvider>
         </PDFViewer>
