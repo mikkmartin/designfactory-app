@@ -1,10 +1,8 @@
 import { useState, useMemo, useEffect, FC, useRef } from 'react'
-import ReactPDF, { PDFViewer } from '@react-pdf/renderer'
+import { PDFViewer } from '@react-pdf/renderer'
 import { useDebounce } from 'react-use'
 import { useEditor } from './Editor'
-import { getTemplate } from '../data/figma'
 import { PdfProvider } from './Pdf/PdfContext'
-import { defaults } from '../static/invoice'
 
 export const Pdf: FC = ({ children }) => {
   const ref = useRef<HTMLIFrameElement>()
