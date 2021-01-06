@@ -1,9 +1,19 @@
 import { StyleSheet } from '@react-pdf/renderer'
-import { Instance, Rectangle, Frame, Paint, Text, Group, Vector, Ellipse } from '@mikkmartin/figma-js'
+import {
+  Instance,
+  Rectangle,
+  Frame,
+  Paint,
+  Text,
+  Group,
+  Vector,
+  Ellipse,
+  Component,
+} from '@mikkmartin/figma-js'
 import { useContainer } from './ContainerContext'
 import Color from 'color'
 
-type Node = Instance | Rectangle | Ellipse | Frame | Text | Group | Vector
+type Node = Instance | Rectangle | Ellipse | Frame | Text | Group | Vector | Component
 
 export const getLayout = (node: Node, nth?: number) => {
   const { layoutMode, itemSpacing, primaryAxisAlignItems, children } = useContainer()
@@ -46,7 +56,7 @@ export const getLayout = (node: Node, nth?: number) => {
 export const getStyle = (node: Node) => {
   return StyleSheet.create({
     style: {
-      ...getColor(node.fills).getBackgroundProps()
+      ...getColor(node.fills).getBackgroundProps(),
     },
   }).style
 }
@@ -68,7 +78,7 @@ class ColorMixer {
   getBackgroundProps = () => {
     return {
       backgroundColor: Color(this._color).hex(),
-      opacity: this._color.valpha
+      opacity: this._color.valpha,
     }
   }
   hex = () => {

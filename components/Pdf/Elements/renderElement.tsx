@@ -5,7 +5,8 @@ import { Frame } from './Frame'
 import { Text } from './Text'
 import { Group } from './Group'
 import { Vector } from './Vector'
-import { useTemplate } from 'components/TemplateContext'
+import { usePdf } from 'components/Pdf/PdfContext'
+import { useContainer } from './ContainerContext'
 
 export const renderElement = (node: Node, i) => {
   switch (node.type) {
@@ -20,9 +21,7 @@ export const renderElement = (node: Node, i) => {
     case 'FRAME':
       return <Frame key={i} node={node} nth={i + 1} />
     case 'INSTANCE':
-      const { components } = useTemplate()
-      const component = components.find(({ id }) => id === node.componentId)
-      return <Frame key={i} node={node} component={component} nth={i + 1} />
+      return <Instance key={i} node={node} nth={i + 1} />
     case 'GROUP':
       return <Group key={i} node={node} nth={i + 1} />
     case 'ELLIPSE':
@@ -32,4 +31,24 @@ export const renderElement = (node: Node, i) => {
     default:
       console.warn(`Node type: ${node.type} not supported!`)
   }
+}
+
+const Instance = ({ node, nth }) => {
+  const { components, data, addFilledList, filledLists } = usePdf()
+  const container = useContainer()
+
+  if (container.name !== 'items') {
+    return <Frame key={nth} node={node} nth={nth} />
+  } else if (!filledLists.includes('items')) {
+    addFilledList('items')
+
+    return (
+      <>
+        {data.items.map((item, i) =>
+          <Frame key={i} node={node} nth={nth} />
+        )}
+      </>
+    )
+  }
+  return null
 }

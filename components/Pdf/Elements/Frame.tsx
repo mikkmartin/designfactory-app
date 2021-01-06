@@ -6,15 +6,13 @@ import { Frame as FrameType, Instance, Component } from '@mikkmartin/figma-js'
 import { renderElement } from './renderElement'
 
 type Props = {
-  node: FrameType | Instance,
-  component?: Component,
+  node: FrameType | Instance | Component,
   nth?: number
 }
 
-export const Frame: FC<Props> = ({ node, component, nth }) => {
+export const Frame: FC<Props> = ({ node, nth }) => {
   let layout = getLayout(node, nth)
   const { layoutMode, counterAxisSizingMode, primaryAxisSizingMode } = node
-  if (component) console.log({ node, component })
 
   if (primaryAxisSizingMode === 'AUTO' || !primaryAxisSizingMode) {
     if (layoutMode === 'VERTICAL') layout.height = 'auto'

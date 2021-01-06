@@ -1,6 +1,6 @@
 import { FC, createContext, useContext, useRef } from 'react'
 import { Font } from '@react-pdf/renderer'
-import { FileResponse, Text } from '@mikkmartin/figma-js'
+import { FileResponse, Text, Component } from '@mikkmartin/figma-js'
 import { Invoice } from 'static/invoice'
 import { fillTextDefault } from './fillTextDefault'
 
@@ -32,23 +32,38 @@ type Values = {
   data: Invoice,
   onRender?: () => any,
   fillText: FillTextFunction,
-  setFillTextFunction: (fn: FillTextFunction) => void
+  setFillTextFunction: (fn: FillTextFunction) => void,
+  filledLists: string[]
+  addFilledList: (list: string) => void,
+  components: Component[],
+  setComponents: (components: Component[]) => void,
 }
 
-const Context = createContext<Values>({
-  fontFamilies: [],
-  template: null,
-  data: null,
-  fillText: node => node.characters,
-  setFillTextFunction: (fn: FillTextFunction) => { }
-})
+//@ts-ignore
+const Context = createContext<Values>()
 
-type Props = { fonts: Fonts[], template: FileResponse, data: Invoice, onRender?: () => any }
+type Props = {
+  fonts: Fonts[],
+  template: FileResponse,
+  data: Invoice,
+  onRender?: () => any,
+  components?: Component[]
+}
 
-export const PdfProvider: FC<Props> = ({ children, fonts, template, data, onRender = () => { } }) => {
+export const PdfProvider: FC<Props> = ({
+  children,
+  fonts,
+  template,
+  data,
+  components: initialComponents = [],
+  onRender = () => { }
+}) => {
   Font.clear()
   const fontFamilies = fonts?.length > 0 ? registerFonts(fonts) : []
   const fillTextFunction = useRef<FillTextFunction>(node => fillTextDefault(node, data))
+  const filledLists = useRef<string[]>([])
+  const components = useRef<Component[]>(initialComponents)
+  filledLists.current = []
 
   return (
     <Context.Provider value={{
@@ -57,9 +72,11 @@ export const PdfProvider: FC<Props> = ({ children, fonts, template, data, onRend
       data,
       onRender,
       fillText: (node) => fillTextFunction.current(node, data),
-      setFillTextFunction: (fn: FillTextFunction) => {
-        fillTextFunction.current = (node) => fn(node, data)
-      }
+      setFillTextFunction: fn => { fillTextFunction.current = (node) => fn(node, data) },
+      filledLists: filledLists.current,
+      addFilledList: (list) => { filledLists.current.push(list) },
+      components: components.current,
+      setComponents: (_components) => { components.current = _components }
     }}>
       {children}
     </Context.Provider>
