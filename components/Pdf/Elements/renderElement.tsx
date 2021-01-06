@@ -34,7 +34,7 @@ export const renderElement = (node: Node, i) => {
 }
 
 const Instance = ({ node, nth }) => {
-  const { components, data, addFilledList, filledLists } = usePdf()
+  const { data, addFilledList, filledLists } = usePdf()
   const container = useContainer()
 
   if (container.name !== 'items') {
@@ -44,7 +44,7 @@ const Instance = ({ node, nth }) => {
 
     return (
       <>
-        {data.items.map((item, i) =>
+        {data.items.map((_, i) =>
           <Frame key={i} node={node} nth={nth} />
         )}
       </>

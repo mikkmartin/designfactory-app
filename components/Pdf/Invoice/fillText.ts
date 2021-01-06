@@ -1,5 +1,10 @@
 import { Text } from '@mikkmartin/figma-js'
-import { summarizeLineTotalCost, formatLineCost, summarizeTotalCost, formatDate } from './utilities'
+import {
+  //summarizeLineTotalCost,
+  //formatLineCost,
+  summarizeTotalCost,
+  //formatDate
+} from './utilities'
 import { fillTextDefault } from '../fillTextDefault'
 
 export const fillText = (node: Text, data): string => {

@@ -33,7 +33,7 @@ export const Ellipse: FC<{ node: EllipseType, nth: number }> = ({ node, nth }) =
   const x = width / 2 + (Boolean(node.strokes.length) ? padding : 0)
   const y = height / 2 + (Boolean(node.strokes.length) ? padding : 0)
 
-  const paintFills = (painter) => node.fills.forEach(({ color, opacity }) => {
+  const paintFills = (painter) => node.fills.forEach(({ color }) => {
     let fillOpacity = node.opacity
     //if (opacity) fillOpacity = fillOpacity * opacity
     painter.ellipse(x, y, width / 2, height / 2)
@@ -41,7 +41,7 @@ export const Ellipse: FC<{ node: EllipseType, nth: number }> = ({ node, nth }) =
       .fill([color.r * 255, color.g * 255, color.b * 255])
   })
 
-  const paintStrokes = (painter) => node.strokes.forEach(({ color, opacity }) => {
+  const paintStrokes = (painter) => node.strokes.forEach(({ color }) => {
     let strokeOpacity = node.opacity
     //if (opacity) strokeOpacity = strokeOpacity * opacity
     painter.ellipse(x, y, width / 2, height / 2)

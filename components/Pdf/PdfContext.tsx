@@ -31,7 +31,7 @@ type Values = {
   template: FileResponse,
   data: Invoice,
   onRender?: () => any,
-  fillText: FillTextFunction,
+  fillText: (node: Text) => string,
   setFillTextFunction: (fn: FillTextFunction) => void,
   filledLists: string[]
   addFilledList: (list: string) => void,

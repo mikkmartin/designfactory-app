@@ -1,6 +1,4 @@
 import { Item } from 'static/invoice'
-import { StyleSheet } from '@react-pdf/renderer'
-import { Text } from '@mikkmartin/figma-js'
 
 export const formatLineCost = (value: number) => {
   const options = hasSignificantDecimals(value)

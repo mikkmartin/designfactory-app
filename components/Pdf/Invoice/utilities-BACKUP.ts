@@ -83,7 +83,7 @@ export const getText = (name: string, templateCharacters: string, data) => {
 }
 
 export const getTextStyles = (
-  { absoluteBoundingBox, style, opacity, fills }: Text,
+  { absoluteBoundingBox, style, opacity }: Text,
   fontFamilies: string[]
 ) => {
   return StyleSheet.create({
