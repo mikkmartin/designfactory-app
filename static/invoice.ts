@@ -19,7 +19,7 @@ export const defaults = {
   dueDate: formatDate(dayjs(now).add(1, 'month')),
   invoiceNr: dateToInvoiceNr(now),
   fileName: formatFileName(now),
-  items: schemaDefaults.items.map(item => ({ ...item, Quantity: 1 })),
+  items: schemaDefaults.items.map(item => ({ ...item, quantity: 1 })),
 }
 
 export const schema: Schema = {

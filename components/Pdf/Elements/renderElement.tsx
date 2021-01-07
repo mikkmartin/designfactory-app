@@ -39,15 +39,15 @@ const Instance = ({ node, nth }) => {
   const { fillListTextFunctions } = useFillText()
   const container = useContainer()
 
-  if (container.name !== 'items') {
+  if (!Object.keys(fillListTextFunctions).includes(container.name)) {
     return <Frame key={nth} node={node} nth={nth} />
-  } else if (!filledLists.includes('items')) {
-    addFilledList('items')
+  } else if (!filledLists.includes(container.name)) {
+    addFilledList(container.name)
 
     return (
       <>
         {data.items.map((item, i) =>
-          <FillTextProvider key={i} data={item} fillTextFunction={fillListTextFunctions['items']}>
+          <FillTextProvider key={i} data={item} fillTextFunction={fillListTextFunctions[container.name]}>
             <Frame key={i} node={node} nth={nth} />
           </FillTextProvider>
         )}
