@@ -7,18 +7,19 @@ import ReactPDF from '@react-pdf/renderer'
 import { getTemplate } from 'data/figma'
 import { defaults } from 'static/invoice'
 import { PdfProvider } from '../Pdf/PdfContext'
+import { FillTextProvider } from '../Pdf/FillTextContext'
 
 export const Invoice = () => {
-  const { template, setFillTextFunction, setComponents, onRender } = usePdf()
-  setFillTextFunction(fillText)
-
+  const { template, setComponents, onRender, data } = usePdf()
   const { components, frames } = getFrames(template)
   setComponents(components)
 
   return (
-    <Document onRender={onRender}>
-      <Page node={frames[0]} />
-    </Document>
+    <FillTextProvider data={data} fillTextFunction={fillText}>
+      <Document onRender={onRender}>
+        <Page node={frames[0]} />
+      </Document>
+    </FillTextProvider>
   )
 }
 
@@ -28,9 +29,11 @@ export async function streamDocument({ data }) {
 
   return ReactPDF.renderToStream(
     <PdfProvider fonts={data.fonts} template={template} data={data} components={components}>
-      <Document>
-        <Page node={frames[0]} />
-      </Document>
+      <FillTextProvider data={data} fillTextFunction={fillText}>
+        <Document>
+          <Page node={frames[0]} />
+        </Document>
+      </FillTextProvider>
     </PdfProvider>
   )
 }

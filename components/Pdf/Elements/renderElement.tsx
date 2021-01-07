@@ -7,6 +7,7 @@ import { Group } from './Group'
 import { Vector } from './Vector'
 import { usePdf } from 'components/Pdf/PdfContext'
 import { useContainer } from './ContainerContext'
+import { FillTextProvider } from 'components/Pdf/FillTextContext'
 
 export const renderElement = (node: Node, i) => {
   switch (node.type) {
@@ -44,8 +45,10 @@ const Instance = ({ node, nth }) => {
 
     return (
       <>
-        {data.items.map((_, i) =>
-          <Frame key={i} node={node} nth={nth} />
+        {data.items.map((item, i) =>
+          <FillTextProvider key={i} data={item}>
+            <Frame key={i} node={node} nth={nth} />
+          </FillTextProvider>
         )}
       </>
     )

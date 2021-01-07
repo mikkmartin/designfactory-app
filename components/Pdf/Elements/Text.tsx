@@ -3,13 +3,13 @@ import { Text as TextNode } from '@react-pdf/renderer'
 import { Text as TextType } from '@mikkmartin/figma-js'
 import { getLayout, getColor } from './common'
 import { useContainer } from './ContainerContext'
-import { usePdf } from '../PdfContext'
+import { useFillText } from '../FillTextContext'
 
 type AutoResize = "NONE" | "WIDTH_AND_HEIGHT" | "HEIGHT"
 
 export const Text: FC<{ node: TextType, nth: number }> = ({ node, nth }) => {
   const { layoutMode } = useContainer()
-  const { fillText } = usePdf()
+  const fillText = useFillText()
   //@ts-ignore
   const autoResize: AutoResize = node.style.textAutoResize
   const { width, height, ...layout } = getLayout(node, nth)
@@ -23,6 +23,11 @@ export const Text: FC<{ node: TextType, nth: number }> = ({ node, nth }) => {
     fontWeight,
     letterSpacing,
   } = node.style
+
+  if (node.name === 'title') {
+    console.log({ name: node.name, fillText })
+    console.log({ fillText: fillText(node) })
+  }
 
   return (
     <TextNode style={{
