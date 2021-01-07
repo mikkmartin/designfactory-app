@@ -6,6 +6,7 @@ import {
   //formatDate
 } from './utilities'
 import { fillTextDefault } from '../fillTextDefault'
+import { Item } from 'static/invoice'
 
 export const fillText = (node: Text, data): string => {
   const { name } = node
@@ -34,5 +35,18 @@ export const fillText = (node: Text, data): string => {
       */
     default:
       return fillTextDefault(node, data)
+  }
+}
+
+export const fillListText = {
+  items: (node, data: Item) => {
+    switch (node.name) {
+      case 'price':
+        return data.price + '€'
+      case 'total':
+        return data.quantity * data.price + '€'
+      default:
+        return fillTextDefault(node, data)
+    }
   }
 }

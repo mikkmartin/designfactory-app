@@ -7,7 +7,7 @@ import { Group } from './Group'
 import { Vector } from './Vector'
 import { usePdf } from 'components/Pdf/PdfContext'
 import { useContainer } from './ContainerContext'
-import { FillTextProvider } from 'components/Pdf/FillTextContext'
+import { FillTextProvider, useFillText } from 'components/Pdf/FillTextContext'
 
 export const renderElement = (node: Node, i) => {
   switch (node.type) {
@@ -36,6 +36,7 @@ export const renderElement = (node: Node, i) => {
 
 const Instance = ({ node, nth }) => {
   const { data, addFilledList, filledLists } = usePdf()
+  const { fillListTextFunctions } = useFillText()
   const container = useContainer()
 
   if (container.name !== 'items') {
@@ -46,7 +47,7 @@ const Instance = ({ node, nth }) => {
     return (
       <>
         {data.items.map((item, i) =>
-          <FillTextProvider key={i} data={item}>
+          <FillTextProvider key={i} data={item} fillTextFunction={fillListTextFunctions['items']}>
             <Frame key={i} node={node} nth={nth} />
           </FillTextProvider>
         )}

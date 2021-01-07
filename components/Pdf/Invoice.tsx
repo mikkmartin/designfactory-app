@@ -2,12 +2,12 @@ import { Document } from '@react-pdf/renderer'
 import { Canvas, FileResponse, Frame, Component } from '@mikkmartin/figma-js'
 import { Page } from './Elements/Page'
 import { usePdf } from '../Pdf/PdfContext'
-import { fillText } from './Invoice/fillText'
 import ReactPDF from '@react-pdf/renderer'
 import { getTemplate } from 'data/figma'
 import { defaults } from 'static/invoice'
 import { PdfProvider } from '../Pdf/PdfContext'
 import { FillTextProvider } from '../Pdf/FillTextContext'
+import { fillText, fillListText } from './Invoice/fillText'
 
 export const Invoice = () => {
   const { template, setComponents, onRender, data } = usePdf()
@@ -15,7 +15,10 @@ export const Invoice = () => {
   setComponents(components)
 
   return (
-    <FillTextProvider data={data} fillTextFunction={fillText}>
+    <FillTextProvider
+      data={data}
+      fillTextFunction={fillText}
+      fillListTextFunctions={fillListText}>
       <Document onRender={onRender}>
         <Page node={frames[0]} />
       </Document>
@@ -29,7 +32,10 @@ export async function streamDocument({ data }) {
 
   return ReactPDF.renderToStream(
     <PdfProvider fonts={data.fonts} template={template} data={data} components={components}>
-      <FillTextProvider data={data} fillTextFunction={fillText}>
+      <FillTextProvider
+        data={data}
+        fillTextFunction={fillText}
+        fillListTextFunctions={fillListText}>
         <Document>
           <Page node={frames[0]} />
         </Document>

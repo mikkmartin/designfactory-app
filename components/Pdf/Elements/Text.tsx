@@ -9,7 +9,7 @@ type AutoResize = "NONE" | "WIDTH_AND_HEIGHT" | "HEIGHT"
 
 export const Text: FC<{ node: TextType, nth: number }> = ({ node, nth }) => {
   const { layoutMode } = useContainer()
-  const fillText = useFillText()
+  const { fillText } = useFillText()
   //@ts-ignore
   const autoResize: AutoResize = node.style.textAutoResize
   const { width, height, ...layout } = getLayout(node, nth)
