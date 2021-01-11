@@ -4,10 +4,12 @@ import { Text as TextType } from '@mikkmartin/figma-js'
 import { getLayout, getColor } from './common'
 import { useContainer } from './ContainerContext'
 import { useFillText } from '../FillTextContext'
+import { usePdf } from '../PdfContext'
 
 type AutoResize = "NONE" | "WIDTH_AND_HEIGHT" | "HEIGHT"
 
 export const Text: FC<{ node: TextType, nth: number }> = ({ node, nth }) => {
+  const { fontFamilies } = usePdf()
   const { layoutMode } = useContainer()
   const { fillText } = useFillText()
   //@ts-ignore
@@ -17,17 +19,12 @@ export const Text: FC<{ node: TextType, nth: number }> = ({ node, nth }) => {
   const {
     textCase,
     textAlignHorizontal,
-    //fontFamily,
+    fontFamily,
     lineHeightPercent,
     fontSize,
     fontWeight,
     letterSpacing,
   } = node.style
-
-  if (node.name === 'title') {
-    console.log({ name: node.name, fillText })
-    console.log({ fillText: fillText(node) })
-  }
 
   return (
     <TextNode style={{
@@ -39,7 +36,7 @@ export const Text: FC<{ node: TextType, nth: number }> = ({ node, nth }) => {
       lineHeight: lineHeightPercent === 100 ? 'auto' : lineHeightPercent / 100 * 1.25,
       fontSize,
       fontWeight,
-      //fontFamily: fontFamilies.find(family => family === style.fontFamily),
+      fontFamily: fontFamilies.find(family => family === fontFamily),
       letterSpacing: letterSpacing,
       color: getColor(fills).hex(),
       opacity: opacity || 1

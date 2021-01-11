@@ -1,10 +1,12 @@
 import { Text } from '@mikkmartin/figma-js'
 import { summarizeLineTotalCost, formatLineCost, summarizeTotalCost, formatDate } from './utilities'
 import { fillTextDefault } from '../fillTextDefault'
-import { Item } from 'static/invoice'
+import { Invoice, Item } from 'static/invoice'
+import { defaults } from 'static/invoice'
 
-export const fillText = (node: Text, data): string => {
+export const fillText = (node: Text, data: Invoice): string => {
   const { name } = node
+  if (name === 'date-value') console.log(data)
   switch (true) {
     case name === 'topay-subtotal-value':
       return summarizeTotalCost(data.items)
@@ -23,7 +25,7 @@ export const fillText = (node: Text, data): string => {
     case name === 'due-date-value':
       return formatDate(data.dueDate)
     default:
-      return fillTextDefault(node, data)
+      return fillTextDefault(node, data, defaults)
   }
 }
 

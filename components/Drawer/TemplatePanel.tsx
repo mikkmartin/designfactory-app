@@ -15,10 +15,13 @@ export const TemplatePanel = ({ close, onModify }) => {
   const { openDropdown, templates } = useDrawer()
   const currentTemplate = json.template || defaults.template
 
-  const onSelect = (ev, template) => {
+  const onSelect = (ev, { template, fonts }) => {
     ev.preventDefault()
     //if (ev.target.type === 'submit') setJson({ ...json, template })
-    setJson({ ...json, template })
+    let newJson = { ...json, template }
+    if (fonts) newJson.fonts = fonts
+    else delete newJson.fonts
+    setJson(newJson)
   }
 
   return (
@@ -26,7 +29,7 @@ export const TemplatePanel = ({ close, onModify }) => {
       <List>
         <AnimateSharedLayout>
           {templates.map((templateObject) => {
-            const { template, name } = templateObject
+            const { template, name, fonts } = templateObject
             const selected = template === currentTemplate
             return (
               <Item layout {...childAnimations} key={template}>
@@ -34,7 +37,7 @@ export const TemplatePanel = ({ close, onModify }) => {
                 <Button
                   width="100%"
                   noHover={selected}
-                  onClick={(ev) => onSelect(ev, template)}
+                  onClick={(ev) => onSelect(ev, { template, fonts })}
                 >
                   <Check checked={selected} />
                   <div className="text">

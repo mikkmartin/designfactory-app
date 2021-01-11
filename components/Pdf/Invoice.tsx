@@ -8,6 +8,7 @@ import { defaults } from 'static/invoice'
 import { PdfProvider } from '../Pdf/PdfContext'
 import { FillTextProvider } from '../Pdf/FillTextContext'
 import { fillText, fillListText } from './Invoice/fillText'
+import { registerFonts } from './registerFonts'
 
 export const Invoice = () => {
   const { template, setComponents, onRender, data } = usePdf()
@@ -16,7 +17,7 @@ export const Invoice = () => {
 
   return (
     <FillTextProvider
-      data={data}
+      data={{ ...defaults, ...data }}
       fillTextFunction={fillText}
       fillListTextFunctions={fillListText}>
       <Document onRender={onRender}>
@@ -29,9 +30,14 @@ export const Invoice = () => {
 export async function streamDocument({ data }) {
   const template = await getTemplate(data.template || defaults.template)
   const { frames, components } = getFrames(template)
+  const fontFamilies = registerFonts(data.fonts)
 
   return ReactPDF.renderToStream(
-    <PdfProvider fonts={data.fonts} template={template} data={data} components={components}>
+    <PdfProvider
+      template={template}
+      data={data}
+      fontFamilies={fontFamilies}
+      components={components}>
       <FillTextProvider
         data={data}
         fillTextFunction={fillText}
@@ -44,13 +50,17 @@ export async function streamDocument({ data }) {
   )
 }
 
-const getFrames = (template: FileResponse): {
-  frames: Frame[],
+const getFrames = (
+  template: FileResponse
+): {
+  frames: Frame[]
   components: Component[]
 } => {
   const canvas = template.document.children.find(child => child.type === 'CANVAS') as Canvas
   return {
-    frames: canvas.children.filter(node => node.visible !== false && node.type === 'FRAME') as Frame[],
-    components: canvas.children.filter(node => node.type === 'COMPONENT') as Component[]
+    frames: canvas.children.filter(
+      node => node.visible !== false && node.type === 'FRAME'
+    ) as Frame[],
+    components: canvas.children.filter(node => node.type === 'COMPONENT') as Component[],
   }
 }
