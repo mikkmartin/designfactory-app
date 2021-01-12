@@ -2,7 +2,6 @@ import { Text } from '@mikkmartin/figma-js'
 import { summarizeLineTotalCost, formatLineCost, summarizeTotalCost, formatDate } from './utilities'
 import { fillTextDefault } from '../fillTextDefault'
 import { Invoice, Item } from 'static/invoice'
-import { defaults } from 'static/invoice'
 
 export const fillText = (node: Text, data: Invoice): string => {
   const { name } = node
@@ -19,13 +18,13 @@ export const fillText = (node: Text, data: Invoice): string => {
     case name === 'iban-number-value':
       return data.ibanNr
     case name === 'invoice-number-value':
-      return data.invoiceNr
+      return String(data.invoiceNr)
     case name === 'date-value':
       return formatDate(data.date)
     case name === 'due-date-value':
       return formatDate(data.dueDate)
     default:
-      return fillTextDefault(node, data, defaults)
+      return fillTextDefault(node, data)
   }
 }
 
