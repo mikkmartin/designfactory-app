@@ -5,7 +5,6 @@ import { Invoice, Item } from 'static/invoice'
 
 export const fillText = (node: Text, data: Invoice): string => {
   const { name } = node
-  if (name === 'date-value') console.log(data)
   switch (true) {
     case name === 'topay-subtotal-value':
       return summarizeTotalCost(data.items)

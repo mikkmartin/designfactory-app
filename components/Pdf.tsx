@@ -3,7 +3,7 @@ import { PDFViewer } from '@react-pdf/renderer'
 import { useDebounce } from 'react-use'
 import { useEditor } from './Editor'
 import { PdfProvider } from './Pdf/PdfContext'
-import { registerFonts } from "./Pdf/registerFonts";
+import { useRegisterFonts } from "./Pdf/registerFonts";
 
 export const Pdf: FC = ({ children }) => {
   const ref = useRef<HTMLIFrameElement>()
@@ -13,7 +13,7 @@ export const Pdf: FC = ({ children }) => {
   useDebounce(() => setPdfData(json), 300, [json])
   useEffect(() => setRenderIframe(true), [])
   let observer: MutationObserver = null
-  const fontFamilies = registerFonts(json.fonts)
+  const fontFamilies = useRegisterFonts(json.fonts)
 
   const onRender = () => {
     observer = new MutationObserver(mutations =>

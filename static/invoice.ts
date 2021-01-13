@@ -82,7 +82,7 @@ export type Invoice = {
   tax?: number
   email?: string
   website?: string
-  fonts?: Fonts[]
+  fonts?: Fonts
   template?: string
 }
 
