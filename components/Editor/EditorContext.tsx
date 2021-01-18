@@ -15,13 +15,12 @@ type Values = {
 //@ts-ignore
 const Context = createContext<Values>()
 
-export const EditorProvider: FC<{ template: FileResponse }> = ({ children, template: initialData }) => {
+export const EditorProvider: FC = ({ children }) => {
   const [json, setJson] = useLocalStorage('invoiceData', example)
   const [blobUrl, setBlobUrl] = useState<string | null>(null)
   const fetcher = (url, templateID) =>
     fetch(`${url}?template=${templateID || defaults.template}`).then(r => r.json())
   const { data: template } = useSWR(['/api/figma', json.template], fetcher, {
-    initialData,
     focusThrottleInterval: 0,
   })
 

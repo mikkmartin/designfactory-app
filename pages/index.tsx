@@ -1,16 +1,13 @@
 import { FC } from 'react'
 import styled from 'styled-components'
 import Editor, { ApiLink, Header } from 'components/Editor'
-import { getTemplate } from 'data/figma'
-import { FileResponse } from '@mikkmartin/figma-js'
 import { Pdf } from 'components/Pdf'
-import { defaults } from 'static/invoice'
 import { Invoice } from 'components/Pdf/Invoice'
 import { EditorProvider } from 'components/Editor/EditorContext'
 
-const Index: FC<{ file: FileResponse }> = ({ file }) => {
+const Index: FC = () => {
   return (
-    <EditorProvider template={file}>
+    <EditorProvider>
       <Container>
         <div className="controls">
           <Header />
@@ -25,14 +22,6 @@ const Index: FC<{ file: FileResponse }> = ({ file }) => {
       </Container>
     </EditorProvider>
   )
-}
-
-export const getStaticProps = async () => {
-  const file = await getTemplate(defaults.template)
-  return {
-    props: { file },
-    revalidate: 1,
-  }
 }
 
 const Container = styled.div`

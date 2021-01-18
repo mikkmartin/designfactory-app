@@ -3,7 +3,7 @@ import { PDFViewer } from '@react-pdf/renderer'
 import { useDebounce } from 'react-use'
 import { useEditor } from './Editor'
 import { PdfProvider } from './Pdf/PdfContext'
-import { useRegisterFonts } from "./Pdf/registerFonts";
+import { useRegisterFonts } from './Pdf/registerFonts'
 
 export const Pdf: FC = ({ children }) => {
   const ref = useRef<HTMLIFrameElement>()
@@ -30,19 +30,17 @@ export const Pdf: FC = ({ children }) => {
 
   return useMemo(
     () =>
-      renderIframe &&
-      template && (
+      renderIframe && template ? (
         <PDFViewer innerRef={element => (ref.current = element)}>
           <PdfProvider
             fontFamilies={fontFamilies}
             template={template}
             data={json}
-            onRender={onRender}
-          >
+            onRender={onRender}>
             {children}
           </PdfProvider>
         </PDFViewer>
-      ),
+      ) : null,
     [renderIframe, template, pdfData]
   )
 }
