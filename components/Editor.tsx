@@ -8,6 +8,7 @@ import { useEditor } from './Editor/EditorContext'
 import { schema } from '../static/invoice'
 import theme from './Editor/theme.json'
 import packagejson from '../package.json'
+import { dequal } from 'dequal/lite'
 const MonacoEditor = dynamic(import('react-monaco-editor'), { ssr: false })
 export { ApiLink } from './Editor/ApiLink'
 export { Figma } from './Editor/Figma'
@@ -38,20 +39,12 @@ const Editor = () => {
 
   useEffect(() => {
     try {
-      const json = JSON.parse(jsonString)
-      setJson(json)
+      const newJson = JSON.parse(jsonString)
+      if (!dequal(json, newJson)) setJson(newJson)
     } catch (e) {
-      //console.error(e)
+      console.error(e)
     }
   }, [jsonString])
-
-
-  useEffect(() => {
-    const currentJson = JSON.parse(jsonString)
-    if (json !== currentJson) {
-      setJsonString(JSON.stringify(json, null, 2))
-    }
-  }, [json])
 
   return (
     <Container ref={ref}>
