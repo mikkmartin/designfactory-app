@@ -10,6 +10,7 @@ type Values = {
   template: FileResponse | null
   blobUrl: string
   setBlobUrl: Dispatch<SetStateAction<string>>
+  loading: boolean
 }
 
 //@ts-ignore
@@ -20,12 +21,12 @@ export const EditorProvider: FC = ({ children }) => {
   const [blobUrl, setBlobUrl] = useState<string | null>(null)
   const fetcher = (url, templateID) =>
     fetch(`${url}?template=${templateID || defaults.template}`).then(r => r.json())
-  const { data: template } = useSWR(['/api/figma', json.template], fetcher, {
-    focusThrottleInterval: 0,
-  })
+  const options = { focusThrottleInterval: 0 }
+  const { data: template, isValidating } = useSWR(['/api/figma', json.template], fetcher, options)
 
   return (
-    <Context.Provider value={{ json, setJson, template, setBlobUrl, blobUrl }}>
+    <Context.Provider
+      value={{ json, setJson, template, setBlobUrl, blobUrl, loading: isValidating }}>
       {children}
     </Context.Provider>
   )

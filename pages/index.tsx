@@ -4,6 +4,7 @@ import Editor, { ApiLink, Header } from 'components/Editor'
 import { Pdf } from 'components/Pdf'
 import { Invoice } from 'components/Pdf/Invoice'
 import { EditorProvider } from 'components/Editor/EditorContext'
+import { Loading } from 'components/Editor/Loading'
 
 const Index: FC = () => {
   return (
@@ -18,11 +19,14 @@ const Index: FC = () => {
           <Pdf>
             <Invoice />
           </Pdf>
+          <Loading />
         </div>
       </Container>
     </EditorProvider>
   )
 }
+
+
 
 const Container = styled.div`
   display: flex;
@@ -39,6 +43,7 @@ const Container = styled.div`
   }
   .iframe-container {
     flex: 2.5;
+    position: relative;
     iframe {
       width: 100%;
       height: 100%;
