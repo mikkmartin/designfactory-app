@@ -29,6 +29,11 @@ const Editor = () => {
     })
   }
 
+  useEffect(() => {
+    const oldJson = JSON.parse(jsonString)
+    if (!dequal(json, oldJson)) setJsonString(JSON.stringify(json, null, 2))
+  }, [json])
+
   const onDidMount: EditorDidMount = (_, monaco) => {
     monaco.editor.setTheme('dok-theme')
     //@ts-ignore
