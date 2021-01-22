@@ -4,6 +4,7 @@ import { childAnimations, Content, ButtonStack } from '../Tab'
 import { Button } from 'components/Common/Button'
 import styled from 'styled-components'
 import { useDonation } from './DonationContext'
+import { motion } from 'framer-motion'
 
 export const Donation = ({ close, onDonate, onCancelSubscription }) => {
   const { amount, setAmount, paymentType, setPaymentType } = useDonation()
@@ -11,34 +12,32 @@ export const Donation = ({ close, onDonate, onCancelSubscription }) => {
   return (
     <>
       <Container>
-        <NumberInput value={amount} onChange={(v) => setAmount(v)} />
-        <RadioButtonGroup>
-          {
-            ['Monthly', 'One time']
-              .map(val =>
-                <RadioButton
-                  key={val}
-                  value={val}
-                  onChange={(v) => setPaymentType(v)}
-                  selected={paymentType === val}>
-                  {val}
-                </RadioButton>
-              )
-          }
+        <NumberInput {...childAnimations} value={amount} onChange={v => setAmount(v)} />
+        <RadioButtonGroup {...childAnimations}>
+          {['Monthly', 'One time'].map(val => (
+            <RadioButton
+              key={val}
+              value={val}
+              onChange={v => setPaymentType(v)}
+              selected={paymentType === val}>
+              {val}
+            </RadioButton>
+          ))}
         </RadioButtonGroup>
-        <p>
-          Donate 30€ or more to help found this project and future
-          permium features will be free forever.
-          <br /><a onClick={onCancelSubscription}>Cancel a previous pledge</a>
-        </p>
+        <motion.p {...childAnimations}>
+          Donate 30€ or more to help found this project and future. permium features will be free
+          forever.
+          <br />
+          <a onClick={onCancelSubscription}>Cancel a previous pledge</a>
+        </motion.p>
       </Container>
-      <ButtonStack>
-        <Button {...childAnimations} highlight onClick={close}>
+      <ButtonStack {...childAnimations}>
+        <Button highlight onClick={close}>
           Close
-      </Button>
-        <Button {...childAnimations} primary onClick={onDonate}>
+        </Button>
+        <Button primary onClick={onDonate}>
           Donate
-      </Button>
+        </Button>
       </ButtonStack>
     </>
   )
@@ -59,7 +58,8 @@ const Container = styled(Content)`
   a {
     cursor: pointer;
   }
-  p, a {
+  p,
+  a {
     font-size: 10px;
     width: 90%;
     margin-left: auto;

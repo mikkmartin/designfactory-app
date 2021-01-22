@@ -1,15 +1,16 @@
 import { FC, useEffect, useRef, forwardRef } from 'react'
 import styled, { css } from 'styled-components'
 import NumberFormat from 'react-number-format'
-import { Button } from "./Button";
-import { Email } from "../Icons";
+import { Button } from './Button'
+import { Email } from '../Icons'
+import { motion } from 'framer-motion'
 
 type Types = {
-  value: number,
+  value: number
   onChange: (value: number) => void
 }
 
-export const NumberInput: FC<Types> = ({ value, onChange }) => {
+export const NumberInput: FC<Types> = ({ value, onChange, ...rest }) => {
   const ref = useRef<HTMLInputElement>(null)
   const highlight = useRef(true)
 
@@ -19,16 +20,17 @@ export const NumberInput: FC<Types> = ({ value, onChange }) => {
   }, [])
 
   return (
-    <Container>
-      <Button
-        highlight
-        disabled={value <= 1}
-        onClick={() => value > 1 && onChange(value - 1)}>
+    <Container {...rest}>
+      <Button highlight disabled={value <= 1} onClick={() => value > 1 && onChange(value - 1)}>
         -
       </Button>
       <NumberFormat
         style={{ width: '160px' }}
-        onMouseDown={() => document.activeElement !== ref.current ? highlight.current = true : highlight.current = false}
+        onMouseDown={() =>
+          document.activeElement !== ref.current
+            ? (highlight.current = true)
+            : (highlight.current = false)
+        }
         onMouseMove={() => highlight.current && (highlight.current = false)}
         onClick={() => highlight.current && ref.current.select()}
         value={'' + value}
@@ -40,12 +42,14 @@ export const NumberInput: FC<Types> = ({ value, onChange }) => {
         onValueChange={obj => onChange(obj.floatValue)}
         prefix={'€'}
       />
-      <Button highlight onClick={() => onChange(value + 1)}>+</Button>
+      <Button highlight onClick={() => onChange(value + 1)}>
+        +
+      </Button>
     </Container>
   )
 }
 
-const Container = styled.div`
+const Container = styled(motion.div)`
   height: 58px;
   display: flex;
   align-items: center;
@@ -65,19 +69,16 @@ const Container = styled.div`
   }
 `
 
-export const Input = forwardRef<HTMLInputElement, any>(({
-  type = 'email',
-  icon = 'email',
-  onChange = () => { },
-  invalid = false
-}, ref) => {
-  return (
-    <StyledInput invalid={invalid}>
-      <input ref={ref} type={type} placeholder="E-mail" onChange={onChange} />
-      {icon === 'email' && <Email />}
-    </StyledInput>
-  )
-})
+export const Input = forwardRef<HTMLInputElement, any>(
+  ({ type = 'email', icon = 'email', onChange = () => {}, invalid = false }, ref) => {
+    return (
+      <StyledInput invalid={invalid}>
+        <input ref={ref} type={type} placeholder="E-mail" onChange={onChange} />
+        {icon === 'email' && <Email />}
+      </StyledInput>
+    )
+  }
+)
 
 const StyledInput = styled.div<{ invalid: boolean }>`
   height: 48px;
@@ -100,14 +101,16 @@ const StyledInput = styled.div<{ invalid: boolean }>`
     margin-left: 16px;
     width: 20px;
   }
-  ${p => p.invalid && css`
-    input {
-      caret-color: var(--error);
-      color: var(--error);
-    }
-    svg {
-      opacity: 1 !important;
-      stroke: var(--error);
-    }
-  `}
+  ${p =>
+    p.invalid &&
+    css`
+      input {
+        caret-color: var(--error);
+        color: var(--error);
+      }
+      svg {
+        opacity: 1 !important;
+        stroke: var(--error);
+      }
+    `}
 `

@@ -3,17 +3,20 @@ import styled from 'styled-components'
 import { motion, AnimateSharedLayout } from 'framer-motion'
 import { snappy } from 'static/transitions'
 
-export const RadioButtonGroup = ({ children }) => {
+export const RadioButtonGroup = ({ children, ...rest }) => {
   return (
-    <Container>
-      <AnimateSharedLayout>
-        {children}
-      </AnimateSharedLayout>
+    <Container {...rest}>
+      <AnimateSharedLayout>{children}</AnimateSharedLayout>
     </Container>
   )
 }
 
-export const RadioButton: FC<{ value: string, selected: boolean, onChange: any }> = ({ children, value, selected, onChange }) => {
+export const RadioButton: FC<{ value: string; selected: boolean; onChange: any }> = ({
+  children,
+  value,
+  selected,
+  onChange,
+}) => {
   return (
     <>
       <Input
@@ -24,9 +27,7 @@ export const RadioButton: FC<{ value: string, selected: boolean, onChange: any }
         value={value}
       />
       <Button htmlFor={value}>
-        {selected &&
-          <HighLight transition={snappy} layoutId="highlight" />
-        }
+        {selected && <HighLight transition={snappy} layoutId="highlight" />}
         <div>{children}</div>
       </Button>
     </>
@@ -38,7 +39,7 @@ const Container = styled(motion.div)`
   display: inline-flex;
   width: 100%;
   padding: 16px;
-  background: rgba(0,0,0,0.15);
+  background: rgba(0, 0, 0, 0.15);
   padding: 2px;
   gap: 2px;
   border-radius: 5px;
@@ -65,11 +66,11 @@ const Button = styled.label`
   div {
     user-select: none;
     z-index: 2;
-  } 
+  }
 `
 
 const HighLight = styled(motion.div)`
-  background: #464A51;
+  background: #464a51;
   position: absolute;
   width: 100%;
   height: 100%;
