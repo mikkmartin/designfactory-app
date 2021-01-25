@@ -6,11 +6,11 @@ import { useContainer } from './ContainerContext'
 import { useFillText } from '../FillTextContext'
 import { usePdf } from '../PdfContext'
 
-type AutoResize = "NONE" | "WIDTH_AND_HEIGHT" | "HEIGHT"
+type AutoResize = 'NONE' | 'WIDTH_AND_HEIGHT' | 'HEIGHT'
 
-export const Text: FC<{ node: TextType, nth: number }> = ({ node, nth }) => {
+export const Text: FC<{ node: TextType; nth: number }> = ({ node, nth }) => {
   const { fontFamilies } = usePdf()
-  const { layoutMode } = useContainer()
+  const { layoutMode, counterAxisAlignItems } = useContainer()
   const { fillText } = useFillText()
   //@ts-ignore
   const autoResize: AutoResize = node.style.textAutoResize
@@ -24,27 +24,44 @@ export const Text: FC<{ node: TextType, nth: number }> = ({ node, nth }) => {
     fontSize,
     fontWeight,
     letterSpacing,
+    paragraphIndent,
   } = node.style
 
   return (
-    <TextNode style={{
-      ...layout,
-      width: getWidth(layoutMode, autoResize, width),
-      height: getHeight(autoResize, height),
-      textTransform: getTextCase(textCase),
-      textAlign: getAlignMent(textAlignHorizontal),
-      lineHeight: lineHeightPercent === 100 ? 'auto' : lineHeightPercent / 100 * 1.25,
-      fontSize,
-      fontWeight,
-      fontFamily: fontFamilies.find(family => family === fontFamily),
-      letterSpacing: letterSpacing,
-      color: getColor(fills).hex(),
-      opacity: opacity || 1
-    }}>
+    <TextNode
+      style={{
+        ...layout,
+        marginLeft: autoIndent(
+          fontSize,
+          textAlignHorizontal,
+          counterAxisAlignItems,
+          paragraphIndent
+        ),
+        width: getWidth(layoutMode, autoResize, width),
+        height: getHeight(autoResize, height),
+        textTransform: getTextCase(textCase),
+        textAlign: getAlignMent(textAlignHorizontal),
+        lineHeight: lineHeightPercent === 100 ? 'auto' : (lineHeightPercent / 100) * 1.25,
+        fontSize,
+        fontWeight,
+        fontFamily: fontFamilies.find(family => family === fontFamily),
+        letterSpacing: letterSpacing,
+        color: getColor(fills).hex(),
+        opacity: opacity || 1,
+      }}>
       {fillText(node)}
     </TextNode>
   )
 }
+
+const autoIndent = (fontSize, alignment, counterAxisAlignItems, paragraphIndent) =>
+  alignment === 'LEFT' &&
+  counterAxisAlignItems !== 'MAX' &&
+  counterAxisAlignItems !== 'CENTER' &&
+  !Boolean(paragraphIndent) &&
+  fontSize > 20
+    ? fontSize * -0.075
+    : 0
 
 const getWidth = (layoutMode, autoResize: AutoResize, width) => {
   if (Boolean(layoutMode) && autoResize === 'WIDTH_AND_HEIGHT') return 'auto'
