@@ -1,5 +1,5 @@
-import { Button } from '../Common/Button'
-import { ButtonStack, Content } from './Tab'
+import { Button } from '../../Common/Button'
+import { ButtonStack, Content } from '../Tab'
 import styled from 'styled-components'
 import { useRef, useState } from 'react'
 

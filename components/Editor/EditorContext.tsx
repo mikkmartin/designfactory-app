@@ -4,9 +4,10 @@ import { FileResponse } from '@mikkmartin/figma-js'
 import useSWR from 'swr'
 import { useLocalStorage } from 'react-use'
 
+export type SetJson = Dispatch<SetStateAction<Invoice>>
 type Values = {
   json: Invoice
-  setJson: Dispatch<SetStateAction<Invoice>>
+  setJson: SetJson
   template: FileResponse | null
   blobUrl: string
   setBlobUrl: Dispatch<SetStateAction<string>>

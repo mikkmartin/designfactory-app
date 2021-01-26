@@ -1,14 +1,14 @@
 import { motion, AnimateSharedLayout } from 'framer-motion'
-import { Button } from '../Common/Button'
+import { Button } from '../../Common/Button'
 import styled from 'styled-components'
-import { More } from '../Icons'
-import { ButtonStack, childAnimations } from './Tab'
-import { useEditor } from '../Editor'
+import { More } from '../../Icons'
+import { ButtonStack, childAnimations } from '../Tab'
+import { useEditor } from '../../Editor'
 import { defaults } from 'static/invoice'
 import { snappy } from 'static/transitions'
-import { Check } from "../Common/Check";
-import { useDrawer } from "./DrawerContext";
-import { Dropdown } from "../Common/Dropdown";
+import { Check } from "../../Common/Check";
+import { useDrawer } from "../DrawerContext";
+import { Dropdown } from "../../Common/Dropdown";
 
 export const TemplatePanel = ({ close, onModify }) => {
   const { json, setJson } = useEditor()
