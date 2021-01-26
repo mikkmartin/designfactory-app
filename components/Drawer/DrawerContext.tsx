@@ -1,5 +1,5 @@
 import { FC, createContext, useContext, useState, Dispatch, SetStateAction } from 'react'
-import { defaultTemplates, TemplateObject } from 'static/defaultTemplates'
+import { TemplateObject } from 'static/defaultTemplates'
 import { useEditor } from '../Editor'
 import { useTemplate } from './Template/useTemplate'
 
