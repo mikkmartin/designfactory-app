@@ -3,22 +3,24 @@ import { motion } from 'framer-motion'
 import styled from 'styled-components'
 import { PayPal as PayPalIcon } from 'components/Icons/PaymentTypes'
 import { ExternalLink } from 'components/Icons'
-import { animations } from "./utils";
+import { animations } from './utils'
 
-export const PayPal: FC<{ shown: boolean }> = ({ shown }) => {
+export const PayPal: FC<{ shown: boolean; label?: string; href?: string }> = ({
+  shown,
+  label = 'Open donation link',
+  href = 'https://www.paypal.com/donate/?hosted_button_id=BKQUWKGLRKNCQ',
+}) => {
   return (
-    <Container
-      {...animations(shown, true)}
-      href="https://www.paypal.com/donate/?hosted_button_id=BKQUWKGLRKNCQ"
-      target="_blank"
-    >
+    <Container {...animations(shown, true)} href={href} target="_blank">
       <PayPalIcon />
-      <small>Open donation link <ExternalLink /></small>
+      <small>
+        {label} <ExternalLink />
+      </small>
     </Container>
   )
 }
 
-const Container = styled(motion.a) <any>`
+const Container = styled(motion.a)<any>`
   grid-area: 2 / 1 / 4 / 2;
   color: white;
   display: flex;
@@ -29,7 +31,7 @@ const Container = styled(motion.a) <any>`
   border-radius: 3px;
   background: var(--highlight);
   &:hover {
-    background: #1886FF;
+    background: #1886ff;
   }
   &:active {
     background: var(--highlight);

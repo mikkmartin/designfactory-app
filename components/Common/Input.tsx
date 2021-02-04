@@ -2,7 +2,7 @@ import { FC, useEffect, useRef, forwardRef } from 'react'
 import styled, { css } from 'styled-components'
 import NumberFormat from 'react-number-format'
 import { Button } from './Button'
-import { Email } from '../Icons'
+import { Email, Card } from '../Icons'
 import { motion } from 'framer-motion'
 
 type Types = {
@@ -70,17 +70,60 @@ const Container = styled(motion.div)`
 `
 
 export const Input = forwardRef<HTMLInputElement, any>(
-  ({ type = 'email', icon = 'email', onChange = () => {}, invalid = false }, ref) => {
+  ({ type = 'email', placeholder, onChange = () => {}, invalid = false, ...rest }, ref) => {
     return (
-      <StyledInput invalid={invalid}>
-        <input ref={ref} type={type} placeholder="E-mail" onChange={onChange} />
-        {icon === 'email' && <Email />}
+      <StyledInput {...rest} invalid={invalid}>
+        <input
+          ref={ref}
+          {...getType(type)}
+          placeholder={getPlaceHolder(placeholder || type)}
+          onChange={onChange}
+        />
+        {getIcon(type)}
       </StyledInput>
     )
   }
 )
 
-const StyledInput = styled.div<{ invalid: boolean }>`
+const getType = type => {
+  switch (type) {
+    case 'email':
+      return { type: 'email' }
+    case 'card':
+      return {
+        type: 'number',
+        onInput: ev => {
+          if (ev.target.value.length >= 4) ev.target.value = ev.target.value.slice(0, 4)
+        },
+      }
+    default:
+      return {}
+  }
+}
+
+const getPlaceHolder = type => {
+  switch (type) {
+    case 'email':
+      return 'E-mail'
+    case 'card':
+      return 'Last four digits of the credit card'
+    default:
+      return ''
+  }
+}
+
+const getIcon = icon => {
+  switch (icon) {
+    case 'email':
+      return <Email />
+    case 'card':
+      return <Card />
+    default:
+      return null
+  }
+}
+
+const StyledInput = styled(motion.div)<{ invalid: boolean }>`
   height: 48px;
   position: relative;
   input {

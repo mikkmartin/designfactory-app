@@ -6,7 +6,7 @@ export const validateEmail = email => {
   return re.test(String(email).toLowerCase())
 }
 
-export const animations = (shown, direction) => ({
+export const animations = (shown: boolean, direction: boolean) => ({
   transition: { ...snappy, opacity: { duration: 0.075 } },
   animate: shown ? 'shown' : 'hidden',
   variants: {

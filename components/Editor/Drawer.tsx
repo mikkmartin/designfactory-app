@@ -10,24 +10,29 @@ import { usePrevious } from 'react-use'
 import { Tab } from '../Drawer/Tab'
 import { useDrawer } from '../Drawer/DrawerContext'
 import { Donation } from '../Drawer/Donation/Donation'
+import { Unsubscribe } from '../Drawer/Donation/Unsubscribe'
 import { Payment } from '../Drawer/Donation/Payment'
 import { Thanks } from '../Drawer/Donation/Thanks'
-import { DonationProvider } from "../Drawer/Donation/DonationContext";
+import { DonationProvider } from '../Drawer/Donation/DonationContext'
 
 export const Drawer = () => {
   const { setPanel, panel, panels, addTemplate } = useDrawer()
   const previousPanel = usePrevious(panel) as string
   const ref = useRef()
 
-  useClickAway(ref, (ev: any) => {
-    const el = ev.target
-    const exptions =
-      !!['Button', 'MuiPopover-root', 'MuiMenu-list'].find(str => el.className.includes(str))
-      || el.getAttribute('aria-hidden') === 'true'
-    if (!exptions) setPanel(false)
-  }, ['click'])
+  useClickAway(
+    ref,
+    (ev: any) => {
+      const el = ev.target
+      const exptions =
+        !!['Button', 'MuiPopover-root', 'MuiMenu-list'].find(str => el.className.includes(str)) ||
+        el.getAttribute('aria-hidden') === 'true'
+      if (!exptions) setPanel(false)
+    },
+    ['click']
+  )
 
-  const currentPanel = (initial) => {
+  const currentPanel = initial => {
     const props = { panels, panel, initial, previousPanel }
     switch (panel) {
       case 'info':
@@ -39,19 +44,13 @@ export const Drawer = () => {
       case 'templates':
         return (
           <Tab {...props} key={panel}>
-            <TemplatePanel
-              close={() => setPanel(false)}
-              onModify={() => setPanel('addtemplate')}
-            />
+            <TemplatePanel close={() => setPanel(false)} onModify={() => setPanel('addtemplate')} />
           </Tab>
         )
       case 'addtemplate':
         return (
           <Tab {...props} key={panel}>
-            <AddTemplate
-              onCancel={() => setPanel('templates')}
-              onAdd={addTemplate}
-            />
+            <AddTemplate onCancel={() => setPanel('templates')} onAdd={addTemplate} />
           </Tab>
         )
       case 'donation':
@@ -67,7 +66,10 @@ export const Drawer = () => {
       case 'subscription-cancel':
         return (
           <Tab {...props} key={panel}>
-            Cancel subscription
+            <Unsubscribe
+              onCancel={() => setPanel('donation')}
+              onConfirm={() => setPanel('thank you')}
+            />
           </Tab>
         )
       case 'payment':
@@ -90,7 +92,7 @@ export const Drawer = () => {
 
   return (
     <AnimatePresence>
-      {panel &&
+      {panel && (
         <Container
           ref={ref}
           initial="closed"
@@ -100,13 +102,11 @@ export const Drawer = () => {
           transition={snappy}>
           <div>
             <DonationProvider>
-              <AnimatePresence custom={panel}>
-                {currentPanel(!previousPanel)}
-              </AnimatePresence>
+              <AnimatePresence custom={panel}>{currentPanel(!previousPanel)}</AnimatePresence>
             </DonationProvider>
           </div>
         </Container>
-      }
+      )}
     </AnimatePresence>
   )
 }
@@ -115,7 +115,7 @@ const containerVariants = {
   closed: { height: 0, transition: snappy },
   open: {
     height: 'auto',
-    transition: snappy
+    transition: snappy,
   },
 }
 const Container = styled(motion.div)`

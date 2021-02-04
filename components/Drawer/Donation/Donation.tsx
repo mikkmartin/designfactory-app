@@ -36,7 +36,7 @@ export const Donation = ({ close, onDonate, onCancelSubscription }) => {
           Close
         </Button>
         <Button primary onClick={onDonate}>
-          Donate
+          Payment
         </Button>
       </ButtonStack>
     </>
