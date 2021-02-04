@@ -1,22 +1,16 @@
-import { motion, useAnimation } from "framer-motion";
-import { useState } from "react";
+import { motion } from 'framer-motion'
+import { useState } from 'react'
+import styled from 'styled-components'
 
 export const LogoAnimation = () => {
-  const controls = useAnimation()
-  const [on, setOn] = useState(false)
+  const startingDelay = 0.2
   const transition = {
-    type: "spring",
+    type: 'spring',
     delay: 0,
     stiffness: 1000,
     damping: 200,
     mass: 1,
-    restDelta: 0.0001
-  }
-
-  const handleClick = () => {
-    setOn(!on)
-    if (on) controls.start("in")
-    else controls.set("out")
+    restDelta: 0.0001,
   }
 
   const parentAnimation = {
@@ -24,11 +18,11 @@ export const LogoAnimation = () => {
     transition: {
       ...transition,
       staggerChildren: 0.05,
-      opacity: { duration: 0.05 }
+      opacity: { duration: 0.05 },
     },
     variants: {
       out: { scale: 0.1, opacity: 0 },
-      in: { scale: 1, opacity: 1 }
+      in: { scale: 1, opacity: 1 },
     },
   }
   const childAnimations = {
@@ -36,17 +30,17 @@ export const LogoAnimation = () => {
     variants: {
       out: {
         scale: 0,
-        y: 50
+        y: 50,
       },
-      in: (i) => ({
+      in: i => ({
         scale: 1,
         y: 0,
         transition: {
           ...transition,
-          delay: 0.2 * i
-        }
+          delay: 0.1 * i + startingDelay,
+        },
       }),
-    }
+    },
   }
   const graphicAnimations = {
     transition: {
@@ -55,50 +49,54 @@ export const LogoAnimation = () => {
       damping: 200,
       y: {
         ease: 'circOut',
-        duration: 15
-      }
+        duration: 15,
+      },
     },
     variants: {
       out: { scale: 4, y: 50 },
-      in: { scale: 1, y: -30 }
+      in: { scale: 1, y: -30 },
     },
   }
   const graphicChildAnimations = {
     transition: {
       ease: 'linear',
-      duration: 30
+      duration: 30,
     },
     variants: {
-      out: (i) => ({ rotate: 0 + i }),
-      in: (i) => ({ rotate: 360 * (1 - Math.random()) * i })
+      out: i => ({ rotate: 0 + i }),
+      in: i => ({ rotate: 360 * (1 - Math.random()) * i }),
     },
   }
 
   return (
-    <>
-      <button style={{ padding: '20px 150px' }} onClick={handleClick}>
-        {on ? 'on' : 'off'}
-      </button>
-      <br />
-      <motion.svg
-        width="420"
-        height="120"
-        fill="none"
-        viewBox="0 0 160 160"
-        animate={controls}
-      >
-        <mask
-          id="mask0"
-          width="160"
-          height="160"
-          x="0"
-          y="0"
-          maskUnits="userSpaceOnUse"
-        >
+    <Container initial="out" animate="in">
+      <motion.svg width="420" height="120" fill="none" viewBox="0 0 160 160">
+        <mask id="mask0" width="160" height="160" x="0" y="0" maskUnits="userSpaceOnUse">
           <motion.g {...parentAnimation}>
-            <motion.path custom={0} {...childAnimations} fill-rule="evenodd" clip-rule="evenodd" d="M53.3751 18L79.7126 29.4347L106.05 18L134.425 31.4215V59.499L79.7126 84.2143L25 59.499V31.4215L53.3751 18ZM53.6172 32.9988L38.6782 40.065V50.6866L79.7126 69.2232L120.747 50.6866V40.065L105.808 32.9988L79.7126 44.3283L53.6172 32.9988Z" fill="white" />
-            <motion.path custom={1} {...childAnimations} fill-rule="evenodd" clip-rule="evenodd" d="M25 70.778V85.8734L79.7126 111.583L134.425 85.8734V70.778L79.7126 96.4881L25 70.778Z" fill="white" />
-            <motion.path custom={2} {...childAnimations} fill-rule="evenodd" clip-rule="evenodd" d="M25 98.095V113.19L79.7126 138.9L134.425 113.19V98.095L79.7126 123.805L25 98.095Z" fill="white" />
+            <motion.path
+              custom={0}
+              {...childAnimations}
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M53.3751 18L79.7126 29.4347L106.05 18L134.425 31.4215V59.499L79.7126 84.2143L25 59.499V31.4215L53.3751 18ZM53.6172 32.9988L38.6782 40.065V50.6866L79.7126 69.2232L120.747 50.6866V40.065L105.808 32.9988L79.7126 44.3283L53.6172 32.9988Z"
+              fill="white"
+            />
+            <motion.path
+              custom={1}
+              {...childAnimations}
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M25 70.778V85.8734L79.7126 111.583L134.425 85.8734V70.778L79.7126 96.4881L25 70.778Z"
+              fill="white"
+            />
+            <motion.path
+              custom={2}
+              {...childAnimations}
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M25 98.095V113.19L79.7126 138.9L134.425 113.19V98.095L79.7126 123.805L25 98.095Z"
+              fill="white"
+            />
           </motion.g>
         </mask>
         <g mask="url(#mask0)">
@@ -148,6 +146,19 @@ export const LogoAnimation = () => {
           </motion.g>
         </g>
       </motion.svg>
-    </>
-  );
+      <motion.h3
+        transition={{ ...transition, delay: 0.4 + startingDelay }}
+        variants={{
+          out: { y: 10, opacity: 0 },
+          in: { y: 0, opacity: 1 },
+        }}
+        style={{ textAlign: 'center' }}>
+        Thank you.
+      </motion.h3>
+    </Container>
+  )
 }
+
+const Container = styled(motion.div)`
+  margin-top: 24px;
+`
