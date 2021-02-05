@@ -14,7 +14,7 @@ export const Header = () => {
   const buttonLabels = ['templates', 'info', 'donation']
 
   return (
-    <DrawerProvider panels={['addtemplate', ...buttonLabels, 'payment', 'subscription-cancel', 'thank you']}>
+    <DrawerProvider panels={['addtemplate', ...buttonLabels, 'payment', 'subscription-cancel', 'unsubscribed', 'thank you']}>
       <Container>
         <h1>{fileName}</h1>
         <div className="buttons">

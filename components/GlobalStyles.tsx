@@ -33,6 +33,9 @@ export const GlobalStyles = createGlobalStyle`
   p {
     line-height: 150%;
   }
+  h3 {
+    font-weight: 400;
+  }
   input {
     border: 0;
     font-family: inherit;
