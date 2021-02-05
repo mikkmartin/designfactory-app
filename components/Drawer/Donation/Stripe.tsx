@@ -82,6 +82,12 @@ export const Stripe: FC<Props> = ({ shown, onReady, onSuccess }) => {
     }
   }, [shown])
 
+  //cleanup on unmount
+  useEffect(() => () => {
+    showError(null)
+    setLoading(false)
+  }, [])
+
   return (
     <>
       <CardContainer

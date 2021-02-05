@@ -28,9 +28,13 @@ export const DonationProvider: FC = ({ children }) => {
   const submitHandler = useRef(null)
   const [loading, setLoading] = useState(false)
 
-  const showError = (str) => {
-    setError(str)
-    setTimeout(() => setError(''), 2500)
+  const showError = (str: string | null) => {
+    if (str) {
+      setError(str)
+      setTimeout(() => setError(''), 2500)
+    } else {
+      setError('')
+    }
   }
 
   return (

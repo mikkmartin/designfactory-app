@@ -2,7 +2,7 @@ import { Content, ButtonStack } from '../Tab'
 import { PayPal as PayPalIcon, CardTypes } from 'components/Icons/PaymentTypes'
 import { PayPal } from './PayPal'
 import styled from 'styled-components'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useDonation } from './DonationContext'
 import { animations, validateEmail } from './utils'
 import {
@@ -23,7 +23,7 @@ export const Unsubscribe = ({ onCancel, onConfirmed }) => {
   const [emailInvalid, setEmailInvalid] = useState(false)
   const [cardNrInvalid, setCardNrInvalid] = useState(false)
 
-  const handleSubmit = async ev => {
+  const handleSubmitEvent = async ev => {
     ev.preventDefault()
     const email = emailRef.current?.value
     const last4 = cardRef.current?.value
@@ -35,7 +35,7 @@ export const Unsubscribe = ({ onCancel, onConfirmed }) => {
       setCardNrInvalid(true)
     } else {
       setLoading(true)
-      const { error, message } = await unsubscribe(email, last4)
+      const { error } = await unsubscribe(email, last4)
       setLoading(false)
 
       if (error) showError(error.message)
@@ -43,8 +43,14 @@ export const Unsubscribe = ({ onCancel, onConfirmed }) => {
     }
   }
 
+  //cleanup on unmount
+  useEffect(() => () => {
+    showError(null)
+    setLoading(false)
+  }, [])
+
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmitEvent}>
       <ErrorToast>{error}</ErrorToast>
       <LoadingBar loading={loading} />
       <Container>
@@ -85,7 +91,7 @@ export const Unsubscribe = ({ onCancel, onConfirmed }) => {
         <Button highlight onClick={onCancel}>
           Back
         </Button>
-        <Button primary type="submit" onClick={handleSubmit}>
+        <Button primary type="submit" onClick={handleSubmitEvent}>
           Unsubscribe
         </Button>
       </ButtonStack>
