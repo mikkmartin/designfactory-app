@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { childAnimations, ButtonStack, Content } from '../Tab'
 import { PayPal as PayPalIcon, CardTypes } from 'components/Icons/PaymentTypes'
 import { Stripe } from './Stripe'
