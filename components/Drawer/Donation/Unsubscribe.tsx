@@ -88,7 +88,7 @@ export const Unsubscribe = ({ onCancel, onConfirmed }) => {
         />
       </Container>
       <ButtonStack>
-        <Button highlight onClick={onCancel}>
+        <Button type="reset" highlight onClick={onCancel}>
           Back
         </Button>
         <Button primary type="submit" onClick={handleSubmitEvent}>
