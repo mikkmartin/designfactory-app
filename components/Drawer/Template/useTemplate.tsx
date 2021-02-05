@@ -14,7 +14,7 @@ export const useTemplate = (json: Invoice, setJson: SetJson) => {
     []
   )
   const templates = [...customTemplates, ...defaultTemplates]
-  const currentTemplate = templates.find(template => template.template === json.template)
+  const currentTemplate = templates.find(template => template.template === json.template) || defaultTemplates[0]
 
   //update fonts for custom template
   useEffect(() => {
