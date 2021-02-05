@@ -25,6 +25,7 @@ export const Unsubscribe = ({ onCancel, onConfirmed }) => {
 
   const handleSubmitEvent = async ev => {
     ev.preventDefault()
+    if (loading) return
     const email = emailRef.current?.value
     const last4 = cardRef.current?.value
     if (!validateEmail(email)) {
@@ -44,10 +45,13 @@ export const Unsubscribe = ({ onCancel, onConfirmed }) => {
   }
 
   //cleanup on unmount
-  useEffect(() => () => {
-    showError(null)
-    setLoading(false)
-  }, [])
+  useEffect(
+    () => () => {
+      showError(null)
+      setLoading(false)
+    },
+    []
+  )
 
   return (
     <Form onSubmit={handleSubmitEvent}>
@@ -91,7 +95,7 @@ export const Unsubscribe = ({ onCancel, onConfirmed }) => {
         <Button type="reset" highlight onClick={onCancel}>
           Back
         </Button>
-        <Button primary type="submit" onClick={handleSubmitEvent}>
+        <Button primary type="submit" disabled={loading} onClick={handleSubmitEvent}>
           Unsubscribe
         </Button>
       </ButtonStack>
