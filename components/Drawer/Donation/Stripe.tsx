@@ -62,7 +62,6 @@ export const Stripe: FC<Props> = ({ shown, onReady, onSuccess }) => {
   const handleReady = _el => {
     setEl(_el)
     onReady()
-    console.log('ready, setting submit handler')
     setSubmitHandler(handleSubmit)
   }
 

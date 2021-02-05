@@ -14,8 +14,7 @@ export const Payment = ({ onBack, onDonationComplete }) => {
   const handleSubmitEvent = ev => {
     ev.preventDefault()
     if (Boolean(handleSubmit)) handleSubmit()
-    else console.log('no')
-    console.log({ handleSubmit })
+    else console.error('No submit handler.')
   }
 
   return (
