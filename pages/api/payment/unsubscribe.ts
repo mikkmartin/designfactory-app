@@ -18,17 +18,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const subscriptions = customers.data[0].subscriptions
       if (subscriptions.data.length > 0) {
         await stripe.subscriptions.del(subscriptions.data[0].id)
-        res.end('Successfully unsubscribed')
+        res.status(200).json({ message: `Successfully unsubscribed.` })
       } else {
-        req.statusCode = 404
-        res.end('No subscriptions found')
+        res.status(404).json({ error: `No subscriptions found.` })
       }
     } else {
-      req.statusCode = 404
-      res.end('Subscription not found.')
+      res.status(404).json({ error: `Subscription not found.` })
     }
   } catch (e) {
-    req.statusCode = 500
+    res.statusCode = 500
     console.error(e)
     res.end('Something got fucked!')
   }

@@ -24,6 +24,7 @@ export type Panels =
   | 'donation'
   | 'payment'
   | 'subscription-cancel'
+  | 'unsubscribed'
   | 'thank you'
 export type PanelState = Panels | false
 

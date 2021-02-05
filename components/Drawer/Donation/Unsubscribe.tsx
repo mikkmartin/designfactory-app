@@ -4,7 +4,7 @@ import { PayPal } from './PayPal'
 import styled from 'styled-components'
 import { useRef, useState } from 'react'
 import { useDonation } from './DonationContext'
-import { animations } from './utils'
+import { animations, validateEmail } from './utils'
 import {
   LoadingBar,
   ErrorToast,
@@ -13,17 +13,34 @@ import {
   RadioButton,
   Button,
 } from 'components/Common'
+import { unsubscribe } from 'data/unsubscribe'
 
 export const Unsubscribe = ({ onCancel, onConfirmed }) => {
   const [paymentType, setPaymentType] = useState('Card')
   const emailRef = useRef<HTMLInputElement>(null)
+  const cardRef = useRef<HTMLInputElement>(null)
+  const { loading, error, showError, setLoading } = useDonation()
   const [emailInvalid, setEmailInvalid] = useState(false)
-  const { loading, error } = useDonation()
+  const [cardNrInvalid, setCardNrInvalid] = useState(false)
 
-  const handleSubmit = ev => {
-    //onConfirmed()
-    console.log('handleSubmit()')
+  const handleSubmit = async ev => {
     ev.preventDefault()
+    const email = emailRef.current?.value
+    const last4 = cardRef.current?.value
+    if (!validateEmail(email)) {
+      showError('Email invalid.')
+      setEmailInvalid(true)
+    } else if (!validateCardNumbers(last4)) {
+      showError('Card digits invalid.')
+      setCardNrInvalid(true)
+    } else {
+      setLoading(true)
+      const { error, message } = await unsubscribe(email, last4)
+      setLoading(false)
+
+      if (error) showError(error.message)
+      else onConfirmed()
+    }
   }
 
   return (
@@ -51,7 +68,13 @@ export const Unsubscribe = ({ onCancel, onConfirmed }) => {
           invalid={emailInvalid}
           onChange={() => setEmailInvalid(false)}
         />
-        <CardInput {...animations(paymentType === 'Card', false)} type="card" />
+        <CardInput
+          type="card"
+          {...animations(paymentType === 'Card', false)}
+          ref={cardRef}
+          invalid={cardNrInvalid}
+          onChange={() => setCardNrInvalid(false)}
+        />
         <PayPal
           shown={paymentType === 'Paypal'}
           href="https://www.paypal.com/myaccount/autopay/"
@@ -89,3 +112,8 @@ const Form = styled.form`
   flex-direction: column;
   justify-content: space-between;
 `
+
+const validateCardNumbers = (numbers: string) => {
+  if (numbers.length !== 4) return false
+  return true
+}

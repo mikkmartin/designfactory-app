@@ -30,7 +30,7 @@ export const DonationProvider: FC = ({ children }) => {
 
   const showError = (str) => {
     setError(str)
-    setTimeout(() => setError(''), 2000)
+    setTimeout(() => setError(''), 2500)
   }
 
   return (

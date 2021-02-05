@@ -1,11 +1,11 @@
 import { childAnimations } from '../Tab'
 import { Button } from 'components/Common/Button'
-import { LogoAnimation } from "./LogoAnimation";
+import { LogoAnimation } from './LogoAnimation'
 
-export const Thanks = ({ onDone }) => {
+export const Confirmation = ({ onDone, message = 'Thank you' }) => {
   return (
     <>
-      <LogoAnimation />
+      <LogoAnimation message={message} />
       <Button {...childAnimations} highlight width="100%" onClick={onDone}>
         Done
       </Button>

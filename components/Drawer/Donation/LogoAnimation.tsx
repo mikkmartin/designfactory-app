@@ -1,8 +1,7 @@
 import { motion } from 'framer-motion'
-import { useState } from 'react'
 import styled from 'styled-components'
 
-export const LogoAnimation = () => {
+export const LogoAnimation = ({ message }) => {
   const startingDelay = 0.2
   const transition = {
     type: 'spring',
@@ -153,7 +152,7 @@ export const LogoAnimation = () => {
           in: { y: 0, opacity: 1 },
         }}
         style={{ textAlign: 'center' }}>
-        Thank you.
+        {message}
       </motion.h3>
     </Container>
   )

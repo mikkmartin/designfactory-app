@@ -12,7 +12,7 @@ import { useDrawer } from '../Drawer/DrawerContext'
 import { Donation } from '../Drawer/Donation/Donation'
 import { Unsubscribe } from '../Drawer/Donation/Unsubscribe'
 import { Payment } from '../Drawer/Donation/Payment'
-import { Thanks } from '../Drawer/Donation/Thanks'
+import { Confirmation } from '../Drawer/Donation/Confirmation'
 import { DonationProvider } from '../Drawer/Donation/DonationContext'
 
 export const Drawer = () => {
@@ -68,7 +68,7 @@ export const Drawer = () => {
           <Tab {...props} key={panel}>
             <Unsubscribe
               onCancel={() => setPanel('donation')}
-              onConfirmed={() => setPanel('thank you')}
+              onConfirmed={() => setPanel('unsubscribed')}
             />
           </Tab>
         )
@@ -84,7 +84,13 @@ export const Drawer = () => {
       case 'thank you':
         return (
           <Tab {...props} key={panel}>
-            <Thanks onDone={() => setPanel(false)} />
+            <Confirmation onDone={() => setPanel(false)} />
+          </Tab>
+        )
+      case 'unsubscribed':
+        return (
+          <Tab {...props} key={panel}>
+            <Confirmation onDone={() => setPanel(false)} message="Unsubscribed" />
           </Tab>
         )
     }
