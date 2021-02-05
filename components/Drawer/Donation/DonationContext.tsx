@@ -26,7 +26,7 @@ export const DonationProvider: FC = ({ children }) => {
   const [paymentType, setPaymentType] = useState<DonationType>('Monthly')
   const [error, setError] = useState<string>('')
   const submitHandler = useRef(null)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   const showError = (str) => {
     setError(str)

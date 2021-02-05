@@ -1,20 +1,17 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { childAnimations, ButtonStack, Content } from '../Tab'
-import { RadioButtonGroup, RadioButton } from 'components/Common/RadioButtonGroup'
 import { PayPal as PayPalIcon, CardTypes } from 'components/Icons/PaymentTypes'
-import { Button } from 'components/Common/Button'
-import styled from 'styled-components'
 import { Stripe } from './Stripe'
 import { PayPal } from './PayPal'
 import { useDonation } from './DonationContext'
-import { LoadingBar } from 'components/Common/LoadingBar'
-import { ErrorToast } from 'components/Common/ErrorToast'
+import { LoadingBar, ErrorToast, RadioButtonGroup, RadioButton, Button } from 'components/Common'
+import styled from 'styled-components'
 
 export const Payment = ({ onBack, onDonationComplete }) => {
   const [paymentMethod, setPaymentMethod] = useState('Card')
   const { handleSubmit, loading, setLoading, error } = useDonation()
 
-  const handleSubmitEvent = (ev) => {
+  const handleSubmitEvent = ev => {
     ev.preventDefault()
     if (Boolean(handleSubmit)) handleSubmit()
     else console.log('no')
@@ -27,25 +24,25 @@ export const Payment = ({ onBack, onDonationComplete }) => {
       <LoadingBar loading={loading} />
       <Container>
         <RadioButtonGroup>
-          {
-            [{ value: 'Card', Icon: CardTypes }, { value: 'Paypal', Icon: PayPalIcon }]
-              .map(({ value, Icon }) =>
-                <RadioButton
-                  key={value}
-                  value={value}
-                  onChange={(v) => setPaymentMethod(v)}
-                  selected={paymentMethod === value}>
-                  <Icon />
-                </RadioButton>
-              )
-          }
+          {[
+            { value: 'Card', Icon: CardTypes },
+            { value: 'Paypal', Icon: PayPalIcon },
+          ].map(({ value, Icon }) => (
+            <RadioButton
+              key={value}
+              value={value}
+              onChange={v => setPaymentMethod(v)}
+              selected={paymentMethod === value}>
+              <Icon />
+            </RadioButton>
+          ))}
         </RadioButtonGroup>
-        <Stripe shown={paymentMethod === 'Card'}
+        <Stripe
+          shown={paymentMethod === 'Card'}
           onReady={() => setLoading(false)}
           onSuccess={onDonationComplete}
         />
         <PayPal shown={paymentMethod === 'Paypal'} />
-
       </Container>
       <ButtonStack>
         <Button {...childAnimations} highlight type="reset" onClick={onBack}>
@@ -55,12 +52,8 @@ export const Payment = ({ onBack, onDonationComplete }) => {
           primary
           type="submit"
           {...childAnimations}
-          disabled={
-            loading ||
-            paymentMethod === 'Paypal'
-          }
-          onClick={handleSubmitEvent}
-        >
+          disabled={loading || paymentMethod === 'Paypal'}
+          onClick={handleSubmitEvent}>
           Donate
         </Button>
       </ButtonStack>

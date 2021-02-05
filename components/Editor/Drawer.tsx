@@ -68,7 +68,7 @@ export const Drawer = () => {
           <Tab {...props} key={panel}>
             <Unsubscribe
               onCancel={() => setPanel('donation')}
-              onConfirm={() => setPanel('thank you')}
+              onConfirmed={() => setPanel('thank you')}
             />
           </Tab>
         )

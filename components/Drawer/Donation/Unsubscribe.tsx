@@ -1,26 +1,35 @@
 import { Content, ButtonStack } from '../Tab'
-import { Button } from 'components/Common/Button'
-import { RadioButtonGroup, RadioButton } from 'components/Common/RadioButtonGroup'
 import { PayPal as PayPalIcon, CardTypes } from 'components/Icons/PaymentTypes'
-import { Input as InputBase } from 'components/Common/Input'
 import { PayPal } from './PayPal'
 import styled from 'styled-components'
 import { useRef, useState } from 'react'
 import { useDonation } from './DonationContext'
-import { LoadingBar } from 'components/Common/LoadingBar'
-import { ErrorToast } from 'components/Common/ErrorToast'
 import { animations } from './utils'
+import {
+  LoadingBar,
+  ErrorToast,
+  Input as InputBase,
+  RadioButtonGroup,
+  RadioButton,
+  Button,
+} from 'components/Common'
 
-export const Unsubscribe = ({ onCancel, onConfirm }) => {
+export const Unsubscribe = ({ onCancel, onConfirmed }) => {
   const [paymentType, setPaymentType] = useState('Card')
   const emailRef = useRef<HTMLInputElement>(null)
   const [emailInvalid, setEmailInvalid] = useState(false)
   const { loading, error } = useDonation()
 
+  const handleSubmit = ev => {
+    //onConfirmed()
+    console.log('handleSubmit()')
+    ev.preventDefault()
+  }
+
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <ErrorToast>{error}</ErrorToast>
-      <LoadingBar loading={false} />
+      <LoadingBar loading={loading} />
       <Container>
         <RadioButtonGroup>
           {[
@@ -53,7 +62,7 @@ export const Unsubscribe = ({ onCancel, onConfirm }) => {
         <Button highlight onClick={onCancel}>
           Back
         </Button>
-        <Button primary onClick={onConfirm}>
+        <Button primary type="submit" onClick={handleSubmit}>
           Unsubscribe
         </Button>
       </ButtonStack>
