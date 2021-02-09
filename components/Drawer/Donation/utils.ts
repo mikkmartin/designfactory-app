@@ -24,7 +24,7 @@ export const stripeInputStyle = iconState => ({
     lineHeight: '48px',
     color: 'white',
     ':-webkit-autofill': {
-      color: 'black',
+      color: 'var(--background, black)',
     },
     '::placeholder': {
       color: placeholderColor,
