@@ -1,39 +1,55 @@
-import { FC, createContext, useContext } from 'react'
-import { Font } from '@react-pdf/renderer'
-
-export type Fonts = {
-  family: string
-  fonts: FontType[]
-}
-
-type FontType = {
-  src: string
-  fontWeight?: string
-}
-
-const registerFonts = (fonts: Fonts[]): string[] =>
-  fonts.map(({ family, fonts }) => {
-    Font.register({
-      family,
-      fonts,
-    })
-    return family
-  })
-
-Font.registerHyphenationCallback(word => [word])
+import { FC, createContext, useContext, useRef } from 'react'
+import { FileResponse, Component } from '@mikkmartin/figma-js'
+import { Invoice } from 'static/invoice'
 
 type Values = {
   fontFamilies: string[]
+  template: FileResponse,
+  data: Invoice,
+  onRender?: () => any,
+  filledLists: string[],
+  addFilledList: (list: string) => void,
+  components: Component[],
+  setComponents: (components: Component[]) => void,
 }
 
-const Context = createContext<Values>({
-  fontFamilies: [],
-})
+//@ts-ignore
+const Context = createContext<Values>()
 
-export const PdfProvider: FC<{ fonts: Fonts[] }> = ({ children, fonts }) => {
-  Font.clear()
-  const fontFamilies = fonts?.length > 0 ? registerFonts(fonts) : []
-  return <Context.Provider value={{ fontFamilies }}>{children}</Context.Provider>
+type Props = {
+  template: FileResponse,
+  data: Invoice,
+  onRender?: () => any,
+  fontFamilies: any,
+  components?: Component[]
 }
 
-export const useFonts = () => useContext(Context)
+export const PdfProvider: FC<Props> = ({
+  children,
+  template,
+  data,
+  fontFamilies,
+  components: initialComponents = [],
+  onRender = () => { }
+}) => {
+  const filledLists = useRef<string[]>([])
+  const components = useRef<Component[]>(initialComponents)
+  filledLists.current = []
+
+  return (
+    <Context.Provider value={{
+      fontFamilies,
+      template,
+      data,
+      onRender,
+      filledLists: filledLists.current,
+      addFilledList: (list) => { filledLists.current.push(list) },
+      components: components.current,
+      setComponents: (_components) => { components.current = _components }
+    }}>
+      {children}
+    </Context.Provider>
+  )
+}
+
+export const usePdf = () => useContext(Context)

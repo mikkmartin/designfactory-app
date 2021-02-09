@@ -1,9 +1,9 @@
-import { useEditor } from '../Editor'
-import { defaults } from '../../static/invoice'
+import { useEditor } from './Editor'
+import { defaults } from '../static/invoice'
 import styled from 'styled-components'
-import { Download } from '../Icons'
-import { Button } from './Button'
-import { Drawer } from './Drawer'
+import { Download } from './Icons'
+import { Button } from './Common/Button'
+import { Drawer } from './Editor/Drawer'
 import { DrawerProvider } from './Drawer/DrawerContext'
 import { TabButton } from './Drawer/TabButton'
 
@@ -11,14 +11,14 @@ export const Header = () => {
   const { json, blobUrl } = useEditor()
   const fileName = json.fileName || defaults.fileName
   const linkAttributes = blobUrl ? { href: blobUrl, download: fileName } : {}
-  const buttonLabels = ['info', 'templates']
+  const buttonLabels = ['templates', 'info', 'donation']
 
   return (
-    <DrawerProvider panels={[...buttonLabels, 'addtemplate']}>
+    <DrawerProvider panels={['addtemplate', ...buttonLabels, 'payment', 'subscription-cancel', 'unsubscribed', 'thank you']}>
       <Container>
         <h1>{fileName}</h1>
         <div className="buttons">
-          {['info', 'templates'].map(name =>
+          {buttonLabels.map(name =>
             <TabButton key={name} name={name} />
           )}
           <a {...linkAttributes}>
@@ -45,6 +45,12 @@ const Container = styled.div`
   h1 {
     font-size: 16px;
     font-weight: 300;
+    width: 1fr;
+    text-overflow: ellipsis;
+    overflow: hidden; 
+    height: 1.2em;
+    white-space: nowrap;
+    padding-right: 4px;
   }
   .buttons {
     display: flex;

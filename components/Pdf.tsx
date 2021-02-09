@@ -1,13 +1,13 @@
 import { useState, useMemo, useEffect, FC, useRef } from 'react'
-import ReactPDF, { PDFViewer } from '@react-pdf/renderer'
-import { InvoicePage } from './Pdf/InvoicePage'
+import { PDFViewer } from '@react-pdf/renderer'
 import { useDebounce } from 'react-use'
 import { useEditor } from './Editor'
-import { getTemplate } from '../data/figma'
 import { PdfProvider } from './Pdf/PdfContext'
-import { defaults } from '../static/invoice'
+import { useRegisterFonts } from './Pdf/registerFonts'
+import { Font } from '@react-pdf/renderer'
+Font.registerHyphenationCallback(word => [word])
 
-export const Pdf: FC = () => {
+export const Pdf: FC = ({ children }) => {
   const ref = useRef<HTMLIFrameElement>()
   const { json, template, setBlobUrl } = useEditor()
   const [pdfData, setPdfData] = useState(json)
@@ -15,6 +15,7 @@ export const Pdf: FC = () => {
   useDebounce(() => setPdfData(json), 300, [json])
   useEffect(() => setRenderIframe(true), [])
   let observer: MutationObserver = null
+  const fontFamilies = useRegisterFonts(json.fonts)
 
   const onRender = () => {
     observer = new MutationObserver(mutations =>
@@ -31,23 +32,17 @@ export const Pdf: FC = () => {
 
   return useMemo(
     () =>
-      renderIframe &&
-      template && (
+      renderIframe && template ? (
         <PDFViewer innerRef={element => (ref.current = element)}>
-          <PdfProvider fonts={pdfData.fonts}>
-            <InvoicePage template={template} data={pdfData} onRender={onRender} />
+          <PdfProvider
+            fontFamilies={fontFamilies}
+            template={template}
+            data={json}
+            onRender={onRender}>
+            {children}
           </PdfProvider>
         </PDFViewer>
-      ),
+      ) : null,
     [renderIframe, template, pdfData]
-  )
-}
-
-export async function streamDocument({ data }) {
-  const template = await getTemplate(data.template || defaults.template)
-  return ReactPDF.renderToStream(
-    <PdfProvider fonts={data.fonts}>
-      <InvoicePage template={template} data={data} />
-    </PdfProvider>
   )
 }

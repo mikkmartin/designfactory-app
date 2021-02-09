@@ -12,6 +12,7 @@ type Props = {
 export const Button = styled(motion.button) <Props>`
   width: ${props => (props.width ? props.width : '56px')};
   height: 56px;
+  font-family: inherit;
   border: 0;
   color: white;
   cursor: pointer;

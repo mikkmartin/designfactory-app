@@ -1,24 +1,27 @@
 import { motion, AnimateSharedLayout } from 'framer-motion'
-import { Button } from '../Button'
+import { Button } from '../../Common/Button'
 import styled from 'styled-components'
 import { More } from '../../Icons'
-import { ButtonStack, childAnimations } from './Tab'
+import { ButtonStack, childAnimations } from '../Tab'
 import { useEditor } from '../../Editor'
-import { defaults } from '../../../static/invoice'
-import { snappy } from '../../../static/transitions'
-import { Check } from "./Check";
-import { useDrawer } from "./DrawerContext";
-import { Dropdown } from "./Dropdown";
+import { defaults } from 'static/invoice'
+import { snappy } from 'static/transitions'
+import { Check } from "../../Common/Check";
+import { useDrawer } from "../DrawerContext";
+import { Dropdown } from "../../Common/Dropdown";
 
 export const TemplatePanel = ({ close, onModify }) => {
   const { json, setJson } = useEditor()
   const { openDropdown, templates } = useDrawer()
   const currentTemplate = json.template || defaults.template
 
-  const onSelect = (ev, template) => {
+  const onSelect = (ev, { template, fonts }) => {
     ev.preventDefault()
     //if (ev.target.type === 'submit') setJson({ ...json, template })
-    setJson({ ...json, template })
+    let newJson = { ...json, template }
+    if (fonts) newJson.fonts = fonts
+    else delete newJson.fonts
+    setJson(newJson)
   }
 
   return (
@@ -26,7 +29,7 @@ export const TemplatePanel = ({ close, onModify }) => {
       <List>
         <AnimateSharedLayout>
           {templates.map((templateObject) => {
-            const { template, name } = templateObject
+            const { template, name, fonts } = templateObject
             const selected = template === currentTemplate
             return (
               <Item layout {...childAnimations} key={template}>
@@ -34,7 +37,7 @@ export const TemplatePanel = ({ close, onModify }) => {
                 <Button
                   width="100%"
                   noHover={selected}
-                  onClick={(ev) => onSelect(ev, template)}
+                  onClick={(ev) => onSelect(ev, { template, fonts })}
                 >
                   <Check checked={selected} />
                   <div className="text">

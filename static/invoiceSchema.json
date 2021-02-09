@@ -4,60 +4,52 @@
   "type": "object",
   "title": "Invoice",
   "required": [
-    "from",
-    "fromDescription",
-    "to",
+    "fromName",
+    "fromAddress",
+    "fromRegNr",
+    "toName",
+    "toAddress",
+    "toRegNr",
     "description",
     "items",
-    "myCompanyRegistrationNr",
-    "ibanLabel",
-    "ibanNr"
+    "ibanNr",
+    "ibanLabel"
   ],
   "properties": {
-    "fileName": {
-      "$id": "#/properties/fileName",
-      "type": "string",
-      "default": "Arve_2019052201.pdf"
-    },
-    "from": {
-      "$id": "#/properties/from",
+    "fromName": {
+      "$id": "#/properties/fromName",
       "type": "string",
       "default": "Ettevõte OÜ"
     },
-    "invoiceNr": {
-      "$id": "#/properties/invoiceNr",
-      "type": "integer",
-      "default": 2019052201
-    },
-    "date": {
-      "$id": "#/properties/date",
+    "fromAddress": {
+      "$id": "#/properties/fromAddress",
       "type": "string",
-      "default": "22-05-2019"
+      "default": "Lõime tn 16-11, Tallinn, Harjumaa 10312"
     },
-    "dueDate": {
-      "$id": "#/properties/dueDate",
-      "type": "string",
-      "default": "22-06-2019"
+    "fromRegNr": {
+      "$id": "#/properties/fromRegNr",
+      "type": "number",
+      "default": 12702285
     },
-    "fromDescription": {
-      "$id": "#/properties/fromDescription",
-      "type": "string",
-      "default": "Kõvad veebivennad"
-    },
-    "to": {
-      "$id": "#/properties/to",
+    "toName": {
+      "$id": "#/properties/toName",
       "type": "string",
       "default": "Klient OÜ"
+    },
+    "toAddress": {
+      "$id": "#/properties/toAddress",
+      "type": "string",
+      "default": "Aadress 123b, Tallinn, 00117"
+    },
+    "toRegNr": {
+      "$id": "#/properties/toRegNr",
+      "type": "number",
+      "default": 12702285
     },
     "description": {
       "$id": "#/properties/description",
       "type": "string",
       "default": "Üks kõva veebipood"
-    },
-    "tax": {
-      "$id": "#/properties/tax",
-      "type": "number",
-      "default": 0
     },
     "items": {
       "$id": "#/properties/items",
@@ -115,37 +107,20 @@
                 "type": "integer",
                 "default": 1
               }
-            },
-            "additionalProperties": true
+            }
           }
         ]
       }
-    },
-    "paidInCash": {
-      "$id": "#/properties/paidInCash",
-      "type": "boolean",
-      "default": false
-    },
-    "myCompanyRegistrationNr": {
-      "$id": "#/properties/myCompanyRegistrationNr",
-      "type": "number",
-      "default": 12702285
-    },
-    "ibanLabel": {
-      "$id": "#/properties/ibanLabel",
-      "type": "string",
-      "default": "LHV"
     },
     "ibanNr": {
       "$id": "#/properties/ibanNr",
       "type": "string",
       "default": "EE907700771001360230"
     },
-    "website": {
-      "$id": "#/properties/website",
+    "ibanLabel": {
+      "$id": "#/properties/ibanLabel",
       "type": "string",
-      "examples": ["mikkmartin.co"],
-      "default": ""
+      "default": "LHV"
     },
     "email": {
       "$id": "#/properties/email",
@@ -153,11 +128,46 @@
       "examples": ["mikk.martin@gmail.com"],
       "default": ""
     },
+    "website": {
+      "$id": "#/properties/website",
+      "type": "string",
+      "examples": ["mikkmartin.co"],
+      "default": ""
+    },
+    "fileName": {
+      "$id": "#/properties/fileName",
+      "type": "string",
+      "default": "Arve_2019052201.pdf"
+    },
+    "invoiceNr": {
+      "$id": "#/properties/invoiceNr",
+      "type": "integer",
+      "default": 2019052201
+    },
+    "date": {
+      "$id": "#/properties/date",
+      "type": "string",
+      "default": "22-05-2019"
+    },
+    "dueDate": {
+      "$id": "#/properties/dueDate",
+      "type": "string",
+      "default": "22-06-2019"
+    },
+    "tax": {
+      "$id": "#/properties/tax",
+      "type": "number",
+      "default": 0
+    },
+    "paidInCash": {
+      "$id": "#/properties/paidInCash",
+      "type": "boolean",
+      "default": false
+    },
     "phoneNr": {
       "$id": "#/properties/phoneNr",
       "type": "string",
-      "examples": ["+372 555 55 555"],
-      "default": ""
+      "examples": ["+372 555 55 555"]
     },
     "template": {
       "$id": "#/properties/template",
@@ -249,5 +259,5 @@
       }
     }
   },
-  "additionalProperties": false
+  "additionalProperties": true
 }

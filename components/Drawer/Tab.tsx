@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
-import { snappy } from '../../../static/transitions'
+import { snappy } from 'static/transitions'
 
 type Props = {
   initial: boolean
@@ -21,7 +21,7 @@ export const Tab: FC<Props> = ({ children, panels, panel, previousPanel, initial
       enter: (p) => directionVariant(panels.indexOf(p) > panels.indexOf(previousPanel)),
       exit: (p) => directionVariant(panels.indexOf(p) < panels.indexOf(panel as string)),
       in: { x: '0%' },
-      revealed: { transition: { staggerChildren: 0.05 } }
+      revealed: { transition: { staggerChildren: 0.025 } }
     }
   })
 

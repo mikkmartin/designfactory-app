@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
-import { Button } from '../Button'
-import { childAnimations, Content } from "./Tab";
+import { Button } from '../Common/Button'
+import { childAnimations, Content } from './Tab'
 
 export const InfoPanel = ({ close }) => {
   return (
@@ -17,12 +17,12 @@ export const InfoPanel = ({ close }) => {
         </motion.p>
         <motion.p {...childAnimations}>
           Source code:{' '}
-          <a href="https://github.com/mikkmartin/dok-maker" target="_blank">
-            github.com/mikkmartin/dok-maker
+          <a href="https://github.com/mikkmartin/designfactory" target="_blank">
+            github.com/mikkmartin/designfactory
           </a>
         </motion.p>
         <motion.p {...childAnimations}>
-          <a href="https://github.com/mikkmartin/dok-maker/issues" target="_blank">
+          <a href="https://github.com/mikkmartin/designfactory/issues" target="_blank">
             Post a bug or a suggestion on github.
           </a>
         </motion.p>

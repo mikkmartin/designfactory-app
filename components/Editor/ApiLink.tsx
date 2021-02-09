@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useEditor } from '../Editor'
-import baseURL from '../../static/baseURL'
+import baseURL from 'static/baseURL'
 import styled from 'styled-components'
-import { defaults } from '../../static/invoice'
-import { Button } from './Button'
+import { defaults } from 'static/invoice'
+import { Button } from '../Common/Button'
 import { Copy } from '../Icons'
-import { snappy } from '../../static/transitions'
+import { snappy } from 'static/transitions'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export const ApiLink = () => {

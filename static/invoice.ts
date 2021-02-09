@@ -1,5 +1,5 @@
 import _schema from './invoiceSchema.json'
-import { Fonts } from '../components/Pdf/PdfContext'
+import { Fonts } from './types'
 import dayjs from 'dayjs'
 
 const now = new Date()
@@ -19,7 +19,7 @@ export const defaults = {
   dueDate: formatDate(dayjs(now).add(1, 'month')),
   invoiceNr: dateToInvoiceNr(now),
   fileName: formatFileName(now),
-  items: schemaDefaults.items.map(item => ({ ...item, Quantity: 1 })),
+  items: schemaDefaults.items.map(item => ({ ...item, quantity: 1 })),
 }
 
 export const schema: Schema = {
@@ -82,7 +82,7 @@ export type Invoice = {
   tax?: number
   email?: string
   website?: string
-  fonts?: Fonts[]
+  fonts?: Fonts
   template?: string
 }
 

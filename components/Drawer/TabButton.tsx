@@ -1,6 +1,6 @@
-import { Info, Droplet } from '../../Icons'
-import { Button } from '../Button'
-import { useDrawer } from "./DrawerContext";
+import { Info, Droplet, Thanks } from '../Icons'
+import { Button } from '../Common/Button'
+import { useDrawer } from './DrawerContext'
 
 export const TabButton = ({ name }) => {
   const { panel, setPanel } = useDrawer()
@@ -11,6 +11,8 @@ export const TabButton = ({ name }) => {
         return <Info />
       case 'templates':
         return <Droplet />
+      case 'donation':
+        return <Thanks />
     }
   }
 
@@ -19,7 +21,9 @@ export const TabButton = ({ name }) => {
     else setPanel(name)
   }
 
-  const isSelected = panel === name || name === 'templates' && panel === 'addtemplate'
+  const isSelected = panel === name
+    || name === 'templates' && panel === 'addtemplate'
+    || name === 'donation' && ['payment', 'subscription-cancel', 'thank you'].includes(panel as string)
 
   return (
     <Button onClick={handleClick} selected={isSelected}>
