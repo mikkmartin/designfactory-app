@@ -21,7 +21,7 @@ export const Tab: FC<Props> = ({ children, panels, panel, previousPanel, initial
       enter: (p) => directionVariant(panels.indexOf(p) > panels.indexOf(previousPanel)),
       exit: (p) => directionVariant(panels.indexOf(p) < panels.indexOf(panel as string)),
       in: { x: '0%' },
-      revealed: { transition: { staggerChildren: 0.05 } }
+      revealed: { transition: { staggerChildren: 0.025 } }
     }
   })
 
