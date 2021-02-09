@@ -52,7 +52,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 const getPaymentString = (type: DonationType) => {
   switch (type) {
     case 'Monthly':
-      return 'price_1HznNaJl534IC7n3l5jdklwk'
+      return true ? 'price_1IJ0amJl534IC7n3B4l7ccuZ' : 'price_1HznNaJl534IC7n3l5jdklwk' //TODO: if production boolean
     case 'One time':
       return 'price_1I1GFDJl534IC7n3RXiBW55X'
     default:
