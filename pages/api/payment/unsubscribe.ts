@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import Stripe from 'stripe'
-const stripe = new Stripe(process.env.STRIPE_KEY, null)
+const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY, null)
 
 type RequestQuery = {
   email: string
