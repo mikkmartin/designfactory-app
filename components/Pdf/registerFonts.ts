@@ -1,14 +1,14 @@
-import { useEffect, useRef } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 import { Font } from '@react-pdf/renderer'
 import { Fonts } from 'static/types'
 
 export const useRegisterFonts = (fonts: Fonts) => {
   const fontsRef = useRef<string[]>([])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     Font.clear()
     fontsRef.current = registerFonts(fonts)
-  }, [])
+  }, [fonts])
 
   return fontsRef.current
 }
