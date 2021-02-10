@@ -4,7 +4,7 @@ import { useDebounce } from 'react-use'
 import { useEditor } from './Editor'
 import { PdfProvider } from './Pdf/PdfContext'
 import { useRegisterFonts } from './Pdf/registerFonts'
-import { Font } from '@react-pdf/renderer'
+//import { Font } from '@react-pdf/renderer'
 //Font.registerHyphenationCallback(word => [word])
 
 export const Pdf: FC = ({ children }) => {
