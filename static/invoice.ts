@@ -38,9 +38,13 @@ export const schema: Schema = {
 }
 
 const {
-  from,
+  fromName,
   fromDescription,
-  to,
+  fromAddress,
+  fromRegNr,
+  toName,
+  toAddress,
+  toRegNr,
   description,
   items,
   myCompanyRegistrationNr,
@@ -49,9 +53,13 @@ const {
 } = defaults
 //examples displayed in the editor
 export const example: Invoice = {
-  from,
+  fromName,
   fromDescription,
-  to,
+  fromAddress,
+  fromRegNr,
+  toName,
+  toAddress,
+  toRegNr,
   description,
   items: items.map(({ quantity, ...rest }) => rest),
   myCompanyRegistrationNr,
@@ -65,9 +73,13 @@ type Schema = {
 }
 
 export type Invoice = {
-  from: string
+  fromName: string
   fromDescription: string
-  to: string
+  fromAddress: string
+  fromRegNr: number
+  toName: string
+  toAddress: string
+  toRegNr: number
   description: string
   items: Item[]
   fileName?: string

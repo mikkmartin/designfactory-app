@@ -24,7 +24,7 @@
     "fromAddress": {
       "$id": "#/properties/fromAddress",
       "type": "string",
-      "default": "Lõime tn 16-11, Tallinn, Harjumaa 10312"
+      "default": "Aadress 123b, Tallinn, Harjumaa, 00117"
     },
     "fromRegNr": {
       "$id": "#/properties/fromRegNr",
@@ -39,7 +39,7 @@
     "toAddress": {
       "$id": "#/properties/toAddress",
       "type": "string",
-      "default": "Aadress 123b, Tallinn, 00117"
+      "default": "Aadress 123b, Tallinn, Harjumaa, 00117"
     },
     "toRegNr": {
       "$id": "#/properties/toRegNr",
