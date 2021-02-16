@@ -83,7 +83,7 @@
               "price": 4500,
               "quantity": 1
             },
-            "required": ["title", "description", "price"],
+            "required": ["title", "price"],
             "properties": {
               "title": {
                 "$id": "#/properties/items/items/anyOf/0/properties/title",

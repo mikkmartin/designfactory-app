@@ -100,7 +100,7 @@ export type Invoice = {
 
 export type Item = {
   title: string
-  description: string
+  description?: string
   price: number
   quantity?: number
 }

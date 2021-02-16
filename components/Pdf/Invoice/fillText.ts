@@ -34,6 +34,8 @@ export const fillListText = {
         return formatLineCost(data.price)
       case 'total':
         return summarizeLineTotalCost(data)
+      case 'description':
+        return data.description
       default:
         return fillTextDefault(node, data)
     }
