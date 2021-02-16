@@ -78,8 +78,8 @@ const Editor = () => {
         }}
       />
       <Version>
-        v{packagejson.version} Beta{' '}
-        {process.env.NEXT_PUBLIC_ENVIRONMENT && `[${process.env.NEXT_PUBLIC_ENVIRONMENT}]`}
+        v{packagejson.version} Beta
+        {process.env.NEXT_PUBLIC_ENVIRONMENT && ` [${process.env.NEXT_PUBLIC_ENVIRONMENT}]`}
       </Version>
     </Container>
   )
