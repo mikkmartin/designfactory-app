@@ -2,6 +2,7 @@ import { Button } from '../../Common/Button'
 import { ButtonStack, Content } from '../Tab'
 import styled from 'styled-components'
 import { useRef, useState } from 'react'
+import { templateAdded } from 'data/analytics'
 
 export const AddTemplate = ({ onCancel, onAdd }) => {
   const ref = useRef<HTMLInputElement>(null)
@@ -18,6 +19,7 @@ export const AddTemplate = ({ onCancel, onAdd }) => {
       const [template, filename] = str.split('/file/')[1].split('/')
       const name = filename.split('?')[0]
       onAdd({ template, name })
+      templateAdded()
     } catch (e) {
       console.error(e)
     }

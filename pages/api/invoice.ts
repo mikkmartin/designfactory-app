@@ -7,7 +7,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     const data = parseData(req)
     const stream = await streamDocument({ data })
-    invoiceAPIGet()
+    invoiceAPIGet(req.headers.referer)
     res.setHeader('Content-Type', 'application/pdf')
     res.statusCode = 200
     res.send(stream)

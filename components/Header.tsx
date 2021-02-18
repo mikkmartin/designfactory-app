@@ -6,6 +6,8 @@ import { Button } from './Common/Button'
 import { Drawer } from './Editor/Drawer'
 import { DrawerProvider } from './Drawer/DrawerContext'
 import { TabButton } from './Drawer/TabButton'
+import { invoiceDownload } from 'data/analytics'
+import { defaultTemplates } from 'static/defaultTemplates'
 
 export const Header = () => {
   const { json, blobUrl } = useEditor()
@@ -13,16 +15,30 @@ export const Header = () => {
   const linkAttributes = blobUrl ? { href: blobUrl, download: fileName } : {}
   const buttonLabels = ['templates', 'info', 'donation']
 
+  const handleDownload = () => {
+    const existingTemplate = defaultTemplates.find(obj => obj.template === json.template)
+    if (existingTemplate) invoiceDownload(existingTemplate.name)
+    else invoiceDownload('custom')
+  }
+
   return (
-    <DrawerProvider panels={['addtemplate', ...buttonLabels, 'payment', 'subscription-cancel', 'unsubscribed', 'thank you']}>
+    <DrawerProvider
+      panels={[
+        'addtemplate',
+        ...buttonLabels,
+        'payment',
+        'subscription-cancel',
+        'unsubscribed',
+        'thank you',
+      ]}>
       <Container>
         <h1>{fileName}</h1>
         <div className="buttons">
-          {buttonLabels.map(name =>
+          {buttonLabels.map(name => (
             <TabButton key={name} name={name} />
-          )}
+          ))}
           <a {...linkAttributes}>
-            <Button primary>
+            <Button primary onTap={handleDownload}>
               <Download />
             </Button>
           </a>
@@ -47,7 +63,7 @@ const Container = styled.div`
     font-weight: 300;
     width: 1fr;
     text-overflow: ellipsis;
-    overflow: hidden; 
+    overflow: hidden;
     height: 1.2em;
     white-space: nowrap;
     padding-right: 4px;
