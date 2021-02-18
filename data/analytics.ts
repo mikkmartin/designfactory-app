@@ -13,7 +13,7 @@ export const logInvoiceAPIGet = ({ referer, templateId }: GetTypes) => {
     userId: referer || 'anonymous',
     event: 'Invoice API GET',
     data: {
-      tempalte: getTemplateName(templateId),
+      template: getTemplateName(templateId),
     },
   })
 }
