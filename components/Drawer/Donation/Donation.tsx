@@ -25,7 +25,7 @@ export const Donation = ({ close, onDonate, onCancelSubscription }) => {
           ))}
         </RadioButtonGroup>
         <motion.p {...childAnimations}>
-          Donate 30€ or more to help found this project and future. permium features will be free
+          Donate 30€ or more to help found this project and future permium features will be free
           forever.
           <br />
           <a onClick={onCancelSubscription}>Cancel a previous pledge</a>
