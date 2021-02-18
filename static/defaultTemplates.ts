@@ -41,7 +41,7 @@ export const defaultTemplates: TemplateObject[] = [
         family: 'Sachie Script',
         fonts: [
           {
-            src: 'http://localhost:3000/fonts/Sachie Script.ttf',
+            src: baseURL + '/fonts/Sachie Script.ttf',
             fontWeight: 'Regular',
           },
         ],
@@ -50,11 +50,11 @@ export const defaultTemplates: TemplateObject[] = [
         family: 'Manrope',
         fonts: [
           {
-            src: 'http://localhost:3000/fonts/Manrope-Regular.ttf',
+            src: baseURL + '/fonts/Manrope-Regular.ttf',
             fontWeight: 'Regular',
           },
           {
-            src: 'http://localhost:3000/fonts/Manrope-Bold.ttf',
+            src: baseURL + '/fonts/Manrope-Bold.ttf',
             fontWeight: 'Bold',
           },
         ],
