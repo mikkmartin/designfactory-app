@@ -6,8 +6,7 @@ import { Button } from './Common/Button'
 import { Drawer } from './Editor/Drawer'
 import { DrawerProvider } from './Drawer/DrawerContext'
 import { TabButton } from './Drawer/TabButton'
-import { invoiceDownload } from 'data/analytics'
-import { defaultTemplates } from 'static/defaultTemplates'
+import { logInvoiceDownload } from 'data/analytics'
 
 export const Header = () => {
   const { json, blobUrl } = useEditor()
@@ -16,9 +15,7 @@ export const Header = () => {
   const buttonLabels = ['templates', 'info', 'donation']
 
   const handleDownload = () => {
-    const existingTemplate = defaultTemplates.find(obj => obj.template === json.template)
-    if (existingTemplate) invoiceDownload(existingTemplate.name)
-    else invoiceDownload('custom')
+    logInvoiceDownload(json.template)
   }
 
   return (

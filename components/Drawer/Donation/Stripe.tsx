@@ -26,7 +26,6 @@ export const Stripe: FC<Props> = ({ shown, onReady, onSuccess }) => {
   const [emailInvalid, setEmailInvalid] = useState(false)
 
   const handleSubmit = async () => {
-    console.log('submit')
     const email = emailRef.current?.value
     const emailValid = validateEmail(email)
     if (!emailValid) {
