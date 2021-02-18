@@ -513,6 +513,19 @@
   dependencies:
     "@sentry/cli" "^1.58.0"
 
+"@splitbee/core@^0.1.7":
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/@splitbee/core/-/core-0.1.10.tgz#af453cb2cbe2bd0541425b81ece72c29a7c086b6"
+  integrity sha512-8m3Mq2CaK5sUgRQ0xCzHWd0hS6ax1hXFWBEAyD9hognILUQVfDtPZK8XNk0woQpIip6JKofQlZnh4EsPBLQw7A==
+
+"@splitbee/node@^0.1.8":
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/@splitbee/node/-/node-0.1.8.tgz#cbd897232b1b27588ca84382b306eac2d1776662"
+  integrity sha512-N+/YN2ijsvuXdXz325cSoX2CyOIo/vaGNzsJsFdHAxnhBTwq0cP4o3NYJk1/98bxdhE8MIHEk/Qqeo5BzPq8jw==
+  dependencies:
+    "@splitbee/core" "^0.1.7"
+    cross-fetch "^3.0.5"
+
 "@stripe/react-stripe-js@^1.2.2":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@stripe/react-stripe-js/-/react-stripe-js-1.2.2.tgz#efbb1230f3e1d4726ed6e80637b081aa82a4d63e"
@@ -772,6 +785,11 @@ acorn@^6.4.1:
   version "6.4.2"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-6.4.2.tgz#35866fd710528e92de10cf06016498e47e39e1e6"
   integrity sha512-XtGIhXwF8YM8bJhGxG5kXgjkEuNGLTkoYqVE+KMR+aspr4KGYmKYg7yUe3KghyQ9yheNwLnjmzh/7+gfDBmHCQ==
+
+add@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/add/-/add-2.0.6.tgz#248f0a9f6e5a528ef2295dbeec30532130ae2235"
+  integrity sha1-JI8Kn25aUo7yKV2+7DBTITCuIjU=
 
 adjust-sourcemap-loader@3.0.0:
   version "3.0.0"
@@ -1685,7 +1703,7 @@ create-hmac@^1.1.0, create-hmac@^1.1.4, create-hmac@^1.1.7:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-cross-fetch@3.0.6, cross-fetch@^3.0.4:
+cross-fetch@3.0.6, cross-fetch@^3.0.4, cross-fetch@^3.0.5:
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.0.6.tgz#3a4040bc8941e653e0e9cf17f29ebcd177d3365c"
   integrity sha512-KBPUbqgFjzWlVcURG+Svp9TlhA5uliYtiNx/0r8nv0pdypeQCRJ9IaSIc3q/x3q8t3F75cHuwxVql1HFGHCNJQ==
@@ -5669,6 +5687,11 @@ yallist@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-4.0.0.tgz#9bb92790d9c0effec63be73519e11a35019a3a72"
   integrity sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==
+
+yarn@^1.22.10:
+  version "1.22.10"
+  resolved "https://registry.yarnpkg.com/yarn/-/yarn-1.22.10.tgz#c99daa06257c80f8fa2c3f1490724e394c26b18c"
+  integrity sha512-IanQGI9RRPAN87VGTF7zs2uxkSyQSrSPsju0COgbsKQOOXr5LtcVPeyXWgwVa0ywG3d8dg6kSYKGBuYK021qeA==
 
 yocto-queue@^0.1.0:
   version "0.1.0"
