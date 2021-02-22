@@ -4,6 +4,7 @@ import { defaults } from 'static/invoice'
 import { logInvoiceAPIGet } from 'data/analytics'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  res.setHeader('Access-Control-Allow-Origin', '*')
   try {
     const data = parseData(req)
     const stream = await streamDocument({ data })
