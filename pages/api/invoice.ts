@@ -19,17 +19,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 }
 
 const parseData = (req: NextApiRequest) => {
-  if (req.method === 'GET') {
-    return {
-      ...defaults,
-      ...Object.entries(req.query).reduce((obj, [k, v]: [string, string]) => {
-        if (k.includes('[]')) return { ...obj, [k.split('[]')[0]]: JSON.parse(v) }
-        else return { ...obj, [k]: v }
-      }, {}),
-    }
-  } else if (req.method === 'POST') {
-    return { ...defaults, ...req.body }
-  } else {
-    throw 'Error parsing data'
+  return {
+    ...defaults,
+    ...Object.entries(req.query).reduce((obj, [k, v]: [string, string]) => {
+      if (k.includes('[]')) return { ...obj, [k.split('[]')[0]]: JSON.parse(v) }
+      else return { ...obj, [k]: v }
+    }, {}),
   }
 }
