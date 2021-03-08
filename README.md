@@ -1,6 +1,7 @@
-# Document generator
+# [DesignFactory.app](https://designfactory.app/)
 
 A project that generates pdf documents from design templates from figma + your own data via the GUI or REST API.
+
 
 ## Development
 
@@ -16,9 +17,8 @@ yarn dev
 
 - [x] ~~Support editing more fields~~
 - [x] ~~Persist input data from the GUI~~
-- [ ] Add support for multiple designs
+- [x] Add support for multiple designs
 - [ ] Support multiple languages & currencies
-- [ ] Offline support
 - [ ] Support multiple pages/page overflow
 - [x] ~~Add a better GUI editing experience (possibly [Monaco editor with a JSON schema](https://microsoft.github.io/monaco-editor/playground.html#extending-language-services-configure-json-defaults))~~
 - [x] ~~Use live template data via the [Figma API](https://www.figma.com/developers/api)~~
