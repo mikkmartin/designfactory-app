@@ -33,32 +33,4 @@ export const defaultTemplates: TemplateObject[] = [
       },
     ],
   },
-  {
-    name: 'Fun',
-    template: '9672lt3BzKaOxtdM6yT7f0',
-    fonts: [
-      {
-        family: 'Sachie Script',
-        fonts: [
-          {
-            src: baseURL + '/fonts/Sachie Script.ttf',
-            fontWeight: 'Regular',
-          },
-        ],
-      },
-      {
-        family: 'Manrope',
-        fonts: [
-          {
-            src: baseURL + '/fonts/Manrope-Regular.ttf',
-            fontWeight: 'Regular',
-          },
-          {
-            src: baseURL + '/fonts/Manrope-Bold.ttf',
-            fontWeight: 'Bold',
-          },
-        ],
-      },
-    ],
-  },
 ]
