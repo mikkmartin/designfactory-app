@@ -14,38 +14,22 @@ export const Pdf: FC = ({ children }) => {
   const [renderIframe, setRenderIframe] = useState(false)
   useDebounce(() => setPdfData(json), 300, [json])
   useEffect(() => setRenderIframe(true), [])
-  let observer: MutationObserver = null
   const fontFamilies = useRegisterFonts(json.fonts)
-
-  const onRender = () => {
-    observer = new MutationObserver(mutations =>
-      mutations.forEach(mutation => {
-        setBlobUrl(ref.current[mutation.attributeName])
-      })
-    )
-    observer.observe(ref.current, { attributes: true })
-  }
-
-  useEffect(() => {
-    return () => observer && observer.disconnect()
-  }, [])
 
   return useMemo(
     () =>
       renderIframe && template ? (
         <BlobProvider
           document={
-            <PdfProvider
-              fontFamilies={fontFamilies}
-              template={template}
-              data={json}
-              onRender={onRender}>
+            <PdfProvider fontFamilies={fontFamilies} template={template} data={json}>
               {children}
             </PdfProvider>
           }>
           {({ blob, url, loading, error }) => {
-            //console.log({ blob, url, loading, error })
-            return <iframe ref={ref} src={`${url}#toolbar=0&amp;navpanes=0`}></iframe>
+            setBlobUrl(url)
+            const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+            const viewerProps = !isSafari ? '#toolbar=0&navpanes=0' : ''
+            return <iframe ref={ref} src={url + viewerProps}></iframe>
           }}
         </BlobProvider>
       ) : null,
