@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, FC, useRef } from 'react'
-import { PDFViewer } from '@react-pdf/renderer'
+import { BlobProvider } from '@react-pdf/renderer'
 import { useDebounce } from 'react-use'
 import { useEditor } from './Editor'
 import { PdfProvider } from './Pdf/PdfContext'
@@ -33,15 +33,21 @@ export const Pdf: FC = ({ children }) => {
   return useMemo(
     () =>
       renderIframe && template ? (
-        <PDFViewer innerRef={element => (ref.current = element)}>
-          <PdfProvider
-            fontFamilies={fontFamilies}
-            template={template}
-            data={json}
-            onRender={onRender}>
-            {children}
-          </PdfProvider>
-        </PDFViewer>
+        <BlobProvider
+          document={
+            <PdfProvider
+              fontFamilies={fontFamilies}
+              template={template}
+              data={json}
+              onRender={onRender}>
+              {children}
+            </PdfProvider>
+          }>
+          {({ blob, url, loading, error }) => {
+            console.log({ blob, url, loading, error })
+            return <iframe ref={ref} src={`${url}#toolbar=0&amp;navpanes=0`}></iframe>
+          }}
+        </BlobProvider>
       ) : null,
     [renderIframe, template, pdfData]
   )
