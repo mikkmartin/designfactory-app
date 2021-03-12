@@ -44,7 +44,7 @@ export const Pdf: FC = ({ children }) => {
             </PdfProvider>
           }>
           {({ blob, url, loading, error }) => {
-            console.log({ blob, url, loading, error })
+            //console.log({ blob, url, loading, error })
             return <iframe ref={ref} src={`${url}#toolbar=0&amp;navpanes=0`}></iframe>
           }}
         </BlobProvider>
