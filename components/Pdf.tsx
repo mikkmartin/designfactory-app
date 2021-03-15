@@ -25,7 +25,7 @@ export const Pdf: FC = ({ children }) => {
               {children}
             </PdfProvider>
           }>
-          {({ blob, url, loading, error }) => {
+          {({ url, loading }) => {
             setBlobUrl(url)
             const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
             const viewerProps = !isSafari ? '#toolbar=0&navpanes=0' : ''
