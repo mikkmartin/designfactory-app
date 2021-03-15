@@ -29,6 +29,7 @@ export const Pdf: FC = ({ children }) => {
             setBlobUrl(url)
             const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
             const viewerProps = !isSafari ? '#toolbar=0&navpanes=0' : ''
+            if (loading) return <span>loading</span>
             return <iframe ref={ref} src={url + viewerProps}></iframe>
           }}
         </BlobProvider>
