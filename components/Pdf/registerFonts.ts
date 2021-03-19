@@ -1,12 +1,11 @@
-import { useLayoutEffect, useRef, useEffect } from 'react'
+import { useMemo, useRef } from 'react'
 import { Font } from '@react-pdf/renderer'
 import { Fonts } from 'static/types'
 
-const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
 export const useRegisterFonts = (fonts: Fonts) => {
   const fontsRef = useRef<string[]>([])
 
-  useIsomorphicLayoutEffect(() => {
+  useMemo(() => {
     Font.clear()
     fontsRef.current = registerFonts(fonts)
   }, [fonts])
