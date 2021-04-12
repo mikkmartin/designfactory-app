@@ -39,8 +39,8 @@ module.exports = withSourceMaps(
     async redirects() {
       return [
         {
-          source: '/',
-          destination: 'https://designfactory-marketing-site-git-main-mikkmartin.vercel.app',
+          source: '/:slug*',
+          destination: 'https://designfactory-marketing-site-git-main-mikkmartin.vercel.app/:slug*',
         },
       ]
     },
