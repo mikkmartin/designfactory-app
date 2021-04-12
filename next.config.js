@@ -34,12 +34,15 @@ module.exports = withSourceMaps(
         ],
         afterFiles: [
           {
-            source: '/:slug',
-            destination: 'https://designfactory-marketing-site-git-main-mikkmartin.vercel.app/:slug',
-          },
-          {
             source: '/invoice/:slug',
             destination: '/api/invoice',
+          },
+        ],
+        fallback: [
+          {
+            source: '/:path*',
+            destination:
+              'https://designfactory-marketing-site-git-main-mikkmartin.vercel.app/:slug',
           },
         ],
       }
