@@ -21,36 +21,29 @@ process.env.SENTRY_DSN = SENTRY_DSN
 module.exports = withSourceMaps(
   withCSS({
     async rewrites() {
-      return {
-        beforeFiles: [
-          // These rewrites are checked after headers/redirects
-          // and before pages/public files which allows overriding
-          // page files
-          {
-            source: '/some-page',
-            destination: '/somewhere-else',
-            has: [{ type: 'query', key: 'overrideMe' }],
-          },
-        ],
-        afterFiles: [
-          // These rewrites are checked after pages/public files
-          // are checked but before dynamic routes
-          {
-            source: '/non-existent',
-            destination: '/somewhere-else',
-          },
-        ],
-        fallback: [
-          // These rewrites are checked after both pages/public files
-          // and dynamic routes are checked
-          {
-            source: '/:path*',
-            destination: 'https://my-old-site.com',
-          },
-        ],
-      }
+      return [
+        {
+          source: '/invoice/:slug',
+          destination: '/api/invoice',
+        },
+        {
+          source: '/bee.js',
+          destination: 'https://cdn.splitbee.io/sb.js',
+        },
+        {
+          source: '/_hive/:slug',
+          destination: 'https://hive.splitbee.io/:slug',
+        },
+      ]
     },
-
+    async rewrites() {
+      return [
+        {
+          source: '/',
+          destination: 'https://designfactory-marketing-site-git-main-mikkmartin.vercel.app',
+        },
+      ]
+    },
     webpack: (config, options) => {
       if (!options.isServer) config.resolve.alias['@sentry/node'] = '@sentry/browser'
       if (
