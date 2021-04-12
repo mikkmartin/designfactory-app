@@ -22,15 +22,7 @@ module.exports = withSourceMaps(
   withCSS({
     async rewrites() {
       return {
-        afterFiles: [
-          {
-            source: '/',
-            destination: 'https://designfactory-marketing-site-git-main-mikkmartin.vercel.app',
-          },
-          {
-            source: '/invoice/:slug',
-            destination: '/api/invoice',
-          },
+        beforeFiles: [
           {
             source: '/bee.js',
             destination: 'https://cdn.splitbee.io/sb.js',
@@ -38,6 +30,16 @@ module.exports = withSourceMaps(
           {
             source: '/_hive/:slug',
             destination: 'https://hive.splitbee.io/:slug',
+          },
+        ],
+        afterFiles: [
+          {
+            source: '/:slug',
+            destination: 'https://designfactory-marketing-site-git-main-mikkmartin.vercel.app/:slug',
+          },
+          {
+            source: '/invoice/:slug',
+            destination: '/api/invoice',
           },
         ],
       }
