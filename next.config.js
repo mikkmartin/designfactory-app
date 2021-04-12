@@ -35,8 +35,8 @@ module.exports = withSourceMaps(
           destination: 'https://hive.splitbee.io/:slug',
         },
         {
-          source: '/:slug*',
-          destination: 'https://designfactory-marketing-site-git-main-mikkmartin.vercel.app/:slug*',
+          source: '/:slug',
+          destination: 'https://designfactory-marketing-site-git-main-mikkmartin.vercel.app/:slug',
         },
       ]
     },
