@@ -21,24 +21,26 @@ process.env.SENTRY_DSN = SENTRY_DSN
 module.exports = withSourceMaps(
   withCSS({
     async rewrites() {
-      return [
-        {
-          source: '/',
-          destination: 'https://designfactory-marketing-site-git-main-mikkmartin.vercel.app',
-        },
-        {
-          source: '/invoice/:slug',
-          destination: '/api/invoice',
-        },
-        {
-          source: '/bee.js',
-          destination: 'https://cdn.splitbee.io/sb.js',
-        },
-        {
-          source: '/_hive/:slug',
-          destination: 'https://hive.splitbee.io/:slug',
-        },
-      ]
+      return {
+        afterFiles: [
+          {
+            source: '/',
+            destination: 'https://designfactory-marketing-site-git-main-mikkmartin.vercel.app',
+          },
+          {
+            source: '/invoice/:slug',
+            destination: '/api/invoice',
+          },
+          {
+            source: '/bee.js',
+            destination: 'https://cdn.splitbee.io/sb.js',
+          },
+          {
+            source: '/_hive/:slug',
+            destination: 'https://hive.splitbee.io/:slug',
+          },
+        ],
+      }
     },
     webpack: (config, options) => {
       if (!options.isServer) config.resolve.alias['@sentry/node'] = '@sentry/browser'
