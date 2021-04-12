@@ -23,7 +23,7 @@ export const EditorProvider: FC = ({ children }) => {
   const fetcher = (url, templateID) =>
     fetch(`${url}?template=${templateID || defaults.template}`).then(r => r.json())
   const options = { focusThrottleInterval: 0 }
-  const { data: template, isValidating } = useSWR(['/api/figma', json.template], fetcher, options)
+  const { data: template, isValidating } = useSWR(['/files/api/figma', json.template], fetcher, options)
 
   return (
     <Context.Provider

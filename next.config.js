@@ -20,6 +20,23 @@ process.env.SENTRY_DSN = SENTRY_DSN
 
 module.exports = withSourceMaps(
   withCSS({
+    basePath: '/files',
+    async redirects() {
+      return [
+        {
+          source: '/',
+          destination: '/files/invoice',
+          permanent: false,
+          basePath: false,
+        },
+        {
+          source: '/invoice',
+          destination: '/files/invoice',
+          permanent: false,
+          basePath: false,
+        },
+      ]
+    },
     async rewrites() {
       return [
         {
@@ -29,10 +46,12 @@ module.exports = withSourceMaps(
         {
           source: '/bee.js',
           destination: 'https://cdn.splitbee.io/sb.js',
+          basePath: false,
         },
         {
           source: '/_hive/:slug',
           destination: 'https://hive.splitbee.io/:slug',
+          basePath: false,
         },
         {
           source: '/',
