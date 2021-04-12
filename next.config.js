@@ -36,7 +36,7 @@ module.exports = withSourceMaps(
         },
       ]
     },
-    async rewrites() {
+    async redirects() {
       return [
         {
           source: '/',
