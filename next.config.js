@@ -34,10 +34,6 @@ module.exports = withSourceMaps(
           source: '/_hive/:slug',
           destination: 'https://hive.splitbee.io/:slug',
         },
-      ]
-    },
-    async redirects() {
-      return [
         {
           source: '/:slug*',
           destination: 'https://designfactory-marketing-site-git-main-mikkmartin.vercel.app/:slug*',
