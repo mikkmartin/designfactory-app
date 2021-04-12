@@ -23,30 +23,34 @@ module.exports = withSourceMaps(
     async rewrites() {
       return {
         beforeFiles: [
+          // These rewrites are checked after headers/redirects
+          // and before pages/public files which allows overriding
+          // page files
           {
-            source: '/bee.js',
-            destination: 'https://cdn.splitbee.io/sb.js',
-          },
-          {
-            source: '/_hive/:slug',
-            destination: 'https://hive.splitbee.io/:slug',
+            source: '/some-page',
+            destination: '/somewhere-else',
+            has: [{ type: 'query', key: 'overrideMe' }],
           },
         ],
         afterFiles: [
+          // These rewrites are checked after pages/public files
+          // are checked but before dynamic routes
           {
-            source: '/invoice/:slug',
-            destination: '/api/invoice',
+            source: '/non-existent',
+            destination: '/somewhere-else',
           },
         ],
         fallback: [
+          // These rewrites are checked after both pages/public files
+          // and dynamic routes are checked
           {
             source: '/:path*',
-            destination:
-              'https://designfactory-marketing-site-git-main-mikkmartin.vercel.app/:slug',
+            destination: 'https://my-old-site.com',
           },
         ],
       }
     },
+
     webpack: (config, options) => {
       if (!options.isServer) config.resolve.alias['@sentry/node'] = '@sentry/browser'
       if (
