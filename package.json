@@ -9,7 +9,7 @@
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@mikkmartin/figma-js": "^1.13.2",
-    "@react-pdf/renderer": "^1.6.13",
+    "@react-pdf/renderer": "^2.0.6",
     "@sentry/browser": "^6.1.0",
     "@sentry/node": "^6.1.0",
     "@sentry/webpack-plugin": "^1.14.0",
