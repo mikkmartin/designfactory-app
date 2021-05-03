@@ -6,7 +6,7 @@ import ReactPDF from '@react-pdf/renderer'
 import { getTemplate } from 'data/figma'
 import { defaults } from 'static/invoice'
 import { PdfProvider } from '../Pdf/PdfContext'
-import { FillTextProvider } from '../Pdf/FillTextContext'
+import { TransformElementsProvider } from '../Pdf/TransformContext'
 import { fillText, fillListText } from './Invoice/fillText'
 import { registerFonts } from './registerFonts'
 
@@ -16,14 +16,14 @@ export const Invoice = () => {
   setComponents(components)
 
   return (
-    <FillTextProvider
+    <TransformElementsProvider
       data={{ ...defaults, ...data }}
       fillTextFunction={fillText}
       fillListTextFunctions={fillListText}>
       <Document onRender={onRender}>
         <Page node={frames[0]} />
       </Document>
-    </FillTextProvider>
+    </TransformElementsProvider>
   )
 }
 
@@ -38,14 +38,14 @@ export async function streamDocument({ data }) {
       data={data}
       fontFamilies={fontFamilies}
       components={components}>
-      <FillTextProvider
+      <TransformElementsProvider
         data={data}
         fillTextFunction={fillText}
         fillListTextFunctions={fillListText}>
         <Document>
           <Page node={frames[0]} />
         </Document>
-      </FillTextProvider>
+      </TransformElementsProvider>
     </PdfProvider>
   )
 }

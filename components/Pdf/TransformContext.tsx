@@ -19,7 +19,7 @@ type Props = {
   fillListTextFunctions?: FillListTextFunctions,
   data: object
 }
-export const FillTextProvider: FC<Props> = ({
+export const TransformElementsProvider: FC<Props> = ({
   children,
   fillTextFunction = fillTextDefault,
   fillListTextFunctions = {},
@@ -35,4 +35,4 @@ export const FillTextProvider: FC<Props> = ({
   )
 }
 
-export const useFillText = () => useContext(Context)
+export const useTransformElement = () => useContext(Context)
