@@ -10,21 +10,22 @@ import { useContainer } from './ContainerContext'
 import { FillTextProvider, useFillText } from 'components/Pdf/FillTextContext'
 
 export const renderElement = (node: Node, i) => {
+  const props = { key: i, nth: i + 1 }
   switch (node.type) {
     case 'TEXT':
-      return <Text key={i} node={node} nth={i + 1} />
+      return <Text node={node} {...props} />
     case 'RECTANGLE':
-      return <Rect key={i} node={node} nth={i + 1} />
+      return <Rect node={node} {...props} />
     case 'ELLIPSE':
-      return <Ellipse key={i} node={node} nth={i + 1} />
+      return <Ellipse node={node} {...props} />
     case 'VECTOR':
-      return <Vector key={i} node={node} nth={i + 1} />
+      return <Vector node={node} {...props} />
     case 'FRAME':
-      return <Frame key={i} node={node} nth={i + 1} />
+      return <Frame node={node} {...props} />
     case 'INSTANCE':
-      return <Instance key={i} node={node} nth={i + 1} />
+      return <Instance node={node} {...props} />
     case 'GROUP':
-      return <Group key={i} node={node} nth={i + 1} />
+      return <Group node={node} {...props} />
     case 'ELLIPSE':
     case 'LINE':
     case 'REGULAR_POLYGON':
@@ -46,11 +47,14 @@ const Instance = ({ node, nth }) => {
 
     return (
       <>
-        {data.items.map((item, i) =>
-          <FillTextProvider key={i} data={item} fillTextFunction={fillListTextFunctions[container.name]}>
+        {data.items.map((item, i) => (
+          <FillTextProvider
+            key={i}
+            data={item}
+            fillTextFunction={fillListTextFunctions[container.name]}>
             <Frame key={i} node={node} nth={nth} />
           </FillTextProvider>
-        )}
+        ))}
       </>
     )
   }

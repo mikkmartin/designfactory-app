@@ -31,11 +31,17 @@ export const summarizeLineTotalCost = (node: Item) => {
   return formatMoney(sum, options)
 }
 
-export const summarizeTotalCost = (items: Item[], options?: object) => {
-  const sum = items.reduce(
+interface Options {
+  percentage?: number
+  [key: string]: any
+}
+
+export const summarizeTotalCost = (items: Item[], options?: Options) => {
+  let sum = items.reduce(
     (total, item) => total + item.price * (item.quantity ? item.quantity : 1),
     0
   )
+  if (options && options['percentage'] !== undefined) sum = sum * (options.percentage / 100)
   return formatMoney(sum, options)
 }
 

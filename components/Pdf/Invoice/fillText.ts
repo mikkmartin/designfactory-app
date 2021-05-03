@@ -9,9 +9,15 @@ export const fillText = (node: Text, data: Invoice): string => {
     case name === 'topay-subtotal-value':
       return summarizeTotalCost(data.items)
     case name === 'topay-summary-value':
-      return data.paidInCash ? 'Makstud' : summarizeTotalCost(data.items)
+      return data.paidInCash
+        ? 'Makstud'
+        : summarizeTotalCost(data.items, { percentage: data.partialPaymentPercentage })
     case name === 'topay-summary-description' && data.paidInCash:
       return 'Sularaha makse'
+    case name === 'prepayment-value':
+      return summarizeTotalCost(data.items, { percentage: data.partialPaymentPercentage })
+    case name === 'prepaid-value':
+      return summarizeTotalCost(data.items, { percentage: data.prepaidPercentage })
     case name === 'iban-label':
       return data.ibanLabel
     case name === 'iban-number-value':
