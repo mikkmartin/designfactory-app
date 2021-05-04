@@ -27,11 +27,11 @@ export const fillText = (node: Text, data: Invoice): string => {
     case name === 'tax-label':
       return taxLabel(data)
     case name === 'tax-value':
-      return price(data).sum().tax().asCurrency()
+      return price(data).sum().toPay({ addTax: false }).tax().asCurrency()
     case name === 'iban-label':
       return data.ibanLabel
     case name === 'discount-label':
-      return getDiscountLabel(data.discount)
+      return getDiscountLabel(data)
     case name === 'discount-value':
       return getDiscountValue(data)
     case name === 'iban-number-value':

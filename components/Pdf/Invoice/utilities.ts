@@ -1,5 +1,10 @@
 import { Invoice, Item } from 'static/invoice'
 
+interface ToPayOptions {
+  addTax?: boolean
+}
+const toPayDefaultOptions = { addTax: true }
+
 class Pricing {
   data: Invoice
   val: number
@@ -28,13 +33,15 @@ class Pricing {
     this.val = this.val * (percentageToNumber(this.data.tax) / 100)
     return this
   }
-  toPay() {
+  toPay(options?: ToPayOptions) {
+    const { addTax } = { ...toPayDefaultOptions, ...options }
     if (percentageToNumber(this.data.paymentAdvance) > 0) {
       this.val = price(this.data).sum().paymentAdvance().val
     } else {
       this.val = this.val - price(this.data).sum().prepaid().val
     }
-    this.val += this.val * (percentageToNumber(this.data.tax) / 100)
+    console.log({ val: this.val, tax: this.val * (percentageToNumber(this.data.tax) / 100) })
+    if (addTax) this.val += this.val * (percentageToNumber(this.data.tax) / 100)
     return this
   }
   asCurrency(options = {}) {
@@ -85,17 +92,6 @@ export const summarizeLineTotalCost = (node: Item) => {
   return formatMoney(sum, options)
 }
 
-const sumLines = (data: Invoice) =>
-  data.items.reduce((total, item) => total + item.price * (item.quantity ? item.quantity : 1), 0)
-
-export const summarizeTotalCost = (data: Invoice) => {
-  let sum = sumLines(data)
-  //if (options && options['percentage'] !== undefined) sum = sum * (options.percentage / 100)
-  return formatMoney(sum)
-}
-
-export const clampPercentage = (amount: number) => Math.min(Math.max(amount, 0), 100)
-
 export const percentageToNumber = (val: number | string) => {
   if (typeof val === 'number') {
     return val
@@ -111,15 +107,15 @@ export const percentageToNumber = (val: number | string) => {
   }
 }
 
-export const getDiscountLabel = (val: number | string, data?: Invoice) => {
-  if (typeof val === 'number') return 'Soodustus'
-  else return `Soodustus (${val})`
+export const getDiscountLabel = (data?: Invoice) => {
+  if (typeof data.discount === 'number') return 'Soodustus'
+  else return `Soodustus (${data.discount})`
 }
 
 export const getDiscountValue = (data: Invoice) => {
   if (typeof data.discount === 'number') {
     return '-' + formatMoney(data.discount)
   } else {
-    summarizeTotalCost(data)
+    price(data).sum().toPay({ addTax: false }).val * (percentageToNumber(data.tax) / 100)
   }
 }
