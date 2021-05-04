@@ -2,9 +2,11 @@ import { Text } from '@mikkmartin/figma-js'
 import {
   summarizeLineTotalCost,
   formatLineCost,
-  summarizeTotalCost,
   formatDate,
-  clampPercentage,
+  getDiscountLabel,
+  getDiscountValue,
+  price,
+  taxLabel,
 } from './utilities'
 import { fillTextDefault } from '../fillTextDefault'
 import { Invoice, Item } from 'static/invoice'
@@ -13,25 +15,25 @@ export const fillText = (node: Text, data: Invoice): string => {
   const { name } = node
   switch (true) {
     case name === 'topay-subtotal-value':
-      return summarizeTotalCost(data.items)
+      return price(data).sum().asCurrency()
     case name === 'topay-summary-value':
-      return data.paidInCash
-        ? 'Makstud'
-        : summarizeTotalCost(data.items, {
-            percentage: clampPercentage(
-              Math.min(100 - data.prepaidPercentage, data.paymentAdvancePercentage)
-            ),
-          })
+      return data.paidInCash ? 'Makstud' : price(data).sum().toPay().asCurrency()
     case name === 'topay-summary-description' && data.paidInCash:
       return 'Sularaha makse'
-    case name === 'prepayment-value':
-      return summarizeTotalCost(data.items, {
-        percentage: clampPercentage(data.paymentAdvancePercentage),
-      })
     case name === 'prepaid-value':
-      return summarizeTotalCost(data.items, { percentage: clampPercentage(data.prepaidPercentage) })
+      return '-' + price(data).sum().prepaid().asCurrency()
+    case name === 'prepayment-value':
+      return price(data).sum().paymentAdvance().asCurrency()
+    case name === 'tax-label':
+      return taxLabel(data)
+    case name === 'tax-value':
+      return price(data).sum().tax().asCurrency()
     case name === 'iban-label':
       return data.ibanLabel
+    case name === 'discount-label':
+      return getDiscountLabel(data.discount)
+    case name === 'discount-value':
+      return getDiscountValue(data)
     case name === 'iban-number-value':
       return data.ibanNr
     case name === 'invoice-number-value':

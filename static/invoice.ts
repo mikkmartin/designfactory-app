@@ -91,11 +91,12 @@ export type Invoice = {
   myCompanyRegistrationNr: number
   paidInCash?: boolean
   phoneNr?: number
-  tax?: number
+  tax?: string
   email?: string
   website?: string
-  paymentAdvancePercentage?: number
-  prepaidPercentage?: number
+  paymentAdvance?: number | string
+  prepaid?: number | string
+  discount?: number | string
   fonts?: Fonts
   template?: string
 }

@@ -156,8 +156,8 @@
     },
     "tax": {
       "$id": "#/properties/tax",
-      "type": "number",
-      "default": 0
+      "type": "string",
+      "default": "0%"
     },
     "paidInCash": {
       "$id": "#/properties/paidInCash",
@@ -174,15 +174,20 @@
       "type": "string",
       "default": "qQJ7d5IKYTCVpaAMNptPH4"
     },
-    "paymentAdvancePercentage": {
-      "$id": "#/properties/paymentAdvancePercentage",
-      "type": "number",
-      "default": 100
+    "paymentAdvance": {
+      "$id": "#/properties/paymentAdvance",
+      "type": ["number", "string"],
+      "default": "0%"
     },
-    "prepaidPercentage": {
-      "$id": "#/properties/prepaidPercentage",
-      "type": "number",
-      "default": 0
+    "prepaid": {
+      "$id": "#/properties/prepaid",
+      "type": ["number", "string"],
+      "default": "0%"
+    },
+    "discount": {
+      "$id": "#/properties/discount",
+      "type": ["number", "string"],
+      "default": "0%"
     },
     "fonts": {
       "default": [],
