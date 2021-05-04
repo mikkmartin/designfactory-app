@@ -1,5 +1,11 @@
 import { Text } from '@mikkmartin/figma-js'
-import { summarizeLineTotalCost, formatLineCost, summarizeTotalCost, formatDate } from './utilities'
+import {
+  summarizeLineTotalCost,
+  formatLineCost,
+  summarizeTotalCost,
+  formatDate,
+  clampPercentage,
+} from './utilities'
 import { fillTextDefault } from '../fillTextDefault'
 import { Invoice, Item } from 'static/invoice'
 
@@ -11,13 +17,19 @@ export const fillText = (node: Text, data: Invoice): string => {
     case name === 'topay-summary-value':
       return data.paidInCash
         ? 'Makstud'
-        : summarizeTotalCost(data.items, { percentage: data.partialPaymentPercentage })
+        : summarizeTotalCost(data.items, {
+            percentage: clampPercentage(
+              Math.min(100 - data.prepaidPercentage, data.paymentAdvancePercentage)
+            ),
+          })
     case name === 'topay-summary-description' && data.paidInCash:
       return 'Sularaha makse'
     case name === 'prepayment-value':
-      return summarizeTotalCost(data.items, { percentage: data.partialPaymentPercentage })
+      return summarizeTotalCost(data.items, {
+        percentage: clampPercentage(data.paymentAdvancePercentage),
+      })
     case name === 'prepaid-value':
-      return summarizeTotalCost(data.items, { percentage: data.prepaidPercentage })
+      return summarizeTotalCost(data.items, { percentage: clampPercentage(data.prepaidPercentage) })
     case name === 'iban-label':
       return data.ibanLabel
     case name === 'iban-number-value':

@@ -4,6 +4,7 @@ import { getLayout, getStyle } from './common'
 import { ContainerProvider } from './ContainerContext'
 import { Frame as FrameType, Instance, Component } from '@mikkmartin/figma-js'
 import { renderElement } from './renderElement'
+import { useTransformElement } from '../TransformContext'
 
 type Props = {
   node: FrameType | Instance | Component,
@@ -13,6 +14,7 @@ type Props = {
 export const Frame: FC<Props> = ({ node, nth }) => {
   let layout = getLayout(node, nth)
   const { layoutMode, counterAxisSizingMode, primaryAxisSizingMode } = node
+  const { shouldRender } = useTransformElement()
 
   if (primaryAxisSizingMode === 'AUTO' || !primaryAxisSizingMode) {
     if (layoutMode === 'VERTICAL') layout.height = 'auto'
@@ -33,7 +35,7 @@ export const Frame: FC<Props> = ({ node, nth }) => {
         alignItems: getAlignItems(node.counterAxisAlignItems),
         flexDirection: node.layoutMode === 'HORIZONTAL' ? 'row' : 'column'
       }}>
-        {node.children.map(renderElement)}
+        {node.children.filter(shouldRender).map(renderElement)}
       </View>
     </ContainerProvider>
   )

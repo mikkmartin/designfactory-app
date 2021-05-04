@@ -9,6 +9,7 @@ import { PdfProvider } from '../Pdf/PdfContext'
 import { TransformElementsProvider } from '../Pdf/TransformContext'
 import { fillText, fillListText } from './Invoice/fillText'
 import { registerFonts } from './registerFonts'
+import { conditionalRender } from './Invoice/conditionalRender'
 
 export const Invoice = () => {
   const { template, setComponents, onRender, data } = usePdf()
@@ -18,6 +19,7 @@ export const Invoice = () => {
   return (
     <TransformElementsProvider
       data={{ ...defaults, ...data }}
+      shouldRender={conditionalRender}
       fillTextFunction={fillText}
       fillListTextFunctions={fillListText}>
       <Document onRender={onRender}>
@@ -40,6 +42,7 @@ export async function streamDocument({ data }) {
       components={components}>
       <TransformElementsProvider
         data={data}
+        shouldRender={conditionalRender}
         fillTextFunction={fillText}
         fillListTextFunctions={fillListText}>
         <Document>

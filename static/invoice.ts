@@ -94,7 +94,7 @@ export type Invoice = {
   tax?: number
   email?: string
   website?: string
-  partialPaymentPercentage?: number
+  paymentAdvancePercentage?: number
   prepaidPercentage?: number
   fonts?: Fonts
   template?: string

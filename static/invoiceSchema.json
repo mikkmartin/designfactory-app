@@ -174,8 +174,8 @@
       "type": "string",
       "default": "qQJ7d5IKYTCVpaAMNptPH4"
     },
-    "partialPaymentPercentage": {
-      "$id": "#/properties/partialPaymentPercentage",
+    "paymentAdvancePercentage": {
+      "$id": "#/properties/paymentAdvancePercentage",
       "type": "number",
       "default": 100
     },

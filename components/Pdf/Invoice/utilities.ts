@@ -49,3 +49,5 @@ export const formatMoney = (amount: number, options = {}) =>
   amount
     .toLocaleString('et-EE', { style: 'currency', currency: 'EUR', ...options })
     .replace('\xa0€', '€')
+
+export const clampPercentage = (amount: number) => Math.min(Math.max(amount, 0), 100)
