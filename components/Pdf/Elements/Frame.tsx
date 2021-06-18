@@ -17,11 +17,16 @@ export const Frame: FC<Props> = ({ node, nth }) => {
   const { shouldRender } = useTransformElement()
 
   if (primaryAxisSizingMode === 'AUTO' || !primaryAxisSizingMode) {
+    //@ts-ignore
     if (layoutMode === 'VERTICAL') layout.height = 'auto'
+    //@ts-ignore
+    //@ts-ignore
     if (layoutMode === 'HORIZONTAL') layout.width = 'auto'
   }
   if (counterAxisSizingMode === 'AUTO' || !counterAxisSizingMode) {
+    //@ts-ignore
     if (layoutMode === 'VERTICAL') layout.width = 'auto'
+    //@ts-ignore
     if (layoutMode === 'HORIZONTAL') layout.height = 'auto'
   }
 

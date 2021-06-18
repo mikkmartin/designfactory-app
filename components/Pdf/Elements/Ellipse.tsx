@@ -18,9 +18,12 @@ export const Ellipse: FC<{ node: EllipseType, nth: number }> = ({ node, nth }) =
       ...style,
       width: node.size.x + padding * 2,
       height: node.size.y + padding * 2,
+      //@ts-ignore
       marginLeft: -padding,
       marginTop: -padding,
+      //@ts-ignore
       marginBottom: layout.marginBottom as number - padding,
+      //@ts-ignore
       marginRight: layout.marginRight as number - padding
     }
   }
