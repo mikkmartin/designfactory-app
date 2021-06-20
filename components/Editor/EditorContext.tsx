@@ -6,6 +6,7 @@ import { useLocalStorage } from 'react-use'
 
 export type SetJson = Dispatch<SetStateAction<Invoice>>
 type Values = {
+  file: string
   json: Invoice
   setJson: SetJson
   template: FileResponse | null
@@ -17,17 +18,21 @@ type Values = {
 //@ts-ignore
 const Context = createContext<Values>()
 
-export const EditorProvider: FC = ({ children }) => {
-  const [json, setJson] = useLocalStorage('invoiceData', example)
+type Props = {
+  file: string
+}
+
+export const EditorProvider: FC<Props> = ({ children, file }) => {
+  const [json, setJson] = useLocalStorage(file, example)
   const [blobUrl, setBlobUrl] = useState<string | null>(null)
   const fetcher = (url, templateID) =>
     fetch(`${url}?template=${templateID || defaults.template}`).then(r => r.json())
   const options = { focusThrottleInterval: 0 }
-  const { data: template, isValidating } = useSWR(['/files/api/figma', json.template], fetcher, options)
+  const { data: template, isValidating } = useSWR(['/api/figma', json.template], fetcher, options)
 
   return (
     <Context.Provider
-      value={{ json, setJson, template, setBlobUrl, blobUrl, loading: isValidating }}>
+      value={{ file, json, setJson, template, setBlobUrl, blobUrl, loading: isValidating }}>
       {children}
     </Context.Provider>
   )

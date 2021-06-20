@@ -9,7 +9,7 @@ import { snappy } from 'static/transitions'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export const ApiLink = () => {
-  const { json } = useEditor()
+  const { json, file } = useEditor()
   const [url, setUrl] = useState('')
   const [method, setMethod] = useState<'GET' | 'POST'>('GET')
   const [copied, setCopied] = useState(false)
@@ -18,14 +18,14 @@ export const ApiLink = () => {
 
   const getUrl = function () {
     const { fileName = defaults.fileName, ...obj } = json
-    if (method === 'POST') return `${baseURL}/invoice/${fileName}`
+    if (method === 'POST') return `${baseURL}/${file}/${fileName}`
     const query = Object.entries(obj)
       .map(([k, v]) => {
         if (Array.isArray(obj[k])) return encodeURI(`${k}[]=${JSON.stringify(v)}`)
         else return encodeURI(`${k}=${v}`)
       })
       .join('&')
-    return `${baseURL}/invoice/${fileName}?${query}`
+    return `${baseURL}/${file}/${fileName}?${query}`
   }
 
   const copy = () => {

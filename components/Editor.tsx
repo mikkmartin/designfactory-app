@@ -37,7 +37,7 @@ const Editor = () => {
     monaco.editor.setTheme('dok-theme')
     //@ts-ignore
     window.MonacoEnvironment.getWorkerUrl = (_moduleId: string, label: string) => {
-      if (label === 'json') return '_next/static/json.worker.js'
+      if (label === 'json') return '/_next/static/json.worker.js'
     }
   }
 

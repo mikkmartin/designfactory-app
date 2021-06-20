@@ -24,7 +24,7 @@ type Props = {
   components?: Component[]
 }
 
-export const PdfProvider: FC<Props> = ({
+export const TemplateProvider: FC<Props> = ({
   children,
   template,
   data,
@@ -52,4 +52,4 @@ export const PdfProvider: FC<Props> = ({
   )
 }
 
-export const usePdf = () => useContext(Context)
+export const useTemplate = () => useContext(Context)

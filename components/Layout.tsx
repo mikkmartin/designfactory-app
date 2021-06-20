@@ -1,32 +1,26 @@
 import { FC } from 'react'
 import styled from 'styled-components'
 import Editor, { ApiLink, Header } from 'components/Editor'
-import { Pdf } from 'components/Pdf'
-import { Invoice } from 'components/Pdf/Invoice'
 import { EditorProvider } from 'components/Editor/EditorContext'
-import { Loading } from 'components/Editor/Loading'
 
-const Index: FC = () => {
+type Props = {
+  file: string
+}
+
+export const Layout: FC<Props> = ({ children, file }) => {
   return (
-    <EditorProvider>
+    <EditorProvider file={file}>
       <Container>
         <div className="controls">
           <Header />
           <Editor />
           <ApiLink />
         </div>
-        <div className="iframe-container">
-          <Pdf>
-            <Invoice />
-          </Pdf>
-          <Loading />
-        </div>
+        <div className="container">{children}</div>
       </Container>
     </EditorProvider>
   )
 }
-
-
 
 const Container = styled.div`
   display: flex;
@@ -41,7 +35,7 @@ const Container = styled.div`
     flex-direction: column;
     max-width: 420px;
   }
-  .iframe-container {
+  .container {
     flex: 2.5;
     position: relative;
     iframe {
@@ -52,4 +46,4 @@ const Container = styled.div`
   }
 `
 
-export default Index
+export default Layout

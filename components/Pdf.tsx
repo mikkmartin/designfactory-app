@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect, FC, useRef } from 'react'
 import { BlobProvider } from '@react-pdf/renderer'
 import { useDebounce } from 'react-use'
 import { useEditor } from './Editor'
-import { PdfProvider } from './Pdf/PdfContext'
+import { TemplateProvider } from './Template/TemplateContext'
 import { useRegisterFonts } from './Pdf/registerFonts'
 //import { Font } from '@react-pdf/renderer'
 //Font.registerHyphenationCallback(word => [word])
@@ -21,9 +21,9 @@ export const Pdf: FC = ({ children }) => {
       renderIframe && template ? (
         <BlobProvider
           document={
-            <PdfProvider fontFamilies={fontFamilies} template={template} data={json}>
+            <TemplateProvider fontFamilies={fontFamilies} template={template} data={json}>
               {children}
-            </PdfProvider>
+            </TemplateProvider>
           }>
           {({ url, loading }) => {
             setBlobUrl(url)

@@ -4,12 +4,12 @@ import { Text as TextType } from '@mikkmartin/figma-js'
 import { getLayout, getColor } from './common'
 import { useContainer } from './ContainerContext'
 import { useTransformElement } from '../TransformContext'
-import { usePdf } from '../PdfContext'
+import { useTemplate } from '../../Template/TemplateContext'
 
 type AutoResize = 'NONE' | 'WIDTH_AND_HEIGHT' | 'HEIGHT'
 
 export const Text: FC<{ node: TextType; nth: number }> = ({ node, nth }) => {
-  const { fontFamilies } = usePdf()
+  const { fontFamilies } = useTemplate()
   const { layoutMode, counterAxisAlignItems } = useContainer()
   const { fillText } = useTransformElement()
   //@ts-ignore

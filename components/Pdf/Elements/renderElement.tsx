@@ -5,7 +5,7 @@ import { Frame } from './Frame'
 import { Text } from './Text'
 import { Group } from './Group'
 import { Vector } from './Vector'
-import { usePdf } from 'components/Pdf/PdfContext'
+import { useTemplate } from 'components/Template/TemplateContext'
 import { useContainer } from './ContainerContext'
 import { TransformElementsProvider, useTransformElement } from 'components/Pdf/TransformContext'
 
@@ -36,7 +36,7 @@ export const renderElement = (node: Node, i) => {
 }
 
 const Instance = ({ node, nth }) => {
-  const { data, addFilledList, filledLists } = usePdf()
+  const { data, addFilledList, filledLists } = useTemplate()
   const { fillListTextFunctions } = useTransformElement()
   const container = useContainer()
 

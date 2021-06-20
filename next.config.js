@@ -20,7 +20,6 @@ process.env.SENTRY_DSN = SENTRY_DSN
 
 module.exports = withSourceMaps(
   withCSS({
-    basePath: '/files',
     async redirects() {
       return [
         {
@@ -58,8 +57,8 @@ module.exports = withSourceMaps(
           destination: 'https://designfactory-marketing-site-git-main-mikkmartin.vercel.app/',
         },
         {
-          source: '/:slug*',
-          destination: 'https://designfactory-marketing-site-git-main-mikkmartin.vercel.app/:slug*',
+          source: '/:slug',
+          destination: 'https://designfactory-marketing-site-git-main-mikkmartin.vercel.app/:slug',
         },
       ]
     },

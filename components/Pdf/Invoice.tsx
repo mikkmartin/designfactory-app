@@ -1,18 +1,18 @@
 import { Document } from '@react-pdf/renderer'
 import { Canvas, FileResponse, Frame, Component } from '@mikkmartin/figma-js'
 import { Page } from './Elements/Page'
-import { usePdf } from '../Pdf/PdfContext'
+import { useTemplate } from '../Template/TemplateContext'
 import ReactPDF from '@react-pdf/renderer'
 import { getTemplate } from 'data/figma'
 import { defaults } from 'static/invoice'
-import { PdfProvider } from '../Pdf/PdfContext'
+import { TemplateProvider } from '../Template/TemplateContext'
 import { TransformElementsProvider } from '../Pdf/TransformContext'
 import { fillText, fillListText } from './Invoice/fillText'
 import { registerFonts } from './registerFonts'
 import { conditionalRender } from './Invoice/conditionalRender'
 
 export const Invoice = () => {
-  const { template, setComponents, onRender, data } = usePdf()
+  const { template, setComponents, onRender, data } = useTemplate()
   const { components, frames } = getFrames(template)
   setComponents(components)
 
@@ -35,7 +35,7 @@ export async function streamDocument({ data }) {
   const fontFamilies = registerFonts(data.fonts)
 
   return ReactPDF.renderToStream(
-    <PdfProvider
+    <TemplateProvider
       template={template}
       data={data}
       fontFamilies={fontFamilies}
@@ -49,7 +49,7 @@ export async function streamDocument({ data }) {
           <Page node={frames[0]} />
         </Document>
       </TransformElementsProvider>
-    </PdfProvider>
+    </TemplateProvider>
   )
 }
 
