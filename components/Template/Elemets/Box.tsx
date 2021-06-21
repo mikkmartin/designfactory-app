@@ -1,4 +1,3 @@
 export const Box = ({ style, content }) => {
-    return <span style={style}>{content}</span>
-  }
-  
+  return <div style={style}>{content}</div>
+}

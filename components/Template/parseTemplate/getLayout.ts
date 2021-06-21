@@ -38,10 +38,12 @@ const autoLayoutContainer = (node: Group | Frame, parentNode?: ContainerNode): C
   let layout: CSSProperties = {
     left: x,
     position: 'absolute',
+    width,
+    height,
   }
 
-  if (node.counterAxisSizingMode === 'FIXED') layout = { ...layout, width }
-  if (node.primaryAxisSizingMode === 'FIXED') layout = { ...layout, height }
+  if (node.counterAxisSizingMode === 'AUTO') delete layout.width
+  if (node.primaryAxisSizingMode === 'AUTO') delete layout.height
 
   if (node.constraints.vertical === 'BOTTOM')
     layout = { ...layout, bottom: parentNode.absoluteBoundingBox.height - height - y }
@@ -57,6 +59,7 @@ const autoLayoutContainer = (node: Group | Frame, parentNode?: ContainerNode): C
 }
 
 const staticLayout = (node: BoxNode, parentNode: ContainerNode): CSSProperties => {
+  if (node.type === 'RECTANGLE') console.log(node)
   const { x, y, width, height } = node.absoluteBoundingBox
   const { horizontal, vertical } = node.constraints
 
@@ -64,14 +67,19 @@ const staticLayout = (node: BoxNode, parentNode: ContainerNode): CSSProperties =
     left: x,
     top: y,
     position: 'absolute',
+    width,
+    height,
   }
+
   if (horizontal === 'RIGHT') {
     layout = { ...layout, right: x }
   } else {
     layout = { ...layout, left: x }
   }
+
   if (vertical === 'BOTTOM') {
     layout = { ...layout, bottom: parentNode.absoluteBoundingBox.height - height }
+    delete layout.height
   } else {
     layout = { ...layout, top: y }
   }

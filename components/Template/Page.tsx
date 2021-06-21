@@ -10,6 +10,8 @@ const renderElement = (node: ParsedNode): ReactNode => {
       return <Canvas {...props}>{children.map(renderElement)}</Canvas>
     case 'FRAME':
       return <div {...props}>{children.map(renderElement)}</div>
+    case 'RECTANGLE':
+      return <div {...props} />
     case 'TEXT':
       return <p {...props}>{children}</p>
     default:
@@ -33,8 +35,6 @@ const Canvas = styled.div`
   padding: 5vw;
   min-height: 100%;
   * {
-    margin: 0;
-    padding: 0;
     line-height: 100%;
   }
 `

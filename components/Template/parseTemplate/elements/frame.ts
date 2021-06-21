@@ -7,6 +7,7 @@ import { ParentNode } from '../parseTemplate'
 export const frame = (node: Frame | Group, parentNode: ParentNode): CSSProperties => {
   return {
     ...getLayout(node, parentNode),
-    background: getFill(node)
+    overflow: node.clipsContent ? 'hidden' : 'visible',
+    background: getFill(node),
   }
 }
