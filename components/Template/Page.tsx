@@ -1,6 +1,7 @@
 import { FC, ReactNode } from 'react'
 import { ParsedNode } from './parseTemplate/parseTemplate'
 import styled from 'styled-components'
+import { Svg } from './Elemets/Svg'
 
 const renderElement = (node: ParsedNode): ReactNode => {
   const { id, style, children, type } = node
@@ -14,6 +15,8 @@ const renderElement = (node: ParsedNode): ReactNode => {
       return <div {...props} />
     case 'TEXT':
       return <p {...props}>{children}</p>
+    case 'BOOLEAN_OPERATION':
+      return <Svg {...props} geometry={children} />
     default:
       return <div {...props} />
   }
@@ -34,6 +37,7 @@ const Canvas = styled.div`
   gap: 16px;
   padding: 5vw;
   min-height: 100%;
+  background: #1A1E25;
   * {
     line-height: 100%;
   }

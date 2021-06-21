@@ -59,7 +59,6 @@ const autoLayoutContainer = (node: Group | Frame, parentNode?: ContainerNode): C
 }
 
 const staticLayout = (node: BoxNode, parentNode: ContainerNode): CSSProperties => {
-  if (node.type === 'RECTANGLE') console.log(node)
   const { x, y, width, height } = node.absoluteBoundingBox
   const { horizontal, vertical } = node.constraints
 

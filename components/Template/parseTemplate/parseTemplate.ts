@@ -1,10 +1,10 @@
-import { FileResponse, Node, Frame, Text, Canvas, Group, Rectangle } from '@mikkmartin/figma-js'
-import { canvas, frame, text, rectangle } from './elements'
+import { FileResponse, Node, Frame, Text, Canvas, Group, Rectangle, BooleanGroup } from '@mikkmartin/figma-js'
+import { canvas, frame, text, rectangle, svg } from './elements'
 import { CSSProperties } from 'react'
 
 export type ContainerNode = Frame | Group
 export type ParentNode = Frame | Group | Canvas
-export type BoxNode = Frame | Group | Text | Rectangle
+export type BoxNode = Frame | Group | Text | Rectangle | BooleanGroup
 
 export type ParsedNode = {
   id: string
@@ -46,7 +46,10 @@ const parseNode = (node: Node, parentNode?: ParentNode): ParsedNode => {
       break
     case 'RECTANGLE':
       style = rectangle(node, parentNode)
-      console.log(style)
+      break
+    case 'BOOLEAN_OPERATION':
+      style = svg(node, parentNode)
+      children = node.fillGeometry
       break
   }
 
