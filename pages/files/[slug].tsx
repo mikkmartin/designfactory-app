@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { Layout } from 'components/Layout'
-import { Frame } from 'components/Template'
+import { Template } from 'components/Template'
 
 type Props = {
   slug: string
@@ -9,7 +9,7 @@ type Props = {
 const File: FC<Props> = props => {
   return (
     <Layout file={props.slug}>
-      <Frame />
+      <Template />
     </Layout>
   )
 }

@@ -1,1 +1,1 @@
-export { Frame } from './Frame'
+export { Template } from './Template'

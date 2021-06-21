@@ -1,19 +1,16 @@
 import { FC } from 'react'
 import { Text as TextNode } from '@react-pdf/renderer'
-import { Text as TextType } from '@mikkmartin/figma-js'
+import { Text as TextType, AutoResize } from '@mikkmartin/figma-js'
 import { getLayout, getColor } from './common'
 import { useContainer } from './ContainerContext'
 import { useTransformElement } from '../TransformContext'
 import { useTemplate } from '../../Template/TemplateContext'
 
-type AutoResize = 'NONE' | 'WIDTH_AND_HEIGHT' | 'HEIGHT'
-
 export const Text: FC<{ node: TextType; nth: number }> = ({ node, nth }) => {
   const { fontFamilies } = useTemplate()
   const { layoutMode, counterAxisAlignItems } = useContainer()
   const { fillText } = useTransformElement()
-  //@ts-ignore
-  const autoResize: AutoResize = node.style.textAutoResize
+  const autoResize = node.style.textAutoResize
   const { width, height, ...layout } = getLayout(node, nth)
   const { fills, opacity } = node
   const {
