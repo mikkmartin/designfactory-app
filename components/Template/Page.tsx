@@ -31,6 +31,7 @@ const Canvas = styled.div`
   overflow: auto;
   gap: 16px;
   padding: 5vw;
+  min-height: 100%;
   * {
     margin: 0;
     padding: 0;

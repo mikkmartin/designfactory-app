@@ -2,40 +2,50 @@ import { CSSProperties } from 'react'
 import { Group, Frame } from '@mikkmartin/figma-js'
 import { BoxNode, ParentNode, ContainerNode } from './parseTemplate'
 
+let layout: CSSProperties = {}
+
 export const getLayout = (node: BoxNode, parentNode?: ParentNode): CSSProperties => {
   const { width, height } = node.absoluteBoundingBox
-  let layout: CSSProperties = {}
+  if (parentNode?.type === 'CANVAS') return { position: 'relative', width, height }
 
-  if (parentNode && parentNode.type !== 'CANVAS' && !parentNode.layoutMode) {
+  if (parentNode && !parentNode.layoutMode) {
     layout = staticLayout(node, parentNode)
+  } else if (parentNode && parentNode.layoutMode) {
+    layout = autoLayoutItem(node, parentNode)
   } else {
-    //canvas pages
     layout = { position: 'relative', width, height }
   }
 
-  if (
-    (node.type === 'GROUP' || node.type === 'FRAME') &&
-    parentNode &&
-    parentNode.type !== 'CANVAS' &&
-    node.layoutMode
-  ) {
-    layout = autoLayout(node, parentNode)
+  if ((node.type === 'GROUP' || node.type === 'FRAME') && parentNode && node.layoutMode) {
+    layout = autoLayoutContainer(node, parentNode)
   }
 
   return layout
 }
 
-const autoLayout = (node: Group | Frame, parentNode?: ContainerNode): CSSProperties => {
+const autoLayoutItem = (node: BoxNode, parentNode?: ParentNode): CSSProperties => {
+  const { width, height } = node.absoluteBoundingBox
+  let layout: CSSProperties = { position: 'relative', width }
+
+  if (node.type !== 'TEXT' || node.style.textAutoResize === 'NONE') layout = { ...layout, height }
+
+  return layout
+}
+
+const autoLayoutContainer = (node: Group | Frame, parentNode?: ContainerNode): CSSProperties => {
   const { x, y, width, height } = node.absoluteBoundingBox
 
   let layout: CSSProperties = {
     left: x,
-    top: y,
     position: 'absolute',
   }
 
-  if (node.counterAxisSizingMode === 'FIXED') layout = { ...layout, height }
-  if (node.primaryAxisSizingMode === 'FIXED') layout = { ...layout, width }
+  if (node.counterAxisSizingMode === 'FIXED') layout = { ...layout, width }
+  if (node.primaryAxisSizingMode === 'FIXED') layout = { ...layout, height }
+
+  if (node.constraints.vertical === 'BOTTOM')
+    layout = { ...layout, bottom: parentNode.absoluteBoundingBox.height - height - y }
+  else layout = { ...layout, top: y }
 
   return {
     ...layout,
