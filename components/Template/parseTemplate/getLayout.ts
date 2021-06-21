@@ -38,17 +38,15 @@ const autoLayoutContainer = (node: Group | Frame, parentNode?: ContainerNode): C
   let layout: CSSProperties = {
     left: x,
     position: 'absolute',
-    width,
-    height,
   }
 
-  if (node.counterAxisSizingMode === 'AUTO') delete layout.width
-  if (node.primaryAxisSizingMode === 'AUTO') delete layout.height
+  if (node.counterAxisSizingMode === 'FIXED') layout = { ...layout, width }
+  if (node.primaryAxisSizingMode === 'FIXED') layout = { ...layout, height }
 
   if (node.constraints.vertical === 'BOTTOM')
     layout = { ...layout, bottom: parentNode.absoluteBoundingBox.height - height - y }
   else layout = { ...layout, top: y }
-
+  
   return {
     ...layout,
     display: 'flex',
@@ -78,9 +76,9 @@ const staticLayout = (node: BoxNode, parentNode: ContainerNode): CSSProperties =
 
   if (vertical === 'BOTTOM') {
     layout = { ...layout, bottom: parentNode.absoluteBoundingBox.height - height }
-    delete layout.height
   } else {
     layout = { ...layout, top: y }
   }
+
   return layout
 }
