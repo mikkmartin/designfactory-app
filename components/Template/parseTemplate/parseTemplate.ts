@@ -1,4 +1,13 @@
-import { FileResponse, Node, Frame, Text, Canvas, Group, Rectangle, BooleanGroup } from '@mikkmartin/figma-js'
+import {
+  FileResponse,
+  Node,
+  Frame,
+  Text,
+  Canvas,
+  Group,
+  Rectangle,
+  BooleanGroup,
+} from '@mikkmartin/figma-js'
 import { canvas, frame, text, rectangle, svg } from './elements'
 import { CSSProperties } from 'react'
 
@@ -64,5 +73,11 @@ const parseNode = (node: Node, parentNode?: ParentNode): ParsedNode => {
 }
 
 export const parseTemplate = (template: FileResponse) => {
-  return template.document.children.map(child => parseNode(child))
+  return template.document.children
+    .map(node =>
+      node.type === 'CANVAS'
+        ? { ...node, children: node.children.filter(({ visible }) => visible !== false) }
+        : node
+    )
+    .map(child => parseNode(child))
 }

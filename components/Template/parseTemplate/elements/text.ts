@@ -12,5 +12,6 @@ export const text = (node: Text, parentNode: ParentNode): CSSProperties => {
     fontFamily: node.style.fontFamily,
     fontWeight: node.style.fontWeight,
     textAlign: node.style.textAlignHorizontal === 'CENTER' ? 'center' : 'left',
+    lineHeight: node.style.lineHeightPercent + '%'
   }
 }

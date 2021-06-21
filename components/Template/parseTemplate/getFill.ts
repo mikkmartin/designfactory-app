@@ -11,7 +11,7 @@ export const getFill = (node: BoxNode) => {
         case 'GRADIENT_LINEAR':
           return `linear-gradient(293.08deg, #000000 24.76%, #3F004F 100%)`
         case 'IMAGE':
-          return `url(/api/figma/WHdIyxfgAUWEDo3GLCz9G5/${node.id}.png) top left / cover no-repeat`
+          return `url(/api/figma/WHdIyxfgAUWEDo3GLCz9G5/${node.id}.png) center center / cover no-repeat`
         default:
           return 'none'
       }
