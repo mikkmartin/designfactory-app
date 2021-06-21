@@ -2,7 +2,8 @@ import { FileResponse, Node, Frame, Text, Canvas, Group } from '@mikkmartin/figm
 import { canvas, frame, text } from './elements'
 import { CSSProperties } from 'react'
 
-export type ParentNode = Frame | Canvas
+export type ContainerNode = Frame | Group
+export type ParentNode = Frame | Group | Canvas
 export type BoxNode = Frame | Group | Text
 
 export type ParsedNode = {
@@ -13,7 +14,6 @@ export type ParsedNode = {
 }
 
 const normalizePosition = (node, parent) => {
-  if (!!parent) return node
   return {
     ...node,
     absoluteBoundingBox: {  
