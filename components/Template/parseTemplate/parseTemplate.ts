@@ -1,11 +1,11 @@
-import { FileResponse, Node, Frame, Text, Canvas } from '@mikkmartin/figma-js'
-import { text, frame } from './elements'
+import { FileResponse, Node, Frame, Text, Canvas, Group } from '@mikkmartin/figma-js'
+import { canvas, frame, text } from './elements'
 import { CSSProperties } from 'react'
 
 export type ParentNode = Frame | Canvas
-export type BoxNode = Frame | Text
+export type BoxNode = Frame | Group | Text
 
-type ParsedNode = {
+export type ParsedNode = {
   id: string
   type: Node['type']
   style: CSSProperties
@@ -16,10 +16,10 @@ const normalizePosition = (node, parent) => {
   if (!!parent) return node
   return {
     ...node,
-    absoluteBoundingBox: {
+    absoluteBoundingBox: {  
       ...node.absoluteBoundingBox,
-      //x: node.absoluteBoundingBox.x - parent.absoluteBoundingBox.x,
-      //y: node.absoluteBoundingBox.y - parent.absoluteBoundingBox.y,
+      x: node.absoluteBoundingBox.x - parent.absoluteBoundingBox.x,
+      y: node.absoluteBoundingBox.y - parent.absoluteBoundingBox.y,
     },
   }
 }
@@ -32,13 +32,15 @@ const parseNode = (node: Node, parentNode?: ParentNode): ParsedNode => {
 
   switch (node.type) {
     case 'CANVAS':
-      style = {}
+      style = canvas(node)
       children = node.children.map(child => parseNode(child))
       break
     case 'TEXT':
       style = text(node, parentNode)
+      children = node.characters
       break
     case 'FRAME':
+    case 'GROUP':
       style = frame(node, parentNode)
       children = node.children.map(child => parseNode(child, node as Frame))
       break

@@ -4,5 +4,6 @@ import { parseTemplate } from './parseTemplate'
 
 export const Template = () => {
   const { template } = useEditor()
-  return <Page nodes={template ? parseTemplate(template) : {}} />
+  if (!template) return null
+  return <Page nodes={parseTemplate(template)} />
 }

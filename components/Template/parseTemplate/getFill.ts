@@ -2,7 +2,7 @@ import { Node } from '@mikkmartin/figma-js'
 import { getColor } from './getColor'
 
 export const getFill = (node: Node) => {
-  if (node.type !== 'FRAME') return
+  if (node.type !== 'FRAME' && node.type !== 'TEXT') return
   if (!node.fills) return 'none'
   return node.fills
     .map(fill => {
