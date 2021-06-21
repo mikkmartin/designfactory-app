@@ -72,12 +72,20 @@ const parseNode = (node: Node, parentNode?: ParentNode): ParsedNode => {
   return parsedNode
 }
 
+const onlyVisibleFrames = ({ visible, type }: Node) => {
+  if (type !== 'FRAME') return false
+  if (visible !== false) return true
+}
+
 export const parseTemplate = (template: FileResponse) => {
   return template.document.children
-    .map(node =>
-      node.type === 'CANVAS'
-        ? { ...node, children: node.children.filter(({ visible }) => visible !== false) }
-        : node
-    )
+    .map(node => {
+      if (node.type === 'CANVAS')
+        return {
+          ...node,
+          children: node.children.filter(onlyVisibleFrames),
+        }
+      else return node
+    })
     .map(child => parseNode(child))
 }
