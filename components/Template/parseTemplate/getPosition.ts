@@ -1,33 +1,33 @@
 import { CSSProperties } from 'react'
+import { BoxNode, ParentNode } from './parseTemplate'
 
-export const getPosition = ({ absoluteBoundingBox, ...rest }, parent): CSSProperties => {
-  const { x, y, width, height } = absoluteBoundingBox
+export const getPosition = (node: BoxNode, parentNode?: ParentNode): CSSProperties => {
+  const { x, y, width, height } = node.absoluteBoundingBox
 
   let position: CSSProperties = {
     width,
     height,
   }
 
-  if (rest.layoutMode) {
-    console.log(rest)
+  if (node.type === 'FRAME' && node.layoutMode) {
     position = {
       ...position,
       position: 'absolute',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
-      gap: rest.itemSpacing,
+      gap: node.itemSpacing,
     }
-    if (rest.constraints.horizontal === 'LEFT') position = { ...position, left: x }
-    else position = { ...position, right: parent.absoluteBoundingBox.width - width - x }
-    if (rest.constraints.vertical === 'BOTTOM')
-      position = { ...position, bottom: parent.absoluteBoundingBox.height - height - y }
-    else position = { ...position, top: y }
-  } else if (parent.layoutMode) {
-    position = {
-      ...position,
-      height: 'unset',
+    if (parentNode.type === 'FRAME') {
+      if (node.constraints.horizontal === 'LEFT') position = { ...position, left: x }
+      else position = { ...position, right: parentNode.absoluteBoundingBox.width - width - x }
+      if (node.constraints.vertical === 'BOTTOM')
+        position = { ...position, bottom: parentNode.absoluteBoundingBox.height - height - y }
+      else position = { ...position, top: y }
     }
+  } else if (parentNode && parentNode.type !== 'CANVAS' && parentNode.layoutMode) {
+    const { height, ...rest } = position
+    position = { ...rest }
   } else {
     position = {
       top: y,

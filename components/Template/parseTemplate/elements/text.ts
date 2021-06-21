@@ -1,11 +1,12 @@
-import { Text, Node } from '@mikkmartin/figma-js'
+import { Text } from '@mikkmartin/figma-js'
 import { CSSProperties } from 'react'
 import { getPosition } from '../getPosition'
 import { getFill } from '../getFill'
+import { ParentNode } from '../parseTemplate'
 
-export const text = (node: Text, parent: Node): CSSProperties => {
+export const text = (node: Text, parentNode: ParentNode): CSSProperties => {
   return {
-    ...getPosition(node, parent),
+    ...getPosition(node, parentNode),
     color: getFill(node),
     fontSize: node.style.fontSize,
     fontFamily: node.style.fontFamily,

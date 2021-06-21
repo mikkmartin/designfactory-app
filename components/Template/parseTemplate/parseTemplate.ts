@@ -1,6 +1,9 @@
-import { FileResponse, Node } from '@mikkmartin/figma-js'
-import { text } from './elements/text'
+import { FileResponse, Node, Frame, Text, Canvas } from '@mikkmartin/figma-js'
+import { text, frame } from './elements'
 import { CSSProperties } from 'react'
+
+export type ParentNode = Frame | Canvas
+export type BoxNode = Frame | Text
 
 type ParsedNode = {
   id: string
@@ -21,31 +24,34 @@ const normalizePosition = (node, parent) => {
   }
 }
 
-const parseNode = (node: Node, parentNode?: Node): ParsedNode => {
-  node = normalizePosition(node, parentNode)
+const parseNode = (node: Node, parentNode?: ParentNode): ParsedNode => {
+  if (parentNode) node = normalizePosition(node, parentNode)
   const { id, type } = node
   let style: CSSProperties = {}
-  let children = undefined
+  let children = null
 
   switch (node.type) {
     case 'CANVAS':
       style = {}
-      children = node.children.map(child => parseNode(child, node))
+      children = node.children.map(child => parseNode(child))
       break
     case 'TEXT':
       style = text(node, parentNode)
       break
     case 'FRAME':
-      children = node.children.map(child => parseNode(child, node))
+      style = frame(node, parentNode)
+      children = node.children.map(child => parseNode(child, node as Frame))
       break
   }
 
-  return {
+  let parsedNode: ParsedNode = {
     id,
     type,
     style,
-    children,
   }
+
+  if (children) parsedNode.children = children
+  return parsedNode
 }
 
 export const parseTemplate = (template: FileResponse) => {
