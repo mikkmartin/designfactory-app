@@ -5,22 +5,22 @@ import { loadStripe } from '@stripe/stripe-js'
 export type DonationType = 'Monthly' | 'One time'
 
 type Values = {
-  amount: number,
-  setAmount: Dispatch<SetStateAction<number>>,
-  paymentType: DonationType,
+  amount: number
+  setAmount: Dispatch<SetStateAction<number>>
+  paymentType: DonationType
   setPaymentType: Dispatch<SetStateAction<DonationType>>
-  handleSubmit: null | Function,
-  setSubmitHandler: (Function) => void,
-  loading: boolean,
-  setLoading: Dispatch<SetStateAction<boolean>>,
-  showError: (string) => void,
-  error: string,
+  handleSubmit: null | Function
+  setSubmitHandler: (Function) => void
+  loading: boolean
+  setLoading: Dispatch<SetStateAction<boolean>>
+  showError: (string) => void
+  error: string
 }
 
 //@ts-ignore
 const Context = createContext<Values>()
 
-const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
+//const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
 export const DonationProvider: FC = ({ children }) => {
   const [amount, setAmount] = useState(3)
   const [paymentType, setPaymentType] = useState<DonationType>('Monthly')
@@ -38,21 +38,24 @@ export const DonationProvider: FC = ({ children }) => {
   }
 
   return (
-    <Context.Provider value={{
-      amount,
-      setAmount,
-      paymentType,
-      setPaymentType,
-      handleSubmit: submitHandler.current,
-      setSubmitHandler: fn => submitHandler.current = fn,
-      loading,
-      setLoading,
-      showError,
-      error,
-    }}>
+    <Context.Provider
+      value={{
+        amount,
+        setAmount,
+        paymentType,
+        setPaymentType,
+        handleSubmit: submitHandler.current,
+        setSubmitHandler: fn => (submitHandler.current = fn),
+        loading,
+        setLoading,
+        showError,
+        error,
+      }}>
+      {/*
       <Elements stripe={stripe}>
         {children}
       </Elements>
+      */}
     </Context.Provider>
   )
 }

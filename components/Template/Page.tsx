@@ -1,7 +1,7 @@
 import { FC, ReactNode } from 'react'
 import { ParsedNode } from './parseTemplate/parseTemplate'
 import styled from 'styled-components'
-import { Svg } from './Elemets/Svg'
+import { Svg } from './elemets/Svg'
 
 const renderElement = (node: ParsedNode): ReactNode => {
   const { id, style, children, type } = node
