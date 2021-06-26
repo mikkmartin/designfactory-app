@@ -1,4 +1,4 @@
-export const Screenshot = (props) => {
+export const Screenshot = props => {
   return (
     <>
       <h1>Screenshot</h1>
@@ -7,9 +7,9 @@ export const Screenshot = (props) => {
   )
 }
 
-Screenshot.getInitialProps = async ({query}) => {
+Screenshot.getInitialProps = async ({ query }) => {
   return {
-    query
+    query,
   }
 }
 
