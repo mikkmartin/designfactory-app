@@ -14,12 +14,11 @@ async function getPage(isDev: boolean) {
   return _page
 }
 
-export async function getScreenshot(html: string, type: FileType, isDev: boolean) {
+export async function getScreenshot(url: string, type: FileType, isDev: boolean) {
   const page = await getPage(isDev)
   await page.setViewport({ width: 800, height: 600, deviceScaleFactor: 2 })
 
-  await page.setContent(html)
-  //await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 60000 })
+  await page.goto(url, { waitUntil: 'networkidle0' })
 
   const selector = '#__next > div > div:nth-child(2)'
   await page.waitForSelector(selector)

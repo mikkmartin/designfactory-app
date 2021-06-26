@@ -9,11 +9,9 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
   try {
     const [url, params] = req.url.split('?')
     const [withoutExtension, extension] = url.split('.')
-    const htmlUrl = baseURL + '/screenshot/' + withoutExtension.split('/files/')[1]
+    const contentUrl = baseURL + '/screenshot/' + withoutExtension.split('/files/')[1]
 
-    const htmlRes = await fetch(`${htmlUrl}?${params}`)
-    const html = await htmlRes.text()
-    const file = await getScreenshot(html, extension as FileType, isDev)
+    const file = await getScreenshot(contentUrl, extension as FileType, isDev)
 
     res.statusCode = 200
     res.setHeader('Content-Type', `image/${extension}`)
