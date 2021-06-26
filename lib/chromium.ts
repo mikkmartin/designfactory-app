@@ -16,7 +16,7 @@ async function getPage(isDev: boolean) {
 
 export async function getScreenshot(html: string, type: FileType, isDev: boolean) {
   const page = await getPage(isDev)
-  await page.setViewport({ width: 2048, height: 1170, deviceScaleFactor: 2 })
+  await page.setViewport({ width: 800, height: 600, deviceScaleFactor: 2 })
 
   await page.setContent(html)
   //await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 60000 })
