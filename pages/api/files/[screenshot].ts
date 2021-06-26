@@ -11,7 +11,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     const [withoutExtension, extension] = url.split('.')
     const contentUrl = baseURL + '/screenshot/' + withoutExtension.split('/files/')[1]
 
-    const file = await getScreenshot(contentUrl, extension as FileType, isDev)
+    const file = await getScreenshot(`${contentUrl}?${params}`, extension as FileType, isDev)
 
     res.statusCode = 200
     res.setHeader('Content-Type', `image/${extension}`)
