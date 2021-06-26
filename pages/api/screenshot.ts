@@ -1,7 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http'
-//import { parseRequest } from './_lib/parser'
 import { getScreenshot } from 'lib/chromium'
-//import { getHtml } from './_lib/template'
 
 const isDev = !process.env.AWS_REGION
 
