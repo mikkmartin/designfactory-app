@@ -2,12 +2,15 @@ import { FC } from 'react'
 import styled from 'styled-components'
 import Editor, { ApiLink, Header } from 'components/Editor'
 import { EditorProvider } from 'components/Editor/EditorContext'
+import { Loading } from 'components/Editor/Loading'
 
 type Props = {
   file: string
+  schema?: any
 }
 
-export const Layout: FC<Props> = ({ children, file }) => {
+export const Layout: FC<Props> = ({ children, file, schema }) => {
+  console.log({ schema })
   return (
     <EditorProvider file={file}>
       <Container>
@@ -16,7 +19,10 @@ export const Layout: FC<Props> = ({ children, file }) => {
           <Editor />
           <ApiLink />
         </div>
-        <div className="container">{children}</div>
+        <div className="container">
+          {children}
+          <Loading />
+        </div>
       </Container>
     </EditorProvider>
   )
@@ -38,11 +44,6 @@ const Container = styled.div`
   .container {
     flex: 2.5;
     position: relative;
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: 0;
-    }
   }
 `
 

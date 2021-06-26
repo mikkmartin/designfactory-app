@@ -1,7 +1,6 @@
 import { FC } from 'react'
 import { Pdf } from 'components/Pdf'
 import { Layout } from 'components/Layout'
-import { Loading } from 'components/Editor/Loading'
 
 const Invoice: FC = () => {
   return (
@@ -9,7 +8,6 @@ const Invoice: FC = () => {
       <Pdf>
         <Invoice />
       </Pdf>
-      <Loading />
     </Layout>
   )
 }

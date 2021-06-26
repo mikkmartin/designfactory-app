@@ -4,7 +4,7 @@ import { FC } from 'react'
 import { defaultTemplatesv2 } from 'static/defaultTemplates'
 import baseURL from 'static/baseURL'
 import { Invoice } from 'static/invoice'
-import { Template } from 'components/Template'
+import { Canvas } from 'components/Canvas'
 
 type Props = {
   template: FileResponse
@@ -12,7 +12,7 @@ type Props = {
 }
 
 export const Screenshot: FC<Props> = ({ template, data }) => {
-  return <Template template={template} data={data} />
+  return <Canvas template={template} data={data} />
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {

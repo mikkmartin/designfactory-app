@@ -4,7 +4,7 @@ import { Text as TextType, AutoResize } from '@mikkmartin/figma-js'
 import { getLayout, getColor } from './common'
 import { useContainer } from './ContainerContext'
 import { useTransformElement } from '../TransformContext'
-import { useTemplate } from '../../Template/TemplateContext'
+import { useTemplate } from '../../Canvas/TemplateContext'
 
 export const Text: FC<{ node: TextType; nth: number }> = ({ node, nth }) => {
   const { fontFamilies } = useTemplate()

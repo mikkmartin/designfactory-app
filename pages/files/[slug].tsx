@@ -1,30 +1,48 @@
-import { FC } from 'react'
+import { defaultTemplatesv2 } from 'static/defaultTemplates'
 import { Layout } from 'components/Layout'
-import { Template } from 'components/Template'
+import { Canvas } from 'components/Canvas'
+import { getTemplate } from 'data/figma'
+import { FC } from 'react'
 
 type Props = {
-  slug: string
+  fileName: string
+  initialTemplate: any
+  data: any
+  fonts: any[]
 }
 
-const File: FC<Props> = props => {
+const useEditor = (template, options: { refresh: boolean }) => {
+  console.log(options)
+  return { template, data: {}, fonts: [], schema: {} }
+}
+
+const File: FC<Props> = ({ initialTemplate, fileName }) => {
+  const { schema, ...canvasProps } = useEditor(initialTemplate, { refresh: false })
   return (
-    <Layout file={props.slug}>
-      <Template />
+    <Layout file={fileName} schema={schema}>
+      <Canvas {...canvasProps} />
     </Layout>
   )
 }
 
-export const getStaticProps = ({ params }) => {
+export const getStaticProps = async ({ params }) => {
+  const fileName = params.slug
+  const defaultTemplate = defaultTemplatesv2.find(({ slug }) => slug === fileName)
+  const templateID = defaultTemplate.template
+  const initialTemplate = await getTemplate(templateID)
+
   return {
     props: {
-      slug: params.slug,
+      fileName,
+      initialTemplate,
     },
   }
 }
 
 export const getStaticPaths = async () => {
+  const defaultTemplate = ['og-image']
   return {
-    paths: ['/files/og-image'],
+    paths: defaultTemplate.map(name => `/files/${name}`),
     fallback: false,
   }
 }

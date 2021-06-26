@@ -5,7 +5,7 @@ import { Frame } from './Frame'
 import { Text } from './Text'
 import { Group } from './Group'
 import { Vector } from './Vector'
-import { useTemplate } from 'components/Template/TemplateContext'
+import { useTemplate } from 'components/Canvas/TemplateContext'
 import { useContainer } from './ContainerContext'
 import { TransformElementsProvider, useTransformElement } from 'components/Pdf/TransformContext'
 
