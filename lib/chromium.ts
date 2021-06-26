@@ -26,7 +26,6 @@ export async function getScreenshot(html: string, type: FileType, isDev: boolean
   const element = await page.$(selector)
 
   await page.evaluate(async () => {
-    /*
     const selector = '#__next > div > div'
     const selectors = Array.from(document.querySelector(selector).querySelectorAll('img'))
     await Promise.all(
@@ -38,7 +37,6 @@ export async function getScreenshot(html: string, type: FileType, isDev: boolean
         })
       })
     )
-    */
   })
 
   const file = await element.screenshot({ type })
