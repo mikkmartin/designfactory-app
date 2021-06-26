@@ -1,3 +1,3 @@
 export default process.env.NEXT_PUBLIC_URL
-  ? 'https://' + process.env.NEXT_PUBLIC_URL + '/files'
-  : 'http://localhost:4000/files'
+  ? 'https://' + process.env.NEXT_PUBLIC_URL
+  : 'http://localhost:4000'
