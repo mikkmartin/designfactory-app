@@ -2,7 +2,7 @@ import baseURL from './baseURL'
 import { defaults } from './invoice'
 import { Fonts } from 'static/types'
 
-export type TemplateObject = {
+export interface TemplateObject {
   name: string
   template: string
   dateAdded?: Date
@@ -32,5 +32,17 @@ export const defaultTemplates: TemplateObject[] = [
         ],
       },
     ],
+  },
+]
+
+interface TemplateObjectV2 extends TemplateObject {
+  slug: string
+}
+
+export const defaultTemplatesv2: TemplateObjectV2[] = [
+  {
+    name: 'Social image',
+    slug: 'og-image',
+    template: 'WHdIyxfgAUWEDo3GLCz9G5',
   },
 ]

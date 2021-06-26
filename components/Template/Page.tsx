@@ -28,7 +28,6 @@ const renderElement = (node: ParsedNode): ReactNode => {
 
 export const Page: FC<{ nodes: ParsedNode[] }> = ({ nodes }) => {
   return <>{nodes.map(renderElement)}</>
-  //return <pre>{JSON.stringify(nodes, null, 2)}</pre>
 }
 
 const Canvas = styled.div`

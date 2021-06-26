@@ -40,7 +40,7 @@ class Pricing {
     } else {
       this.val = this.val - price(this.data).sum().prepaid().val
     }
-    console.log({ val: this.val, tax: this.val * (percentageToNumber(this.data.tax) / 100) })
+    //console.log({ val: this.val, tax: this.val * (percentageToNumber(this.data.tax) / 100) })
     if (addTax) this.val += this.val * (percentageToNumber(this.data.tax) / 100)
     return this
   }

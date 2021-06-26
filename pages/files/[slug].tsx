@@ -24,7 +24,7 @@ export const getStaticProps = ({ params }) => {
 
 export const getStaticPaths = async () => {
   return {
-    paths: ['/files/meta'],
+    paths: ['/files/og-image'],
     fallback: false,
   }
 }

@@ -7,11 +7,14 @@ const isDev = !process.env.AWS_REGION
 
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
   try {
-    const htmlUrl = baseURL + '/screenshot/' + req.url.split('/files/')[1]
-    const extension = req.url.split('.')[1].split('?')[0] as FileType
-    const htmlRes = await fetch(htmlUrl)
+    const [url, params] = req.url.split('?')
+    const [withoutExtension, extension] = url.split('.')
+    const htmlUrl = baseURL + '/screenshot/' + withoutExtension.split('/files/')[1]
+
+    const htmlRes = await fetch(`${htmlUrl}?${params}`)
     const html = await htmlRes.text()
-    const file = await getScreenshot(html, extension, isDev)
+    const file = await getScreenshot(html, extension as FileType, isDev)
+
     res.statusCode = 200
     res.setHeader('Content-Type', `image/${extension}`)
     res.setHeader(

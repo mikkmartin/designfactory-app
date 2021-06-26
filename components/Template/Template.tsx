@@ -1,9 +1,12 @@
-import { useEditor } from 'components/Editor/EditorContext'
 import { Page } from './Page'
 import { parseTemplate } from './parseTemplate'
+import { TemplateProvider } from './TemplateContext'
 
-export const Template = () => {
-  const { template } = useEditor()
+export const Template = ({ template, data }) => {
   if (!template) return null
-  return <Page nodes={parseTemplate(template)} />
+  return (
+    <TemplateProvider template={template} data={data} fontFamilies={[]}>
+      <Page nodes={parseTemplate(template)} />
+    </TemplateProvider>
+  )
 }

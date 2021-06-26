@@ -1,10 +1,10 @@
-import { useEditor } from 'components/Editor/EditorContext'
+import { useTemplate } from '../TemplateContext'
 
 export const Text = ({ style, children, name }) => {
-  const { json } = useEditor()
+  const { data } = useTemplate()
 
   const fillText = (name: string) => {
-    for (const [key, value] of Object.entries(json)) {
+    for (const [key, value] of Object.entries(data)) {
       if (name === key) return value
     }
     return children
