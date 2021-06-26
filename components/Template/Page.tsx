@@ -1,11 +1,11 @@
 import { FC, ReactNode } from 'react'
 import { ParsedNode } from './parseTemplate/parseTemplate'
 import styled from 'styled-components'
-import { Svg } from './elemets/Svg'
+import { Svg, Text } from './elemets'
 
 const renderElement = (node: ParsedNode): ReactNode => {
-  const { id, style, children, type } = node
-  const props = { key: id, style }
+  const { id, style, children, type, name } = node
+  const props = { key: id, style, name }
   switch (type) {
     case 'CANVAS':
       return <Canvas {...props}>{children.map(renderElement)}</Canvas>
@@ -14,7 +14,11 @@ const renderElement = (node: ParsedNode): ReactNode => {
     case 'RECTANGLE':
       return <div {...props} />
     case 'TEXT':
-      return <p {...props}>{children}</p>
+      return (
+        <Text {...props} name={name}>
+          {children}
+        </Text>
+      )
     case 'BOOLEAN_OPERATION':
       return <Svg {...props} geometry={children} />
     default:
@@ -37,7 +41,7 @@ const Canvas = styled.div`
   gap: 16px;
   padding: 5vw;
   min-height: 100%;
-  background: #1A1E25;
+  background: #1a1e25;
   * {
     line-height: 100%;
   }

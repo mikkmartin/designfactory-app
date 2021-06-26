@@ -17,6 +17,7 @@ export type BoxNode = Frame | Group | Text | Rectangle | BooleanGroup
 
 export type ParsedNode = {
   id: string
+  name: string
   type: Node['type']
   style: CSSProperties
   children?: ParsedNode[]
@@ -35,7 +36,7 @@ const normalizePosition = (node, parent) => {
 
 const parseNode = (node: Node, parentNode?: ParentNode): ParsedNode => {
   if (parentNode) node = normalizePosition(node, parentNode)
-  const { id, type } = node
+  const { id, name, type } = node
   let style: CSSProperties = {}
   let children = null
 
@@ -64,6 +65,7 @@ const parseNode = (node: Node, parentNode?: ParentNode): ParsedNode => {
 
   let parsedNode: ParsedNode = {
     id,
+    name,
     type,
     style,
   }
