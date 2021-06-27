@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react'
 import { ParsedNode } from './parseTemplate/parseTemplate'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { Svg, Text } from './elemets'
 
 const renderElement = (node: ParsedNode): ReactNode => {
@@ -30,6 +30,13 @@ export const Page: FC<{ nodes: ParsedNode[] }> = ({ nodes }) => {
   return <>{nodes.map(renderElement)}</>
 }
 
+const inputFocus = css`
+  background: rgba(0, 102, 255, 0.2);
+  box-shadow: inset 0 0 1px #0066ff, 0 0 0 1px rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+  transition: background-color 0.1s;
+`
+
 const Canvas = styled.div`
   display: flex;
   flex-direction: column;
@@ -43,5 +50,24 @@ const Canvas = styled.div`
   background: #1a1e25;
   * {
     line-height: 100%;
+  }
+  > div {
+    &:hover .ProseMirror {
+      ${inputFocus}
+    }
+    &:hover .ProseMirror:hover {
+      transition: background-color 0s;
+      background: rgba(0, 102, 255, 0.2);
+    }
+    &:focus-within .ProseMirror {
+      background: unset;
+      box-shadow: unset;
+      transition: background-color 0;
+      box-shadow: background-color 0;
+      &:hover,
+      &.ProseMirror-focused {
+        ${inputFocus}
+      }
+    }
   }
 `
