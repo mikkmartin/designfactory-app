@@ -14,11 +14,11 @@ type UseEditorReturnTypes = {
   loading: boolean
 }
 
-export const useEditor: UseEditorTypes = (templateID, initialData): UseEditorReturnTypes => {
-  const [data, setData] = useState(initialData)
+export const useEditor: UseEditorTypes = (templateID, initialTemplate): UseEditorReturnTypes => {
+  const [data, setData] = useState({})
   const fetcher = url => fetch(`${url}?template=${templateID}`).then(r => r.json())
   const { data: template, isValidating } = useSWR('/api/figma', fetcher, {
-    initialData,
+    initialData: initialTemplate,
     focusThrottleInterval: 0,
   })
 
@@ -27,7 +27,7 @@ export const useEditor: UseEditorTypes = (templateID, initialData): UseEditorRet
     data,
     fonts: [],
     schema: {},
-    onDataUpdate: setData,
+    onDataUpdate: obj => setData(prev => ({ ...prev, ...obj })),
     loading: isValidating,
   }
 }
