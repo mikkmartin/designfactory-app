@@ -1,6 +1,7 @@
 import { useTemplate } from '../TemplateContext'
 import { useEditor, EditorContent, JSONContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
+import { useEffect } from 'react'
 
 export const Text = ({ style, children, name }) => {
   const { data, onDataUpdate } = useTemplate()
@@ -29,6 +30,25 @@ export const Text = ({ style, children, name }) => {
       }
     },
   })
+
+  useEffect(() => {
+    if (!editor) return
+    if (typeof data[name] === 'string') {
+      let content: any = {
+        type: 'text',
+      }
+      if (data[name].length) content.text = data[name]
+      editor.commands.setContent({
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [content],
+          },
+        ],
+      })
+    }
+  }, [data[name]])
 
   return <EditorContent style={style} editor={editor} />
 }

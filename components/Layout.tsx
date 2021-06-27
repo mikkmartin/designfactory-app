@@ -10,10 +10,7 @@ export const Layout: FC<Props> = ({ children, ...editorProps }) => {
       <Container>
         <div className="controls">
           <Header />
-          <pre style={{ flex: 1 }}>{JSON.stringify(editorProps.data, null, 2)}</pre>
-          {/*
           <Editor />
-        */}
           <ApiLink />
         </div>
         <div className="container">

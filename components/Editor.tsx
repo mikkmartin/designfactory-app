@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { useMeasure } from 'react-use'
 import { useEditorData } from './Editor/EditorContext'
 import { schema } from '../static/invoice'
-import theme from './Editor/theme.json'
+import { theme } from './Editor/theme'
 import packagejson from '../package.json'
 import { dequal } from 'dequal/lite'
 const MonacoEditor = dynamic(import('react-monaco-editor'), { ssr: false })
@@ -20,7 +20,6 @@ const Editor = () => {
   const [jsonString, setJsonString] = useState<string>(JSON.stringify(editorData, null, 2))
 
   const onWillMount: EditorWillMount = monaco => {
-    //@ts-ignore
     monaco.editor.defineTheme('dok-theme', theme)
     monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
       validate: true,
@@ -29,6 +28,7 @@ const Editor = () => {
   }
 
   useEffect(() => {
+    console.log(editorData)
     const oldJson = JSON.parse(jsonString)
     if (!dequal(editorData, oldJson)) setJsonString(JSON.stringify(editorData, null, 2))
   }, [editorData])
@@ -95,7 +95,7 @@ const Version = styled.div`
 `
 
 const Container = styled.div`
-  height: 100%;
+  flex: 1;
   min-width: 350px;
   position: relative;
 `
