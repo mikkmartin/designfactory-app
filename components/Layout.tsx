@@ -9,6 +9,7 @@ export const Layout: FC<Props> = ({ children, ...editorProps }) => {
     <EditorProvider {...editorProps}>
       <Container>
         <div className="controls">
+          <pre>{JSON.stringify(editorProps.data, null, 2)}</pre>
           {/*
           <Header />
           <Editor />

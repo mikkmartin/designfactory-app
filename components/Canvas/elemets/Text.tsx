@@ -19,7 +19,10 @@ export const Text = ({ style, children, name }) => {
       const { content }: JSONContent = this.getJSON()
       if (content) {
         const value = content.reduce((str, val, i) => {
-          if (val.content) str = str + (i ? '\n' : '') + val.content.map(v => v.text)
+          if (i !== 0) str += '\n'
+          if (val.content) {
+            str = str + val.content.map(v => v.text)
+          }
           return str
         }, '')
         onDataUpdate({ [name]: value })

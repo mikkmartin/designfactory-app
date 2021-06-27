@@ -1,5 +1,6 @@
 import useSWR from 'swr'
 import { FileResponse } from '@mikkmartin/figma-js'
+import { useState } from 'react'
 
 type UseEditorTypes = (templateID: string, initialData: FileResponse) => UseEditorReturnTypes
 type Object = { [key: string]: any }
@@ -9,26 +10,24 @@ type UseEditorReturnTypes = {
   data: Object
   schema: Object
   fonts: any[]
-  onDataUpdate: (partialObject) => Object
+  onDataUpdate: (partialObject) => void
   loading: boolean
 }
 
 export const useEditor: UseEditorTypes = (templateID, initialData): UseEditorReturnTypes => {
+  const [data, setData] = useState(initialData)
   const fetcher = url => fetch(`${url}?template=${templateID}`).then(r => r.json())
-  const { data, isValidating } = useSWR('/api/figma', fetcher, {
+  const { data: template, isValidating } = useSWR('/api/figma', fetcher, {
     initialData,
     focusThrottleInterval: 0,
   })
 
   return {
-    template: data,
-    data: {},
+    template,
+    data,
     fonts: [],
     schema: {},
-    onDataUpdate: (obj) => {
-      console.log(obj)
-      return {}
-    },
+    onDataUpdate: setData,
     loading: isValidating,
   }
 }
