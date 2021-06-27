@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import styled from 'styled-components'
-//import Editor, { ApiLink, Header } from 'components/Editor'
+import Editor, { ApiLink, Header } from 'components/Editor'
 import { EditorProvider, Props } from 'components/Editor/EditorContext'
 import { Loading } from 'components/Editor/Loading'
 
@@ -9,12 +9,12 @@ export const Layout: FC<Props> = ({ children, ...editorProps }) => {
     <EditorProvider {...editorProps}>
       <Container>
         <div className="controls">
-          <pre>{JSON.stringify(editorProps.data, null, 2)}</pre>
-          {/*
           <Header />
+          <pre style={{ flex: 1 }}>{JSON.stringify(editorProps.data, null, 2)}</pre>
+          {/*
           <Editor />
+        */}
           <ApiLink />
-          */}
         </div>
         <div className="container">
           {children}

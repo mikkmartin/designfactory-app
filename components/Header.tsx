@@ -9,13 +9,12 @@ import { TabButton } from './Drawer/TabButton'
 import { logInvoiceDownload } from 'data/analytics'
 
 export const Header = () => {
-  const { json, blobUrl } = useEditor()
-  const fileName = json.fileName || defaults.fileName
-  const linkAttributes = blobUrl ? { href: blobUrl, download: fileName } : {}
+  const { fileName, downloadUrl } = useEditor()
+  const linkAttributes = downloadUrl ? { href: downloadUrl, download: fileName } : {}
   const buttonLabels = ['templates', 'info', 'donation']
 
   const handleDownload = () => {
-    logInvoiceDownload(json.template)
+    //logInvoiceDownload(json.template)
   }
 
   return (

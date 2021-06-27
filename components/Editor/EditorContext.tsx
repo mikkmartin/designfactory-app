@@ -21,7 +21,7 @@ export type Props = {
 }
 
 export const EditorProvider: FC<Props> = ({ children, onDataUpdate, data, schema, ...rest }) => {
-  const [downloadUrl, setDownloadUrl] = useState<string | null>(null)
+  const [downloadUrl, setDownloadUrl] = useState<string | null>('null')
   const [editorData, setEditorData] = useState<{ [key: string]: any }>(data)
 
   useEffect(() => {

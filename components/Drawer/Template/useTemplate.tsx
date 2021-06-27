@@ -13,10 +13,12 @@ export const useTemplate = (json: Invoice, setJson: SetJson) => {
     'designTemplates',
     []
   )
-  const templates = [...customTemplates, ...defaultTemplates]
+  //const templates = [...customTemplates, ...defaultTemplates]
+  const templates = []
   const currentTemplate = templates.find(template => template.template === json.template) || defaultTemplates[0]
 
   //update fonts for custom template
+  /*
   useEffect(() => {
     if (currentTemplate.dateAdded && !dequal(json.fonts, currentTemplate.fonts)) {
       setCustomTemplates(
@@ -32,6 +34,7 @@ export const useTemplate = (json: Invoice, setJson: SetJson) => {
       )
     }
   }, [json.fonts])
+  */
 
   return {
     templates,

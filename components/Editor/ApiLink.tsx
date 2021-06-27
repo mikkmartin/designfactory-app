@@ -2,30 +2,32 @@ import { useEffect, useState } from 'react'
 import { useEditor } from '../Editor'
 import baseURL from 'static/baseURL'
 import styled from 'styled-components'
-import { defaults } from 'static/invoice'
 import { Button } from '../Common/Button'
 import { Copy } from '../Icons'
 import { snappy } from 'static/transitions'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export const ApiLink = () => {
-  const { json, file } = useEditor()
+  const { fileName, editorData, downloadUrl } = useEditor()
   const [url, setUrl] = useState('')
   const [method, setMethod] = useState<'GET' | 'POST'>('GET')
   const [copied, setCopied] = useState(false)
   const [toastShown, setToastShown] = useState(false)
-  useEffect(() => setUrl(getUrl()), [json, method])
+  useEffect(() => setUrl(getUrl()), [editorData, method])
 
   const getUrl = function () {
-    const { fileName = defaults.fileName, ...obj } = json
-    if (method === 'POST') return `${baseURL}/${file}/${fileName}`
+    const extension = 'png'
+    if (method === 'POST') return `${baseURL}/${fileName}.${extension}`
+    /*
     const query = Object.entries(obj)
       .map(([k, v]) => {
         if (Array.isArray(obj[k])) return encodeURI(`${k}[]=${JSON.stringify(v)}`)
         else return encodeURI(`${k}=${v}`)
       })
       .join('&')
-    return `${baseURL}/${file}/${fileName}?${query}`
+      */
+     const query = ''
+    return `${baseURL}/files/${fileName}.${extension}${query}`
   }
 
   const copy = () => {
