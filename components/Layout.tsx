@@ -5,14 +5,15 @@ import { EditorProvider } from 'components/Editor/EditorContext'
 import { Loading } from 'components/Editor/Loading'
 
 type Props = {
-  file: string
+  fileName: string
   schema?: any
+  initialData?: any
+  onDataUpdate?: (json) => void
 }
 
-export const Layout: FC<Props> = ({ children, file, schema }) => {
-  console.log({ schema })
+export const Layout: FC<Props> = ({ children, fileName, schema, initialData, onDataUpdate }) => {
   return (
-    <EditorProvider file={file}>
+    <EditorProvider file={fileName}>
       <Container>
         <div className="controls">
           <Header />

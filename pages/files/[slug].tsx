@@ -3,36 +3,41 @@ import { Layout } from 'components/Layout'
 import { Canvas } from 'components/Canvas'
 import { getTemplate } from 'data/figma'
 import { FC } from 'react'
+import { useEditor } from 'hooks/useEditor'
+import { FileResponse } from '@mikkmartin/figma-js'
+import { GetStaticProps } from 'next'
 
-type Props = {
+interface StaticProps {
+  templateID: string
   fileName: string
-  initialTemplate: any
+  initialTemplate: FileResponse
+}
+
+interface Props extends StaticProps {
   data: any
   fonts: any[]
 }
 
-const useEditor = (template, options: { refresh: boolean }) => {
-  console.log(options)
-  return { template, data: {}, fonts: [], schema: {} }
-}
-
-const File: FC<Props> = ({ initialTemplate, fileName }) => {
-  const { schema, ...canvasProps } = useEditor(initialTemplate, { refresh: false })
+const File: FC<Props> = ({ templateID, initialTemplate, fileName }) => {
+  const { schema, onDataUpdate, data, fonts, template } = useEditor(templateID, initialTemplate)
+  const layoutProps = { fileName, schema, initialData: data, onDataUpdate }
+  const canvasProps = { data, fonts, template }
   return (
-    <Layout file={fileName} schema={schema}>
+    <Layout {...layoutProps}>
       <Canvas {...canvasProps} />
     </Layout>
   )
 }
 
-export const getStaticProps = async ({ params }) => {
-  const fileName = params.slug
+export const getStaticProps: GetStaticProps<StaticProps> = async ({ params }) => {
+  const fileName = params.slug as string
   const defaultTemplate = defaultTemplatesv2.find(({ slug }) => slug === fileName)
   const templateID = defaultTemplate.template
   const initialTemplate = await getTemplate(templateID)
 
   return {
     props: {
+      templateID,
       fileName,
       initialTemplate,
     },
