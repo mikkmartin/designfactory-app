@@ -1,7 +1,9 @@
 import { useTemplate } from '../TemplateContext'
+import { useEditor, EditorContent, JSONContent } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
 
 export const Text = ({ style, children, name }) => {
-  const { data } = useTemplate()
+  const { data, onDataUpdate } = useTemplate()
 
   const fillText = (name: string) => {
     for (const [key, value] of Object.entries(data)) {
@@ -10,5 +12,20 @@ export const Text = ({ style, children, name }) => {
     return children
   }
 
-  return <span style={style}>{fillText(name)}</span>
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content: fillText(name),
+    onUpdate() {
+      const { content }: JSONContent = this.getJSON()
+      if (content) {
+        const value = content.reduce((str, val, i) => {
+          if (val.content) str = str + (i ? '\n' : '') + val.content.map(v => v.text)
+          return str
+        }, '')
+        onDataUpdate({ [name]: value })
+      }
+    },
+  })
+
+  return <EditorContent style={style} editor={editor} />
 }

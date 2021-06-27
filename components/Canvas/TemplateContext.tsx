@@ -10,6 +10,7 @@ type Values = {
   filledLists: string[],
   addFilledList: (list: string) => void,
   components: Component[],
+  onDataUpdate: any,
   setComponents: (components: Component[]) => void,
 }
 
@@ -21,6 +22,7 @@ type Props = {
   data: Invoice,
   onRender?: () => any,
   fontFamilies: any,
+  onDataUpdate: any,
   components?: Component[]
 }
 
@@ -29,6 +31,7 @@ export const TemplateProvider: FC<Props> = ({
   template,
   data,
   fontFamilies,
+  onDataUpdate,
   components: initialComponents = [],
   onRender = () => { }
 }) => {
@@ -45,6 +48,7 @@ export const TemplateProvider: FC<Props> = ({
       filledLists: filledLists.current,
       addFilledList: (list) => { filledLists.current.push(list) },
       components: components.current,
+      onDataUpdate,
       setComponents: (_components) => { components.current = _components }
     }}>
       {children}

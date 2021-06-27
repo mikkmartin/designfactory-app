@@ -9,7 +9,7 @@ type UseEditorReturnTypes = {
   data: Object
   schema: Object
   fonts: any[]
-  onDataUpdate: (json) => Object
+  onDataUpdate: (partialObject) => Object
   loading: boolean
 }
 
@@ -25,7 +25,10 @@ export const useEditor: UseEditorTypes = (templateID, initialData): UseEditorRet
     data: {},
     fonts: [],
     schema: {},
-    onDataUpdate: () => ({}),
+    onDataUpdate: (obj) => {
+      console.log(obj)
+      return {}
+    },
     loading: isValidating,
   }
 }
