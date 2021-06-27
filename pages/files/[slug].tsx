@@ -19,8 +19,8 @@ interface Props extends StaticProps {
 }
 
 const File: FC<Props> = ({ templateID, initialTemplate, fileName }) => {
-  const { schema, onDataUpdate, data, fonts, template } = useEditor(templateID, initialTemplate)
-  const layoutProps = { fileName, schema, initialData: data, onDataUpdate }
+  const { schema, onDataUpdate, data, fonts, template, loading } = useEditor(templateID, initialTemplate)
+  const layoutProps = { fileName, schema, data, onDataUpdate, loading }
   const canvasProps = { data, fonts, template }
   return (
     <Layout {...layoutProps}>
@@ -48,7 +48,7 @@ export const getStaticPaths = async () => {
   const defaultTemplate = ['og-image']
   return {
     paths: defaultTemplate.map(name => `/files/${name}`),
-    fallback: false,
+    fallback: true,
   }
 }
 

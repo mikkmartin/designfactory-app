@@ -4,7 +4,7 @@ import baseURL from '../static/baseURL'
 import { EditorDidMount, EditorWillMount } from 'react-monaco-editor'
 import styled from 'styled-components'
 import { useMeasure } from 'react-use'
-import { useEditor } from './Editor/EditorContext'
+import { useEditorData } from './Editor/EditorContext'
 import { schema } from '../static/invoice'
 import theme from './Editor/theme.json'
 import packagejson from '../package.json'
@@ -12,12 +12,12 @@ import { dequal } from 'dequal/lite'
 const MonacoEditor = dynamic(import('react-monaco-editor'), { ssr: false })
 export { ApiLink } from './Editor/ApiLink'
 export { Header } from './Header'
-export { useEditor }
+export { useEditorData as useEditor }
 
 const Editor = () => {
   const [ref, { width, height }] = useMeasure()
-  const { setJson, json } = useEditor()
-  const [jsonString, setJsonString] = useState<string>(JSON.stringify(json, null, 2))
+  const { editorData, setEditorData } = useEditorData()
+  const [jsonString, setJsonString] = useState<string>(JSON.stringify(editorData, null, 2))
 
   const onWillMount: EditorWillMount = monaco => {
     //@ts-ignore
@@ -30,8 +30,8 @@ const Editor = () => {
 
   useEffect(() => {
     const oldJson = JSON.parse(jsonString)
-    if (!dequal(json, oldJson)) setJsonString(JSON.stringify(json, null, 2))
-  }, [json])
+    if (!dequal(editorData, oldJson)) setJsonString(JSON.stringify(editorData, null, 2))
+  }, [editorData])
 
   const onDidMount: EditorDidMount = (_, monaco) => {
     monaco.editor.setTheme('dok-theme')
@@ -44,7 +44,7 @@ const Editor = () => {
   useEffect(() => {
     try {
       const newJson = JSON.parse(jsonString)
-      if (!dequal(json, newJson)) setJson(newJson)
+      if (!dequal(editorData, newJson)) setEditorData(newJson)
     } catch (e) {
       console.error(e)
     }

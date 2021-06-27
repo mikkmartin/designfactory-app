@@ -1,24 +1,19 @@
 import { FC } from 'react'
 import styled from 'styled-components'
-import Editor, { ApiLink, Header } from 'components/Editor'
-import { EditorProvider } from 'components/Editor/EditorContext'
+//import Editor, { ApiLink, Header } from 'components/Editor'
+import { EditorProvider, Props } from 'components/Editor/EditorContext'
 import { Loading } from 'components/Editor/Loading'
 
-type Props = {
-  fileName: string
-  schema?: any
-  initialData?: any
-  onDataUpdate?: (json) => void
-}
-
-export const Layout: FC<Props> = ({ children, fileName, schema, initialData, onDataUpdate }) => {
+export const Layout: FC<Props> = ({ children, ...editorProps }) => {
   return (
-    <EditorProvider file={fileName}>
+    <EditorProvider {...editorProps}>
       <Container>
         <div className="controls">
+          {/*
           <Header />
           <Editor />
           <ApiLink />
+          */}
         </div>
         <div className="container">
           {children}
