@@ -85,7 +85,7 @@ export const parseTemplate = (template: FileResponse) => {
       if (node.type === 'CANVAS')
         return {
           ...node,
-          children: node.children.filter(onlyVisibleFrames),
+          children: node.children.filter(onlyVisibleFrames).filter((_, i) => i === 0),
         }
       else return node
     })
