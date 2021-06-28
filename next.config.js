@@ -91,5 +91,11 @@ module.exports = withSourceMaps(
       return config
     },
     cssLoaderOptions: { url: false },
+    eslint: {
+      ignoreDuringBuilds: true,
+    },
+    typescript: {
+      ignoreBuildErrors: true,
+    },
   })
 )
