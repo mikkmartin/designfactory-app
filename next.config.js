@@ -20,20 +20,6 @@ process.env.SENTRY_DSN = SENTRY_DSN
 
 module.exports = withSourceMaps(
   withCSS({
-    async redirects() {
-      return [
-        {
-          source: '/',
-          destination: '/files/invoice',
-          permanent: false,
-        },
-        {
-          source: '/invoice',
-          destination: '/files/invoice',
-          permanent: false,
-        },
-      ]
-    },
     async rewrites() {
       return [
         {
