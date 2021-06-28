@@ -21,7 +21,6 @@ const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = withSourceMaps(
   withCSS({
-    assetPrefix: isProd ? 'site/' : '',
     async rewrites() {
       return [
         {
