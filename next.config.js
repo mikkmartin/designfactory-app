@@ -23,7 +23,7 @@ module.exports = withSourceMaps(
     async redirects() {
       return [
         {
-          source: '/',
+          source: '/files',
           destination: '/files/invoice',
           permanent: false,
         },
