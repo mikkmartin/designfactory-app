@@ -1,20 +1,17 @@
 import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
-import baseURL from '../static/baseURL'
+import baseURL from '../../static/baseURL'
 import { EditorDidMount, EditorWillMount } from 'react-monaco-editor'
 import styled from 'styled-components'
 import { useMeasure } from 'react-use'
-import { useEditorData } from './Editor/EditorContext'
-import { schema } from '../static/invoice'
-import { theme } from './Editor/theme'
-import packagejson from '../package.json'
+import { useEditorData } from './EditorContext'
+import { schema } from '../../static/invoice'
+import { theme } from './theme'
+import packagejson from '../../package.json'
 import { dequal } from 'dequal/lite'
 const MonacoEditor = dynamic(import('react-monaco-editor'), { ssr: false })
-export { ApiLink } from './Editor/ApiLink'
-export { Header } from './Header'
-export { useEditorData as useEditor }
 
-const Editor = () => {
+export const Editor = () => {
   const [ref, { width, height }] = useMeasure()
   const { data, setData } = useEditorData()
   const [jsonString, setJsonString] = useState<string>(JSON.stringify(data, null, 2))
@@ -98,5 +95,3 @@ const Container = styled.div`
   min-width: 350px;
   position: relative;
 `
-
-export default Editor

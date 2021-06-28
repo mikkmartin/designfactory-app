@@ -11,17 +11,17 @@ import { useDrawer } from "../DrawerContext";
 import { Dropdown } from "../../Common/Dropdown";
 
 export const TemplatePanel = ({ close, onModify }) => {
-  const { json, setJson } = useEditor()
+  const { data, setData } = useEditor()
   const { openDropdown, templates } = useDrawer()
-  const currentTemplate = json.template || defaults.template
+  const currentTemplate = data.template || defaults.template
 
   const onSelect = (ev, { template, fonts }) => {
     ev.preventDefault()
     //if (ev.target.type === 'submit') setJson({ ...json, template })
-    let newJson = { ...json, template }
-    if (fonts) newJson.fonts = fonts
-    else delete newJson.fonts
-    setJson(newJson)
+    let newData = { ...data, template }
+    if (fonts) newData.fonts = fonts
+    else delete newData.fonts
+    setData(newData)
   }
 
   return (

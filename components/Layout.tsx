@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import styled from 'styled-components'
-import Editor, { ApiLink, Header } from 'components/Editor'
+import { Editor, Header, ApiLink } from 'components/Editor'
 import { EditorProvider, Props } from 'components/Editor/EditorContext'
 import { Loading } from 'components/Editor/Loading'
 
