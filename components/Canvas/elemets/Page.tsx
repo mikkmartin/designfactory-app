@@ -1,34 +1,4 @@
-import { FC, ReactNode } from 'react'
-import { ParsedNode } from './parseTemplate/parseTemplate'
 import styled, { css } from 'styled-components'
-import { Svg, Text } from './elemets'
-
-const renderElement = (node: ParsedNode): ReactNode => {
-  const { id, style, children, type, name } = node
-  const props = { key: id, style, name }
-  switch (type) {
-    case 'CANVAS':
-      return <Canvas {...props}>{children.map(renderElement)}</Canvas>
-    case 'FRAME':
-      return <div {...props}>{children.map(renderElement)}</div>
-    case 'RECTANGLE':
-      return <div {...props} />
-    case 'TEXT':
-      return (
-        <Text {...props} name={name}>
-          {children}
-        </Text>
-      )
-    case 'BOOLEAN_OPERATION':
-      return <Svg {...props} geometry={children} />
-    default:
-      return <div {...props} />
-  }
-}
-
-export const Page: FC<{ nodes: ParsedNode[] }> = ({ nodes }) => {
-  return <>{nodes.map(renderElement)}</>
-}
 
 const inputFocus = css`
   background: rgba(0, 102, 255, 0.2);
@@ -37,7 +7,7 @@ const inputFocus = css`
   transition: background-color 0.1s;
 `
 
-const Canvas = styled.div`
+export const Page = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;

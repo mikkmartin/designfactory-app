@@ -1,4 +1,4 @@
-import { Page } from './Page'
+import { renderElement } from './renderElement'
 import { parseTemplate } from './parseTemplate'
 import { TemplateProvider } from './TemplateContext'
 
@@ -11,7 +11,7 @@ export const Canvas = ({ template, data, onDataUpdate = _ => {}, editable = true
       onDataUpdate={onDataUpdate}
       fontFamilies={[]}
       editable={editable}>
-      <Page nodes={parseTemplate(template)} />
+      {parseTemplate(template).map(renderElement)}
     </TemplateProvider>
   )
 }
