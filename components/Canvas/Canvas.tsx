@@ -2,7 +2,7 @@ import { Page } from './Page'
 import { parseTemplate } from './parseTemplate'
 import { TemplateProvider } from './TemplateContext'
 
-export const Canvas = ({ template, data, onDataUpdate = () => {}, editable = true }) => {
+export const Canvas = ({ template, data, onDataUpdate = _ => {}, editable = true }) => {
   if (!template) return null
   return (
     <TemplateProvider
