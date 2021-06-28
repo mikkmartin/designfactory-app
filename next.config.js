@@ -17,9 +17,11 @@ const COMMIT_SHA =
   VERCEL_GITHUB_COMMIT_SHA || VERCEL_GITLAB_COMMIT_SHA || VERCEL_BITBUCKET_COMMIT_SHA
 
 process.env.SENTRY_DSN = SENTRY_DSN
+const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = withSourceMaps(
   withCSS({
+    assetPrefix: isProd ? 'site/' : '',
     async rewrites() {
       return [
         {
