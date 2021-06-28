@@ -18,8 +18,8 @@ export const Screenshot: FC<Props> = ({ template, data }) => {
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const { slug, ...rest } = query
   const template = query.template as string
-  const defaultTemplate = defaultTemplatesv2.find(template => template.slug === slug).template
-  const url = baseURL + '/api/figma?template=' + (template || defaultTemplate)
+  const defaults = defaultTemplatesv2.find(template => template.slug === slug)
+  const url = baseURL + '/api/figma?template=' + (defaults?.template || template)
   const figmaResponse = await fetch(url)
   const figmaTemplate = await figmaResponse.json()
 
