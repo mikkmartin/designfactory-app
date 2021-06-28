@@ -11,8 +11,6 @@ if (NEXT_PUBLIC_SENTRY_DSN) {
   })
 }
 
-//derp
-
 export default function App({ Component, pageProps, err }) {
   return (
     <>
