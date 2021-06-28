@@ -2,8 +2,8 @@ import { FC, createContext, useContext, useState, Dispatch, SetStateAction, useE
 
 type Values = {
   fileName: string
-  editorData: any
-  setEditorData: any
+  data: any
+  setData: any
   downloadUrl: string
   setDownloadUrl: Dispatch<SetStateAction<string>>
   loading: boolean
@@ -22,14 +22,9 @@ export type Props = {
 
 export const EditorProvider: FC<Props> = ({ children, onDataUpdate, data, schema, ...rest }) => {
   const [downloadUrl, setDownloadUrl] = useState<string | null>('null')
-  const [editorData, setEditorData] = useState<{ [key: string]: any }>(data)
-
-  useEffect(() => {
-    onDataUpdate(editorData)
-  }, [editorData])
 
   return (
-    <Context.Provider value={{ downloadUrl, setDownloadUrl, editorData, setEditorData, ...rest }}>
+    <Context.Provider value={{ downloadUrl, setDownloadUrl, data, setData: onDataUpdate, ...rest }}>
       {children}
     </Context.Provider>
   )

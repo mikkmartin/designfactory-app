@@ -16,8 +16,8 @@ export { useEditorData as useEditor }
 
 const Editor = () => {
   const [ref, { width, height }] = useMeasure()
-  const { editorData, setEditorData } = useEditorData()
-  const [jsonString, setJsonString] = useState<string>(JSON.stringify(editorData, null, 2))
+  const { data, setData } = useEditorData()
+  const [jsonString, setJsonString] = useState<string>(JSON.stringify(data, null, 2))
 
   const onWillMount: EditorWillMount = monaco => {
     monaco.editor.defineTheme('dok-theme', theme)
@@ -28,10 +28,9 @@ const Editor = () => {
   }
 
   useEffect(() => {
-    console.log(editorData)
     const oldJson = JSON.parse(jsonString)
-    if (!dequal(editorData, oldJson)) setJsonString(JSON.stringify(editorData, null, 2))
-  }, [editorData])
+    if (!dequal(data, oldJson)) setJsonString(JSON.stringify(data, null, 2))
+  }, [data])
 
   const onDidMount: EditorDidMount = (_, monaco) => {
     monaco.editor.setTheme('dok-theme')
@@ -44,7 +43,7 @@ const Editor = () => {
   useEffect(() => {
     try {
       const newJson = JSON.parse(jsonString)
-      if (!dequal(editorData, newJson)) setEditorData(newJson)
+      if (!dequal(data, newJson)) setData(newJson)
     } catch (e) {
       console.error(e)
     }

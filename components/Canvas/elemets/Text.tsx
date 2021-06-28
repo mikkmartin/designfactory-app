@@ -4,7 +4,7 @@ import StarterKit from '@tiptap/starter-kit'
 import { useEffect } from 'react'
 
 export const Text = ({ style, children, name }) => {
-  const { data, onDataUpdate } = useTemplate()
+  const { data, onDataUpdate, editable } = useTemplate()
 
   const fillText = (name: string) => {
     for (const [key, value] of Object.entries(data)) {
@@ -12,6 +12,8 @@ export const Text = ({ style, children, name }) => {
     }
     return children
   }
+
+  if (!editable) return <span style={style}>{fillText(name)}</span>
 
   const editor = useEditor({
     extensions: [StarterKit],

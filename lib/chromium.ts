@@ -20,7 +20,7 @@ export async function getScreenshot(url: string, type: FileType, isDev: boolean)
 
   await page.goto(url, { waitUntil: 'networkidle0' })
 
-  const selector = '#__next > div > div:nth-child(2)'
+  const selector = '#__next > div > div'
   await page.waitForSelector(selector)
   const element = await page.$(selector)
 

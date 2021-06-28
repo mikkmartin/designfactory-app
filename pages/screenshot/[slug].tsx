@@ -12,14 +12,15 @@ type Props = {
 }
 
 export const Screenshot: FC<Props> = ({ template, data }) => {
-  return <Canvas template={template} data={data} />
+  return <Canvas template={template} data={data} editable={false} />
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const { slug, ...rest } = query
   const template = query.template as string
   const defaultTemplate = defaultTemplatesv2.find(template => template.slug === slug).template
-  const figmaResponse = await fetch(baseURL + '/api/figma?template=' + template || defaultTemplate)
+  const url = baseURL + '/api/figma?template=' + (template || defaultTemplate)
+  const figmaResponse = await fetch(url)
   const figmaTemplate = await figmaResponse.json()
 
   return {
