@@ -9,13 +9,14 @@ import { useRegisterFonts } from './Pdf/registerFonts'
 
 export const Pdf: FC = ({ children }) => {
   const ref = useRef<HTMLIFrameElement>()
-  const { json, template, setBlobUrl } = useEditor()
-  const [pdfData, setPdfData] = useState(json)
+  const { data } = useEditor()
+  const [pdfData, setPdfData] = useState(data)
   const [renderIframe, setRenderIframe] = useState(false)
-  useDebounce(() => setPdfData(json), 300, [json])
+  useDebounce(() => setPdfData(data), 300, [data])
   useEffect(() => setRenderIframe(true), [])
-  const fontFamilies = useRegisterFonts(json.fonts)
+  //const fontFamilies = useRegisterFonts(data.fonts)
 
+  return null
   return useMemo(
     () =>
       renderIframe && template ? (
