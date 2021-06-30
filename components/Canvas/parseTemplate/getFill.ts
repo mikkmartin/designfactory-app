@@ -9,7 +9,7 @@ export const getFill = (node: BoxNode) => {
         case 'SOLID':
           return getColor(fill.color)
         case 'GRADIENT_LINEAR':
-          return `linear-gradient(293.08deg, #000000 24.76%, #3F004F 100%)`
+          return paintToLinearGradient(fill)
         case 'IMAGE':
           return `url(/api/figma/WHdIyxfgAUWEDo3GLCz9G5/${node.id}.png) center center / cover no-repeat`
         default:
@@ -17,4 +17,19 @@ export const getFill = (node: BoxNode) => {
       }
     })
     .join(', ')
+}
+
+function paintToLinearGradient(paint) {
+  const handles = paint.gradientHandlePositions;
+  const handle0 = handles[0];
+  const handle1 = handles[1];
+
+  const ydiff = handle1.y - handle0.y;
+  const xdiff = handle0.x - handle1.x;
+
+  const angle = Math.atan2(-xdiff, -ydiff);
+  const stops = paint.gradientStops.map((stop) => {
+    return `${getColor(stop.color)} ${Math.round(stop.position * 100)}%`;
+  }).join(', ');
+  return `linear-gradient(${angle}rad, ${stops})`;
 }
