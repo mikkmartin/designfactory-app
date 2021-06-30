@@ -16,7 +16,7 @@ export const ApiLink = () => {
   const [toastShown, setToastShown] = useState(false)
   useEffect(() => setUrl(getUrl()), [data, method])
 
-  const getUrl = function () {
+  const getUrl = () => {
     const extension = 'png'
     if (method === 'POST') return `${baseURL}/${fileName}.${extension}`
     const query = objectToParams(data)
