@@ -2,15 +2,16 @@ import { useTemplate } from '../TemplateContext'
 import { useEditor, EditorContent, JSONContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { useEffect } from 'react'
+import { TextNode } from '../parseTemplate'
 
-export const Text = ({ style, children, name }) => {
+export const Text = ({ style, content, name }) => {
   const { data, onDataUpdate, editable } = useTemplate()
 
-  const fillText = (name: string) => {
+  const fillText = (name: string): string => {
     for (const [key, value] of Object.entries(data)) {
-      if (name === key) return value
+      if (name === key) return value as string
     }
-    return children
+    return content
   }
 
   if (!editable) return <span style={style}>{fillText(name)}</span>

@@ -1,5 +1,0 @@
-export { text } from './text'
-export { frame } from './frame'
-export { canvas } from './canvas'
-export { rectangle } from './rectangle'
-export { svg } from './svg'

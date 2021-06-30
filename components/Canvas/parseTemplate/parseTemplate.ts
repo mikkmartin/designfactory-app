@@ -3,25 +3,35 @@ import {
   Node,
   Frame,
   Text,
-  Canvas,
   Group,
+  Vector,
+  Canvas,
   Rectangle,
   BooleanGroup,
+  TextType,
 } from '@mikkmartin/figma-js'
-import { canvas, frame, text, rectangle, svg } from './elements'
 import { CSSProperties } from 'react'
+import { getLayout } from './getLayout'
+import { getFill } from './getFill'
 
 export type ContainerNode = Frame | Group
 export type ParentNode = Frame | Group | Canvas
-export type BoxNode = Frame | Group | Text | Rectangle | BooleanGroup
+export type BoxNode = Frame | Group | Text | Rectangle | BooleanGroup | Vector
 
-export type ParsedNode = {
+interface IBaseNode {
   id: string
   name: string
-  type: Node['type']
+  type: Omit<Node['type'], 'TEXT'>
   style: CSSProperties
   children?: ParsedNode[]
 }
+
+export interface TextNode extends IBaseNode {
+  type: TextType
+  content: string
+}
+
+export type ParsedNode = IBaseNode | TextNode
 
 const normalizePosition = (node, parent) => {
   return {
@@ -34,44 +44,64 @@ const normalizePosition = (node, parent) => {
   }
 }
 
-const parseNode = (node: Node, parentNode?: ParentNode): ParsedNode => {
+const parseNode = (node: Node, parentNode = null): ParsedNode => {
   if (parentNode) node = normalizePosition(node, parentNode)
   const { id, name, type } = node
-  let style: CSSProperties = {}
-  let children = null
-
-  switch (node.type) {
-    case 'CANVAS':
-      style = canvas(node)
-      children = node.children.map(child => parseNode(child))
-      break
-    case 'TEXT':
-      style = text(node, parentNode)
-      children = node.characters
-      break
-    case 'FRAME':
-    case 'GROUP':
-      style = frame(node, parentNode)
-      children = node.children.map(child => parseNode(child, node as Frame))
-      break
-    case 'RECTANGLE':
-      style = rectangle(node, parentNode)
-      break
-    case 'BOOLEAN_OPERATION':
-      style = svg(node, parentNode)
-      children = node.fillGeometry
-      break
-  }
-
-  let parsedNode: ParsedNode = {
+  const props: Pick<ParsedNode, 'id' | 'name' | 'type' | 'children'> = {
     id,
     name,
     type,
-    style,
   }
 
-  if (children) parsedNode.children = children
-  return parsedNode
+  switch (node.type) {
+    case 'CANVAS':
+      return {
+        ...props,
+        style: { width: '100%' },
+        children: node.children.map(child => parseNode(child)),
+      }
+    case 'FRAME':
+    case 'GROUP':
+      return {
+        ...props,
+        style: {
+          ...getLayout(node, parentNode),
+          overflow: node.clipsContent ? 'hidden' : 'visible',
+          background: getFill(node),
+        },
+        children: node.children.map(child => parseNode(child, node)),
+      }
+    case 'TEXT':
+      return {
+        ...props,
+        content: node.characters,
+        style: {
+          ...getLayout(node, parentNode),
+          color: getFill(node),
+          fontSize: node.style.fontSize,
+          fontFamily: node.style.fontFamily,
+          fontWeight: node.style.fontWeight,
+          textAlign: node.style.textAlignHorizontal === 'CENTER' ? 'center' : 'left',
+          lineHeight: `${node.style.lineHeightPercent * 1.25}%`,
+        },
+      } as TextNode
+    case 'RECTANGLE':
+      return {
+        ...props,
+        style: {
+          ...getLayout(node, parentNode),
+          background: getFill(node),
+        },
+      }
+    case 'BOOLEAN_OPERATION':
+      return {
+        ...props,
+        style: {
+          ...getLayout(node, parentNode),
+          background: getFill(node),
+        },
+      }
+  }
 }
 
 const onlyVisibleFrames = ({ visible, type }: Node) => {

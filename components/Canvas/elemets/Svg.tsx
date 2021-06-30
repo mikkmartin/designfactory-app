@@ -1,9 +1,11 @@
-export const Svg = ({ style, geometry }) => {
+export const Svg = ({ style }) => {
   return (
     <svg style={style}>
-      {geometry.map((g, i) => (
-        <path key={i} d={g.path} />
-      ))}
     </svg>
   )
 }
+/*
+{geometry.map((g, i) => (
+  <path key={i} d={g.path} />
+))}
+*/
