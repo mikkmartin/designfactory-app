@@ -6,6 +6,7 @@ import { Button } from '../Common/Button'
 import { Copy } from '../Icons'
 import { snappy } from 'static/transitions'
 import { motion, AnimatePresence } from 'framer-motion'
+import { objectToParams } from 'lib/urlEncoder'
 
 export const ApiLink = () => {
   const { fileName, data } = useEditorData()
@@ -18,12 +19,7 @@ export const ApiLink = () => {
   const getUrl = function () {
     const extension = 'png'
     if (method === 'POST') return `${baseURL}/${fileName}.${extension}`
-    const query = Object.entries(data)
-      .map(([k, v]) => {
-        if (Array.isArray(data[k])) return encodeURI(`${k}[]=${JSON.stringify(v)}`)
-        else return encodeURI(`${k}=${v}`)
-      })
-      .join('&')
+    const query = objectToParams(data)
 
     let url = `${baseURL}/files/${fileName}.${extension}`
     if (query) url += `?${query}`
