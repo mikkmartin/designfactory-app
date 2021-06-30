@@ -1,7 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http'
-import { getScreenshot } from 'lib/chromium'
+import { getScreenshot, FileType } from 'lib/chromium'
 import baseURL from 'static/baseURL'
-import type { FileType } from 'lib/types'
 
 const isDev = !process.env.AWS_REGION
 
