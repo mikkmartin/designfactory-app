@@ -9,8 +9,7 @@ export const getLayout = (node: BoxNode, parentNode = null): CSSProperties => {
 
   const { paddingLeft, paddingRight, paddingTop, paddingBottom } = node as Frame
   const props = {
-    ...(node.type === 'FRAME' && autoLayoutContainer(node, parentNode)),
-    ...getSize(node),
+    ...(node.type === 'FRAME' && autoLayoutContainer(node)),
     paddingLeft,
     paddingRight,
     paddingTop,
@@ -21,6 +20,7 @@ export const getLayout = (node: BoxNode, parentNode = null): CSSProperties => {
     case 'CANVAS_CHILD':
       return {
         ...props,
+        ...getSize(node),
         position: 'relative',
         top: 'unset',
         left: 'unset',
@@ -29,6 +29,7 @@ export const getLayout = (node: BoxNode, parentNode = null): CSSProperties => {
       return {
         ...props,
         position: 'absolute',
+        ...getSize(node),
         ...staticLayout(node, parentNode),
       }
     case 'LAYOUT_ITEM':
@@ -70,19 +71,27 @@ const getSize = (node): CSSProperties => {
 const getLayoutMode = (parent): LayoutType =>
   !parent ? 'CANVAS_CHILD' : !parent.layoutMode ? 'STATIC' : 'LAYOUT_ITEM'
 
-const autoLayoutItemProps = (node: BoxNode): CSSProperties => {
-  const { width, height } = node.absoluteBoundingBox
-  let layout: CSSProperties = { position: 'relative', width }
+const autoLayoutItemProps = (node): CSSProperties => {
+  const { x: width, y: height } = node.size
+  let size: CSSProperties = {}
 
-  if (node.type !== 'TEXT' || node.style.textAutoResize === 'NONE') layout = { ...layout, height }
+  if (node.primaryAxisSizingMode === 'FIXED' || !node.counterAxisSizingMode) size.height = height
+  if (node.primaryAxisSizingMode === 'FIXED' || !node.counterAxisSizingMode) size.height = height
 
-  return layout
+  if (node.type === 'TEXT') {
+    switch (node.style.textAutoResize) {
+      case 'HEIGHT':
+        return { width }
+      case 'WIDTH_AND_HEIGHT':
+        return {}
+      default:
+        return { width, height }
+    }
+  }
+  return size
 }
 
-const autoLayoutContainer = (node: Frame, parentNode?: ContainerNode): CSSProperties => {
-  //if (node.counterAxisSizingMode === 'FIXED') layout = { ...layout, width }
-  //if (node.primaryAxisSizingMode === 'FIXED') layout = { ...layout, height }
-
+const autoLayoutContainer = (node: Frame): CSSProperties => {
   return {
     display: 'flex',
     flexDirection: node.layoutMode === 'HORIZONTAL' ? 'row' : 'column',
