@@ -80,6 +80,8 @@ const parseNode = (node: Node, parentNode: Node = null): ParsedNode => {
           fontWeight: node.style.fontWeight,
           textAlign: node.style.textAlignHorizontal === 'CENTER' ? 'center' : 'left',
           lineHeight: `${node.style.lineHeightPercent * 1.25}%`,
+          fontStyle: node.style.italic ? 'italic' : 'normal',
+          letterSpacing: `${node.style.letterSpacing}px`,
         },
       }
     case 'RECTANGLE':
