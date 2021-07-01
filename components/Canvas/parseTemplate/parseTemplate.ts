@@ -12,10 +12,15 @@ import {
 import { CSSProperties } from 'react'
 import { getLayout } from './getLayout'
 import { getFill } from './getFill'
+import { getColor } from './getColor'
 
 export type ContainerNode = Frame | Group
 export type ParentNode = Frame | Group | Canvas
-export type BoxNode = Exclude<Node, Document | Canvas | Slice>
+
+type INodeWithoutChildren = Exclude<Exclude<Node, Document | Canvas | Slice>, 'children'>
+export type BoxNode = {
+  children: BoxNode[]
+} & INodeWithoutChildren
 
 interface IBaseNode {
   id: string
@@ -25,7 +30,7 @@ interface IBaseNode {
 }
 
 interface IBoxNode extends IBaseNode {
-  type: Exclude<NodeType, 'TEXT' | 'BOOLEAN_OPERATION' | 'VECTOR'>
+  type: Exclude<NodeType, 'TEXT' | 'BOOLEAN_OPERATION' | 'VECTOR' | 'LINE'>
 }
 
 export interface TextNode extends IBaseNode {
@@ -33,24 +38,28 @@ export interface TextNode extends IBaseNode {
   content: string
 }
 
-type VectorProps = Pick<BooleanGroup, 'fillGeometry' | 'strokeGeometry'>
-export interface VectorNode extends IBaseNode, VectorProps {
-  type: Extract<NodeType, 'VECTOR'>
+export interface VectorNode extends IBaseNode {
+  type: Extract<NodeType, 'VECTOR' | 'BOOLEAN_OPERATION' | 'LINE'>
+  fills: {
+    paths: BooleanGroup['fillGeometry']
+    fill: string
+  }
+  strokes: {
+    paths: BooleanGroup['strokeGeometry']
+    fill: string
+  }
 }
 
-export interface BooleanNode extends IBaseNode, VectorProps {
-  type: Extract<NodeType, 'BOOLEAN_OPERATION'>
-  booleanOperation: BooleanGroup['booleanOperation']
-  children?: ParsedNode[]
-}
+export type ParsedNode = TextNode | VectorNode | IBoxNode
 
-export type ParsedNode = TextNode | BooleanNode | VectorNode | IBoxNode
-
-const parseNode = (node: Node, parentNode: Node = null): ParsedNode => {
+const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
   const { id, name } = node
   const props: Pick<ParsedNode, 'id' | 'name'> = {
     id,
     name,
+  }
+  let baseStyle: CSSProperties = {
+    opacity: node.opacity,
   }
 
   switch (node.type) {
@@ -94,28 +103,22 @@ const parseNode = (node: Node, parentNode: Node = null): ParsedNode => {
         },
       }
     case 'BOOLEAN_OPERATION':
-      return {
-        ...props,
-        type: node.type,
-        style: {
-          ...getLayout(node, parentNode),
-          fill: getFill(node),
-        },
-        booleanOperation: node.booleanOperation,
-        fillGeometry: node.fillGeometry,
-        strokeGeometry: node.strokeGeometry,
-        //children: node.children.map(child => parseNode(child, node)),
-      }
+    case 'LINE':
     case 'VECTOR':
       return {
         ...props,
         type: node.type,
         style: {
           ...getLayout(node, parentNode),
-          fill: getFill(node),
         },
-        fillGeometry: node.fillGeometry,
-        strokeGeometry: node.strokeGeometry,
+        fills: {
+          paths: node.fillGeometry,
+          fill: Boolean(node.fills.length) ? getFill(node) : 'transparent',
+        },
+        strokes: {
+          paths: node.strokeGeometry,
+          fill: Boolean(node.strokes.length) ? getColor(node.strokes[0].color) : 'transparent',
+        },
       }
     default:
       console.warn(`Node of type "${node.type}" was not parsed.`)
@@ -133,6 +136,6 @@ export const parseTemplate = (template: FileResponse) => {
   const firstNode = canvas.children
     .filter(onlyVisibleFrames)
     .filter((_, i) => i <= 1)
-    .map(child => parseNode(child))
+    .map(child => parseNode(child as BoxNode))
   return firstNode
 }

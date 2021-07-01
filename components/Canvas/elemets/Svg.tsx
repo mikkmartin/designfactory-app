@@ -1,18 +1,18 @@
 import { FC } from 'react'
-import { BooleanNode } from '../parseTemplate/parseTemplate'
+import { VectorNode } from '../parseTemplate/parseTemplate'
 
-interface Props extends Omit<BooleanNode, 'id' | 'type' | 'booleanOperation'> {
+interface Props extends Omit<VectorNode, 'id' | 'type' | 'booleanOperation'> {
   booleanOperation?: string
 }
 
-export const Svg: FC<Props> = ({ style, fillGeometry, strokeGeometry }) => {
+export const Svg: FC<Props> = ({ style, fills, strokes }) => {
   return (
-    <svg style={{...style, overflow: 'visible'}}>
-      {fillGeometry.map((g, i) => (
-        <path key={i} d={g.path} />
+    <svg style={{ ...style, overflow: 'visible', minWidth: 1 }}>
+      {strokes.paths.map(({ path }, i) => (
+        <path key={'s' + i} d={path} fill={strokes.fill} />
       ))}
-      {strokeGeometry && strokeGeometry.map((g, i) => (
-        <path key={i} d={g.path} />
+      {fills.paths.map(({ path }, i) => (
+        <path key={'f' + i} d={path} fill={fills.fill} />
       ))}
     </svg>
   )

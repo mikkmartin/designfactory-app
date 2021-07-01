@@ -15,12 +15,13 @@ export const renderElement: FC<ParsedNode | null> = node => {
     case 'RECTANGLE':
       return <div {...props} />
     case 'TEXT':
-      return <Text {...props} name={name} content={node.content} />
+      return <Text {...props} content={node.content} />
     case 'BOOLEAN_OPERATION':
-      return <Svg {...props} {...node} />
     case 'VECTOR':
+    case 'LINE':
       return <Svg {...props} {...node} />
     default:
+      console.warn(`Skippin the render of "${node.type}".`)
       console.warn(node)
       return <></>
   }
