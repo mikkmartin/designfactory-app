@@ -2,11 +2,8 @@ import {
   FileResponse,
   Node,
   Frame,
-  Text,
   Group,
-  Vector,
   Canvas,
-  Rectangle,
   BooleanGroup,
   Document,
   NodeType,
@@ -118,7 +115,6 @@ const parseNode = (node: Node, parentNode: Node = null): ParsedNode => {
       }
     default:
       console.warn(`Node of type "${node.type}" was not parsed.`)
-      console.log(node)
       return null
   }
 }
@@ -132,7 +128,7 @@ export const parseTemplate = (template: FileResponse) => {
   const canvas = template.document.children.find(node => node.type === 'CANVAS') as Canvas
   const firstNode = canvas.children
     .filter(onlyVisibleFrames)
-    .filter((_, i) => i === 0)
+    .filter((_, i) => i <= 1)
     .map(child => parseNode(child))
   return firstNode
 }

@@ -1,13 +1,14 @@
 import { CSSProperties } from 'react'
 import { Group, Frame } from '@mikkmartin/figma-js'
-import { BoxNode, ParentNode, ContainerNode } from './parseTemplate'
+import { BoxNode, ContainerNode } from './parseTemplate'
+
+type LayoutType = 'CANVAS_CHILD' | 'STATIC' | 'LAYOUT_ITEM'
 
 export const getLayout = (node: BoxNode, parentNode = null): CSSProperties => {
-  const width = node.size.x
-  const height = node.size.y
+  const layoutMode = getLayoutMode(parentNode)
+  const size = getSize(node)
 
-  //@ts-ignore
-  const { paddingLeft, paddingRight, paddingTop, paddingBottom } = node
+  const { paddingLeft, paddingRight, paddingTop, paddingBottom } = node as Frame
   const padding = {
     paddingLeft,
     paddingRight,
@@ -15,33 +16,59 @@ export const getLayout = (node: BoxNode, parentNode = null): CSSProperties => {
     paddingBottom,
   }
 
-  //canvas elements
-  if (!parentNode) return { position: 'relative', width, height, ...padding }
-  if (!parentNode.layoutMode) {
-    return {
-      position: 'absolute',
-      top: node.relativeTransform[1][2],
-      left: node.relativeTransform[0][2],
-      width,
-      height,
-      ...padding,
-    }
-  }
-  const { layoutMode, itemSpacing, primaryAxisAlignItems } = parentNode
+  //const layoutContainerProps = autoLayoutContainer(node, parentNode)
 
-  const fixedGap = primaryAxisAlignItems === 'SPACE_BETWEEN'
-  const gap = !fixedGap ? itemSpacing : 0
-
-  return {
-    width,
-    height,
-    marginBottom: layoutMode === 'VERTICAL' ? gap : 0,
-    marginRight: layoutMode === 'HORIZONTAL' ? gap : 0,
-    ...padding,
+  switch (layoutMode) {
+    case 'CANVAS_CHILD':
+      return {
+        ...size,
+        ...padding,
+        position: 'relative',
+      }
+    case 'STATIC':
+      return {
+        ...size,
+        ...padding,
+        position: 'absolute',
+        ...staticLayout(node, parentNode),
+      }
+    case 'LAYOUT_ITEM':
+      return autoLayoutItemProps(node)
   }
 }
 
-const autoLayoutItem = (node: BoxNode, parentNode?: ParentNode): CSSProperties => {
+const staticLayout = (node: BoxNode, parentNode: ContainerNode): CSSProperties => {
+  const top = node.relativeTransform[1][2]
+  const left = node.relativeTransform[0][2]
+  const { height } = node.absoluteBoundingBox
+  const parentSize = parentNode.absoluteBoundingBox
+  const { horizontal, vertical } = node.constraints
+
+  let layout: CSSProperties = {
+    position: 'absolute',
+  }
+
+  if (horizontal === 'RIGHT') layout = { ...layout, right: 0 }
+  else layout.left = left
+
+  if (vertical === 'BOTTOM') layout.bottom = parentSize.height - height - top
+  else layout.top = top
+
+  return layout
+}
+
+const getSize = (node): CSSProperties => {
+  const { x: width, y: height } = node.size
+  let size: CSSProperties = {}
+  if (node.counterAxisSizingMode === 'FIXED' || !node.counterAxisSizingMode) size.width = width
+  if (node.primaryAxisSizingMode === 'FIXED' || !node.counterAxisSizingMode) size.height = height
+  return size
+}
+
+const getLayoutMode = (parent): LayoutType =>
+  !parent ? 'CANVAS_CHILD' : !parent.layoutMode ? 'STATIC' : 'LAYOUT_ITEM'
+
+const autoLayoutItemProps = (node: BoxNode): CSSProperties => {
   const { width, height } = node.absoluteBoundingBox
   let layout: CSSProperties = { position: 'relative', width }
 
@@ -72,31 +99,4 @@ const autoLayoutContainer = (node: Group | Frame, parentNode?: ContainerNode): C
     justifyContent: 'center',
     gap: node.itemSpacing,
   }
-}
-
-const staticLayout = (node: BoxNode, parentNode: ContainerNode): CSSProperties => {
-  const { x, y, width, height } = node.absoluteBoundingBox
-  const { horizontal, vertical } = node.constraints
-
-  let layout: CSSProperties = {
-    left: x,
-    top: y,
-    position: 'absolute',
-    width,
-    height,
-  }
-
-  if (horizontal === 'RIGHT') {
-    layout = { ...layout, right: x }
-  } else {
-    layout = { ...layout, left: x }
-  }
-
-  if (vertical === 'BOTTOM') {
-    layout = { ...layout, bottom: parentNode.absoluteBoundingBox.height - height }
-  } else {
-    layout = { ...layout, top: y }
-  }
-
-  return layout
 }

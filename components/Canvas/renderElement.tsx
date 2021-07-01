@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { ParsedNode } from './parseTemplate'
-import { Text, Page, Svg } from './elemets'
+import { Text, Svg } from './elemets'
 
 export const renderElement: FC<ParsedNode | null> = node => {
   if (!node) return null
