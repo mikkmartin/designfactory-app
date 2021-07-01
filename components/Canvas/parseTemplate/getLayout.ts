@@ -40,7 +40,7 @@ export const getLayout = (node: BoxNode, parentNode = null): CSSProperties => {
 const staticLayout = (node: BoxNode, parentNode: ContainerNode): CSSProperties => {
   const top = node.relativeTransform[1][2]
   const left = node.relativeTransform[0][2]
-  const { height } = node.absoluteBoundingBox
+  const { height, width } = node.absoluteBoundingBox
   const parentSize = parentNode.absoluteBoundingBox
   const { horizontal, vertical } = node.constraints
 
@@ -48,7 +48,7 @@ const staticLayout = (node: BoxNode, parentNode: ContainerNode): CSSProperties =
     position: 'absolute',
   }
 
-  if (horizontal === 'RIGHT') layout = { ...layout, right: 0 }
+  if (horizontal === 'RIGHT') layout.right = parentSize.width - width - left
   else layout.left = left
 
   if (vertical === 'BOTTOM') layout.bottom = parentSize.height - height - top
