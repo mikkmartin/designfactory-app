@@ -1,10 +1,12 @@
-import { ReactNode } from 'react'
+import { FC } from 'react'
 import { ParsedNode } from './parseTemplate'
-import { Text, Page } from './elemets'
+import { Text, Page, Svg } from './elemets'
 
-export const renderElement = (node: ParsedNode): ReactNode => {
+export const renderElement: FC<ParsedNode | null> = node => {
+  if (!node) return null
   const { id, style, children, name } = node
   const props = { key: id, style, name }
+
   switch (node.type) {
     case 'CANVAS':
       return <Page {...props}>{children.map(renderElement)}</Page>
@@ -13,9 +15,13 @@ export const renderElement = (node: ParsedNode): ReactNode => {
     case 'RECTANGLE':
       return <div {...props} />
     case 'TEXT':
-      //@ts-ignore
       return <Text {...props} name={name} content={node.content} />
+    case 'BOOLEAN_OPERATION':
+      const { booleanOperation, fillGeometry } = node
+      const svgProps = { booleanOperation, fillGeometry }
+      return <Svg {...props} {...svgProps} />
     default:
-      return <div {...props} />
+      console.warn(node)
+      return <></>
   }
 }

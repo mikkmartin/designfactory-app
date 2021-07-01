@@ -8,7 +8,7 @@ import {
   Canvas,
   Rectangle,
   BooleanGroup,
-  TextType,
+  NodeType,
 } from '@mikkmartin/figma-js'
 import { CSSProperties } from 'react'
 import { getLayout } from './getLayout'
@@ -21,17 +21,27 @@ export type BoxNode = Frame | Group | Text | Rectangle | BooleanGroup | Vector
 interface IBaseNode {
   id: string
   name: string
-  type: Omit<Node['type'], 'TEXT'>
   style: CSSProperties
   children?: ParsedNode[]
 }
 
+interface IBoxNode extends IBaseNode {
+  type: Exclude<NodeType, 'TEXT' | 'BOOLEAN_OPERATION'>
+}
+
 export interface TextNode extends IBaseNode {
-  type: TextType
+  type: Extract<NodeType, 'TEXT'>
   content: string
 }
 
-export type ParsedNode = IBaseNode | TextNode
+export interface BooleanNode extends IBaseNode {
+  type: Extract<NodeType, 'BOOLEAN_OPERATION'>
+  booleanOperation: BooleanGroup['booleanOperation']
+  fillGeometry: BooleanGroup['fillGeometry']
+  children?: ParsedNode[]
+}
+
+export type ParsedNode = TextNode | BooleanNode | IBoxNode
 
 const normalizePosition = (node, parent) => {
   return {
@@ -46,17 +56,17 @@ const normalizePosition = (node, parent) => {
 
 const parseNode = (node: Node, parentNode = null): ParsedNode => {
   if (parentNode) node = normalizePosition(node, parentNode)
-  const { id, name, type } = node
-  const props: Pick<ParsedNode, 'id' | 'name' | 'type' | 'children'> = {
+  const { id, name } = node
+  const props: Pick<ParsedNode, 'id' | 'name' | 'children'> = {
     id,
     name,
-    type,
   }
 
   switch (node.type) {
     case 'CANVAS':
       return {
         ...props,
+        type: node.type,
         style: { width: '100%' },
         children: node.children.map(child => parseNode(child)),
       }
@@ -64,6 +74,7 @@ const parseNode = (node: Node, parentNode = null): ParsedNode => {
     case 'GROUP':
       return {
         ...props,
+        type: node.type,
         style: {
           ...getLayout(node, parentNode),
           overflow: node.clipsContent ? 'hidden' : 'visible',
@@ -74,6 +85,7 @@ const parseNode = (node: Node, parentNode = null): ParsedNode => {
     case 'TEXT':
       return {
         ...props,
+        type: node.type,
         content: node.characters,
         style: {
           ...getLayout(node, parentNode),
@@ -84,10 +96,11 @@ const parseNode = (node: Node, parentNode = null): ParsedNode => {
           textAlign: node.style.textAlignHorizontal === 'CENTER' ? 'center' : 'left',
           lineHeight: `${node.style.lineHeightPercent * 1.25}%`,
         },
-      } as TextNode
+      }
     case 'RECTANGLE':
       return {
         ...props,
+        type: node.type,
         style: {
           ...getLayout(node, parentNode),
           background: getFill(node),
@@ -96,11 +109,19 @@ const parseNode = (node: Node, parentNode = null): ParsedNode => {
     case 'BOOLEAN_OPERATION':
       return {
         ...props,
+        type: node.type,
         style: {
           ...getLayout(node, parentNode),
-          background: getFill(node),
+          fill: getFill(node),
         },
+        booleanOperation: node.booleanOperation,
+        fillGeometry: node.fillGeometry
+        //children: node.children.map(child => parseNode(child, node)),
       }
+    default:
+      console.warn(`Node of type "${node.type}" was not parsed.`)
+      console.log(node)
+      return null
   }
 }
 
