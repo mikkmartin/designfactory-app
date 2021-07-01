@@ -5,6 +5,7 @@ import { BoxNode, ParentNode, ContainerNode } from './parseTemplate'
 let layout: CSSProperties = {}
 
 export const getLayout = (node: BoxNode, parentNode?: ParentNode): CSSProperties => {
+  console.log(node.type)
   const { width, height } = node.absoluteBoundingBox
   if (parentNode?.type === 'CANVAS') return { position: 'relative', width, height }
 

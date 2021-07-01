@@ -8,7 +8,9 @@ import {
   Canvas,
   Rectangle,
   BooleanGroup,
+  Document,
   NodeType,
+  Slice,
 } from '@mikkmartin/figma-js'
 import { CSSProperties } from 'react'
 import { getLayout } from './getLayout'
@@ -16,7 +18,7 @@ import { getFill } from './getFill'
 
 export type ContainerNode = Frame | Group
 export type ParentNode = Frame | Group | Canvas
-export type BoxNode = Frame | Group | Text | Rectangle | BooleanGroup | Vector
+export type BoxNode = Exclude<Node, Document | Canvas | Slice>
 
 interface IBaseNode {
   id: string
@@ -26,12 +28,17 @@ interface IBaseNode {
 }
 
 interface IBoxNode extends IBaseNode {
-  type: Exclude<NodeType, 'TEXT' | 'BOOLEAN_OPERATION'>
+  type: Exclude<NodeType, 'TEXT' | 'BOOLEAN_OPERATION' | 'VECTOR'>
 }
 
 export interface TextNode extends IBaseNode {
   type: Extract<NodeType, 'TEXT'>
   content: string
+}
+
+export interface VectorNode extends IBaseNode {
+  type: Extract<NodeType, 'VECTOR'>
+  fillGeometry: BooleanGroup['fillGeometry']
 }
 
 export interface BooleanNode extends IBaseNode {
@@ -41,7 +48,7 @@ export interface BooleanNode extends IBaseNode {
   children?: ParsedNode[]
 }
 
-export type ParsedNode = TextNode | BooleanNode | IBoxNode
+export type ParsedNode = TextNode | BooleanNode | VectorNode | IBoxNode
 
 const normalizePosition = (node, parent) => {
   return {
@@ -57,10 +64,11 @@ const normalizePosition = (node, parent) => {
 const parseNode = (node: Node, parentNode = null): ParsedNode => {
   if (parentNode) node = normalizePosition(node, parentNode)
   const { id, name } = node
-  const props: Pick<ParsedNode, 'id' | 'name' | 'children'> = {
+  const props: Pick<ParsedNode, 'id' | 'name'> = {
     id,
     name,
   }
+  let layout = {}
 
   switch (node.type) {
     case 'CANVAS':
@@ -72,11 +80,12 @@ const parseNode = (node: Node, parentNode = null): ParsedNode => {
       }
     case 'FRAME':
     case 'GROUP':
+      layout = getLayout(node, parentNode)
       return {
         ...props,
         type: node.type,
         style: {
-          ...getLayout(node, parentNode),
+          ...layout,
           overflow: node.clipsContent ? 'hidden' : 'visible',
           background: getFill(node),
         },
@@ -88,7 +97,7 @@ const parseNode = (node: Node, parentNode = null): ParsedNode => {
         type: node.type,
         content: node.characters,
         style: {
-          ...getLayout(node, parentNode),
+          ...layout,
           color: getFill(node),
           fontSize: node.style.fontSize,
           fontFamily: node.style.fontFamily,
@@ -102,7 +111,7 @@ const parseNode = (node: Node, parentNode = null): ParsedNode => {
         ...props,
         type: node.type,
         style: {
-          ...getLayout(node, parentNode),
+          ...layout,
           background: getFill(node),
         },
       }
@@ -111,12 +120,22 @@ const parseNode = (node: Node, parentNode = null): ParsedNode => {
         ...props,
         type: node.type,
         style: {
-          ...getLayout(node, parentNode),
+          ...layout,
           fill: getFill(node),
         },
         booleanOperation: node.booleanOperation,
-        fillGeometry: node.fillGeometry
+        fillGeometry: node.fillGeometry,
         //children: node.children.map(child => parseNode(child, node)),
+      }
+    case 'VECTOR':
+      return {
+        ...props,
+        type: node.type,
+        style: {
+          ...layout,
+          fill: getFill(node),
+        },
+        fillGeometry: node.fillGeometry,
       }
     default:
       console.warn(`Node of type "${node.type}" was not parsed.`)

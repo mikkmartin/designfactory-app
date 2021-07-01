@@ -11,6 +11,7 @@ export const renderElement: FC<ParsedNode | null> = node => {
     case 'CANVAS':
       return <Page {...props}>{children.map(renderElement)}</Page>
     case 'FRAME':
+    case 'GROUP':
       return <div {...props}>{children.map(renderElement)}</div>
     case 'RECTANGLE':
       return <div {...props} />
@@ -20,6 +21,8 @@ export const renderElement: FC<ParsedNode | null> = node => {
       const { booleanOperation, fillGeometry } = node
       const svgProps = { booleanOperation, fillGeometry }
       return <Svg {...props} {...svgProps} />
+    case 'VECTOR':
+      return <Svg {...props} fillGeometry={node.fillGeometry} />
     default:
       console.warn(node)
       return <></>
