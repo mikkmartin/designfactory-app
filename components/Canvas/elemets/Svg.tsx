@@ -7,7 +7,7 @@ interface Props extends Omit<VectorNode, 'id' | 'type' | 'booleanOperation'> {
 
 export const Svg: FC<Props> = ({ style, fills, strokes }) => {
   return (
-    <svg style={{ ...style, overflow: 'visible', minWidth: 1 }}>
+    <svg style={{ ...style, overflow: 'visible', minWidth: 1, minHeight: 1 }}>
       {strokes.paths.map(({ path }, i) => (
         <path key={'s' + i} d={path} fill={strokes.fill} />
       ))}
