@@ -1,4 +1,4 @@
 export { Text } from './Text'
 export { Svg } from './Svg'
-export { Box } from './Box'
+export { Instance } from './Instance'
 export { Page } from './Page'
