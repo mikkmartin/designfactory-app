@@ -33,15 +33,14 @@ export interface TextNode extends IBaseNode {
   content: string
 }
 
-export interface VectorNode extends IBaseNode {
+type VectorProps = Pick<BooleanGroup, 'fillGeometry' | 'strokeGeometry'>
+export interface VectorNode extends IBaseNode, VectorProps {
   type: Extract<NodeType, 'VECTOR'>
-  fillGeometry: BooleanGroup['fillGeometry']
 }
 
-export interface BooleanNode extends IBaseNode {
+export interface BooleanNode extends IBaseNode, VectorProps {
   type: Extract<NodeType, 'BOOLEAN_OPERATION'>
   booleanOperation: BooleanGroup['booleanOperation']
-  fillGeometry: BooleanGroup['fillGeometry']
   children?: ParsedNode[]
 }
 
@@ -104,6 +103,7 @@ const parseNode = (node: Node, parentNode: Node = null): ParsedNode => {
         },
         booleanOperation: node.booleanOperation,
         fillGeometry: node.fillGeometry,
+        strokeGeometry: node.strokeGeometry,
         //children: node.children.map(child => parseNode(child, node)),
       }
     case 'VECTOR':
@@ -115,6 +115,7 @@ const parseNode = (node: Node, parentNode: Node = null): ParsedNode => {
           fill: getFill(node),
         },
         fillGeometry: node.fillGeometry,
+        strokeGeometry: node.strokeGeometry,
       }
     default:
       console.warn(`Node of type "${node.type}" was not parsed.`)

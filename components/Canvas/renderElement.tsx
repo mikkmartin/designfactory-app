@@ -17,11 +17,9 @@ export const renderElement: FC<ParsedNode | null> = node => {
     case 'TEXT':
       return <Text {...props} name={name} content={node.content} />
     case 'BOOLEAN_OPERATION':
-      const { booleanOperation, fillGeometry } = node
-      const svgProps = { booleanOperation, fillGeometry }
-      return <Svg {...props} {...svgProps} />
+      return <Svg {...props} {...node} />
     case 'VECTOR':
-      return <Svg {...props} fillGeometry={node.fillGeometry} />
+      return <Svg {...props} {...node} />
     default:
       console.warn(node)
       return <></>
