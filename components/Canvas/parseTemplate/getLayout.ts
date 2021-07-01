@@ -6,34 +6,36 @@ type LayoutType = 'CANVAS_CHILD' | 'STATIC' | 'LAYOUT_ITEM'
 
 export const getLayout = (node: BoxNode, parentNode = null): CSSProperties => {
   const layoutMode = getLayoutMode(parentNode)
-  const size = getSize(node)
 
   const { paddingLeft, paddingRight, paddingTop, paddingBottom } = node as Frame
-  const padding = {
+  const props = {
+    ...(node.type === 'FRAME' && autoLayoutContainer(node, parentNode)),
+    ...getSize(node),
     paddingLeft,
     paddingRight,
     paddingTop,
     paddingBottom,
   }
 
-  //const layoutContainerProps = autoLayoutContainer(node, parentNode)
-
   switch (layoutMode) {
     case 'CANVAS_CHILD':
       return {
-        ...size,
-        ...padding,
+        ...props,
         position: 'relative',
+        top: 'unset',
+        left: 'unset',
       }
     case 'STATIC':
       return {
-        ...size,
-        ...padding,
+        ...props,
         position: 'absolute',
         ...staticLayout(node, parentNode),
       }
     case 'LAYOUT_ITEM':
-      return autoLayoutItemProps(node)
+      return {
+        ...props,
+        ...autoLayoutItemProps(node),
+      }
   }
 }
 
@@ -77,26 +79,31 @@ const autoLayoutItemProps = (node: BoxNode): CSSProperties => {
   return layout
 }
 
-const autoLayoutContainer = (node: Group | Frame, parentNode?: ContainerNode): CSSProperties => {
-  const { x, y, width, height } = node.absoluteBoundingBox
-
-  let layout: CSSProperties = {
-    left: x,
-    position: 'absolute',
-  }
-
-  if (node.counterAxisSizingMode === 'FIXED') layout = { ...layout, width }
-  if (node.primaryAxisSizingMode === 'FIXED') layout = { ...layout, height }
-
-  if (node.constraints.vertical === 'BOTTOM')
-    layout = { ...layout, bottom: parentNode.absoluteBoundingBox.height - height - y }
-  else layout = { ...layout, top: y }
+const autoLayoutContainer = (node: Frame, parentNode?: ContainerNode): CSSProperties => {
+  //if (node.counterAxisSizingMode === 'FIXED') layout = { ...layout, width }
+  //if (node.primaryAxisSizingMode === 'FIXED') layout = { ...layout, height }
 
   return {
-    ...layout,
     display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
+    flexDirection: node.layoutMode === 'HORIZONTAL' ? 'row' : 'column',
+    justifyContent: getAlignment(node.primaryAxisAlignItems),
+    alignItems: getAlignment(node.counterAxisAlignItems),
     gap: node.itemSpacing,
+  }
+}
+
+const getAlignment = align => {
+  switch (align) {
+    case 'MIN':
+      return 'flex-start'
+    case 'CENTER':
+      return 'center'
+    case 'MAX':
+      return 'flex-end'
+    case 'SPACE_BETWEEN':
+      return 'space-between'
+    default:
+      Boolean(align) && console.warn('Unknown alignment: ' + align)
+      return 'flex-start'
   }
 }
