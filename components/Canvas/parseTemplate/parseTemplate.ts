@@ -77,6 +77,8 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
         children: node.children.map(child => parseNode(child, node)),
       }
     case 'TEXT':
+      const { fontSize, fontFamily, fontWeight, textAlignHorizontal: align, italic } = node.style
+      const textAlign = align !== 'LEFT' ? (align === 'RIGHT' ? 'right' : 'center') : 'left'
       return {
         ...props,
         type: node.type,
@@ -84,12 +86,12 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
         style: {
           ...getLayout(node, parentNode),
           color: getFill(node),
-          fontSize: node.style.fontSize,
-          fontFamily: node.style.fontFamily,
-          fontWeight: node.style.fontWeight,
-          textAlign: node.style.textAlignHorizontal === 'CENTER' ? 'center' : 'left',
+          fontSize,
+          fontFamily,
+          fontWeight,
+          textAlign,
+          fontStyle: italic ? 'italic' : 'normal',
           lineHeight: `${node.style.lineHeightPercent * 1.25}%`,
-          fontStyle: node.style.italic ? 'italic' : 'normal',
           letterSpacing: `${node.style.letterSpacing}px`,
         },
       }
