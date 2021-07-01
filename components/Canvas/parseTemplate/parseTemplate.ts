@@ -50,42 +50,21 @@ export interface BooleanNode extends IBaseNode {
 
 export type ParsedNode = TextNode | BooleanNode | VectorNode | IBoxNode
 
-const normalizePosition = (node, parent) => {
-  return {
-    ...node,
-    absoluteBoundingBox: {
-      ...node.absoluteBoundingBox,
-      x: node.absoluteBoundingBox.x - parent.absoluteBoundingBox.x,
-      y: node.absoluteBoundingBox.y - parent.absoluteBoundingBox.y,
-    },
-  }
-}
-
-const parseNode = (node: Node, parentNode = null): ParsedNode => {
-  if (parentNode) node = normalizePosition(node, parentNode)
+const parseNode = (node: Node, parentNode: Node = null): ParsedNode => {
   const { id, name } = node
   const props: Pick<ParsedNode, 'id' | 'name'> = {
     id,
     name,
   }
-  let layout = {}
 
   switch (node.type) {
-    case 'CANVAS':
-      return {
-        ...props,
-        type: node.type,
-        style: { width: '100%' },
-        children: node.children.map(child => parseNode(child)),
-      }
     case 'FRAME':
     case 'GROUP':
-      layout = getLayout(node, parentNode)
       return {
         ...props,
         type: node.type,
         style: {
-          ...layout,
+          ...getLayout(node, parentNode),
           overflow: node.clipsContent ? 'hidden' : 'visible',
           background: getFill(node),
         },
@@ -97,7 +76,7 @@ const parseNode = (node: Node, parentNode = null): ParsedNode => {
         type: node.type,
         content: node.characters,
         style: {
-          ...layout,
+          ...getLayout(node, parentNode),
           color: getFill(node),
           fontSize: node.style.fontSize,
           fontFamily: node.style.fontFamily,
@@ -111,7 +90,7 @@ const parseNode = (node: Node, parentNode = null): ParsedNode => {
         ...props,
         type: node.type,
         style: {
-          ...layout,
+          ...getLayout(node, parentNode),
           background: getFill(node),
         },
       }
@@ -120,7 +99,7 @@ const parseNode = (node: Node, parentNode = null): ParsedNode => {
         ...props,
         type: node.type,
         style: {
-          ...layout,
+          ...getLayout(node, parentNode),
           fill: getFill(node),
         },
         booleanOperation: node.booleanOperation,
@@ -132,7 +111,7 @@ const parseNode = (node: Node, parentNode = null): ParsedNode => {
         ...props,
         type: node.type,
         style: {
-          ...layout,
+          ...getLayout(node, parentNode),
           fill: getFill(node),
         },
         fillGeometry: node.fillGeometry,
@@ -150,14 +129,10 @@ const onlyVisibleFrames = ({ visible, type }: Node) => {
 }
 
 export const parseTemplate = (template: FileResponse) => {
-  return template.document.children
-    .map(node => {
-      if (node.type === 'CANVAS')
-        return {
-          ...node,
-          children: node.children.filter(onlyVisibleFrames).filter((_, i) => i === 0),
-        }
-      else return node
-    })
+  const canvas = template.document.children.find(node => node.type === 'CANVAS') as Canvas
+  const firstNode = canvas.children
+    .filter(onlyVisibleFrames)
+    .filter((_, i) => i === 0)
     .map(child => parseNode(child))
+  return firstNode
 }

@@ -43,7 +43,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       throw new Error('Payment type is invalid.')
     }
   } catch (e) {
-    console.log(e)
+    console.error(e)
     res.statusCode = 500
     res.json({ error: 'Something went wrong.' })
   }

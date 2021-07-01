@@ -1,6 +1,7 @@
 import { renderElement } from './renderElement'
 import { parseTemplate } from './parseTemplate'
 import { TemplateProvider } from './TemplateContext'
+import { Page } from './elemets'
 
 export const Canvas = ({ template, data, onDataUpdate = _ => {}, editable = true }) => {
   if (!template) return null
@@ -11,7 +12,7 @@ export const Canvas = ({ template, data, onDataUpdate = _ => {}, editable = true
       onDataUpdate={onDataUpdate}
       fontFamilies={[]}
       editable={editable}>
-      {parseTemplate(template).map(renderElement)}
+      <Page>{parseTemplate(template).map(renderElement)}</Page>
     </TemplateProvider>
   )
 }

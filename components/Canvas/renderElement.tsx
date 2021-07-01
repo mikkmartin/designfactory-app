@@ -8,8 +8,6 @@ export const renderElement: FC<ParsedNode | null> = node => {
   const props = { key: id, style, name }
 
   switch (node.type) {
-    case 'CANVAS':
-      return <Page {...props}>{children.map(renderElement)}</Page>
     case 'FRAME':
     case 'GROUP':
       return <div {...props}>{children.map(renderElement)}</div>

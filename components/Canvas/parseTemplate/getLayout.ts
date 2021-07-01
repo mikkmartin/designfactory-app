@@ -2,26 +2,43 @@ import { CSSProperties } from 'react'
 import { Group, Frame } from '@mikkmartin/figma-js'
 import { BoxNode, ParentNode, ContainerNode } from './parseTemplate'
 
-let layout: CSSProperties = {}
+export const getLayout = (node: BoxNode, parentNode = null): CSSProperties => {
+  const width = node.size.x
+  const height = node.size.y
 
-export const getLayout = (node: BoxNode, parentNode?: ParentNode): CSSProperties => {
-  console.log(node.type)
-  const { width, height } = node.absoluteBoundingBox
-  if (parentNode?.type === 'CANVAS') return { position: 'relative', width, height }
-
-  if (parentNode && !parentNode.layoutMode) {
-    layout = staticLayout(node, parentNode)
-  } else if (parentNode && parentNode.layoutMode) {
-    layout = autoLayoutItem(node, parentNode)
-  } else {
-    layout = { position: 'relative', width, height }
+  //@ts-ignore
+  const { paddingLeft, paddingRight, paddingTop, paddingBottom } = node
+  const padding = {
+    paddingLeft,
+    paddingRight,
+    paddingTop,
+    paddingBottom,
   }
 
-  if ((node.type === 'GROUP' || node.type === 'FRAME') && parentNode && node.layoutMode) {
-    layout = autoLayoutContainer(node, parentNode)
+  //canvas elements
+  if (!parentNode) return { position: 'relative', width, height, ...padding }
+  if (!parentNode.layoutMode) {
+    return {
+      position: 'absolute',
+      top: node.relativeTransform[1][2],
+      left: node.relativeTransform[0][2],
+      width,
+      height,
+      ...padding,
+    }
   }
+  const { layoutMode, itemSpacing, primaryAxisAlignItems } = parentNode
 
-  return layout
+  const fixedGap = primaryAxisAlignItems === 'SPACE_BETWEEN'
+  const gap = !fixedGap ? itemSpacing : 0
+
+  return {
+    width,
+    height,
+    marginBottom: layoutMode === 'VERTICAL' ? gap : 0,
+    marginRight: layoutMode === 'HORIZONTAL' ? gap : 0,
+    ...padding,
+  }
 }
 
 const autoLayoutItem = (node: BoxNode, parentNode?: ParentNode): CSSProperties => {
@@ -47,7 +64,7 @@ const autoLayoutContainer = (node: Group | Frame, parentNode?: ContainerNode): C
   if (node.constraints.vertical === 'BOTTOM')
     layout = { ...layout, bottom: parentNode.absoluteBoundingBox.height - height - y }
   else layout = { ...layout, top: y }
-  
+
   return {
     ...layout,
     display: 'flex',
