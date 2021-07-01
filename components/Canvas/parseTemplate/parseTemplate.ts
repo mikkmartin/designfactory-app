@@ -57,6 +57,7 @@ const parseNode = (node: Node, parentNode: Node = null): ParsedNode => {
   switch (node.type) {
     case 'FRAME':
     case 'GROUP':
+    case 'INSTANCE':
       return {
         ...props,
         type: node.type,

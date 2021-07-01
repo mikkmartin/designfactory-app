@@ -10,6 +10,7 @@ export const renderElement: FC<ParsedNode | null> = node => {
   switch (node.type) {
     case 'FRAME':
     case 'GROUP':
+    case 'INSTANCE':
       return <div {...props}>{children.map(renderElement)}</div>
     case 'RECTANGLE':
       return <div {...props} />
