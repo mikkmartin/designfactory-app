@@ -8,11 +8,26 @@ import {
   Document,
   NodeType,
   Slice,
+  ComponentSet,
 } from '@mikkmartin/figma-js'
 import { CSSProperties } from 'react'
 import { getLayout } from './getLayout'
 import { getFill } from './getFill'
 import { getColor } from './getColor'
+
+export const parseTemplate = (template: FileResponse) => {
+  const canvas = template.document.children.find(node => node.type === 'CANVAS') as Canvas
+  const componentSets = canvas.children.filter(
+    node => node.type === 'COMPONENT_SET'
+  ) as ComponentSet[]
+  const skippedNodeTypes: NodeType[] = ['COMPONENT', 'COMPONENT_SET']
+  return {
+    nodes: canvas.children
+      .filter(node => !skippedNodeTypes.includes(node.type))
+      .map(c => parseNode(c as BoxNode)),
+    componentSets: componentSets.map(set => set.children.map(c => parseNode(c as BoxNode))),
+  }
+}
 
 export type ContainerNode = Frame | Group
 export type ParentNode = Frame | Group | Canvas
@@ -61,16 +76,19 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
   let baseStyle: CSSProperties = {
     opacity: node.opacity,
   }
+  if (node.visible === false) baseStyle.display = 'none'
 
   switch (node.type) {
     case 'FRAME':
     case 'GROUP':
     case 'INSTANCE':
+    case 'COMPONENT':
       return {
         ...props,
         type: node.type,
         style: {
           ...getLayout(node, parentNode),
+          ...baseStyle,
           overflow: node.clipsContent ? 'hidden' : 'visible',
           background: getFill(node),
         },
@@ -85,6 +103,7 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
         content: node.characters,
         style: {
           ...getLayout(node, parentNode),
+          ...baseStyle,
           color: getFill(node),
           fontSize,
           fontFamily,
@@ -101,6 +120,7 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
         type: node.type,
         style: {
           ...getLayout(node, parentNode),
+          ...baseStyle,
           background: getFill(node),
         },
       }
@@ -112,6 +132,7 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
         type: node.type,
         style: {
           ...getLayout(node, parentNode),
+          ...baseStyle,
         },
         fills: {
           paths: node.fillGeometry,
@@ -126,18 +147,4 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
       console.warn(`Node of type "${node.type}" was not parsed.`)
       return null
   }
-}
-
-const onlyVisibleFrames = ({ visible, type }: Node) => {
-  if (type !== 'FRAME') return false
-  if (visible !== false) return true
-}
-
-export const parseTemplate = (template: FileResponse) => {
-  const canvas = template.document.children.find(node => node.type === 'CANVAS') as Canvas
-  const firstNode = canvas.children
-    .filter(onlyVisibleFrames)
-    .filter((_, i) => i <= 1)
-    .map(child => parseNode(child as BoxNode))
-  return firstNode
 }
