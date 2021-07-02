@@ -8,6 +8,7 @@ import {
   Document,
   NodeType,
   Slice,
+  Instance,
   ComponentSet,
 } from '@mikkmartin/figma-js'
 import { CSSProperties } from 'react'
@@ -20,12 +21,18 @@ export const parseTemplate = (template: FileResponse) => {
   const componentSets = canvas.children.filter(
     node => node.type === 'COMPONENT_SET'
   ) as ComponentSet[]
+
   const skippedNodeTypes: NodeType[] = ['COMPONENT', 'COMPONENT_SET']
+  const nodes = canvas.children
+    .filter(node => !skippedNodeTypes.includes(node.type))
+    .map(c => parseNode(c as BoxNode))
+
   return {
-    nodes: canvas.children
-      .filter(node => !skippedNodeTypes.includes(node.type))
-      .map(c => parseNode(c as BoxNode)),
-    componentSets: componentSets.map(set => set.children.map(c => parseNode(c as BoxNode))),
+    nodes,
+    componentSets: componentSets.map(set => ({
+      name: set.name,
+      children: set.children.map(c => parseNode(c as BoxNode)),
+    })),
   }
 }
 
@@ -45,12 +52,17 @@ interface IBaseNode {
 }
 
 interface IBoxNode extends IBaseNode {
-  type: Exclude<NodeType, 'TEXT' | 'BOOLEAN_OPERATION' | 'VECTOR' | 'LINE'>
+  type: Exclude<NodeType, 'TEXT' | 'BOOLEAN_OPERATION' | 'VECTOR' | 'LINE' | 'INSTANCE'>
 }
 
 export interface TextNode extends IBaseNode {
   type: Extract<NodeType, 'TEXT'>
   content: string
+}
+
+export interface InstanceNode extends IBaseNode {
+  type: Extract<NodeType, 'INSTANCE'>
+  componentId: Instance['componentId']
 }
 
 export interface VectorNode extends IBaseNode {
@@ -65,14 +77,16 @@ export interface VectorNode extends IBaseNode {
   }
 }
 
-export type ParsedNode = TextNode | VectorNode | IBoxNode
+export type ParsedNode = TextNode | VectorNode | InstanceNode | IBoxNode
 
 const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
-  const { id, name } = node
-  const props: Pick<ParsedNode, 'id' | 'name'> = {
+  const { id, name, type } = node
+  const props: Pick<ParsedNode, 'id' | 'name' | 'type'> = {
     id,
     name,
+    type,
   }
+
   let baseStyle: CSSProperties = {
     opacity: node.opacity,
   }
@@ -81,7 +95,6 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
   switch (node.type) {
     case 'FRAME':
     case 'GROUP':
-    case 'INSTANCE':
     case 'COMPONENT':
       return {
         ...props,
@@ -92,6 +105,19 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
           overflow: node.clipsContent ? 'hidden' : 'visible',
           background: getFill(node),
         },
+        children: node.children.map(child => parseNode(child, node)),
+      }
+    case 'INSTANCE':
+      return {
+        ...props,
+        type: node.type,
+        style: {
+          ...getLayout(node, parentNode),
+          ...baseStyle,
+          overflow: node.clipsContent ? 'hidden' : 'visible',
+          background: getFill(node),
+        },
+        componentId: node.componentId,
         children: node.children.map(child => parseNode(child, node)),
       }
     case 'TEXT':

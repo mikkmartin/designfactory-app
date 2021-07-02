@@ -2,7 +2,8 @@ import { motion } from 'framer-motion'
 import { snappy } from 'static/transitions'
 import styled from 'styled-components'
 
-export const Instance = ({ style, children }) => {
+export const Instance = ({ style, children, ...rest }) => {
+  console.log(rest)
   return (
     <Container
       style={style}

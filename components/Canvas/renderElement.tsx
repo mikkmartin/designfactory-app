@@ -12,7 +12,7 @@ export const renderElement: FC<ParsedNode | null> = node => {
     case 'GROUP':
       return <div {...props}>{children.map(renderElement)}</div>
     case 'INSTANCE':
-      return <Instance {...props}>{children.map(renderElement)}</Instance>
+      return <Instance {...props} componentId={node.componentId}>{children.map(renderElement)}</Instance>
     case 'RECTANGLE':
       return <div {...props} />
     case 'TEXT':
