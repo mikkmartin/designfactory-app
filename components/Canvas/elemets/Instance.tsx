@@ -5,9 +5,10 @@ import styled from 'styled-components'
 import { InstanceNode } from '../parseTemplate/parseTemplate'
 import { renderElement } from '../renderElement'
 import { useTemplate } from '../TemplateContext'
+import { editable } from './editableStyle'
 
 export const Instance: FC<InstanceNode> = ({ style, name, componentId, children }) => {
-  const { data, componentSets, onDataUpdate } = useTemplate()
+  const { data, componentSets, onDataUpdate, editable } = useTemplate()
 
   const componentSet = Object.values(componentSets).find(set => {
     return set.find(component => component.id === componentId)
@@ -36,8 +37,8 @@ export const Instance: FC<InstanceNode> = ({ style, name, componentId, children 
     return component ? renderElement(component) : children
   }
 
+  const overrideKey = Object.keys(data).find(key => key === name)
   const cycleComponent = () => {
-    const overrideKey = Object.keys(data).find(key => key === name)
     const hasOverrideApplied = Boolean(overrideKey)
 
     if (hasOverrideApplied) {
@@ -49,18 +50,42 @@ export const Instance: FC<InstanceNode> = ({ style, name, componentId, children 
     }
   }
 
+  const overrideName = data[overrideKey] || componentSet[0].name.split('=')[1]
+
   return (
     <Container
       style={style}
       transition={snappy}
       onTap={() => cycleComponent()}
-      whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95, transition: { duration: 0.05 } }}>
       {getComponent(name)}
+      {editable && (
+        <motion.div className="overlay">
+          <span>{overrideName}</span>
+        </motion.div>
+      )}
     </Container>
   )
 }
 
 export const Container = styled(motion.div)`
   cursor: pointer;
+  &:hover,
+  &:focus,
+  &:active {
+    .overlay {
+      position: absolute;
+      z-index: 999;
+      inset: 0;
+      ${editable}
+      display: grid;
+      place-items: start start;
+      span {
+        user-select: none;
+        background: rgba(0, 102, 255, 1);
+        padding: 4px 8px;
+        border-radius: 4px 0 4px 0;
+      }
+    }
+  }
 `

@@ -1,11 +1,5 @@
 import styled, { css } from 'styled-components'
-
-const inputFocus = css`
-  background: rgba(0, 102, 255, 0.2);
-  box-shadow: inset 0 0 1px #0066ff, 0 0 0 1px rgba(255, 255, 255, 0.25);
-  border-radius: 4px;
-  transition: background-color 0.1s;
-`
+import { editable } from "./editableStyle";
 
 export const Page = styled.div`
   display: flex;
@@ -23,7 +17,7 @@ export const Page = styled.div`
   }
   > div {
     &:hover .ProseMirror {
-      ${inputFocus}
+      ${editable}
     }
     &:hover .ProseMirror:hover {
       transition: background-color 0s;
@@ -36,7 +30,7 @@ export const Page = styled.div`
       box-shadow: background-color 0;
       &:hover,
       &.ProseMirror-focused {
-        ${inputFocus}
+        ${editable}
       }
     }
   }
