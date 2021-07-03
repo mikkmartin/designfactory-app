@@ -5,14 +5,16 @@ import { Text, Svg, Instance } from './elemets'
 export const renderElement: FC<ParsedNode | null> = node => {
   if (!node) return null
   const { id, style, children, name } = node
-  const props = { key: id, style, name }
+  let props: any = { key: id, style, name }
 
   switch (node.type) {
     case 'FRAME':
     case 'GROUP':
+    case 'COMPONENT':
       return <div {...props}>{children.map(renderElement)}</div>
     case 'INSTANCE':
-      return <Instance {...props} componentId={node.componentId}>{children.map(renderElement)}</Instance>
+      props.componentId = node.componentId
+      return <Instance {...props}>{children.map(renderElement)}</Instance>
     case 'RECTANGLE':
       return <div {...props} />
     case 'TEXT':

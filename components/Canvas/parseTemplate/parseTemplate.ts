@@ -29,10 +29,16 @@ export const parseTemplate = (template: FileResponse) => {
 
   return {
     nodes,
-    componentSets: componentSets.map(set => ({
-      name: set.name,
-      children: set.children.map(c => parseNode(c as BoxNode)),
-    })),
+    componentSets: componentSets.reduce(
+      (sets, set) => ({
+        ...sets,
+        [set.name]: set.children.reduce(
+          (components, component) => [...components, parseNode(component as BoxNode)],
+          []
+        ),
+      }),
+      {}
+    ),
   }
 }
 

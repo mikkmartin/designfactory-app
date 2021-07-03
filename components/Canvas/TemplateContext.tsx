@@ -1,6 +1,7 @@
 import { FC, createContext, useContext, useRef } from 'react'
 import { FileResponse, Component } from '@mikkmartin/figma-js'
 import { Invoice } from 'static/invoice'
+import { ParsedNode } from './parseTemplate/parseTemplate'
 
 type Values = {
   fontFamilies: string[]
@@ -13,6 +14,9 @@ type Values = {
   components: Component[]
   onDataUpdate: any
   setComponents: (components: Component[]) => void
+  componentSets: {
+    [key: string]: ParsedNode[]
+  }
 }
 
 //@ts-ignore
@@ -26,6 +30,7 @@ type Props = {
   fontFamilies: any
   onDataUpdate: any
   components?: Component[]
+  componentSets: any
 }
 
 export const TemplateProvider: FC<Props> = ({
@@ -37,6 +42,7 @@ export const TemplateProvider: FC<Props> = ({
   onDataUpdate,
   components: initialComponents = [],
   onRender = () => {},
+  componentSets,
 }) => {
   const filledLists = useRef<string[]>([])
   const components = useRef<Component[]>(initialComponents)
@@ -59,6 +65,7 @@ export const TemplateProvider: FC<Props> = ({
         setComponents: _components => {
           components.current = _components
         },
+        componentSets,
       }}>
       {children}
     </Context.Provider>

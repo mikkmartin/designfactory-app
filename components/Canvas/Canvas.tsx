@@ -10,11 +10,12 @@ export const Canvas = ({ template, data, onDataUpdate = _ => {}, editable = true
   const firstNode = nodes
     .filter(node => node.type === 'FRAME' && node.style.display !== 'none')
     .filter((_, i) => i <= 1)
-  console.log(componentSets)
+
   return (
     <TemplateProvider
       template={template}
       data={data}
+      componentSets={componentSets}
       onDataUpdate={onDataUpdate}
       fontFamilies={fontFamilies}
       editable={editable}>
