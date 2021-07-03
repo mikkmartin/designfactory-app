@@ -1,5 +1,5 @@
 import { CSSProperties } from 'react'
-import { Group, Frame } from '@mikkmartin/figma-js'
+import { Frame } from '@mikkmartin/figma-js'
 import { BoxNode, ContainerNode } from './parseTemplate'
 
 type LayoutType = 'CANVAS_CHILD' | 'STATIC' | 'LAYOUT_ITEM'
@@ -28,14 +28,13 @@ export const getLayout = (node: BoxNode, parentNode = null): CSSProperties => {
     case 'STATIC':
       return {
         ...props,
-        position: 'absolute',
         ...getSize(node),
         ...staticLayout(node, parentNode),
       }
     case 'LAYOUT_ITEM':
       return {
         ...props,
-        ...autoLayoutItemProps(node),
+        ...getSize(node),
       }
   }
 }
@@ -62,21 +61,6 @@ const staticLayout = (node: BoxNode, parentNode: ContainerNode): CSSProperties =
 
 const getSize = (node): CSSProperties => {
   const { x: width, y: height } = node.size
-  let size: CSSProperties = {}
-  if (node.counterAxisSizingMode === 'FIXED' || !node.counterAxisSizingMode) size.width = width
-  if (node.primaryAxisSizingMode === 'FIXED' || !node.counterAxisSizingMode) size.height = height
-  return size
-}
-
-const getLayoutMode = (parent): LayoutType =>
-  !parent ? 'CANVAS_CHILD' : !parent.layoutMode ? 'STATIC' : 'LAYOUT_ITEM'
-
-const autoLayoutItemProps = (node): CSSProperties => {
-  const { x: width, y: height } = node.size
-  let size: CSSProperties = {}
-
-  if (node.primaryAxisSizingMode === 'FIXED' || !node.counterAxisSizingMode) size.height = height
-  if (node.primaryAxisSizingMode === 'FIXED' || !node.counterAxisSizingMode) size.height = height
 
   if (node.type === 'TEXT') {
     switch (node.style.textAutoResize) {
@@ -87,9 +71,17 @@ const autoLayoutItemProps = (node): CSSProperties => {
       default:
         return { width, height }
     }
+  } else {
+    let size: CSSProperties = {}
+    
+    if (node.counterAxisSizingMode === 'FIXED' || !node.counterAxisSizingMode) size.width = width
+    if (node.primaryAxisSizingMode === 'FIXED' || !node.counterAxisSizingMode) size.height = height
+    return size
   }
-  return size
 }
+
+const getLayoutMode = (parent): LayoutType =>
+  !parent ? 'CANVAS_CHILD' : !parent.layoutMode ? 'STATIC' : 'LAYOUT_ITEM'
 
 const autoLayoutContainer = (node: Frame): CSSProperties => {
   return {

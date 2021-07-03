@@ -9,7 +9,7 @@ export const Canvas = ({ template, data, onDataUpdate = _ => {}, editable = true
   const { nodes, componentSets } = parseTemplate(template)
   const firstNode = nodes
     .filter(node => node.type === 'FRAME' && node.style.display !== 'none')
-    .filter((_, i) => i <= 1)
+    .filter((_, i) => i === 0)
 
   return (
     <TemplateProvider
