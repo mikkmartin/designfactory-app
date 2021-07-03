@@ -15,7 +15,7 @@ type UseEditorReturnTypes = {
 }
 
 export const useEditor: UseEditorTypes = (templateID, initialTemplate): UseEditorReturnTypes => {
-  const [data, setData] = useState({ 'service-icon': { icon: 'lambda' } })
+  const [data, setData] = useState({  })
   const fetcher = url => fetch(`${url}?template=${templateID}`).then(r => r.json())
   const { data: template, isValidating } = useSWR('/api/figma', fetcher, {
     initialData: initialTemplate,
