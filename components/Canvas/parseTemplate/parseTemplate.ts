@@ -9,7 +9,6 @@ import {
   NodeType,
   Slice,
   Instance,
-  ComponentSet,
 } from '@mikkmartin/figma-js'
 import { CSSProperties } from 'react'
 import { getLayout } from './getLayout'
@@ -18,14 +17,14 @@ import { getColor } from './getColor'
 
 export const parseTemplate = (template: FileResponse) => {
   const canvas = template.document.children.find(node => node.type === 'CANVAS') as Canvas
-  const componentSets = canvas.children.filter(
-    node => node.type === 'COMPONENT_SET'
-  ) as ComponentSet[]
+  const componentSets = findNodes('COMPONENT_SET', canvas.children)
 
   const skippedNodeTypes: NodeType[] = ['COMPONENT', 'COMPONENT_SET']
   const nodes = canvas.children
     .filter(node => !skippedNodeTypes.includes(node.type))
     .map(c => parseNode(c as BoxNode))
+
+  //const textNodes = findNodes('TEXT', canvas.children)
 
   return {
     nodes,
@@ -40,6 +39,14 @@ export const parseTemplate = (template: FileResponse) => {
       {}
     ),
   }
+}
+
+function findNodes<T extends NodeType>(type: T, children): Extract<Node, { type: T }>[] {
+  return children.reduce((a, node) => {
+    if (node.type === type) return [...a, node]
+    if (node.children) return [...a, ...findNodes(type, node.children)]
+    return a
+  }, [])
 }
 
 export type ContainerNode = Frame | Group
