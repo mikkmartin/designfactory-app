@@ -5,6 +5,7 @@ import { defaultTemplatesv2 } from 'static/defaultTemplates'
 import baseURL from 'static/baseURL'
 import { Invoice } from 'static/invoice'
 import { Canvas } from 'components/Canvas'
+import { parseTemplate } from 'components/Canvas/parseTemplate'
 
 type Props = {
   template: FileResponse
@@ -12,7 +13,8 @@ type Props = {
 }
 
 export const Screenshot: FC<Props> = ({ template, data }) => {
-  return <Canvas template={template} data={data} editable={false} />
+  const { nodes } = parseTemplate(template)
+  return <Canvas nodes={nodes} data={data} editable={false} />
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {

@@ -16,7 +16,8 @@ import { getFill } from './getFill'
 import { getColor } from './getColor'
 import { getSchema } from './getSchema'
 
-export const parseTemplate = (template: FileResponse, { filter }) => {
+export const parseTemplate = (template: FileResponse, options = { filter: (_, i) => i === 0 }) => {
+  const { filter } = options
   const canvas = template.document.children.find(node => node.type === 'CANVAS') as Canvas
   const componentSets = getComponentSets(canvas)
 

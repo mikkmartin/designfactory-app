@@ -21,7 +21,7 @@ interface Props extends StaticProps {
 
 const File: FC<Props> = ({ templateID, initialTemplate, fileName }) => {
   const { onDataUpdate, data, fonts, template, loading } = useEditor(templateID, initialTemplate)
-  const { nodes, componentSets, schema } = parseTemplate(template, { filter: (_, i) => i === 0 })
+  const { nodes, componentSets, schema } = parseTemplate(template)
 
   const layoutProps = { fileName, schema, data, onDataUpdate, loading }
   const canvasProps = { data, fonts, nodes, componentSets, onDataUpdate }
