@@ -6,6 +6,7 @@ import { FC } from 'react'
 import { useEditor } from 'hooks/useEditor'
 import { FileResponse } from '@mikkmartin/figma-js'
 import { GetStaticProps } from 'next'
+import { parseTemplate } from 'components/Canvas/parseTemplate'
 
 interface StaticProps {
   templateID: string
@@ -19,9 +20,11 @@ interface Props extends StaticProps {
 }
 
 const File: FC<Props> = ({ templateID, initialTemplate, fileName }) => {
-  const { schema, onDataUpdate, data, fonts, template, loading } = useEditor(templateID, initialTemplate)
+  const { onDataUpdate, data, fonts, template, loading } = useEditor(templateID, initialTemplate)
+  const { nodes, componentSets, schema } = parseTemplate(template, { filter: (_, i) => i === 0 })
+
   const layoutProps = { fileName, schema, data, onDataUpdate, loading }
-  const canvasProps = { data, fonts, template, onDataUpdate }
+  const canvasProps = { data, fonts, nodes, componentSets, onDataUpdate }
   return (
     <Layout {...layoutProps}>
       <Canvas {...canvasProps} />

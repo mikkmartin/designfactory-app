@@ -1,25 +1,19 @@
 import { renderElement } from './renderElement'
-import { parseTemplate } from './parseTemplate'
 import { TemplateProvider } from './TemplateContext'
 import { Page } from './elemets'
 
-export const Canvas = ({ template, data, onDataUpdate = _ => {}, editable = true }) => {
-  if (!template) return null
+export const Canvas = ({ onDataUpdate = _ => {}, nodes, componentSets, editable = true, data }) => {
+  if (!nodes) return null
   const fontFamilies = []
-  const { nodes, componentSets } = parseTemplate(template)
-  const firstNode = nodes
-    .filter(node => node.type === 'FRAME' && node.style.display !== 'none')
-    .filter((_, i) => i === 0)
 
   return (
     <TemplateProvider
-      template={template}
       data={data}
       componentSets={componentSets}
       onDataUpdate={onDataUpdate}
       fontFamilies={fontFamilies}
       editable={editable}>
-      <Page>{firstNode.map(renderElement)}</Page>
+      <Page>{nodes.map(renderElement)}</Page>
     </TemplateProvider>
   )
 }

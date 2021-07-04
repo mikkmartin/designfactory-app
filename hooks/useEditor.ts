@@ -8,14 +8,13 @@ type Object = { [key: string]: any }
 type UseEditorReturnTypes = {
   template: FileResponse
   data: Object
-  schema: Object
   fonts: any[]
   onDataUpdate: (partialObject) => void
   loading: boolean
 }
 
 export const useEditor: UseEditorTypes = (templateID, initialTemplate): UseEditorReturnTypes => {
-  const [data, setData] = useState({  })
+  const [data, setData] = useState({})
   const fetcher = url => fetch(`${url}?template=${templateID}`).then(r => r.json())
   const { data: template, isValidating } = useSWR('/api/figma', fetcher, {
     initialData: initialTemplate,
@@ -26,7 +25,6 @@ export const useEditor: UseEditorTypes = (templateID, initialTemplate): UseEdito
     template,
     data,
     fonts: [],
-    schema: {},
     onDataUpdate: obj => setData(prev => ({ ...prev, ...obj })),
     loading: isValidating,
   }

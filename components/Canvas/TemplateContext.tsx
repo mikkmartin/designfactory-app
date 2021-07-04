@@ -1,11 +1,10 @@
 import { FC, createContext, useContext, useRef } from 'react'
-import { FileResponse, Component } from '@mikkmartin/figma-js'
+import { Component } from '@mikkmartin/figma-js'
 import { Invoice } from 'static/invoice'
 import { ParsedNode } from './parseTemplate/parseTemplate'
 
 type Values = {
   fontFamilies: string[]
-  template: FileResponse
   data: Invoice
   editable: boolean
   onRender?: () => any
@@ -23,7 +22,6 @@ type Values = {
 const Context = createContext<Values>()
 
 type Props = {
-  template: FileResponse
   data: Invoice
   editable?: boolean
   onRender?: () => any
@@ -35,7 +33,6 @@ type Props = {
 
 export const TemplateProvider: FC<Props> = ({
   children,
-  template,
   editable,
   data,
   fontFamilies,
@@ -52,7 +49,6 @@ export const TemplateProvider: FC<Props> = ({
     <Context.Provider
       value={{
         fontFamilies,
-        template,
         editable,
         data,
         onRender,

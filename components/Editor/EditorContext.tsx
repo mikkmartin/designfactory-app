@@ -1,4 +1,4 @@
-import { FC, createContext, useContext, useState, Dispatch, SetStateAction, useEffect } from 'react'
+import { FC, createContext, useContext, useState, Dispatch, SetStateAction } from 'react'
 
 type Values = {
   fileName: string
@@ -7,6 +7,7 @@ type Values = {
   downloadUrl: string
   setDownloadUrl: Dispatch<SetStateAction<string>>
   loading: boolean
+  schema: any
 }
 
 //@ts-ignore
@@ -20,7 +21,7 @@ export type Props = {
   loading: boolean
 }
 
-export const EditorProvider: FC<Props> = ({ children, onDataUpdate, data, schema, ...rest }) => {
+export const EditorProvider: FC<Props> = ({ children, onDataUpdate, data, ...rest }) => {
   const [downloadUrl, setDownloadUrl] = useState<string | null>('null')
 
   return (

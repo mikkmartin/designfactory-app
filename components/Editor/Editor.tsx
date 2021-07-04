@@ -5,7 +5,6 @@ import { EditorDidMount, EditorWillMount } from 'react-monaco-editor'
 import styled from 'styled-components'
 import { useMeasure } from 'react-use'
 import { useEditorData } from './EditorContext'
-import { schema } from '../../static/invoice'
 import { theme } from './theme'
 import packagejson from '../../package.json'
 import { dequal } from 'dequal/lite'
@@ -13,7 +12,7 @@ const MonacoEditor = dynamic(import('react-monaco-editor'), { ssr: false })
 
 export const Editor = () => {
   const [ref, { width, height }] = useMeasure()
-  const { data, setData } = useEditorData()
+  const { data, setData, schema } = useEditorData()
   const [jsonString, setJsonString] = useState<string>(JSON.stringify(data, null, 2))
 
   const onWillMount: EditorWillMount = monaco => {

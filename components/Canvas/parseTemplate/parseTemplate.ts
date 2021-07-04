@@ -14,32 +14,37 @@ import { CSSProperties } from 'react'
 import { getLayout } from './getLayout'
 import { getFill } from './getFill'
 import { getColor } from './getColor'
+import { getSchema } from './getSchema'
 
-export const parseTemplate = (template: FileResponse) => {
+export const parseTemplate = (template: FileResponse, { filter }) => {
   const canvas = template.document.children.find(node => node.type === 'CANVAS') as Canvas
-  const componentSets = findNodes('COMPONENT_SET', canvas.children)
+  const componentSets = getComponentSets(canvas)
 
-  const skippedNodeTypes: NodeType[] = ['COMPONENT', 'COMPONENT_SET']
-  const nodes = canvas.children
-    .filter(node => !skippedNodeTypes.includes(node.type))
-    .map(c => parseNode(c as BoxNode))
+  const visibleNodes = canvas.children
+    .filter(node => node.visible !== false && node.type === 'FRAME')
+    .filter(filter)
 
-  //const textNodes = findNodes('TEXT', canvas.children)
+  const nodes = visibleNodes.map(c => parseNode(c as BoxNode))
+  //const textNodes = findNodes('TEXT', visibleNodes)
 
   return {
     nodes,
-    componentSets: componentSets.reduce(
-      (sets, set) => ({
-        ...sets,
-        [set.name]: set.children.reduce(
-          (components, component) => [...components, parseNode(component as BoxNode)],
-          []
-        ),
-      }),
-      {}
-    ),
+    componentSets,
+    schema: getSchema()
   }
 }
+
+const getComponentSets = node =>
+  findNodes('COMPONENT_SET', node.children).reduce(
+    (sets, set) => ({
+      ...sets,
+      [set.name]: set.children.reduce(
+        (components, component) => [...components, parseNode(component as BoxNode)],
+        []
+      ),
+    }),
+    {}
+  )
 
 function findNodes<T extends NodeType>(type: T, children): Extract<Node, { type: T }>[] {
   return children.reduce((a, node) => {
