@@ -25,16 +25,16 @@ export const parseTemplate = (template: FileResponse, { filter }) => {
     .filter(filter)
 
   const nodes = visibleNodes.map(c => parseNode(c as BoxNode))
-  //const textNodes = findNodes('TEXT', visibleNodes)
 
   return {
     nodes,
     componentSets,
-    schema: getSchema()
+    schema: getSchema(visibleNodes, componentSets),
   }
 }
 
-const getComponentSets = node =>
+export type ParsedCoponentSet = { [key: string]: ParsedNode[] }
+const getComponentSets = (node): ParsedCoponentSet =>
   findNodes('COMPONENT_SET', node.children).reduce(
     (sets, set) => ({
       ...sets,
@@ -46,7 +46,7 @@ const getComponentSets = node =>
     {}
   )
 
-function findNodes<T extends NodeType>(type: T, children): Extract<Node, { type: T }>[] {
+export const findNodes = <T extends NodeType>(type: T, children): Extract<Node, { type: T }>[] => {
   return children.reduce((a, node) => {
     if (node.type === type) return [...a, node]
     if (node.children) return [...a, ...findNodes(type, node.children)]

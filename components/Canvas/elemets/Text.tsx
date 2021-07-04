@@ -2,7 +2,6 @@ import { useTemplate } from '../TemplateContext'
 import { useEditor, EditorContent, JSONContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { useEffect } from 'react'
-import { TextNode } from '../parseTemplate'
 
 export const Text = ({ style, content, name }) => {
   const { data, onDataUpdate, editable } = useTemplate()
