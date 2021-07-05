@@ -142,6 +142,7 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
     case 'TEXT':
       const { fontSize, fontFamily, fontWeight, textAlignHorizontal: align, italic } = node.style
       const textAlign = align !== 'LEFT' ? (align === 'RIGHT' ? 'right' : 'center') : 'left'
+      const lineHeightPercent = node.style.lineHeightPercent
       return {
         ...props,
         type: node.type,
@@ -155,7 +156,7 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
           fontWeight,
           textAlign,
           fontStyle: italic ? 'italic' : 'normal',
-          lineHeight: `${node.style.lineHeightPercent * 1.25}%`,
+          lineHeight: lineHeightPercent === 100 ? 'auto' : `${lineHeightPercent}%`,
           letterSpacing: `${node.style.letterSpacing}px`,
         },
       }
