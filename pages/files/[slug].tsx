@@ -33,15 +33,14 @@ const File: FC<Props> = ({ templateID, initialTemplate, fileName }) => {
 }
 
 export const getStaticProps: GetStaticProps<StaticProps> = async ({ params }) => {
-  const fileName = params.slug as string
-  const defaultTemplate = defaultTemplatesv2.find(({ slug }) => slug === fileName)
+  const defaultTemplate = defaultTemplatesv2.find(({ slug }) => slug === params.slug)
   const templateID = defaultTemplate.template
   const initialTemplate = await getTemplate(templateID)
 
   return {
     props: {
       templateID,
-      fileName,
+      fileName: defaultTemplate.name,
       initialTemplate,
     },
   }

@@ -10,7 +10,11 @@ import baseURL from 'static/baseURL'
 
 export const Header = () => {
   const { fileName, data } = useEditor()
-  const buttonLabels = ['templates', 'info', 'donation']
+  const buttonLabels = [
+  //  'templates',
+  //  'info',
+  //  'donation'
+  ]
 
   const handleDownload = () => {
     //logInvoiceDownload(json.template)

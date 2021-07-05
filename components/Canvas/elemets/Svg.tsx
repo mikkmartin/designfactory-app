@@ -12,7 +12,7 @@ export const Svg: FC<Props> = ({ style, fills, strokes }) => {
         <path key={'s' + i} d={path} fill={strokes.fill} />
       ))}
       {fills.paths.map(({ path }, i) => (
-        <path key={'f' + i} d={path} fill={fills.fill} />
+        <path fillRule="evenodd" key={'f' + i} d={path} fill={fills.fill} />
       ))}
     </svg>
   )

@@ -182,7 +182,7 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
         },
         fills: {
           paths: node.fillGeometry,
-          fill: Boolean(node.fills.length) ? getFill(node) : 'transparent',
+          fill: Boolean(node.fills.length) ? getFill(node) : 'transparent'
         },
         strokes: {
           paths: node.strokeGeometry,
