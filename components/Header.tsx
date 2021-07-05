@@ -5,25 +5,17 @@ import { Button } from './Common/Button'
 import { Drawer } from './Editor/Drawer'
 import { DrawerProvider } from './Drawer/DrawerContext'
 import { TabButton } from './Drawer/TabButton'
-import { objectToParams } from 'lib/urlEncoder'
-import baseURL from 'static/baseURL'
 
 export const Header = () => {
-  const { fileName, data } = useEditor()
+  const { fileName, downloadUrl } = useEditor()
   const buttonLabels = [
-  //  'templates',
-  //  'info',
-  //  'donation'
+    //  'templates',
+    //  'info',
+    //  'donation'
   ]
 
   const handleDownload = () => {
     //logInvoiceDownload(json.template)
-  }
-
-  const getUrl = () => {
-    const extension = 'png'
-    const query = objectToParams(data)
-    return `${baseURL}/files/${fileName}.${extension}?${query}`
   }
 
   return (
@@ -42,7 +34,7 @@ export const Header = () => {
           {buttonLabels.map(name => (
             <TabButton key={name} name={name} />
           ))}
-          <a href={getUrl()} download="og-image.png">
+          <a href={downloadUrl} download={`${fileName}.png`}>
             <Button primary onTap={handleDownload}>
               <Download />
             </Button>

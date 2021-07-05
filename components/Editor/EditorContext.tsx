@@ -1,4 +1,6 @@
-import { FC, createContext, useContext, useState, Dispatch, SetStateAction } from 'react'
+import { objectToParams } from 'lib/urlEncoder'
+import { FC, createContext, useContext, useState, Dispatch, SetStateAction, useEffect } from 'react'
+import baseURL from 'static/baseURL'
 
 type Values = {
   fileName: string
@@ -19,10 +21,16 @@ export type Props = {
   data: any
   onDataUpdate: (json) => void
   loading: boolean
+  slug: string
 }
 
-export const EditorProvider: FC<Props> = ({ children, onDataUpdate, data, ...rest }) => {
-  const [downloadUrl, setDownloadUrl] = useState<string | null>('null')
+export const EditorProvider: FC<Props> = ({ children, onDataUpdate, data, slug, ...rest }) => {
+  let url = `${baseURL}/files/${slug}.png`
+  const query = objectToParams(data)
+  if (query) url += `?${query}`
+
+  const [downloadUrl, setDownloadUrl] = useState<string>(url)
+  useEffect(() => setDownloadUrl(url), [data])
 
   return (
     <Context.Provider value={{ downloadUrl, setDownloadUrl, data, setData: onDataUpdate, ...rest }}>

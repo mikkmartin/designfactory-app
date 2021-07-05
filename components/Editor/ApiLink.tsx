@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useEditorData } from './EditorContext'
-import baseURL from 'static/baseURL'
 import styled from 'styled-components'
 import { Button } from '../Common/Button'
 import { Copy } from '../Icons'
 import { snappy } from 'static/transitions'
 import { motion, AnimatePresence } from 'framer-motion'
-import { objectToParams } from 'lib/urlEncoder'
 
 export const ApiLink = () => {
-  const { fileName, data } = useEditorData()
+  const { downloadUrl, data } = useEditorData()
   const [url, setUrl] = useState('')
   const [method, setMethod] = useState<'GET' | 'POST'>('GET')
   const [copied, setCopied] = useState(false)
@@ -17,13 +15,8 @@ export const ApiLink = () => {
   useEffect(() => setUrl(getUrl()), [data, method])
 
   const getUrl = () => {
-    const extension = 'png'
-    if (method === 'POST') return `${baseURL}/${fileName}.${extension}`
-    const query = objectToParams(data)
-
-    let url = `${baseURL}/files/${fileName}.${extension}`
-    if (query) url += `?${query}`
-    return url
+    if (method === 'POST') return downloadUrl.split('?')[0]
+    return downloadUrl
   }
 
   const copy = () => {

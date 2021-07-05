@@ -41,13 +41,13 @@ interface TemplateObjectV2 extends TemplateObject {
 
 export const defaultTemplatesv2: TemplateObjectV2[] = [
   {
-    name: 'Knowlagebase OG image',
-    slug: 'kb-og-image',
+    name: 'Knowlagebase OG',
+    slug: 'knowlagebase-og',
     template: 'WHdIyxfgAUWEDo3GLCz9G5',
   },
   {
-    name: 'Blog OG image',
-    slug: 'og-image',
+    name: 'Blog OG',
+    slug: 'blog-og',
     template: 'WHdIyxfgAUWEDo3GLCz9G5',
   },
 ]

@@ -11,6 +11,7 @@ import { parseTemplate } from 'components/Canvas/parseTemplate'
 interface StaticProps {
   templateID: string
   fileName: string
+  slug: string
   initialTemplate: FileResponse
 }
 
@@ -19,11 +20,11 @@ interface Props extends StaticProps {
   fonts: any[]
 }
 
-const File: FC<Props> = ({ templateID, initialTemplate, fileName }) => {
+const File: FC<Props> = ({ templateID, initialTemplate, fileName, slug }) => {
   const { onDataUpdate, data, fonts, template, loading } = useEditor(templateID, initialTemplate)
   const { nodes, componentSets, schema } = parseTemplate(template)
 
-  const layoutProps = { fileName, schema, data, onDataUpdate, loading }
+  const layoutProps = { fileName, schema, data, onDataUpdate, loading, slug }
   const canvasProps = { data, fonts, nodes, componentSets, onDataUpdate }
   return (
     <Layout {...layoutProps}>
@@ -41,16 +42,17 @@ export const getStaticProps: GetStaticProps<StaticProps> = async ({ params }) =>
     props: {
       templateID,
       fileName: defaultTemplate.name,
+      slug: defaultTemplate.slug,
       initialTemplate,
     },
   }
 }
 
 export const getStaticPaths = async () => {
-  const defaultTemplate = ['og-image']
+  const slugs = defaultTemplatesv2.map(({ slug }) => slug)
   return {
-    paths: defaultTemplate.map(name => `/files/${name}`),
-    fallback: true,
+    paths: slugs.map(slugs => `/files/${slugs}`),
+    fallback: false,
   }
 }
 
