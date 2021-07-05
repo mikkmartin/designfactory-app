@@ -45,6 +45,7 @@ export const getStaticProps: GetStaticProps<StaticProps> = async ({ params }) =>
       slug: defaultTemplate.slug,
       initialTemplate,
     },
+    revalidate: 1
   }
 }
 
