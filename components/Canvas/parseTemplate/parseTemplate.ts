@@ -170,8 +170,13 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
           ...baseStyle,
           background: getFill(node),
           outline: `${node.strokeWeight}px solid`,
-          outlineColor: Boolean(node.strokes.length) ? getColor(node.strokes[0]) : '',
-          outlineOffset: node.strokeWeight / -2,
+          outlineColor: Boolean(node.strokes.length) ? getColor(node.strokes[0]) : 'transparent',
+          outlineOffset:
+            node.strokeAlign === 'CENTER'
+              ? node.strokeWeight / -2
+              : node.strokeAlign === 'INSIDE'
+              ? -node.strokeWeight
+              : 0,
         },
       }
     case 'BOOLEAN_OPERATION':
