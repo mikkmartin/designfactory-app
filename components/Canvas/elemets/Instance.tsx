@@ -59,7 +59,7 @@ export const Instance: FC<InstanceNode> = ({ style, name, componentId, children 
       {getComponent(name)}
       {editable && (
         <motion.div className="overlay">
-          <span>{data[overrideKey] || componentSet[0].name.split('=')[1]}</span>
+          {false && <span>{data[overrideKey] || componentSet[0].name.split('=')[1]}</span>}
         </motion.div>
       )}
     </Container>

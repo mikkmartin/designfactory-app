@@ -2,7 +2,7 @@
   "name": "designfactory",
   "version": "0.1.1",
   "scripts": {
-    "dev": "next -p 4000",
+    "dev": "NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "start": "next start"
   },

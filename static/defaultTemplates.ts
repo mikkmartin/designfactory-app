@@ -13,9 +13,22 @@ export const defaultTemplates: TemplateObject[] = [
   {
     name: 'Simple',
     template: defaults.template,
+  }
+]
+
+interface TemplateObjectV2 extends TemplateObject {
+  slug: string
+}
+
+export const defaultTemplatesv2: TemplateObjectV2[] = [
+  {
+    name: 'Knowledgebase OG',
+    slug: 'knowledgebase-og',
+    template: 'WHdIyxfgAUWEDo3GLCz9G5',
   },
   {
     name: 'Brutalist',
+    slug: 'invoice',
     template: 'UC7DTEsW3PgoS2ApXyn3V9',
     fonts: [
       {
@@ -32,22 +45,5 @@ export const defaultTemplates: TemplateObject[] = [
         ],
       },
     ],
-  },
-]
-
-interface TemplateObjectV2 extends TemplateObject {
-  slug: string
-}
-
-export const defaultTemplatesv2: TemplateObjectV2[] = [
-  {
-    name: 'Knowledgebase OG',
-    slug: 'knowledgebase-og',
-    template: 'WHdIyxfgAUWEDo3GLCz9G5',
-  },
-  {
-    name: 'Blog OG',
-    slug: 'blog-og',
-    template: 'WHdIyxfgAUWEDo3GLCz9G5',
   },
 ]
