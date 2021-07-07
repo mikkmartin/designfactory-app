@@ -161,7 +161,6 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
         },
       }
     case 'RECTANGLE':
-      console.log(node)
       return {
         ...props,
         type: node.type,

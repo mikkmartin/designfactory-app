@@ -7,6 +7,7 @@ import { useEditor } from 'hooks/useEditor'
 import { FileResponse } from '@mikkmartin/figma-js'
 import { GetStaticProps } from 'next'
 import { parseTemplate } from 'components/Canvas/parseTemplate'
+import { useRouter } from 'next/router'
 
 interface StaticProps {
   templateID: string
@@ -21,8 +22,12 @@ interface Props extends StaticProps {
 }
 
 const File: FC<Props> = ({ templateID, initialTemplate, fileName, slug }) => {
+  const { query } = useRouter()
+  const { frames } = query
   const { onDataUpdate, data, fonts, template, loading } = useEditor(templateID, initialTemplate)
-  const { nodes, componentSets, schema } = parseTemplate(template)
+  const { nodes, componentSets, schema } = parseTemplate(template, {
+    filter: (_, i) => frames === 'all' ? true : i === 0,
+  })
 
   const layoutProps = { fileName, schema, data, onDataUpdate, loading, slug }
   const canvasProps = { data, fonts, nodes, componentSets, onDataUpdate }
@@ -45,7 +50,7 @@ export const getStaticProps: GetStaticProps<StaticProps> = async ({ params }) =>
       slug: defaultTemplate.slug,
       initialTemplate,
     },
-    revalidate: 1
+    revalidate: 1,
   }
 }
 

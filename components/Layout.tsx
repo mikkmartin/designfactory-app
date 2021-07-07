@@ -38,6 +38,7 @@ const Container = styled.div`
   .container {
     flex: 2.5;
     position: relative;
+    overflow: auto;
   }
 `
 
