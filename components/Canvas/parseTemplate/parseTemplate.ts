@@ -161,6 +161,7 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
         },
       }
     case 'RECTANGLE':
+      console.log(node)
       return {
         ...props,
         type: node.type,
@@ -168,6 +169,9 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
           ...getLayout(node, parentNode),
           ...baseStyle,
           background: getFill(node),
+          outline: `${node.strokeWeight}px solid`,
+          outlineColor: Boolean(node.strokes.length) ? getColor(node.strokes[0]) : '',
+          outlineOffset: node.strokeWeight / -2,
         },
       }
     case 'BOOLEAN_OPERATION':
@@ -182,11 +186,11 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
         },
         fills: {
           paths: node.fillGeometry,
-          fill: Boolean(node.fills.length) ? getFill(node) : 'transparent'
+          fill: Boolean(node.fills.length) ? getFill(node) : 'transparent',
         },
         strokes: {
           paths: node.strokeGeometry,
-          fill: Boolean(node.strokes.length) ? getColor(node.strokes[0].color) : 'transparent',
+          fill: Boolean(node.strokes.length) ? getColor(node.strokes[0]) : 'transparent',
         },
       }
     default:

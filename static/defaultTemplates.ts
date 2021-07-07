@@ -22,6 +22,11 @@ interface TemplateObjectV2 extends TemplateObject {
 
 export const defaultTemplatesv2: TemplateObjectV2[] = [
   {
+    name: 'Debugger',
+    slug: 'debug',
+    template: 'QBeNqpKnj2exAqyWMNYbWM',
+  },
+  {
     name: 'Knowledgebase OG',
     slug: 'knowledgebase-og',
     template: 'WHdIyxfgAUWEDo3GLCz9G5',

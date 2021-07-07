@@ -7,7 +7,7 @@ export const getFill = (node: BoxNode) => {
     .map(fill => {
       switch (fill.type) {
         case 'SOLID':
-          return getColor(fill.color)
+          return getColor(fill)
         case 'GRADIENT_LINEAR':
           return paintToLinearGradient(fill)
         case 'IMAGE':

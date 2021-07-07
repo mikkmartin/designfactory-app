@@ -1,6 +1,7 @@
-import { Color } from '@mikkmartin/figma-js'
+import { Paint } from '@mikkmartin/figma-js'
+import Color from 'color'
 
-export const getColor = (color: Color): string =>
-  `rgba(${Math.round(color.r * 255)}, ${Math.round(color.g * 255)}, ${Math.round(color.b * 255)}, ${
-    color.a
-  })`
+export const getColor = (fill: Paint): string => {
+  const { r, g, b, a } = fill.color
+  return Color([r * 255, g * 255, b * 255, fill.opacity || a]).rgb().string()
+}
