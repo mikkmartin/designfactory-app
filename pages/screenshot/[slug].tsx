@@ -6,6 +6,7 @@ import baseURL from 'static/baseURL'
 import { Invoice } from 'static/invoice'
 import { Canvas } from 'components/Canvas'
 import { parseTemplate } from 'components/Canvas/parseTemplate'
+import Head from 'next/head'
 
 type Props = {
   template: FileResponse
@@ -14,7 +15,19 @@ type Props = {
 
 export const Screenshot: FC<Props> = ({ template, data }) => {
   const { nodes, componentSets } = parseTemplate(template)
-  return <Canvas nodes={nodes} componentSets={componentSets} data={data} editable={false} />
+  return (
+    <>
+      <Head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@300;400;700&display=swap"
+          rel="stylesheet"
+        />
+      </Head>
+      <Canvas nodes={nodes} componentSets={componentSets} data={data} editable={false} />
+    </>
+  )
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
