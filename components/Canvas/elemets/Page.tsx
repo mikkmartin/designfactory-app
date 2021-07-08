@@ -15,6 +15,7 @@ export const Page = styled.div`
   > div {
     .ProseMirror p {
       line-height: unset;
+      outline: none;
     }
     &:hover .ProseMirror {
       ${editable}
