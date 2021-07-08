@@ -12,10 +12,10 @@ export const Page = styled.div`
   padding: 5vw;
   min-height: 100%;
   background: #1a1e25;
-  * {
-    line-height: 100%;
-  }
   > div {
+    .ProseMirror p {
+      line-height: unset;
+    }
     &:hover .ProseMirror {
       ${editable}
     }

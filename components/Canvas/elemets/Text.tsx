@@ -13,7 +13,7 @@ export const Text = ({ style, content, name }) => {
     return content
   }
 
-  if (!editable) return <span style={style}>{fillText(name)}</span>
+  if (!editable) return <p style={style}>{fillText(name)}</p>
 
   const editor = useEditor({
     extensions: [StarterKit],
