@@ -1,53 +1,89 @@
 import { Overlay } from './Overlay'
+import styled from 'styled-components'
+import { useState, useEffect } from 'react'
 
 export const Mockup = () => {
+  const [file, setFile] = useState<File>()
+  const [url, setUrl] = useState('https://media.voog.com/0000/0044/8982/photos/IMG_1457.PNG')
+
+  useEffect(() => {
+    if (!file) return
+    const url = URL.createObjectURL(file)
+    setUrl(url)
+    const data = new FormData()
+    data.append('file', file)
+    fetch('/api/files/upload', {
+      method: 'POST',
+      body: data,
+    }).catch(error => {
+      console.error(error)
+    })
+  }, [file])
+
   const darkAmplitude = '1.3'
   const darkExponent = '2.6'
   const lightAmplitude = '2.1'
   const lightExponent = '26.8'
 
   const tshirtUrl = '/mockups/tshirt.png'
-  const url = 'https://media.voog.com/0000/0044/8982/photos/IMG_0348_block.PNG'
   const text = ''
 
   return (
-    <svg width="500" height="500" viewBox="0 0 500 500">
-      <Overlay
-        darkAmplitude={darkAmplitude}
-        darkExponent={darkExponent}
-        lightAmplitude={lightAmplitude}
-        lightExponent={lightExponent}
-      />
-      <ColorFill color="#d65656" />
-      <ShirtMask />
-      <Contrast lightAmplitude={lightAmplitude} lightExponent={lightExponent} />
-      <ArtWorkMask>
-        <ArtWork url={url} text={text} />
-      </ArtWorkMask>
+    <Container>
+      <svg width="500" height="500" viewBox="0 0 500 500">
+        <Overlay
+          darkAmplitude={darkAmplitude}
+          darkExponent={darkExponent}
+          lightAmplitude={lightAmplitude}
+          lightExponent={lightExponent}
+        />
+        <ColorFill color="#d65656" />
+        <ShirtMask />
+        <Contrast lightAmplitude={lightAmplitude} lightExponent={lightExponent} />
+        <ArtWorkMask>
+          <ArtWork url={url} text={text} />
+        </ArtWorkMask>
 
-      <image href={tshirtUrl} height="500" width="500" />
-      <image
-        mask="url(#shirt-mask)"
-        filter="url(#color-fill)"
-        href={tshirtUrl}
-        height="500"
-        width="500"
-        style={{ mixBlendMode: 'multiply' }}
+        <image href={tshirtUrl} height="500" width="500" />
+        <image
+          mask="url(#shirt-mask)"
+          filter="url(#color-fill)"
+          href={tshirtUrl}
+          height="500"
+          width="500"
+          style={{ mixBlendMode: 'multiply' }}
+        />
+        <image
+          mask="url(#shirt-mask)"
+          filter="url(#contrast)"
+          href={tshirtUrl}
+          height="500"
+          width="500"
+          style={{ mixBlendMode: 'screen' }}
+        />
+        <g mask="url(#artwork-mask)">
+          <ArtWork filter="url(#overlay)" url={url} text={text} />
+        </g>
+      </svg>
+      <input
+        type="file"
+        accept="image/png, image/jpeg"
+        onChange={ev => setFile(ev.target.files[0])}
       />
-      <image
-        mask="url(#shirt-mask)"
-        filter="url(#contrast)"
-        href={tshirtUrl}
-        height="500"
-        width="500"
-        style={{ mixBlendMode: 'screen' }}
-      />
-      <g mask="url(#artwork-mask)">
-        <ArtWork filter="url(#overlay)" url={url} text={text} />
-      </g>
-    </svg>
+    </Container>
   )
 }
+
+const Container = styled.div`
+  position: relative;
+  input {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: none;
+  }
+`
 
 function DisplacementMap() {
   return (
