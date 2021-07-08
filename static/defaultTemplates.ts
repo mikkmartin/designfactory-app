@@ -26,13 +26,7 @@ export const defaultTemplatesv2: TemplateObjectV2[] = [
     name: 'Debugger',
     slug: 'debug',
     template: 'QBeNqpKnj2exAqyWMNYbWM',
-    disabledFields: [
-      'credential-descriptions',
-      'Arve nr',
-      'Kuupäev',
-      'Tähtaeg',
-      'topay-summary-description',
-    ],
+    disabledFields: ['disabled', 'total', 'topay-subtotal-value', 'subtotals-values', 'topay-summary-value'],
   },
   {
     name: 'Knowledgebase OG',

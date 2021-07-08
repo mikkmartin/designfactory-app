@@ -15,7 +15,7 @@ export const Text = ({ style, content, name }) => {
     return content
   }
 
-  if (!isEditable) return <p style={style}>{fillText(name)}</p>
+  if (!isEditable) return <p style={style}>{isDisabled ? content : fillText(name)}</p>
 
   const editor = useEditor({
     extensions: [StarterKit],
