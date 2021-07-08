@@ -39,6 +39,8 @@ const Container = styled.div`
     flex: 2.5;
     position: relative;
     overflow: auto;
+    display: grid;
+    place-content: center;
   }
 `
 
