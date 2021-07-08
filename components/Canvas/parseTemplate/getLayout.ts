@@ -34,6 +34,7 @@ export const getLayout = (node: BoxNode, parentNode = null): CSSProperties => {
     case 'LAYOUT_ITEM':
       return {
         ...props,
+        position: 'relative',
         ...getSize(node),
       }
   }
