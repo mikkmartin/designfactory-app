@@ -10,9 +10,6 @@ import { parseTemplate } from 'components/Canvas/parseTemplate'
 import { useRouter } from 'next/router'
 
 interface StaticProps {
-  templateID: string
-  fileName: string
-  slug: string
   initialTemplate: FileResponse
 }
 
@@ -21,16 +18,19 @@ interface Props extends StaticProps {
   fonts: any[]
 }
 
-const File: FC<Props> = ({ templateID, initialTemplate, fileName, slug }) => {
+const File: FC<Props> = ({ initialTemplate }) => {
   const { query } = useRouter()
-  const { frames } = query
+  const { frames, slug: _slug } = query
+  const slug = Array.isArray(_slug) ? _slug[0] : _slug
+  const { template: templateID, name, disabledFields } = defaultTemplatesv2.find(t => t.slug === slug)
+
   const { onDataUpdate, data, fonts, template, loading } = useEditor(templateID, initialTemplate)
   const { nodes, componentSets, schema } = parseTemplate(template, {
-    filter: (_, i) => frames === 'all' ? true : i === 0,
+    filter: (_, i) => (frames === 'all' ? true : i === 0),
   })
 
-  const layoutProps = { fileName, schema, data, onDataUpdate, loading, slug }
-  const canvasProps = { data, fonts, nodes, componentSets, onDataUpdate }
+  const layoutProps = { fileName: name, schema, data, onDataUpdate, loading, slug }
+  const canvasProps = { data, fonts, nodes, componentSets, onDataUpdate, disabledFields }
   return (
     <Layout {...layoutProps}>
       <Canvas {...canvasProps} />
@@ -39,16 +39,11 @@ const File: FC<Props> = ({ templateID, initialTemplate, fileName, slug }) => {
 }
 
 export const getStaticProps: GetStaticProps<StaticProps> = async ({ params }) => {
-  const defaultTemplate = defaultTemplatesv2.find(({ slug }) => slug === params.slug)
-  const templateID = defaultTemplate.template
-  const initialTemplate = await getTemplate(templateID)
+  const templateID = defaultTemplatesv2.find(({ slug }) => slug === params.slug).template
 
   return {
     props: {
-      templateID,
-      fileName: defaultTemplate.name,
-      slug: defaultTemplate.slug,
-      initialTemplate,
+      initialTemplate: await getTemplate(templateID),
     },
     revalidate: 1,
   }

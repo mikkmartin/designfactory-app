@@ -13,11 +13,12 @@ export const defaultTemplates: TemplateObject[] = [
   {
     name: 'Simple',
     template: defaults.template,
-  }
+  },
 ]
 
 interface TemplateObjectV2 extends TemplateObject {
   slug: string
+  disabledFields?: string[]
 }
 
 export const defaultTemplatesv2: TemplateObjectV2[] = [
@@ -25,11 +26,19 @@ export const defaultTemplatesv2: TemplateObjectV2[] = [
     name: 'Debugger',
     slug: 'debug',
     template: 'QBeNqpKnj2exAqyWMNYbWM',
+    disabledFields: [
+      'credential-descriptions',
+      'Arve nr',
+      'Kuupäev',
+      'Tähtaeg',
+      'topay-summary-description',
+    ],
   },
   {
     name: 'Knowledgebase OG',
     slug: 'knowledgebase-og',
     template: 'WHdIyxfgAUWEDo3GLCz9G5',
+    disabledFields: ['subtitle'],
   },
   {
     name: 'Brutalist',

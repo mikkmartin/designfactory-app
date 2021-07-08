@@ -157,7 +157,7 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
           textAlign,
           fontStyle: italic ? 'italic' : 'normal',
           textTransform: node.style.textCase === 'UPPER' ? 'uppercase' : 'initial',
-          lineHeight: lineHeightPercent === 100 ? 'auto' : `${lineHeightPercentFontSize * 1.15}%`,
+          lineHeight: lineHeightPercent === 100 ? 'initial' : `${lineHeightPercentFontSize * 1.15}%`,
           letterSpacing: `${node.style.letterSpacing}px`,
         },
       }

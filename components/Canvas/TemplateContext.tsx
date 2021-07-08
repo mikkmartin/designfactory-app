@@ -11,6 +11,7 @@ type Values = {
   filledLists: string[]
   addFilledList: (list: string) => void
   components: Component[]
+  disabledFields?: string[]
   onDataUpdate: any
   setComponents: (components: Component[]) => void
   componentSets: {
@@ -27,6 +28,7 @@ type Props = {
   onRender?: () => any
   fontFamilies: any
   onDataUpdate: any
+  disabledFields?: string[]
   components?: Component[]
   componentSets: any
 }
@@ -37,6 +39,7 @@ export const TemplateProvider: FC<Props> = ({
   data,
   fontFamilies,
   onDataUpdate,
+  disabledFields,
   components: initialComponents = [],
   onRender = () => {},
   componentSets,
@@ -61,6 +64,7 @@ export const TemplateProvider: FC<Props> = ({
         setComponents: _components => {
           components.current = _components
         },
+        disabledFields,
         componentSets,
       }}>
       {children}

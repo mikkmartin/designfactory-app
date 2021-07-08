@@ -4,7 +4,9 @@ import StarterKit from '@tiptap/starter-kit'
 import { useEffect } from 'react'
 
 export const Text = ({ style, content, name }) => {
-  const { data, onDataUpdate, editable } = useTemplate()
+  const { data, onDataUpdate, editable, disabledFields } = useTemplate()
+  const isDisabled = disabledFields?.find(fieldName => fieldName === name)
+  const isEditable = editable && !isDisabled
 
   const fillText = (name: string): string => {
     for (const [key, value] of Object.entries(data)) {
@@ -13,7 +15,7 @@ export const Text = ({ style, content, name }) => {
     return content
   }
 
-  if (!editable) return <p style={style}>{fillText(name)}</p>
+  if (!isEditable) return <p style={style}>{fillText(name)}</p>
 
   const editor = useEditor({
     extensions: [StarterKit],
