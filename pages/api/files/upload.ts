@@ -12,10 +12,7 @@ const uploadForm = next => (req, res) => {
     try {
       const form = new Formidable.IncomingForm()
       form.once('error', console.error)
-      form
-        .on('fileBegin', (_, file) => console.log('start uploading: ', file.name))
-        .on('aborted', () => console.log('Aborted...'))
-      form.once('end', () => console.log('Done!'))
+      form.on('aborted', () => console.warn('Upload aborted...'))
 
       await form.parse(req, async (err, _, files) => {
         if (err) throw String(JSON.stringify(err, null, 2))
