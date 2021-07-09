@@ -15,7 +15,6 @@ export const GlobalStyles = createGlobalStyle`
     --placeholder: ${placeholderColor};
     font-family: ${fontFamily};
     font-size: 12px;
-    background: var(--background);
   }
   body, #__next {
     min-height: 100vh;

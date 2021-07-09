@@ -2,9 +2,9 @@ import { Overlay } from './Overlay'
 import styled from 'styled-components'
 import { useState, useEffect } from 'react'
 
-export const Mockup = () => {
+export const Mockup = ({ editable = true, image = '/mockups/temp.png', blur = false }) => {
   const [file, setFile] = useState<File>()
-  const [url, setUrl] = useState('https://media.voog.com/0000/0044/8982/photos/IMG_1457.PNG')
+  const [url, setUrl] = useState(image)
 
   useEffect(() => {
     if (!file) return
@@ -20,6 +20,10 @@ export const Mockup = () => {
     })
   }, [file])
 
+  const width = 450
+  const height = 600
+  const size = { width, height }
+
   const darkAmplitude = '1.3'
   const darkExponent = '2.6'
   const lightAmplitude = '2.1'
@@ -30,7 +34,10 @@ export const Mockup = () => {
 
   return (
     <Container>
-      <svg width="500" height="500" viewBox="0 0 500 500">
+      <svg
+        {...size}
+        style={blur ? { filter: 'blur(.1px)' } : {}}
+        viewBox={`0 0 ${width} ${height}`}>
         <Overlay
           darkAmplitude={darkAmplitude}
           darkExponent={darkExponent}
@@ -38,38 +45,40 @@ export const Mockup = () => {
           lightExponent={lightExponent}
         />
         <ColorFill color="#d65656" />
-        <ShirtMask />
+        <ShirtMask size={size} />
         <Contrast lightAmplitude={lightAmplitude} lightExponent={lightExponent} />
         <ArtWorkMask>
           <ArtWork url={url} text={text} />
         </ArtWorkMask>
 
-        <image href={tshirtUrl} height="500" width="500" />
+        <image href={tshirtUrl} width={width} height={height} />
         <image
           mask="url(#shirt-mask)"
           filter="url(#color-fill)"
           href={tshirtUrl}
-          height="500"
-          width="500"
+          width={width}
+          height={height}
           style={{ mixBlendMode: 'multiply' }}
         />
         <image
           mask="url(#shirt-mask)"
           filter="url(#contrast)"
           href={tshirtUrl}
-          height="500"
-          width="500"
+          width={width}
+          height={height}
           style={{ mixBlendMode: 'screen' }}
         />
         <g mask="url(#artwork-mask)">
           <ArtWork filter="url(#overlay)" url={url} text={text} />
         </g>
       </svg>
-      <input
-        type="file"
-        accept="image/png, image/jpeg"
-        onChange={ev => setFile(ev.target.files[0])}
-      />
+      {editable && (
+        <input
+          type="file"
+          accept="image/png, image/jpeg"
+          onChange={ev => setFile(ev.target.files[0])}
+        />
+      )}
     </Container>
   )
 }
@@ -150,9 +159,9 @@ function ColorFill({ color }) {
     <filter id="color-fill">
       <feFlood
         result="floodFill"
-        x="0"
+        x="5%"
         y="0"
-        width="100%"
+        width="90%"
         height="100%"
         floodColor={color}
         floodOpacity="1"
@@ -161,11 +170,11 @@ function ColorFill({ color }) {
   )
 }
 
-function ShirtMask() {
+function ShirtMask(size) {
   return (
     <>
       <filter id="shirt-filter">
-        <feImage xlinkHref="/tshirt.png" width="500" height="500" />
+        <feImage xlinkHref="/tshirt.png" {...size} />
         <feColorMatrix
           type="matrix"
           values="0 0 0 0 0
@@ -186,20 +195,42 @@ function ShirtMask() {
 }
 
 function ArtWork({ url, text = '...', filter = '', mask = '' }) {
+  const width = 165
+  const height = 220
   return (
-    <g filter={filter} mask={mask}>
-      <image x="160" y="145" href={url} height="200" width="200" />
-      <text
-        fill="red"
-        x="260"
-        y="230"
-        textAnchor="middle"
-        fontSize="80"
-        letterSpacing="-4"
-        fontWeight="bold">
-        {text}
-      </text>
-    </g>
+    <>
+      <pattern
+        id="image"
+        patternUnits="userSpaceOnUse"
+        width={width}
+        height={height}
+        x="148"
+        y="170">
+        <image
+          xlinkHref={url}
+          x="0"
+          y="0"
+          width={width}
+          height={height}
+          preserveAspectRatio="xMidYMin meet"
+        />
+      </pattern>
+      <g filter={filter} mask={mask} fill="url(#image)">
+        <rect x="148" y="170" width={width} height={height} fill="url(#image)" />
+        {/*
+        <text
+          fill="red"
+          x="260"
+          y="230"
+          textAnchor="middle"
+          fontSize="80"
+          letterSpacing="-4"
+          fontWeight="bold">
+          {text}
+        </text>
+        */}
+      </g>
+    </>
   )
 }
 
