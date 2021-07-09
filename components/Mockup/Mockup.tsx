@@ -1,10 +1,13 @@
 import { Overlay } from './Overlay'
 import styled from 'styled-components'
 import { useState, useEffect } from 'react'
+import { useEditorData } from 'components/Editor/EditorContext'
 
 export const Mockup = ({ editable = true, image = '/mockups/temp.png', blur = false }) => {
+  const { data } = useEditorData()
   const [file, setFile] = useState<File>()
   const [url, setUrl] = useState(image)
+  const { color } = data
 
   useEffect(() => {
     if (!file) return
@@ -29,7 +32,8 @@ export const Mockup = ({ editable = true, image = '/mockups/temp.png', blur = fa
   const lightAmplitude = '2.1'
   const lightExponent = '26.8'
 
-  const tshirtUrl = '/mockups/tshirt.png'
+  const tshirtUrl =
+    '/mockups/' + (color === 'white' ? 'tshirt-white-front.png' : 'tshirt-black-front.png')
   const text = ''
 
   return (
@@ -98,14 +102,14 @@ function DisplacementMap() {
   return (
     <>
       <feImage
-        xlinkHref="/mockups/tshirt-displacement.png"
+        xlinkHref="/mockups/tshirt-displacement-front.jpg"
         x="0"
         y="0"
         width="100%"
         height="100%"
         result="BLEED_MAP"
       />
-      <feImage xlinkHref="/mockups/tshirt.png" x="0" y="0" width="100%" height="100%" />
+      <feImage xlinkHref="/mockups/tshirt-black-front.png" x="0" y="0" width="100%" height="100%" />
       <feColorMatrix type="saturate" values="0" result="IMAGE" />
       <feGaussianBlur in="IMAGE" stdDeviation="2" result="MAP" />
       <feDisplacementMap
@@ -174,7 +178,7 @@ function ShirtMask(size) {
   return (
     <>
       <filter id="shirt-filter">
-        <feImage xlinkHref="/tshirt.png" {...size} />
+        <feImage xlinkHref="/tshirt-black-front.png" {...size} />
         <feColorMatrix
           type="matrix"
           values="0 0 0 0 0
@@ -187,7 +191,7 @@ function ShirtMask(size) {
         </feComponentTransfer>
       </filter>
       <mask id="shirt-mask">
-        <rect x="0" y="0" width="100%" height="100%" fill="white" />
+        <rect x="0" y="0" width="100%" height="100%" fill="black" />
         <rect filter="url(#shirt-filter)" x="50" y="50" width="100%" height="100%" fill="black" />
       </mask>
     </>
