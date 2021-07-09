@@ -7,7 +7,7 @@ const Tshirt = () => {
     data: { color: 'white' },
     schema: {},
     loading: false,
-    slug: 'tshirt',
+    slug: 'mockup',
   }
 
   return (

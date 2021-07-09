@@ -2,12 +2,15 @@ import { Overlay } from './Overlay'
 import styled from 'styled-components'
 import { useState, useEffect } from 'react'
 import { useEditorData } from 'components/Editor/EditorContext'
+import { useRouter } from 'next/router'
 
 export const Mockup = ({ editable = true, image = '/mockups/temp.png', blur = false }) => {
-  const { data } = useEditorData()
+  const editorData = useEditorData()
+  const { query } = useRouter()
+
   const [file, setFile] = useState<File>()
   const [url, setUrl] = useState(image)
-  const { color, text } = data
+  const { color, text } = editorData?.data ? editorData.data : query
   const isWhite = color === 'white'
 
   const props = {

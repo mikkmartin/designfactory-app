@@ -9,6 +9,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     const [url, params] = req.url.split('?')
     const [withoutExtension, extension] = url.split('.')
     const contentUrl = baseURL + '/screenshot/' + withoutExtension.split('/files/')[1]
+    console.log(params)
 
     const file = await getScreenshot(`${contentUrl}?${params}`, { isDev })
 
