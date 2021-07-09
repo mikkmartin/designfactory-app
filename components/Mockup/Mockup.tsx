@@ -90,7 +90,7 @@ const Container = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    background: none;
+    opacity: 0;
   }
 `
 
@@ -212,7 +212,7 @@ function ArtWork({ url, text, filter = '', mask = '' }) {
             x="237"
             y="290"
             textAnchor="middle"
-            fontSize="80"
+            fontSize="83"
             letterSpacing="-4"
             fontWeight="bold">
             {text}
