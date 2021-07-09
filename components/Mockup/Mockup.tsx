@@ -7,7 +7,21 @@ export const Mockup = ({ editable = true, image = '/mockups/temp.png', blur = fa
   const { data } = useEditorData()
   const [file, setFile] = useState<File>()
   const [url, setUrl] = useState(image)
-  const { color } = data
+  const { color, text } = data
+  const isWhite = color === 'white'
+
+  const props = {
+    darkAmplitude: '1.37',
+    darkExponent: '5',
+    lightAmplitude: '8',
+    lightExponent: '54',
+  }
+
+  const width = 450
+  const height = 600
+  const size = { width, height }
+
+  const tshirtUrl = '/mockups/' + (isWhite ? 'tshirt-white-front.png' : 'tshirt-black-front.png')
 
   useEffect(() => {
     if (!file) return
@@ -23,34 +37,16 @@ export const Mockup = ({ editable = true, image = '/mockups/temp.png', blur = fa
     })
   }, [file])
 
-  const width = 450
-  const height = 600
-  const size = { width, height }
-
-  const darkAmplitude = '1.3'
-  const darkExponent = '2.6'
-  const lightAmplitude = '2.1'
-  const lightExponent = '26.8'
-
-  const tshirtUrl =
-    '/mockups/' + (color === 'white' ? 'tshirt-white-front.png' : 'tshirt-black-front.png')
-  const text = ''
-
   return (
     <Container>
       <svg
         {...size}
         style={blur ? { filter: 'blur(.1px)' } : {}}
         viewBox={`0 0 ${width} ${height}`}>
-        <Overlay
-          darkAmplitude={darkAmplitude}
-          darkExponent={darkExponent}
-          lightAmplitude={lightAmplitude}
-          lightExponent={lightExponent}
-        />
+        <Overlay {...props} />
         <ColorFill color="#d65656" />
         <ShirtMask size={size} />
-        <Contrast lightAmplitude={lightAmplitude} lightExponent={lightExponent} />
+        <Contrast lightAmplitude={props.lightAmplitude} lightExponent={props.lightExponent} />
         <ArtWorkMask>
           <ArtWork url={url} text={text} />
         </ArtWorkMask>
@@ -109,7 +105,7 @@ function DisplacementMap() {
         height="100%"
         result="BLEED_MAP"
       />
-      <feImage xlinkHref="/mockups/tshirt-black-front.png" x="0" y="0" width="100%" height="100%" />
+      <feImage xlinkHref="/mockups/tshirt-white-front.png" x="0" y="0" width="100%" height="100%" />
       <feColorMatrix type="saturate" values="0" result="IMAGE" />
       <feGaussianBlur in="IMAGE" stdDeviation="2" result="MAP" />
       <feDisplacementMap
@@ -178,7 +174,7 @@ function ShirtMask(size) {
   return (
     <>
       <filter id="shirt-filter">
-        <feImage xlinkHref="/tshirt-black-front.png" {...size} />
+        <feImage xlinkHref="/mockups/tshirt-black-front.png" {...size} />
         <feColorMatrix
           type="matrix"
           values="0 0 0 0 0
@@ -198,41 +194,30 @@ function ShirtMask(size) {
   )
 }
 
-function ArtWork({ url, text = '...', filter = '', mask = '' }) {
-  const width = 165
-  const height = 220
+function ArtWork({ url, text, filter = '', mask = '' }) {
+  const pos = { x: 157, y: 200 }
+  const size = { width: 165, height: 220 }
+  const coords = { ...size, ...pos }
   return (
     <>
-      <pattern
-        id="image"
-        patternUnits="userSpaceOnUse"
-        width={width}
-        height={height}
-        x="148"
-        y="170">
-        <image
-          xlinkHref={url}
-          x="0"
-          y="0"
-          width={width}
-          height={height}
-          preserveAspectRatio="xMidYMin meet"
-        />
+      <pattern id="image" patternUnits="userSpaceOnUse" {...coords}>
+        <image xlinkHref={url} x="0" y="0" {...size} preserveAspectRatio="xMidYMin meet" />
       </pattern>
       <g filter={filter} mask={mask} fill="url(#image)">
-        <rect x="148" y="170" width={width} height={height} fill="url(#image)" />
-        {/*
-        <text
-          fill="red"
-          x="260"
-          y="230"
-          textAnchor="middle"
-          fontSize="80"
-          letterSpacing="-4"
-          fontWeight="bold">
-          {text}
-        </text>
-        */}
+        <rect {...coords} fill="url(#image)" />
+        {text && (
+          <text
+            fontFamily='-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
+            fill="#f50808"
+            x="237"
+            y="290"
+            textAnchor="middle"
+            fontSize="80"
+            letterSpacing="-4"
+            fontWeight="bold">
+            {text}
+          </text>
+        )}
       </g>
     </>
   )

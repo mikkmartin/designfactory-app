@@ -49,14 +49,14 @@ const DisplacementMap = () => {
   return (
     <>
       <feImage
-        xlinkHref="/mockups/tshirt-displacement.png"
+        xlinkHref="/mockups/tshirt-displacement-front.jpg"
         x="0"
         y="0"
         width="100%"
         height="100%"
         result="BLEED_MAP"
       />
-      <feImage xlinkHref="/mockups/tshirt.png" x="0" y="0" width="100%" height="100%" />
+      <feImage xlinkHref="/mockups/tshirt-white-front.png" x="0" y="0" width="100%" height="100%" />
       <feColorMatrix type="saturate" values="0" result="IMAGE" />
       <feGaussianBlur in="IMAGE" stdDeviation="2" result="MAP" />
       <feDisplacementMap
