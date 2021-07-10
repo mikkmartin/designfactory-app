@@ -1,7 +1,5 @@
 import core from 'puppeteer-core'
 import { getOptions } from './options'
-import type { FileType } from './types'
-import sharp from 'sharp'
 let _page: core.Page | null
 
 async function getPage(isDev: boolean) {
@@ -44,11 +42,5 @@ export async function getScreenshot(url, { isDev, superSample = 4 }: Options) {
   })
 
   const file = await element.screenshot({ type: 'png', omitBackground: true })
-  if (superSample !== 1) {
-    return sharp(file as Buffer)
-      .resize(1600)
-      .toBuffer()
-  } else {
-    return file
-  }
+  return file
 }
