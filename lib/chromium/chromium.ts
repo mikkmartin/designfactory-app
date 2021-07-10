@@ -18,7 +18,7 @@ type Options = {
   superSample?: number
 }
 
-export async function getScreenshot(url, { isDev, superSample = 4 }: Options) {
+export async function getScreenshot(url, { isDev, superSample = 1 }: Options) {
   const page = await getPage(isDev)
   await page.setViewport({ width: 800, height: 600, deviceScaleFactor: 2 * superSample })
   await page.goto(url, { waitUntil: 'networkidle0' })
