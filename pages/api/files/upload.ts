@@ -16,7 +16,7 @@ const uploadForm = next => (req, res) => {
 
       await form.parse(req, async (err, _, files) => {
         if (err) throw String(JSON.stringify(err, null, 2))
-        const folder = 'public/mockups'
+        const folder = '/public/mockups'
 
         await sharp(files.file.path).resize(1000).toFile(`${folder}/temp.png`)
         return resolve(next(req, res))
