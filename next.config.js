@@ -41,6 +41,10 @@ module.exports = withSourceMaps(
           destination: '/api/invoice',
         },
         {
+          source: '/images/:slug',
+          destination: '/api/bucket/:slug',
+        },
+        {
           source: '/files/:slug.([0-9a-z]+$)',
           destination: '/api/files/:slug',
         },

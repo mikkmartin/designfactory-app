@@ -9,7 +9,6 @@ export const Mockup = ({ editable = true, image = '/mockups/temp.png', blur = fa
   const editorData = useEditorData()
   const { query } = useRouter()
 
-  const [file, setFile] = useState<File>()
   const [url, setUrl] = useState(image)
   const { color, text } = editorData?.data ? editorData.data : query
   const isWhite = color === 'white'
@@ -27,19 +26,31 @@ export const Mockup = ({ editable = true, image = '/mockups/temp.png', blur = fa
 
   const tshirtUrl = '/mockups/' + (isWhite ? 'tshirt-white-front.png' : 'tshirt-black-front.png')
 
-  useEffect(() => {
-    if (!file) return
-    const url = URL.createObjectURL(file)
-    setUrl(url)
-    const data = new FormData()
-    data.append('file', file)
-    fetch('/api/files/upload', {
-      method: 'POST',
-      body: data,
-    }).catch(error => {
-      console.error(error)
+  const uploadPhoto = async e => {
+    const file = e.target.files[0]
+    setUrl(URL.createObjectURL(file))
+
+    const filename = encodeURIComponent(file.name)
+    const res = await fetch(`/api/files/upload?file=${filename}`)
+    const { url, fields } = await res.json()
+    const formData = new FormData()
+
+    Object.entries({ ...fields, file }).forEach(([key, value]) => {
+      //@ts-ignore
+      formData.append(key, value)
     })
-  }, [file])
+
+    const upload = await fetch(url, {
+      method: 'POST',
+      body: formData,
+    })
+
+    if (upload.ok) {
+      console.log('Uploaded successfully!')
+    } else {
+      console.error('Upload failed.')
+    }
+  }
 
   return (
     <Container>
@@ -76,13 +87,7 @@ export const Mockup = ({ editable = true, image = '/mockups/temp.png', blur = fa
           <ArtWork filter="url(#overlay)" url={url} text={text} />
         </g>
       </svg>
-      {editable && (
-        <input
-          type="file"
-          accept="image/png, image/jpeg"
-          onChange={ev => setFile(ev.target.files[0])}
-        />
-      )}
+      {editable && <input type="file" accept="image/png, image/jpeg" onChange={uploadPhoto} />}
     </Container>
   )
 }

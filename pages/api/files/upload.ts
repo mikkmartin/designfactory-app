@@ -1,43 +1,24 @@
-import Formidable from 'formidable'
-import sharp from 'sharp'
+import aws from 'aws-sdk'
 
-const isDev = !process.env.AWS_REGION
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-}
-
-const uploadForm = next => (req, res) => {
-  return new Promise(async resolve => {
-    try {
-      const form = new Formidable.IncomingForm()
-      form.once('error', console.error)
-      form.on('aborted', () => console.warn('Upload aborted...'))
-
-      await form.parse(req, async (err, _, files) => {
-        if (err) throw String(JSON.stringify(err, null, 2))
-        const folder = __dirname + 'mockups'
-
-        await sharp(files.file.path).resize(1000).toFile(`${folder}/temp.png`)
-        return resolve(next(req, res))
-      })
-    } catch (error) {
-      return resolve(res.status(403).send(error))
-    }
+export default async function handler(req, res) {
+  aws.config.update({
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_KEY,
+    region: process.env.AWS_REGION,
+    signatureVersion: 'v4',
   })
-}
 
-function handler(req, res) {
-  try {
-    if (req.method === 'POST') {
-      res.status(200).send(req.form)
-    } else {
-      throw String('Method not allowed')
-    }
-  } catch (error) {
-    res.status(400).json({ message: JSON.stringify(error, null, 2) })
-  }
-}
+  const s3 = new aws.S3()
+  const post: aws.S3.PresignedPost = await s3.createPresignedPost({
+    Bucket: process.env.AWS_BUCKET_NAME,
+    Fields: {
+      key: `temp.${(req.query.file.split('.')[1] as string).toLowerCase()}`,
+    },
+    Expires: 60, // seconds
+    Conditions: [
+      ['content-length-range', 0, 1024 * 1024 * 10], // up to 10 MB
+    ],
+  })
 
-export default uploadForm(handler)
+  res.status(200).json(post)
+}

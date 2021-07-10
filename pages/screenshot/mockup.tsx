@@ -1,13 +1,19 @@
 import Mockup from 'components/Mockup'
+import { getLatestImageKey } from 'data/latestImage'
 import { GetServerSideProps } from 'next'
 
-const Screenshot = () => {
-  return <Mockup editable={false} image="/mockups/temp.png" blur />
+const Screenshot = ({image}) => {
+  return <Mockup editable={false} image={image} blur />
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  const key = await getLatestImageKey()
+  console.log(key)
   return {
-    props: query,
+    props: {
+      query,
+      image: `/images/${key}`
+    },
   }
 }
 
