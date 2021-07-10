@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { useState, useEffect } from 'react'
 import { useEditorData } from 'components/Editor/EditorContext'
 import { useRouter } from 'next/router'
+import { Text } from './Text'
 
 export const Mockup = ({ editable = true, image = '/mockups/temp.png', blur = false }) => {
   const editorData = useEditorData()
@@ -162,9 +163,9 @@ function ColorFill({ color }) {
     <filter id="color-fill">
       <feFlood
         result="floodFill"
-        x="5%"
+        x="2%"
         y="0"
-        width="90%"
+        width="96%"
         height="100%"
         floodColor={color}
         floodOpacity="1"
@@ -208,19 +209,7 @@ function ArtWork({ url, text, filter = '', mask = '' }) {
       </pattern>
       <g filter={filter} mask={mask} fill="url(#image)">
         <rect {...coords} fill="url(#image)" />
-        {text && (
-          <text
-            fontFamily='-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
-            fill="#f50808"
-            x="237"
-            y="290"
-            textAnchor="middle"
-            fontSize="83"
-            letterSpacing="-4"
-            fontWeight="bold">
-            {text}
-          </text>
-        )}
+        {text && <Text>{text}</Text>}
       </g>
     </>
   )
