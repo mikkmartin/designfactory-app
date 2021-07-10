@@ -23,7 +23,7 @@ export const Text = ({ children }) => {
 
       <text
         fontFamily='-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
-        fill="#f50808"
+        fill="red"
         x="50%"
         y="80%"
         textAnchor="middle"
