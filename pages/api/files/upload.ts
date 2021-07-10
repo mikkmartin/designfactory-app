@@ -1,6 +1,7 @@
 import Formidable from 'formidable'
 import sharp from 'sharp'
 
+const isDev = !process.env.AWS_REGION
 export const config = {
   api: {
     bodyParser: false,
@@ -16,7 +17,7 @@ const uploadForm = next => (req, res) => {
 
       await form.parse(req, async (err, _, files) => {
         if (err) throw String(JSON.stringify(err, null, 2))
-        const folder = '/public/mockups'
+        const folder = isDev ? '/public/mockups' : '/mockups'
 
         await sharp(files.file.path).resize(1000).toFile(`${folder}/temp.png`)
         return resolve(next(req, res))
