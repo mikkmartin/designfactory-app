@@ -1,16 +1,11 @@
 import aws from 'aws-sdk'
+import { authenticateAWS, Bucket } from 'lib/awsConfig'
 
 export default async function handler(req, res) {
-  aws.config.update({
-    accessKeyId: process.env.AWS_ACCESS_KEY,
-    secretAccessKey: process.env.AWS_SECRET_KEY,
-    region: process.env.AWS_REGION,
-    signatureVersion: 'v4',
-  })
-
+  authenticateAWS()
   const s3 = new aws.S3()
   const post: aws.S3.PresignedPost = await s3.createPresignedPost({
-    Bucket: process.env.AWS_BUCKET_NAME,
+    Bucket,
     Fields: {
       key: `temp.${(req.query.file.split('.')[1] as string).toLowerCase()}`,
     },
