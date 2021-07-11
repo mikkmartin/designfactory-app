@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useEditorData } from 'components/Editor/EditorContext'
 import { useRouter } from 'next/router'
 import { Distplacement } from './Displacement'
+import { Text } from './Text'
 
 export const Mockup = ({ editable = true, image = '/images/temp.jpeg' }) => {
   const editorData = useEditorData()
@@ -63,10 +64,10 @@ export const Mockup = ({ editable = true, image = '/images/temp.jpeg' }) => {
         <g filter="url(#overlay)">
           <g transform={`translate(${127 + offset} ${190 + offset})`}>
             <image xlinkHref={url} width="200" height="250" preserveAspectRatio="xMidYMin meet" />
-            <text style={{ fontSize: 84, fill: 'red' }} x={-20} y={100}>
-              Hello
-            </text>
           </g>
+        </g>
+        <g filter="url(#overlay)">
+          <Text>{text}</Text>
         </g>
         {false && (
           <rect
