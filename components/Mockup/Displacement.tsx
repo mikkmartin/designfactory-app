@@ -1,14 +1,6 @@
-export const Overlay = ({ darkAmplitude, darkExponent, lightAmplitude, lightExponent }) => {
+export const Distplacement = ({ gravityDistortion, fabricDistortion }) => {
   return (
     <filter id="overlay" colorInterpolationFilters="sRGB">
-      <DisplacementMap />
-    </filter>
-  )
-}
-
-const DisplacementMap = () => {
-  return (
-    <>
       <feImage
         xlinkHref="/mockups/tshirt-displacement-front.jpg"
         x="0"
@@ -24,7 +16,7 @@ const DisplacementMap = () => {
         colorInterpolationFilters="sRGB"
         in="SourceGraphic"
         in2="BLEED_MAP"
-        scale={10}
+        scale={gravityDistortion}
         xChannelSelector="R"
         yChannelSelector="R"
         result="BLED"
@@ -33,13 +25,13 @@ const DisplacementMap = () => {
         colorInterpolationFilters="sRGB"
         in="BLED"
         in2="MAP"
-        scale={20}
+        scale={fabricDistortion}
         xChannelSelector="R"
         yChannelSelector="R"
         result="BLED2"
       />
       <feGaussianBlur
-        stdDeviation="1 1"
+        stdDeviation="2"
         x="0%"
         y="0%"
         width="100%"
@@ -48,9 +40,22 @@ const DisplacementMap = () => {
         edgeMode="none"
         result="BLUR"
       />
+      <feColorMatrix
+        type="matrix"
+        values="1 0 0 0 0
+                      0 1 0 0 0
+                      0 0 1 0 0
+                      0 0 0 30 -29"
+        x="0%"
+        y="0%"
+        width="100%"
+        height="100%"
+        in="blur"
+        result="CMATRIX"
+      />
       <feComposite
         in="BLED2"
-        in2="BLUR"
+        in2="CMATRIX"
         operator="atop"
         x="0%"
         y="0%"
@@ -58,6 +63,6 @@ const DisplacementMap = () => {
         height="100%"
         result="DISTORTED"
       />
-    </>
+    </filter>
   )
 }
