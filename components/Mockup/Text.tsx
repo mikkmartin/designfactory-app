@@ -14,7 +14,7 @@ export const Text = ({ children }) => {
   }, [children, ref])
 
   return (
-    <svg ref={ref} x="28%" y="7%" width="50%" viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}>
+    <svg ref={ref} x="30%" y="9%" width="50%" viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}>
       <text
         fontFamily='-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
         fill="#FF0000"

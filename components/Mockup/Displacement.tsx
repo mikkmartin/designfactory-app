@@ -23,7 +23,7 @@ export const Distplacement = ({ gravityDistortion, fabricDistortion }) => {
       />
       <feDisplacementMap
         colorInterpolationFilters="sRGB"
-        in="SourceGraphic"
+        in="BLED"
         in2="MAP"
         scale={gravityDistortion}
         xChannelSelector="R"
