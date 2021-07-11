@@ -1,5 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http'
 import { getScreenshot } from 'lib/chromium'
+import { urlToJson } from 'lib/urlEncoder'
 import baseURL from 'static/baseURL'
 
 const isDev = !process.env.AWS_REGION
@@ -9,9 +10,10 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     const [url, params] = req.url.split('?')
     const [withoutExtension, extension] = url.split('.')
     const contentUrl = baseURL + '/screenshot/' + withoutExtension.split('/files/')[1]
-    console.log(params)
 
-    const file = await getScreenshot(`${contentUrl}?${params}`, { isDev })
+    const { supersample } = urlToJson(req.url)
+    const urlWithParams = params ? `${contentUrl}?${params}` : contentUrl
+    const file = await getScreenshot(urlWithParams, { isDev, supersample })
 
     res.statusCode = 200
     res.setHeader('Content-Type', `image/${extension}`)

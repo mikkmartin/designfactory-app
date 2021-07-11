@@ -15,12 +15,12 @@ async function getPage(isDev: boolean) {
 
 type Options = {
   isDev: boolean
-  superSample?: number
+  supersample?: number
 }
 
-export async function getScreenshot(url, { isDev, superSample = 1 }: Options) {
+export async function getScreenshot(url, { isDev, supersample = 1 }: Options) {
   const page = await getPage(isDev)
-  await page.setViewport({ width: 800, height: 600, deviceScaleFactor: 2 * superSample })
+  await page.setViewport({ width: 800, height: 600, deviceScaleFactor: 2 * supersample })
   await page.goto(url, { waitUntil: 'networkidle0' })
 
   const selector = '#__next > div > *'
