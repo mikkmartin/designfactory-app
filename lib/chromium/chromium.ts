@@ -30,7 +30,7 @@ export async function getScreenshot(url, { isDev, supersample = 1, timeout = 300
   const t2 = performance.now()
   console.log(`page.setViewport() took ${Math.round(t2 - t1)}ms.`)
 
-  await page.goto(url, { waitUntil: 'networkidle0', timeout })
+  await page.goto(url, { timeout })
   const t3 = performance.now()
   console.log(`page.goto() took ${Math.round(t3 - t2)}ms.`)
 
@@ -57,5 +57,7 @@ export async function getScreenshot(url, { isDev, supersample = 1, timeout = 300
   const file = await element.screenshot({ type: 'png', omitBackground: true })
   const t5 = performance.now()
   console.log(`Taking the screenshot took ${Math.round(t5 - t4)}ms.`)
+  console.log("------------------------")
+  console.log(`Total of ${Math.round(t0 - t5)}ms.`)
   return file
 }
