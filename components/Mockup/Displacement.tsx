@@ -1,6 +1,6 @@
 export const Distplacement = ({ gravityDistortion, fabricDistortion }) => {
   return (
-    <filter id="overlay" colorInterpolationFilters="sRGB">
+    <filter id="displacement" colorInterpolationFilters="sRGB">
       <feImage
         xlinkHref="/mockups/tshirt-displacement-front.jpg"
         x="0"

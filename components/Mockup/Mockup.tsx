@@ -61,12 +61,12 @@ export const Mockup = ({ editable = true, image = '/images/temp.jpeg' }) => {
       <svg {...size} viewBox={`0 0 ${width} ${height}`}>
         <image href="/mockups/tshirt-white-front.png" width="450" height="600" />
         <Distplacement fabricDistortion={fabricDistortion} gravityDistortion={gravityDistortion} />
-        <g filter="url(#overlay)">
+        <g filter="url(#displacement)">
           <g transform={`translate(${127 + offset} ${190 + offset})`}>
             <image xlinkHref={url} width="200" height="250" preserveAspectRatio="xMidYMin meet" />
           </g>
         </g>
-        <g filter="url(#overlay)">
+        <g filter="url(#displacement)">
           <Text>{text}</Text>
         </g>
         {false && (
