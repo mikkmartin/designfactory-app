@@ -15,7 +15,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     const urlWithParams = params ? `${contentUrl}?${params}` : contentUrl
     const file = await getScreenshot(urlWithParams, {
       isDev,
-      supersample,
+      supersample: supersample && parseInt(supersample),
       timeout: timeout && parseInt(timeout),
     })
 
