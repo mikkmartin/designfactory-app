@@ -1,63 +1,50 @@
+import { Distplacement } from './Displacement'
+
 export const Overlay = ({ darkAmplitude, darkExponent, lightAmplitude, lightExponent }) => {
+  const fabricDistortion = 25
+  const gravityDistortion = 30
   return (
     <filter id="overlay" colorInterpolationFilters="sRGB">
-      <DisplacementMap />
-    </filter>
-  )
-}
+      <Distplacement fabricDistortion={fabricDistortion} gravityDistortion={gravityDistortion} />
+      <feComponentTransfer in="IMAGE" result="DARKENED">
+        <feFuncR
+          type="gamma"
+          amplitude={darkAmplitude}
+          exponent={darkExponent}
+          offset="0"></feFuncR>
+        <feFuncG
+          type="gamma"
+          amplitude={darkAmplitude}
+          exponent={darkExponent}
+          offset="0"></feFuncG>
+        <feFuncB
+          type="gamma"
+          amplitude={darkAmplitude}
+          exponent={darkExponent}
+          offset="0"></feFuncB>
+      </feComponentTransfer>
 
-const DisplacementMap = () => {
-  return (
-    <>
-      <feImage
-        xlinkHref="/mockups/tshirt-displacement-front.jpg"
-        x="0"
-        y="0"
-        width="100%"
-        height="100%"
-        result="BLEED_MAP"
-      />
-      <feImage xlinkHref="/mockups/tshirt-white-front.png" x="0" y="0" width="100%" height="100%" />
-      <feColorMatrix type="saturate" values="0" result="IMAGE" />
-      <feGaussianBlur in="IMAGE" stdDeviation="2" result="MAP" />
-      <feDisplacementMap
-        colorInterpolationFilters="sRGB"
-        in="SourceGraphic"
-        in2="BLEED_MAP"
-        scale={10}
-        xChannelSelector="R"
-        yChannelSelector="R"
-        result="BLED"
-      />
-      <feDisplacementMap
-        colorInterpolationFilters="sRGB"
-        in="BLED"
-        in2="MAP"
-        scale={20}
-        xChannelSelector="R"
-        yChannelSelector="R"
-        result="BLED2"
-      />
-      <feGaussianBlur
-        stdDeviation="1 1"
-        x="0%"
-        y="0%"
-        width="100%"
-        height="100%"
-        in="BLED2"
-        edgeMode="none"
-        result="BLUR"
-      />
-      <feComposite
-        in="BLED2"
-        in2="BLUR"
-        operator="atop"
-        x="0%"
-        y="0%"
-        width="100%"
-        height="100%"
-        result="DISTORTED"
-      />
-    </>
+      <feBlend mode="multiply" in="DISTORTED" in2="DARKENED" result="PREFINAL" />
+
+      <feComponentTransfer in="IMAGE" result="LIGHTENED">
+        <feFuncR
+          type="gamma"
+          amplitude={lightAmplitude}
+          exponent={lightExponent}
+          offset="0"></feFuncR>
+        <feFuncG
+          type="gamma"
+          amplitude={lightAmplitude}
+          exponent={lightExponent}
+          offset="0"></feFuncG>
+        <feFuncB
+          type="gamma"
+          amplitude={lightAmplitude}
+          exponent={lightExponent}
+          offset="0"></feFuncB>
+      </feComponentTransfer>
+
+      <feBlend mode="screen" in="PREFINAL" in2="LIGHTENED" />
+    </filter>
   )
 }
