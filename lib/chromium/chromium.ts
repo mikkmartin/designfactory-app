@@ -20,13 +20,13 @@ type Options = {
   timeout?: number
 }
 
-export async function getScreenshot(url, { isDev, supersample = 1, timeout = 30000 }: Options) {
+export async function getScreenshot(url, { isDev, supersample = 1, timeout = 120000 }: Options) {
   const t0 = performance.now()
   const page = await getPage(isDev)
   const t1 = performance.now()
   console.log(`getPage() took ${Math.round(t1 - t0)}ms.`)
 
-  await page.setViewport({ width: 400, height: 300, deviceScaleFactor: supersample })
+  await page.setViewport({ width: 200, height: 150, deviceScaleFactor: supersample })
   const t2 = performance.now()
   console.log(`page.setViewport() took ${Math.round(t2 - t1)}ms.`)
 
