@@ -11,27 +11,27 @@ export const Distplacement = ({ gravityDistortion, fabricDistortion }) => {
       />
       <feImage xlinkHref="/mockups/tshirt-white-front.png" x="0" y="0" width="100%" height="100%" />
       <feColorMatrix type="saturate" values="0" result="IMAGE" />
-      <feGaussianBlur in="IMAGE" stdDeviation="2" result="MAP" />
+      <feGaussianBlur in="IMAGE" stdDeviation="1" result="MAP" />
       <feDisplacementMap
         colorInterpolationFilters="sRGB"
         in="SourceGraphic"
         in2="BLEED_MAP"
-        scale={gravityDistortion}
+        scale={fabricDistortion}
         xChannelSelector="R"
         yChannelSelector="R"
         result="BLED"
       />
       <feDisplacementMap
         colorInterpolationFilters="sRGB"
-        in="BLED"
+        in="SourceGraphic"
         in2="MAP"
-        scale={fabricDistortion}
+        scale={gravityDistortion}
         xChannelSelector="R"
         yChannelSelector="R"
         result="BLED2"
       />
       <feGaussianBlur
-        stdDeviation="2"
+        stdDeviation="0.5"
         x="0%"
         y="0%"
         width="100%"
@@ -43,9 +43,9 @@ export const Distplacement = ({ gravityDistortion, fabricDistortion }) => {
       <feColorMatrix
         type="matrix"
         values="1 0 0 0 0
-                      0 1 0 0 0
-                      0 0 1 0 0
-                      0 0 0 30 -29"
+                0 1 0 0 0
+                0 0 1 0 0
+                0 0 0 3 -1.5"
         x="0%"
         y="0%"
         width="100%"

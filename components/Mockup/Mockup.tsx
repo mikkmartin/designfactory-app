@@ -51,9 +51,9 @@ export const Mockup = ({ editable = true, image = '/images/temp.jpeg' }) => {
     }
   }
 
-  const fabricDistortion = 30
-  const gravityDistortion = 20
-  const offset = (fabricDistortion + gravityDistortion) / 2.5
+  const fabricDistortion = 25
+  const gravityDistortion = 30
+  const offset = (fabricDistortion + gravityDistortion) / 4
 
   return (
     <Container>
