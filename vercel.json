@@ -1,6 +1,6 @@
 {
   "functions": {
-    "api/files/[screenshot].js": {
+    "pages/api/files/[screenshot].ts": {
       "memory": 3008,
       "maxDuration": 60
     }
