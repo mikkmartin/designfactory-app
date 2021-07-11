@@ -57,7 +57,7 @@ export async function getScreenshot(url, { isDev, supersample = 1, timeout = 300
   const file = await element.screenshot({ type: 'png', omitBackground: true })
   const t5 = performance.now()
   console.log(`Taking the screenshot took ${Math.round(t5 - t4)}ms.`)
-  console.log("------------------------")
-  console.log(`Total of ${Math.round(t0 - t5)}ms.`)
+  console.log('------------------------')
+  console.log(`Total of ${Math.round((t0 - t5) / 1000)}s (${Math.round(t0 - t5)}ms).`)
   return file
 }
