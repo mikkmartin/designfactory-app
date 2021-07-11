@@ -11,9 +11,13 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     const [withoutExtension, extension] = url.split('.')
     const contentUrl = baseURL + '/screenshot/' + withoutExtension.split('/files/')[1]
 
-    const { supersample } = urlToJson(req.url)
+    const { supersample, timeout } = urlToJson(req.url)
     const urlWithParams = params ? `${contentUrl}?${params}` : contentUrl
-    const file = await getScreenshot(urlWithParams, { isDev, supersample })
+    const file = await getScreenshot(urlWithParams, {
+      isDev,
+      supersample,
+      timeout: timeout && parseInt(timeout),
+    })
 
     res.statusCode = 200
     res.setHeader('Content-Type', `image/${extension}`)
