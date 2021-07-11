@@ -26,7 +26,7 @@ export async function getScreenshot(url, { isDev, supersample = 1, timeout = 300
   const t1 = performance.now()
   console.log(`getPage() took ${Math.round(t1 - t0)}ms.`)
 
-  await page.setViewport({ width: 800, height: 600, deviceScaleFactor: 2 * supersample })
+  await page.setViewport({ width: 800, height: 600, deviceScaleFactor: supersample })
   const t2 = performance.now()
   console.log(`page.setViewport() took ${Math.round(t2 - t1)}ms.`)
 
