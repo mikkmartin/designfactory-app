@@ -13,14 +13,7 @@ export const Mockup = ({ editable = true, image = '/images/temp.jpeg' }) => {
   const [url, setUrl] = useState(image)
   const { color, text } = editorData?.data ? editorData.data : query
   const isWhite = color === 'white'
-
-  const props = {
-    darkAmplitude: '1.37',
-    darkExponent: '5',
-    lightAmplitude: '8',
-    lightExponent: '54',
-  }
-
+  
   const width = 450
   const height = 600
   const size = { width, height }
