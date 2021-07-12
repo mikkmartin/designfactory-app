@@ -1,5 +1,5 @@
 export const Distplacement = ({ gravityDistortion, fabricDistortion }) => {
-  const blurRadius = global.devicePixelRatio ? 10 : 0.25
+  const blurRadius = global.devicePixelRatio ? 0 : 0.5
   return (
     <filter id="displacement" colorInterpolationFilters="sRGB">
       <feImage
