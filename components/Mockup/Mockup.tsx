@@ -54,6 +54,8 @@ export const Mockup = ({ editable = false, image = '/images/temp.jpeg' }) => {
   const distortion = { fabricDistortion, gravityDistortion }
   const offset = (fabricDistortion + gravityDistortion) / 2.5
 
+  const artworkSize = { width: 180, height: 240 }
+
   return (
     <Container>
       <svg {...size} viewBox={`0 0 ${width} ${height}`}>
@@ -66,13 +68,8 @@ export const Mockup = ({ editable = false, image = '/images/temp.jpeg' }) => {
           <Overlay id="contrast" />
           <g id="artwork">
             <g filter="url(#displacement)">
-              <g transform={`translate(${127 + offset} ${190 + offset})`}>
-                <image
-                  xlinkHref={url}
-                  width="200"
-                  height="250"
-                  preserveAspectRatio="xMidYMin meet"
-                />
+              <g transform={`translate(${135 + offset} ${190 + offset})`}>
+                <image xlinkHref={url} {...artworkSize} preserveAspectRatio="xMidYMin meet" />
               </g>
             </g>
             <g filter="url(#displacement)">
@@ -89,14 +86,7 @@ export const Mockup = ({ editable = false, image = '/images/temp.jpeg' }) => {
         <use mask="url(#artwork-mask)" filter="url(#contrast)" href="#artwork" />
 
         {false && (
-          <rect
-            x="127"
-            y="190"
-            width="200"
-            height="250"
-            stroke="rgba(255, 0, 0, 0.5)"
-            fill="transparent"
-          />
+          <rect x="135" y="190" {...artworkSize} stroke="rgba(255, 0, 0, 0.5)" fill="transparent" />
         )}
       </svg>
       {editable && uploading ? (
