@@ -11,6 +11,8 @@ export const Mockup = ({ editable = false, image = '/images/temp.jpeg', query })
   const [url, setUrl] = useState(image)
   const [uploading, setUploading] = useState(false)
   const { color, text } = editorData?.data ? editorData.data : query
+  console.log(query)
+  console.log({ color, text })
   const isWhite = color === 'white'
 
   const width = 450
