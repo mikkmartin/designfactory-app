@@ -10,11 +10,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     const url = new URL(baseURL + req.url)
     const { resolution } = Object.fromEntries(url.searchParams.entries())
     const fileName = url.pathname.split('/').pop()
-
-    console.log('api/screenshot/[filename].ts')
-
     const contentUrl = `${baseURL}/screenshot/${fileName}?${url.searchParams.toString()}`
-    console.log(contentUrl)
 
     const file = await getScreenshot(contentUrl, {
       isDev,

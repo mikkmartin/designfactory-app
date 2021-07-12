@@ -4,7 +4,7 @@ import baseURL from 'static/baseURL'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const params = `?${req.url.split('?').pop()}`
+    const params = `?resolution=4&${req.url.split('?').pop()}`
 
     const blob = await fetch(baseURL + '/api/screenshot/mockup' + params).then(res => res.blob())
     const buffer = await blob.arrayBuffer()
