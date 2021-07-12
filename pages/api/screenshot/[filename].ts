@@ -11,6 +11,8 @@ export default async function handler(req, res: ServerResponse) {
     const urlPaths = req.url.split('/')
     const fileName = urlPaths[urlPaths.length - 1]
     const params = rest ? '?' + objectToParams(rest) : ''
+    console.log('api/screenshot/[filename].ts')
+    console.log(params)
 
     const contentUrl = `${baseURL}/screenshot/${fileName}` + params
 

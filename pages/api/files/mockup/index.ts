@@ -7,6 +7,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const [_, query] = req.url.split('?')
     const params = query ? urlToJson(req.url) : {}
+    console.log('api/files/mockup/index.ts')
+    console.log(params)
 
     const blob = await fetch(baseURL + '/api/screenshot/mockup', {
       method: 'POST',
