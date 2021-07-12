@@ -20,7 +20,7 @@ type Options = {
   timeout?: number
 }
 
-export async function getScreenshot(url, { isDev, supersample = 1, timeout = 120000 }: Options) {
+export async function getScreenshot(url, { isDev, supersample = 1 }: Options) {
   const t0 = performance.now()
   const page = await getPage(isDev)
   const t1 = performance.now()
@@ -30,7 +30,7 @@ export async function getScreenshot(url, { isDev, supersample = 1, timeout = 120
   const t2 = performance.now()
   console.log(`page.setViewport() took ${Math.round(t2 - t1)}ms.`)
 
-  await page.goto(url, { timeout })
+  await page.goto(url)
   const t3 = performance.now()
   console.log(`page.goto() took ${Math.round(t3 - t2)}ms.`)
 

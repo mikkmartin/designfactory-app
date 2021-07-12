@@ -1,27 +1,24 @@
-import { ServerResponse } from 'http'
+import { IncomingMessage, ServerResponse } from 'http'
+import { URL } from 'url'
 import { getScreenshot } from 'lib/chromium'
 import baseURL from 'static/baseURL'
-import { objectToParams } from 'lib/urlEncoder'
 
 const isDev = !process.env.AWS_REGION
 
-export default async function handler(req, res: ServerResponse) {
+export default async function handler(req: IncomingMessage, res: ServerResponse) {
   try {
-    const { resolution = 2, ...rest } = JSON.parse(req.body || '{}')
-    const urlPaths = req.url.split('/')
-    const fileName = urlPaths[urlPaths.length - 1]
-    const params = rest ? '?' + objectToParams(rest) : ''
+    const url = new URL(baseURL + req.url)
+    const { resolution } = Object.fromEntries(url.searchParams.entries())
+    const fileName = url.pathname.split('/').pop()
 
     console.log('api/screenshot/[filename].ts')
-    console.log({ fileName, params })
 
-    const contentUrl = baseURL + '/screenshot/' + fileName + params
+    const contentUrl = `${baseURL}/screenshot/${fileName}?${url.searchParams.toString()}`
     console.log(contentUrl)
 
     const file = await getScreenshot(contentUrl, {
       isDev,
-      supersample: resolution,
-      timeout: 60000,
+      supersample: parseInt(resolution),
     })
 
     res.statusCode = 200
