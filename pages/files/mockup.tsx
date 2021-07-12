@@ -1,5 +1,6 @@
 import Layout from 'components/Layout'
 import Mockup from 'components/Mockup'
+import { useRouter } from 'next/router'
 
 const Tshirt = () => {
   const layoutProps = {
@@ -9,6 +10,10 @@ const Tshirt = () => {
     loading: false,
     slug: 'mockup',
   }
+
+  const { query } = useRouter()
+  console.log('/files/mockup.ts')
+  console.log(query)
 
   return (
     <Layout {...layoutProps} onDataUpdate={() => {}}>

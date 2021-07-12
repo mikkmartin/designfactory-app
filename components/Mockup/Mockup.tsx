@@ -10,6 +10,7 @@ export const Mockup = ({ editable = false, image = '/images/temp.jpeg' }) => {
   const editorData = useEditorData()
   const { query } = useRouter()
   console.log('/components/Mockup/Mockup.tsx')
+  console.log(editorData)
   console.log(query)
 
   const [url, setUrl] = useState(image)
