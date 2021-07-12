@@ -1,15 +1,17 @@
 import { NextApiRequest, NextApiResponse } from 'next'
+import { urlToJson } from 'lib/urlEncoder'
 import sharp from 'sharp'
 import baseURL from 'static/baseURL'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const [_, query] = req.url.split('?')
-    const params = query ? query : ''
+    const params = query ? urlToJson(req.url) : {}
 
-    const blob = await fetch(baseURL + '/api/screenshot/mockup' + params, {
+    const blob = await fetch(baseURL + '/api/screenshot/mockup', {
       method: 'POST',
       body: JSON.stringify({
+        ...params,
         resolution: 4, // 450 * 5 = 2250
       }),
     }).then(res => res.blob())

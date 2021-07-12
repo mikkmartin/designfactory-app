@@ -1,5 +1,5 @@
 export const Distplacement = ({ gravityDistortion, fabricDistortion }) => {
-  const blurRadius = global.devicePixelRatio ? global.devicePixelRatio / 2 : 1
+  const blurRadius = global.devicePixelRatio ? 10 : 0.25
   return (
     <filter id="displacement" colorInterpolationFilters="sRGB">
       <feImage
@@ -34,7 +34,7 @@ export const Distplacement = ({ gravityDistortion, fabricDistortion }) => {
       />
 
       <feGaussianBlur
-        stdDeviation={`${blurRadius} 0.5`}
+        stdDeviation={blurRadius}
         x="0%"
         y="0%"
         width="100%"
@@ -48,7 +48,7 @@ export const Distplacement = ({ gravityDistortion, fabricDistortion }) => {
         values="1 0 0 0 0
                 0 1 0 0 0
                 0 0 1 0 0
-                0 0 0 3 -1.5"
+                0 0 0 10 -1.5"
         x="0%"
         y="0%"
         width="100%"

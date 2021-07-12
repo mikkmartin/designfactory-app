@@ -1,15 +1,18 @@
 import { ServerResponse } from 'http'
 import { getScreenshot } from 'lib/chromium'
 import baseURL from 'static/baseURL'
+import { objectToParams } from 'lib/urlEncoder'
 
 const isDev = !process.env.AWS_REGION
 
 export default async function handler(req, res: ServerResponse) {
   try {
-    const { resolution = 2 } = JSON.parse(req.body || '{}')
+    const { resolution = 2, ...rest } = JSON.parse(req.body || '{}')
     const urlPaths = req.url.split('/')
     const fileName = urlPaths[urlPaths.length - 1]
-    const contentUrl = `${baseURL}/screenshot/${fileName}`
+    const params = rest ? '?' + objectToParams(rest) : ''
+
+    const contentUrl = `${baseURL}/screenshot/${fileName}` + params
 
     const file = await getScreenshot(contentUrl, {
       isDev,

@@ -85,7 +85,7 @@ export const Mockup = ({ editable = false, image = '/images/temp.jpeg' }) => {
           <use filter="url(#artwork-flood)" href="#artwork" />
         </mask>
 
-        <image href="/mockups/tshirt-white-front.png" width="450" height="600" />
+        <image href={tshirtUrl} width="450" height="600" />
         <use mask="url(#artwork-mask)" filter="url(#contrast)" href="#artwork" />
 
         {false && (
