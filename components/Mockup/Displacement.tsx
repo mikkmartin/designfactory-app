@@ -1,5 +1,4 @@
 export const Distplacement = ({ gravityDistortion, fabricDistortion }) => {
-  const blurRadius = global.devicePixelRatio ? 0 : 0.5
   return (
     <filter id="displacement" colorInterpolationFilters="sRGB">
       <feImage
@@ -31,40 +30,6 @@ export const Distplacement = ({ gravityDistortion, fabricDistortion }) => {
         xChannelSelector="R"
         yChannelSelector="R"
         result="BLED2"
-      />
-
-      <feGaussianBlur
-        stdDeviation={blurRadius}
-        x="0%"
-        y="0%"
-        width="100%"
-        height="100%"
-        in="BLED2"
-        edgeMode="none"
-        result="BLUR"
-      />
-      <feColorMatrix
-        type="matrix"
-        values="1 0 0 0 0
-                0 1 0 0 0
-                0 0 1 0 0
-                0 0 0 10 -1.5"
-        x="0%"
-        y="0%"
-        width="100%"
-        height="100%"
-        in="blur"
-        result="CMATRIX"
-      />
-      <feComposite
-        in="BLED2"
-        in2="CMATRIX"
-        operator="atop"
-        x="0%"
-        y="0%"
-        width="100%"
-        height="100%"
-        result="DISTORTED"
       />
     </filter>
   )

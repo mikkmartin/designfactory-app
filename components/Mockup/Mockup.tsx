@@ -68,7 +68,7 @@ export const Mockup = ({ editable = false, image = '/images/temp.jpeg' }) => {
           <Overlay id="contrast" />
           <g id="artwork">
             <g filter="url(#displacement)">
-              <g transform={`translate(${135 + offset} ${190 + offset})`}>
+              <g transform={`translate(${137 + offset} ${190 + offset})`}>
                 <image xlinkHref={url} {...artworkSize} preserveAspectRatio="xMidYMin meet" />
               </g>
             </g>
@@ -86,7 +86,7 @@ export const Mockup = ({ editable = false, image = '/images/temp.jpeg' }) => {
         <use mask="url(#artwork-mask)" filter="url(#contrast)" href="#artwork" />
 
         {false && (
-          <rect x="135" y="190" {...artworkSize} stroke="rgba(255, 0, 0, 0.5)" fill="transparent" />
+          <rect x="137" y="190" {...artworkSize} stroke="rgba(255, 0, 0, 0.5)" fill="transparent" />
         )}
       </svg>
       {editable && uploading ? (
