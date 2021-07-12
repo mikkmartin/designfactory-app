@@ -8,6 +8,8 @@ const Screenshot = ({ image, query }) => {
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const key = await getLatestImageKey()
+  console.log('getServerSideProps()')
+  console.log(query)
   return {
     props: {
       query,

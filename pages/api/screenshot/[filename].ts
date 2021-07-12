@@ -16,6 +16,8 @@ export default async function handler(req, res: ServerResponse) {
 
     const contentUrl = `${baseURL}/screenshot/${fileName}` + params
 
+    console.log(contentUrl)
+
     const file = await getScreenshot(contentUrl, {
       isDev,
       supersample: resolution,
