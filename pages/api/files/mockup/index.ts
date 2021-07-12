@@ -18,7 +18,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       }),
     }).then(res => res.blob())
 
-    //const blob = await fetch(baseURL + '/api/screenshot/mockup' + params).then(res => res.blob())
     const buffer = await blob.arrayBuffer()
     const resized = await sharp(Buffer.from(buffer)).resize(1200).toBuffer()
 

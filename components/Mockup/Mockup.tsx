@@ -1,17 +1,12 @@
 import styled from 'styled-components'
 import { useState } from 'react'
 import { useEditorData } from 'components/Editor/EditorContext'
-import { useRouter } from 'next/router'
 import { Distplacement } from './Displacement'
 import { Overlay } from './Overlay'
 import { Text } from './Text'
 
-export const Mockup = ({ editable = false, image = '/images/temp.jpeg' }) => {
+export const Mockup = ({ editable = false, image = '/images/temp.jpeg', query }) => {
   const editorData = useEditorData()
-  const { query } = useRouter()
-  console.log('/components/Mockup/Mockup.tsx')
-  console.log(editorData)
-  console.log(query)
 
   const [url, setUrl] = useState(image)
   const [uploading, setUploading] = useState(false)
