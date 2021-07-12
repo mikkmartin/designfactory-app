@@ -10,7 +10,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const blob = await fetch(baseURL + '/api/screenshot/mockup' + params, {
       method: 'POST',
       body: JSON.stringify({
-        resolution: 5, // 450 * 5 = 2250
+        resolution: 4, // 450 * 5 = 2250
       }),
     }).then(res => res.blob())
 
