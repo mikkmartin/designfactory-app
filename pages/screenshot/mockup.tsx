@@ -3,7 +3,6 @@ import { getLatestImageKey } from 'data/latestImage'
 import { GetServerSideProps } from 'next'
 
 const Screenshot = ({image}) => {
-  console.log('/screenshot/mockup.ts')
   return <Mockup editable={false} image={image} />
 }
 
