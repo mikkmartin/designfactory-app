@@ -6,14 +6,14 @@ import { Distplacement } from './Displacement'
 import { Overlay } from './Overlay'
 import { Text } from './Text'
 
-export const Mockup = ({ editable = true, image = '/images/temp.jpeg' }) => {
+export const Mockup = ({ image = '/images/temp.jpeg' }) => {
   const editorData = useEditorData()
   const { query } = useRouter()
 
   const [url, setUrl] = useState(image)
   const { color, text } = editorData?.data ? editorData.data : query
   const isWhite = color === 'white'
-  
+
   const width = 450
   const height = 600
   const size = { width, height }
@@ -47,7 +47,7 @@ export const Mockup = ({ editable = true, image = '/images/temp.jpeg' }) => {
   }
 
   const fabricDistortion = 15
-  const gravityDistortion = 10
+  const gravityDistortion = 15
   const distortion = { fabricDistortion, gravityDistortion }
   const offset = (fabricDistortion + gravityDistortion) / 2.5
 
@@ -77,7 +77,7 @@ export const Mockup = ({ editable = true, image = '/images/temp.jpeg' }) => {
             </g>
           </g>
         </defs>
-        
+
         <mask id="artwork-mask">
           <use filter="url(#artwork-flood)" href="#artwork" />
         </mask>

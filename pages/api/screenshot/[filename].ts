@@ -6,7 +6,7 @@ const isDev = !process.env.AWS_REGION
 
 export default async function handler(req, res: ServerResponse) {
   try {
-    const { resolution = 1 } = JSON.parse(req.body || '{}')
+    const { resolution = 2 } = JSON.parse(req.body || '{}')
     const urlPaths = req.url.split('/')
     const fileName = urlPaths[urlPaths.length - 1]
     const contentUrl = `${baseURL}/screenshot/${fileName}`

@@ -1,4 +1,5 @@
 export const Distplacement = ({ gravityDistortion, fabricDistortion }) => {
+  const blurRadius = global.devicePixelRatio ? global.devicePixelRatio / 2 : 1
   return (
     <filter id="displacement" colorInterpolationFilters="sRGB">
       <feImage
@@ -11,13 +12,14 @@ export const Distplacement = ({ gravityDistortion, fabricDistortion }) => {
       />
       <feImage xlinkHref="/mockups/tshirt-white-front.png" x="0" y="0" width="100%" height="100%" />
       <feColorMatrix type="saturate" values="0" result="IMAGE" />
-      <feGaussianBlur in="IMAGE" stdDeviation="2" result="MAP" />
+      <feGaussianBlur in="IMAGE" stdDeviation="3" result="MAP" />
 
       <feDisplacementMap
         colorInterpolationFilters="sRGB"
         in="SourceGraphic"
         in2="MAP"
         scale={fabricDistortion}
+        xChannelSelector="R"
         yChannelSelector="R"
         result="BLED"
       />
@@ -30,9 +32,9 @@ export const Distplacement = ({ gravityDistortion, fabricDistortion }) => {
         yChannelSelector="R"
         result="BLED2"
       />
-      
+
       <feGaussianBlur
-        stdDeviation="0.5"
+        stdDeviation={`${blurRadius} 0.5`}
         x="0%"
         y="0%"
         width="100%"
