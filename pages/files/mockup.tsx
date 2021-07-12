@@ -12,7 +12,7 @@ const Tshirt = () => {
 
   return (
     <Layout {...layoutProps} onDataUpdate={() => {}}>
-      <Mockup />
+      <Mockup editable={true} />
     </Layout>
   )
 }

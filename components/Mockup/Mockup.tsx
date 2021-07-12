@@ -6,11 +6,12 @@ import { Distplacement } from './Displacement'
 import { Overlay } from './Overlay'
 import { Text } from './Text'
 
-export const Mockup = ({ image = '/images/temp.jpeg' }) => {
+export const Mockup = ({ editable = false, image = '/images/temp.jpeg' }) => {
   const editorData = useEditorData()
   const { query } = useRouter()
 
   const [url, setUrl] = useState(image)
+  const [uploading, setUploading] = useState(false)
   const { color, text } = editorData?.data ? editorData.data : query
   const isWhite = color === 'white'
 
@@ -23,9 +24,10 @@ export const Mockup = ({ image = '/images/temp.jpeg' }) => {
   const uploadPhoto = async e => {
     const file = e.target.files[0]
     setUrl(URL.createObjectURL(file))
+    setUploading(true)
 
     const filename = encodeURIComponent(file.name)
-    const res = await fetch(`/api/files/upload?file=${filename}`)
+    const res = await fetch(`/api/files/mockup/upload?file=${filename}`)
     const { url, fields } = await res.json()
     const formData = new FormData()
 
@@ -39,6 +41,7 @@ export const Mockup = ({ image = '/images/temp.jpeg' }) => {
       body: formData,
     })
 
+    setUploading(false)
     if (upload.ok) {
       console.log('Uploaded successfully!')
     } else {
@@ -96,6 +99,11 @@ export const Mockup = ({ image = '/images/temp.jpeg' }) => {
           />
         )}
       </svg>
+      {editable && uploading ? (
+        <small>Uploading...</small>
+      ) : (
+        <input onChange={uploadPhoto} type="file" accept="image/png, image/jpeg" />
+      )}
     </Container>
   )
 }
@@ -108,5 +116,12 @@ const Container = styled.div`
     width: 100%;
     height: 100%;
     opacity: 0;
+  }
+  small {
+    position: absolute;
+    background: black;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%);
   }
 `
