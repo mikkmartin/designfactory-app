@@ -1,9 +1,5 @@
-import { useTemplate } from "../TemplateContext"
+//import { useTemplate } from "../TemplateContext"
 
-export const Box = ({children, ...props}) => {
-    const { data } = useTemplate()
-
-    console.log(data)
-    
+export const Box = ({children, ...props}) => {    
     return <div {...props}>{children}</div>
 }
