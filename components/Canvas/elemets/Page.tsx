@@ -9,8 +9,6 @@ export const Page = styled.div`
   position: relative;
   overflow: auto;
   gap: 16px;
-  padding: 5vw;
-  min-height: 100%;
   > div {
     .ProseMirror p {
       line-height: unset;

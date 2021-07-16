@@ -39,9 +39,11 @@ const Container = styled.div`
     flex: 2.5;
     position: relative;
     overflow: auto;
-    display: grid;
-    place-content: center;
     background: #1a1e25;
+    padding: 4vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 `
 
