@@ -41,6 +41,7 @@ const Container = styled.div`
     overflow: auto;
     display: grid;
     place-content: center;
+    background: #1a1e25;
   }
 `
 

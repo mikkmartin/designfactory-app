@@ -26,7 +26,18 @@ export const defaultTemplatesv2: TemplateObjectV2[] = [
     name: 'Debugger',
     slug: 'debug',
     template: 'QBeNqpKnj2exAqyWMNYbWM',
-    disabledFields: ['disabled', 'total', 'topay-subtotal-value', 'subtotals-values', 'topay-summary-value'],
+    disabledFields: [
+      'disabled',
+      'total',
+      'topay-subtotal-value',
+      'subtotals-values',
+      'topay-summary-value',
+    ],
+  },
+  {
+    name: 'Ida OG',
+    slug: 'ida-og',
+    template: 'NytILrIsUywpf3Y8EyGGxY',
   },
   {
     name: 'Knowledgebase OG',

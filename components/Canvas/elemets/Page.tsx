@@ -11,7 +11,6 @@ export const Page = styled.div`
   gap: 16px;
   padding: 5vw;
   min-height: 100%;
-  background: #1a1e25;
   > div {
     .ProseMirror p {
       line-height: unset;
