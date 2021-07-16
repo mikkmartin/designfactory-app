@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { ParsedNode } from './parseTemplate'
-import { Text, Svg, Instance } from './elemets'
+import { Text, Svg, Instance, Box } from './elemets'
 
 export const renderElement: FC<ParsedNode | null> = node => {
   if (!node) return null
@@ -11,7 +11,7 @@ export const renderElement: FC<ParsedNode | null> = node => {
     case 'FRAME':
     case 'GROUP':
     case 'COMPONENT':
-      return <div {...props}>{children.map(renderElement)}</div>
+      return <Box {...props}>{children.map(renderElement)}</Box>
     case 'INSTANCE':
       props.componentId = node.componentId
       return <Instance {...props}>{children.map(renderElement)}</Instance>
