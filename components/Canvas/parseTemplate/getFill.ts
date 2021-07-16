@@ -11,7 +11,7 @@ export const getFill = (node: BoxNode) => {
         case 'GRADIENT_LINEAR':
           return paintToLinearGradient(fill)
         case 'IMAGE':
-          return `url(/api/figma/WHdIyxfgAUWEDo3GLCz9G5/${node.id}.png) center center / cover no-repeat`
+          return `url(/api/figma/NytILrIsUywpf3Y8EyGGxY/${node.id}.png) center center / cover no-repeat`
         default:
           return 'none'
       }
