@@ -123,6 +123,7 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
           ...baseStyle,
           overflow: node.clipsContent ? 'hidden' : 'visible',
           background: getFill(node),
+          borderRadius: node.cornerRadius,
         },
         children: node.children.map(child => parseNode(child, node)),
       }
@@ -135,6 +136,7 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
           ...baseStyle,
           overflow: node.clipsContent ? 'hidden' : 'visible',
           background: getFill(node),
+          borderRadius: node.cornerRadius,
         },
         componentId: node.componentId,
         children: node.children.map(child => parseNode(child, node)),
@@ -157,7 +159,8 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
           textAlign,
           fontStyle: italic ? 'italic' : 'normal',
           textTransform: node.style.textCase === 'UPPER' ? 'uppercase' : 'initial',
-          lineHeight: lineHeightPercent === 100 ? 'initial' : `${lineHeightPercentFontSize * 1.15}%`,
+          lineHeight:
+            lineHeightPercent === 100 ? 'initial' : `${lineHeightPercentFontSize * 1.15}%`,
           letterSpacing: `${node.style.letterSpacing}px`,
         },
       }
