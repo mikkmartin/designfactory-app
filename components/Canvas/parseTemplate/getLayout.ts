@@ -74,15 +74,11 @@ const getSize = (node): CSSProperties => {
     }
   } else {
     let size: CSSProperties = {}
-
-    if (node.layoutMode === 'HORIZONTAL') {
-      node.primaryAxisSizingMode === 'FIXED' || !node.primaryAxisSizingMode
-        ? (size.height = height)
-        : (size.width = width)
-    } else if (node.layoutMode === 'VERTIAL') {
-      node.counterAxisSizingMode === 'FIXED' || !node.counterAxisSizingMode
-        ? (size.height = height)
-        : (size.width = width)
+    
+    if (node.layoutMode === 'HORIZONTAL' && node.primaryAxisSizingMode === 'FIXED') {
+      size.width = width
+    } else if (node.layoutMode === 'VERTICAL' && node.counterAxisSizingMode === 'FIXED') {
+      size.width = width
     } else {
       size.width = width
       size.height = height
