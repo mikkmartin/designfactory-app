@@ -2,16 +2,17 @@ import { useTemplate } from '../TemplateContext'
 import { useEditor, EditorContent, JSONContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { useEffect } from 'react'
+import { useInstanceData } from './InstanceContext'
 
 export const Text = ({ style, content, name }) => {
   const { data, onDataUpdate, editable, disabledFields } = useTemplate()
-
-  //console.log(data)
+  const instanceData = useInstanceData()
 
   const isDisabled = disabledFields?.find(fieldName => fieldName === name)
   const isEditable = editable && !isDisabled
 
   const fillText = (name: string): string => {
+    if (typeof instanceData === 'string') return instanceData
     for (const [key, value] of Object.entries(data)) {
       if (name === key) return value as string
     }
@@ -45,22 +46,22 @@ export const Text = ({ style, content, name }) => {
 
   useEffect(() => {
     if (!editor) return
-    if (typeof data[name] === 'string') {
-      let content: any = {
-        type: 'text',
-      }
-      if (data[name].length) content.text = data[name]
-      editor.commands.setContent({
-        type: 'doc',
-        content: [
-          {
-            type: 'paragraph',
-            content: [content],
-          },
-        ],
-      })
+    if (typeof instanceData !== 'string' && typeof data[name] !== 'string') return
+    let content: any = {
+      type: 'text',
     }
-  }, [data[name]])
+    if (instanceData) content.text = instanceData
+    else if (data[name]?.length) content.text = data[name]
+    editor.commands.setContent({
+      type: 'doc',
+      content: [
+        {
+          type: 'paragraph',
+          content: [content],
+        },
+      ],
+    })
+  }, [data[name], instanceData])
 
   return <EditorContent style={style} editor={editor} />
 }

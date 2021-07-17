@@ -7,7 +7,14 @@ import { renderElement } from '../renderElement'
 import { useTemplate } from '../TemplateContext'
 import { editable } from './editableStyle'
 
-export const Instance: FC<InstanceNode> = ({ style, name, componentId, children }) => {
+export const Instance: FC<InstanceNode & { listParent?: null | string; nthChild: number }> = ({
+  style,
+  name,
+  componentId,
+  children,
+  listParent,
+  nthChild,
+}) => {
   const { data, componentSets, onDataUpdate, editable } = useTemplate()
 
   const componentSet = Object.values(componentSets).find(set => {
@@ -50,13 +57,14 @@ export const Instance: FC<InstanceNode> = ({ style, name, componentId, children 
     }
   }
 
+  if (listParent && data[listParent] && data[listParent].length <= nthChild) return null
   return (
     <Container
       style={style}
       transition={snappy}
       //onTap={() => cycleComponent()}
       //whileTap={{ scale: 0.95, transition: { duration: 0.05 } }}
-      >
+    >
       {getComponent(name)}
       {editable && (
         <motion.div className="overlay">
@@ -68,7 +76,7 @@ export const Instance: FC<InstanceNode> = ({ style, name, componentId, children 
 }
 
 export const Container = styled(motion.div)`
-/*
+  /*
   cursor: pointer;
   &:hover,
   &:focus,
