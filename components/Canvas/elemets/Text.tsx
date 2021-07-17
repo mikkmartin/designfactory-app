@@ -33,6 +33,9 @@ export const Text = ({ style, content, name }) => {
         onDataUpdate({ [name]: value })
       }
     },
+    onFocus() {
+      document.execCommand('selectAll', false, null)
+    },
   })
 
   useEffect(() => {
