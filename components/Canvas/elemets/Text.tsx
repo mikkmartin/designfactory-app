@@ -34,7 +34,9 @@ export const Text = ({ style, content, name }) => {
       }
     },
     onFocus() {
-      document.execCommand('selectAll', false, null)
+      setTimeout(() => {
+        document.execCommand('selectAll', false, null)
+      }, 0)
     },
   })
 

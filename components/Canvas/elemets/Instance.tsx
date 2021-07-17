@@ -54,8 +54,9 @@ export const Instance: FC<InstanceNode> = ({ style, name, componentId, children 
     <Container
       style={style}
       transition={snappy}
-      onTap={() => cycleComponent()}
-      whileTap={{ scale: 0.95, transition: { duration: 0.05 } }}>
+      //onTap={() => cycleComponent()}
+      //whileTap={{ scale: 0.95, transition: { duration: 0.05 } }}
+      >
       {getComponent(name)}
       {editable && (
         <motion.div className="overlay">
@@ -67,6 +68,7 @@ export const Instance: FC<InstanceNode> = ({ style, name, componentId, children 
 }
 
 export const Container = styled(motion.div)`
+/*
   cursor: pointer;
   &:hover,
   &:focus,
@@ -86,4 +88,5 @@ export const Container = styled(motion.div)`
       }
     }
   }
+  */
 `
