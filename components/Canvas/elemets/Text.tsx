@@ -5,6 +5,9 @@ import { useEffect } from 'react'
 
 export const Text = ({ style, content, name }) => {
   const { data, onDataUpdate, editable, disabledFields } = useTemplate()
+
+  //console.log(data)
+
   const isDisabled = disabledFields?.find(fieldName => fieldName === name)
   const isEditable = editable && !isDisabled
 

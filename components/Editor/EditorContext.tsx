@@ -26,12 +26,11 @@ export type Props = {
 
 export const EditorProvider: FC<Props> = ({
   onDataUpdate = _ => {},
-  data: initialData,
+  data,
   children,
   slug,
   ...rest
 }) => {
-  const [data, setData] = useState(initialData)
   let url = `${baseURL}/files/${slug}.png`
   const query = objectToParams(data)
   if (query) url += `?${query}`
@@ -40,7 +39,7 @@ export const EditorProvider: FC<Props> = ({
   useEffect(() => setDownloadUrl(url), [data])
 
   return (
-    <Context.Provider value={{ downloadUrl, setDownloadUrl, data, setData, ...rest }}>
+    <Context.Provider value={{ downloadUrl, setDownloadUrl, data, setData: onDataUpdate, ...rest }}>
       {children}
     </Context.Provider>
   )

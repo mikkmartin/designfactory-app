@@ -5,7 +5,7 @@ import { Distplacement } from './Displacement'
 import { Overlay } from './Overlay'
 import { Text } from './Text'
 
-export const Mockup = ({ editable = false, image = '/images/temp.jpeg', query }) => {
+export const Mockup = ({ editable = false, image = '/images/temp.jpeg', query = {} }) => {
   const editorData = useEditorData()
 
   const [url, setUrl] = useState(image)
