@@ -15,7 +15,6 @@ export const getLayout = (node: BoxNode, parentNode = null): CSSProperties => {
     paddingTop,
     paddingBottom,
   }
-  
   switch (layoutMode) {
     case 'CANVAS_CHILD':
       return {
@@ -74,14 +73,14 @@ const getSize = (node): CSSProperties => {
     }
   } else {
     let size: CSSProperties = {}
-    
+
     if (node.layoutMode === 'HORIZONTAL' && node.primaryAxisSizingMode === 'FIXED') {
       size.width = width
     } else if (node.layoutMode === 'VERTICAL' && node.counterAxisSizingMode === 'FIXED') {
       size.width = width
     } else {
-      size.width = width
-      size.height = height
+      if (node.layoutMode !== 'HORIZONTAL') size.width = width
+      if (node.layoutMode !== 'VERTICAL') size.height = height
     }
 
     return size
