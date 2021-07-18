@@ -20,7 +20,7 @@ type Options = {
   timeout?: number
 }
 
-export async function getScreenshot(url, { isDev, supersample = 1 }: Options) {
+export async function getScreenshot(url, { isDev, supersample = 2 }: Options) {
   const t0 = performance.now()
   const page = await getPage(isDev)
   const t1 = performance.now()
