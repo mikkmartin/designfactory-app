@@ -14,7 +14,7 @@ type UseEditorReturnTypes = {
 }
 
 export const useEditor: UseEditorTypes = (templateID, initialTemplate): UseEditorReturnTypes => {
-  const [data, setData] = useState({tags: ['tere', 'head aega']})
+  const [data, setData] = useState({image: '', tags: ['tere', 'head aega']})
   const fetcher = url => fetch(`${url}?template=${templateID}`).then(r => r.json())
   const { data: template, isValidating } = useSWR('/api/figma', fetcher, {
     initialData: initialTemplate,

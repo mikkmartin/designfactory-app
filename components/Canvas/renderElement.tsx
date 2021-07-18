@@ -15,11 +15,11 @@ export const renderElement = (node): ReactElement<ParsedNode | null> => {
     case 'COMPONENT':
       if (isInstanceContainer()) return <InstanceContainer {...props}>{children}</InstanceContainer>
       else return <Box {...props}>{children.map(renderElement)}</Box>
+    case 'RECTANGLE':
+      return <Box {...props} />
     case 'INSTANCE':
       props.componentId = node.componentId
       return <Instance {...props}>{children.map(renderElement)}</Instance>
-    case 'RECTANGLE':
-      return <div {...props} />
     case 'TEXT':
       return <Text {...props} content={node.content} />
     case 'BOOLEAN_OPERATION':
