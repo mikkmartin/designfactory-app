@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useTemplate } from '../TemplateContext'
 import styled, { css } from 'styled-components'
 
-export const Box = ({ children, name, ...props }) => {
+export const Box = ({ children, ...props }) => {
   let overrideUrl = null
   const [isLoading, setIsLoading] = useState(false)
   const { data, editable } = useTemplate()

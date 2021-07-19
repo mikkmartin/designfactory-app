@@ -2,17 +2,17 @@ import { useTemplate } from '../TemplateContext'
 import { useEditor, EditorContent, JSONContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { useEffect } from 'react'
-import { useInstanceData } from './InstanceContext'
+import { useInstance } from './InstanceContext'
 
 export const Text = ({ style, content, name }) => {
   const { data, onDataUpdate, editable, disabledFields } = useTemplate()
-  const instanceData = useInstanceData()
+  const instance = useInstance()
 
   const isDisabled = disabledFields?.find(fieldName => fieldName === name)
   const isEditable = editable && !isDisabled
 
   const fillText = (name: string): string => {
-    if (typeof instanceData === 'string') return instanceData
+    if (instance && typeof instance.data === 'string') return instance.data
     for (const [key, value] of Object.entries(data)) {
       if (name === key) return value as string
     }
@@ -29,12 +29,11 @@ export const Text = ({ style, content, name }) => {
       if (content) {
         const value = content.reduce((str, val, i) => {
           if (i !== 0) str += '\n'
-          if (val.content) {
-            str = str + val.content.map(v => v.text)
-          }
+          if (val.content) str = str + val.content.map(v => v.text)
           return str
         }, '')
-        onDataUpdate({ [name]: value })
+        if (instance) instance.update(value)
+        else onDataUpdate({ [name]: value })
       }
     },
     onFocus() {
@@ -46,11 +45,11 @@ export const Text = ({ style, content, name }) => {
 
   useEffect(() => {
     if (!editor) return
-    if (typeof instanceData !== 'string' && typeof data[name] !== 'string') return
+    if (instance && typeof instance.data !== 'string' && typeof data[name] !== 'string') return
     let content: any = {
       type: 'text',
     }
-    if (instanceData) content.text = instanceData
+    if (instance) content.text = instance.data
     else if (data[name]?.length) content.text = data[name]
     editor.commands.setContent({
       type: 'doc',
@@ -61,7 +60,7 @@ export const Text = ({ style, content, name }) => {
         },
       ],
     })
-  }, [data[name], instanceData])
+  }, [data[name], instance])
 
   return <EditorContent style={style} editor={editor} />
 }

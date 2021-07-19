@@ -1,20 +1,17 @@
 import { FC, createContext, useContext } from 'react'
 
 type Props = {
-  data: {
+  data: string | {
     [key: string]: any
-  } | string
+  }
+  update: (val: any) => void
 }
-
-type Values = {
-  [key: string]: any
-} | string
 
 //@ts-ignore
-const Context = createContext<Values>()
+const Context = createContext<Props>()
 
-export const InstanceProvider: FC<Props> = ({ data, children }) => {
-  return <Context.Provider value={data}>{children}</Context.Provider>
+export const InstanceProvider: FC<Props> = ({ data, update, children }) => {
+  return <Context.Provider value={{ data, update }}>{children}</Context.Provider>
 }
 
-export const useInstanceData = () => useContext(Context)
+export const useInstance = () => useContext(Context)
