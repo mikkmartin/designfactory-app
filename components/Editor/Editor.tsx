@@ -81,12 +81,14 @@ export const Editor = () => {
 
 const Version = styled.div`
   position: absolute;
-  left: 16px;
+  right: 16px;
   bottom: 16px;
   opacity: 0.1;
   font-size: 19px;
   color: #ffffff;
   pointer-events: none;
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
 `
 
 const Container = styled.div`
