@@ -19,13 +19,13 @@ export type Props = {
   fileName: string
   schema: any
   data: any
-  onDataUpdate?: (json) => void
+  setData?: (json) => void
   loading: boolean
   slug: string
 }
 
 export const EditorProvider: FC<Props> = ({
-  onDataUpdate = _ => {},
+  setData = _ => {},
   data,
   children,
   slug,
@@ -39,7 +39,7 @@ export const EditorProvider: FC<Props> = ({
   useEffect(() => setDownloadUrl(url), [data])
 
   return (
-    <Context.Provider value={{ downloadUrl, setDownloadUrl, data, setData: onDataUpdate, ...rest }}>
+    <Context.Provider value={{ downloadUrl, setDownloadUrl, data, setData, ...rest }}>
       {children}
     </Context.Provider>
   )

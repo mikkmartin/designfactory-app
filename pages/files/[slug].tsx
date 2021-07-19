@@ -22,15 +22,22 @@ const File: FC<Props> = ({ initialTemplate }) => {
   const { query } = useRouter()
   const { frames, slug: _slug } = query
   const slug = Array.isArray(_slug) ? _slug[0] : _slug
-  const { template: templateID, name, disabledFields } = defaultTemplatesv2.find(t => t.slug === slug)
+  const {
+    template: templateID,
+    name,
+    disabledFields,
+  } = defaultTemplatesv2.find(t => t.slug === slug)
 
-  const { onDataUpdate, data, fonts, template, loading } = useEditor(templateID, initialTemplate)
+  const { onDataUpdate, setData, data, fonts, template, loading } = useEditor(
+    templateID,
+    initialTemplate
+  )
   const { nodes, componentSets, schema } = parseTemplate(template, {
     filter: (_, i) => (frames === 'all' ? true : i === 0),
   })
 
-  const layoutProps = { fileName: name, schema, data, onDataUpdate, loading, slug }
-  const canvasProps = { data, fonts, nodes, componentSets, onDataUpdate, disabledFields }
+  const layoutProps = { fileName: name, schema, data, setData, loading, slug }
+  const canvasProps = { data, fonts, nodes, componentSets, disabledFields, onDataUpdate }
   return (
     <Layout {...layoutProps}>
       <Canvas {...canvasProps} />

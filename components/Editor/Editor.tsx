@@ -7,7 +7,6 @@ import { useMeasure } from 'react-use'
 import { useEditorData } from './EditorContext'
 import { theme } from './theme'
 import packagejson from '../../package.json'
-import { dequal } from 'dequal/lite'
 const MonacoEditor = dynamic(import('react-monaco-editor'), { ssr: false })
 
 export const Editor = () => {
@@ -23,11 +22,6 @@ export const Editor = () => {
     })
   }
 
-  useEffect(() => {
-    const oldJson = JSON.parse(jsonString)
-    if (!dequal(data, oldJson)) setJsonString(JSON.stringify(data, null, 2))
-  }, [data])
-
   const onDidMount: EditorDidMount = (_, monaco) => {
     monaco.editor.setTheme('dok-theme')
     //@ts-ignore
@@ -37,9 +31,13 @@ export const Editor = () => {
   }
 
   useEffect(() => {
+    setJsonString(JSON.stringify(data, null, 2))
+  }, [data])
+
+  useEffect(() => {
     try {
       const newJson = JSON.parse(jsonString)
-      if (!dequal(data, newJson)) setData(newJson)
+      setData(newJson)
     } catch (e) {
       console.error(e)
     }
