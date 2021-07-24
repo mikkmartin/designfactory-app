@@ -15,13 +15,12 @@ interface StaticProps {
 interface Props extends TemplateObjectV2, StaticProps {}
 
 const File: FC<Props> = ({ initialTemplate, templateID, fileName, disabledFields }) => {
-  const { data, fonts, template, loading } = useEditor(templateID, initialTemplate)
+  const { data, template, loading } = useEditor(templateID, initialTemplate)
   const { query } = useRouter()
   const { frames } = query
-
-  const { nodes, componentSets, schema } = parseTemplate(template, {
-    filter: (_, i) => (frames === 'all' ? true : i === 0),
-  })
+  
+  const options = { filter: (_, i) => (frames === 'all' ? true : i === 0) }
+  const { nodes, componentSets, schema } = parseTemplate(template, options)
 
   const layoutProps = { fileName, data, loading, schema }
   const canvasProps = { data, nodes, componentSets, disabledFields }
