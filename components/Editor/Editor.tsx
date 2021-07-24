@@ -36,7 +36,6 @@ export const Editor = observer(() => {
   useEffect(() => {
     const unsubscribe = onSnapshot(editor, ({ data }) => {
       setJsonString(JSON.stringify(data, null, 2))
-      console.log(data)
     })
     return () => unsubscribe()
   }, [])

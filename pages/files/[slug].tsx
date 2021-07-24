@@ -18,7 +18,7 @@ const File: FC<Props> = ({ initialTemplate, templateID, fileName, disabledFields
   const { data, template, loading } = useEditor(templateID, initialTemplate)
   const { query } = useRouter()
   const { frames } = query
-  
+
   const options = { filter: (_, i) => (frames === 'all' ? true : i === 0) }
   const { nodes, componentSets, schema } = parseTemplate(template, options)
 
@@ -33,7 +33,7 @@ const File: FC<Props> = ({ initialTemplate, templateID, fileName, disabledFields
 
 export const getStaticProps: GetStaticProps<StaticProps> = async ({ params: { slug } }) => {
   const { templateID, ...rest } = defaultTemplatesv2.find(t => t.slug === slug)
-  const props = { initialTemplate: await getTemplate(templateID), ...rest }
+  const props = { initialTemplate: await getTemplate(templateID), templateID, ...rest }
   return {
     props,
     revalidate: 1,
