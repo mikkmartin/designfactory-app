@@ -8,11 +8,13 @@ import { useEditor } from './index'
 import { theme } from './theme'
 import packagejson from '../../package.json'
 import { observer } from 'mobx-react-lite'
+import { onSnapshot } from 'mobx-state-tree'
 const MonacoEditor = dynamic(import('react-monaco-editor'), { ssr: false })
 
 export const Editor = observer(() => {
   const [ref, { width, height }] = useMeasure()
-  const { data, schema, setData } = useEditor()
+  const editor = useEditor()
+  const { data, schema, setData } = editor
   const [jsonString, setJsonString] = useState<string>(JSON.stringify(data, null, 2))
 
   const onWillMount: EditorWillMount = monaco => {
@@ -32,9 +34,12 @@ export const Editor = observer(() => {
   }
 
   useEffect(() => {
-    console.log(JSON.stringify(data, null, 2))
-    //setJsonString(JSON.stringify(data, null, 2))
-  }, [data])
+    const unsubscribe = onSnapshot(editor, ({ data }) => {
+      setJsonString(JSON.stringify(data, null, 2))
+      console.log(data)
+    })
+    return () => unsubscribe()
+  }, [])
 
   useEffect(() => {
     try {
