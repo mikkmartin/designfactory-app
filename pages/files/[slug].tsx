@@ -8,7 +8,7 @@ import { GetStaticProps } from 'next'
 
 const File: FC<Props> = ({ template }) => {
   return (
-    <Layout template={template}>
+    <Layout templateId={template.id}>
       <Canvas template={template} />
     </Layout>
   )

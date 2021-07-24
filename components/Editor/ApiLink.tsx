@@ -1,28 +1,21 @@
 import { useEffect, useState } from 'react'
-import { useEditorData } from './EditorContext'
 import styled from 'styled-components'
 import { Button } from '../Common/Button'
 import { Copy } from '../Icons'
 import { snappy } from 'static/transitions'
 import { motion, AnimatePresence } from 'framer-motion'
+import { observer } from 'mobx-react-lite'
+import { useEditor } from './model/EditorProvider'
 
-export const ApiLink = () => {
-  const { downloadUrl, data } = useEditorData()
-  const [url, setUrl] = useState('')
+export const ApiLink = observer(() => {
+  const { downloadUrl } = useEditor()
   const [method, setMethod] = useState<'GET' | 'POST'>('GET')
   const [copied, setCopied] = useState(false)
   const [toastShown, setToastShown] = useState(false)
-  useEffect(() => setUrl(getUrl()), [data, method])
-
-  const getUrl = () => {
-    if (method === 'POST') return downloadUrl.split('?')[0]
-    return downloadUrl
-  }
 
   const copy = () => {
-    const url = getUrl()
     setCopied(true)
-    navigator.clipboard.writeText(url)
+    navigator.clipboard.writeText(downloadUrl)
   }
 
   useEffect(() => {
@@ -74,7 +67,7 @@ export const ApiLink = () => {
         onFocus={ev => ev.target.select()}
         onClick={ev => ev.stopPropagation()}
         readOnly
-        value={url}
+        value={downloadUrl}
       />
       <Button className="clipboard" onTap={copy} animate="initial" whileHover="hover">
         <motion.div variants={{ hover: { scale: 0.85, originY: -1 } }}>
@@ -92,7 +85,7 @@ export const ApiLink = () => {
       </Button>
     </Container>
   )
-}
+})
 
 const Toast = styled(motion.div)`
   position: absolute;

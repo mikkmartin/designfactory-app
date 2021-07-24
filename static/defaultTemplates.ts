@@ -18,6 +18,7 @@ export const defaultTemplates: TemplateObject[] = [
 
 export interface TemplateObjectV2 extends TemplateObject {
   slug: string
+  initialData?: any
   disabledFields?: string[]
 }
 
@@ -26,6 +27,30 @@ export const defaultTemplatesv2: TemplateObjectV2[] = [
     fileName: 'Debugger',
     slug: 'debug',
     id: 'QBeNqpKnj2exAqyWMNYbWM',
+    initialData: {
+      fromName: 'Ettevõte OÜ',
+      fromAddress: 'Aadress 123b, Tallinn, Harjumaa, 00117',
+      fromRegNr: 12702285,
+      toName: 'Klient OÜ',
+      toAddress: 'Aadress 123b, Tallinn, Harjumaa, 00117',
+      toRegNr: 12702285,
+      description: 'Üks kõva veebipood',
+      items: [
+        {
+          title: 'Disain',
+          description: 'Et asi oleks nice',
+          price: 45100,
+        },
+        {
+          title: 'Arendus',
+          description: 'Et asi töötaks',
+          price: 4500,
+        },
+      ],
+      ibanLabel: 'Swedbank',
+      ibanNr: 'EE907700771001360230',
+      template: 'qQJ7d5IKYTCVpaAMNptPH4',
+    },
     disabledFields: [
       'disabled',
       'total',

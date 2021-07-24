@@ -1,19 +1,18 @@
+import { defaultTemplatesv2 } from 'static/defaultTemplates'
 import { FC, createContext, useContext } from 'react'
 import { IEditorData, RootActions } from './EditorModel'
-import { Template } from '../../../data/figma'
+import baseURL from 'static/baseURL'
+import { objectToParams } from 'lib/urlEncoder'
 
 const Context = createContext<null | IEditorData>(null)
 
-export const EditorProvider: FC<{ template: Template }> = ({ template, children }) => {
-  const { id, ...initialTemplate } = template
-
+export const EditorProvider: FC<{ templateId: string }> = ({ children, templateId }) => {
+  const { fileName, slug, initialData } = defaultTemplatesv2.find(({ id }) => id === templateId)
   const initialState = RootActions.create({
-    fileName: 'asd',
-    downloadUrl: '',
+    fileName,
+    downloadUrl: `${baseURL}/files/${slug}.png?${objectToParams(initialData)}`,
     loading: false,
-    data: {
-      fromName: 'Jaagup Kreem',
-    },
+    data: initialData,
     schema: null,
   })
 
