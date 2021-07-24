@@ -4,11 +4,13 @@ import { useEffect } from 'react'
 import { useInstance } from './InstanceContext'
 import { useCanvas } from '../model/CanvasModel'
 import { useEditor } from 'components/Editor'
+import { onSnapshot } from 'mobx-state-tree'
 
 export const Text = ({ style, content, name }) => {
   const { editable, disabledFields } = useCanvas()
   const instance = useInstance()
-  const { data } = useEditor()
+  const editorData = useEditor()
+  const { data } = editorData
 
   const isDisabled = disabledFields?.find(fieldName => fieldName === name)
   const isEditable = editable && !isDisabled
@@ -51,23 +53,26 @@ export const Text = ({ style, content, name }) => {
   })
 
   useEffect(() => {
-    if (!editor) return
-    if (instance && typeof instance.data !== 'string' && typeof data[name] !== 'string') return
-    let content: any = {
-      type: 'text',
-    }
-    if (instance) content.text = instance.data
-    else if (data[name]?.length) content.text = data[name]
-    editor.commands.setContent({
-      type: 'doc',
-      content: [
-        {
-          type: 'paragraph',
-          content: [content],
-        },
-      ],
+    if (!editor || typeof data[name] !== 'string') return
+    const unsubscribe = onSnapshot(editorData, ({ data }) => {
+      if (instance && typeof instance.data !== 'string' && typeof data[name] !== 'string') return
+      let content: any = {
+        type: 'text',
+      }
+      if (instance) content.text = instance.data
+      else if (data[name]?.length) content.text = data[name]
+      editor.commands.setContent({
+        type: 'doc',
+        content: [
+          {
+            type: 'paragraph',
+            content: [content],
+          },
+        ],
+      })
     })
-  }, [data[name], instance])
+    return () => unsubscribe()
+  }, [editor])
 
   return <EditorContent style={style} editor={editor} />
 }
