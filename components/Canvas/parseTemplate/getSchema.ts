@@ -1,6 +1,15 @@
 import { findNodes, ParsedCoponentSet } from './parseTemplate'
 
-export const getSchema = (nodes, componentSets: ParsedCoponentSet) => {
+export interface ISchema {
+  $id: string
+  $schema: string
+  type: 'object'
+  properties: {
+    [key: string]: unknown
+  }
+}
+
+export const getSchema = (nodes, componentSets: ParsedCoponentSet): ISchema => {
   const textNodes = findNodes('TEXT', nodes)
   //console.log({ textNodes, componentSets })
 

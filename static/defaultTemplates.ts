@@ -3,29 +3,29 @@ import { defaults } from './invoice'
 import { Fonts } from 'static/types'
 
 export interface TemplateObject {
-  name: string
-  template: string
+  fileName: string
+  templateID: string
   dateAdded?: Date
   fonts?: Fonts
 }
 
 export const defaultTemplates: TemplateObject[] = [
   {
-    name: 'Simple',
-    template: defaults.template,
+    fileName: 'Simple',
+    templateID: defaults.template,
   },
 ]
 
-interface TemplateObjectV2 extends TemplateObject {
+export interface TemplateObjectV2 extends TemplateObject {
   slug: string
   disabledFields?: string[]
 }
 
 export const defaultTemplatesv2: TemplateObjectV2[] = [
   {
-    name: 'Debugger',
+    fileName: 'Debugger',
     slug: 'debug',
-    template: 'QBeNqpKnj2exAqyWMNYbWM',
+    templateID: 'QBeNqpKnj2exAqyWMNYbWM',
     disabledFields: [
       'disabled',
       'total',
@@ -35,20 +35,20 @@ export const defaultTemplatesv2: TemplateObjectV2[] = [
     ],
   },
   {
-    name: 'Ida OG',
+    fileName: 'Ida OG',
     slug: 'ida-og',
-    template: 'NytILrIsUywpf3Y8EyGGxY',
+    templateID: 'NytILrIsUywpf3Y8EyGGxY',
   },
   {
-    name: 'Knowledgebase OG',
+    fileName: 'Knowledgebase OG',
     slug: 'knowledgebase-og',
-    template: 'WHdIyxfgAUWEDo3GLCz9G5',
+    templateID: 'WHdIyxfgAUWEDo3GLCz9G5',
     disabledFields: ['subtitle'],
   },
   {
-    name: 'Brutalist',
+    fileName: 'Brutalist',
     slug: 'invoice',
-    template: 'UC7DTEsW3PgoS2ApXyn3V9',
+    templateID: 'UC7DTEsW3PgoS2ApXyn3V9',
     fonts: [
       {
         family: 'JetBrains Mono',

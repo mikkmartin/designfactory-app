@@ -7,13 +7,12 @@ export const renderElement = (node): ReactElement<ParsedNode | null> => {
   const { id, style, children, name } = node
   let props: any = { key: id, style, name }
 
-  const isInstanceContainer = () => node.children.every(n => n.type === 'INSTANCE')
-
   switch (node.type) {
     case 'FRAME':
     case 'GROUP':
     case 'COMPONENT':
-      if (isInstanceContainer()) return <InstanceContainer {...props}>{children}</InstanceContainer>
+      if (isInstanceContainer(node))
+        return <InstanceContainer {...props}>{children}</InstanceContainer>
       else return <Box {...props}>{children.map(renderElement)}</Box>
     case 'RECTANGLE':
       return <Box {...props} />
@@ -31,4 +30,17 @@ export const renderElement = (node): ReactElement<ParsedNode | null> => {
       console.warn(node)
       return <></>
   }
+}
+
+const isInstanceContainer = node => {
+  let instanceCount = 0
+  return node.children.some(({ type }) => {
+    if (type === 'INSTANCE') {
+      instanceCount++
+      if (instanceCount > 2) return true
+      return false
+    } else {
+      instanceCount = 0
+    }
+  })
 }

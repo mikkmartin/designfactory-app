@@ -1,22 +1,14 @@
 import { renderElement } from './renderElement'
-import { TemplateProvider } from './TemplateContext'
 import { Page } from './elemets'
+import { CanvasProvider } from './model/CanvasModel'
 
-export const Canvas = ({
-  onDataUpdate = _ => {},
-  nodes,
-  disabledFields,
-  componentSets,
-  editable = true,
-  data,
-}) => {
+export const Canvas = ({ nodes, disabledFields, componentSets, editable = true }) => {
   if (!nodes) return null
   const fontFamilies = []
-  const props = { data, disabledFields, componentSets, onDataUpdate, fontFamilies, editable }
 
   return (
-    <TemplateProvider {...props}>
+    <CanvasProvider value={{ nodes, componentSets, disabledFields, editable }}>
       <Page>{nodes.map(renderElement)}</Page>
-    </TemplateProvider>
+    </CanvasProvider>
   )
 }

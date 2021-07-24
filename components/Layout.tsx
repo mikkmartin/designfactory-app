@@ -1,17 +1,27 @@
 import { FC } from 'react'
 import styled from 'styled-components'
-import { Editor, Header, ApiLink } from 'components/Editor'
-import { EditorProvider, Props } from 'components/Editor/EditorContext'
 import { Loading } from 'components/Editor/Loading'
+import {
+  EditorProvider,
+  IEditorData,
+  Editor,
+  Header,
+  ApiLink,
+  withActions,
+} from 'components/Editor'
+
+type Props = Omit<IEditorData, 'downloadUrl' | 'setData'>
 
 export const Layout: FC<Props> = ({ children, ...editorProps }) => {
   return (
-    <EditorProvider {...editorProps}>
+    <EditorProvider value={withActions({ ...editorProps, downloadUrl: '' })}>
       <Container>
         <div className="controls">
           <Header />
           <Editor />
+          {/*
           <ApiLink />
+          */}
         </div>
         <div className="container">
           {children}

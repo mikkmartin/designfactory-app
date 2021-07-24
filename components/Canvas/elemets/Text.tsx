@@ -1,18 +1,25 @@
-import { useTemplate } from '../TemplateContext'
-import { useEditor, EditorContent, JSONContent } from '@tiptap/react'
+import { useEditor as useTipTap, EditorContent, JSONContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { useEffect } from 'react'
 import { useInstance } from './InstanceContext'
+import { useCanvas } from '../model/CanvasModel'
+import { useEditor } from 'components/Editor'
 
 export const Text = ({ style, content, name }) => {
-  const { data, onDataUpdate, editable, disabledFields } = useTemplate()
+  const { editable, disabledFields } = useCanvas()
   const instance = useInstance()
+  const { data } = useEditor()
 
   const isDisabled = disabledFields?.find(fieldName => fieldName === name)
   const isEditable = editable && !isDisabled
 
   const fillText = (name: string): string => {
-    if (instance && typeof instance.data === 'string') return instance.data
+    if (instance) {
+      if (typeof instance.data === 'string') return instance.data
+      for (const [key, value] of Object.entries(instance.data)) {
+        if (name === key) return value.toString()
+      }
+    }
     for (const [key, value] of Object.entries(data)) {
       if (name === key) return value as string
     }
@@ -21,7 +28,7 @@ export const Text = ({ style, content, name }) => {
 
   if (!isEditable) return <p style={style}>{isDisabled ? content : fillText(name)}</p>
 
-  const editor = useEditor({
+  const editor = useTipTap({
     extensions: [StarterKit],
     content: fillText(name),
     onUpdate() {
@@ -32,8 +39,8 @@ export const Text = ({ style, content, name }) => {
           if (val.content) str = str + val.content.map(v => v.text)
           return str
         }, '')
-        if (instance) instance.update(value)
-        else onDataUpdate({ [name]: value })
+        if (instance) instance.update({ [name]: value })
+        //else onDataUpdate({ [name]: value })
       }
     },
     onFocus() {

@@ -4,8 +4,9 @@ import { snappy } from 'static/transitions'
 import styled from 'styled-components'
 import { InstanceNode } from '../parseTemplate/parseTemplate'
 import { renderElement } from '../renderElement'
-import { useTemplate } from '../TemplateContext'
 import { editable } from './editableStyle'
+import { useCanvas } from '../model/CanvasModel'
+import { useEditor } from 'components/Editor'
 
 export const Instance: FC<InstanceNode & { listParent?: null | string; nthChild: number }> = ({
   style,
@@ -15,7 +16,8 @@ export const Instance: FC<InstanceNode & { listParent?: null | string; nthChild:
   listParent,
   nthChild,
 }) => {
-  const { data, componentSets, onDataUpdate, editable } = useTemplate()
+  const { data } = useEditor()
+  const { componentSets, editable } = useCanvas()
 
   const componentSet = Object.values(componentSets).find(set => {
     return set.find(component => component.id === componentId)
@@ -51,9 +53,9 @@ export const Instance: FC<InstanceNode & { listParent?: null | string; nthChild:
     if (hasOverrideApplied) {
       const currentIndex = componentSet.findIndex(c => data[overrideKey] === c.name.split('=')[1])
       const nextIndex = currentIndex < componentSet.length - 1 ? currentIndex + 1 : 0
-      onDataUpdate({ [overrideKey]: componentSet[nextIndex].name.split('=')[1] })
+      //onDataUpdate({ [overrideKey]: componentSet[nextIndex].name.split('=')[1] })
     } else {
-      onDataUpdate({ [name]: componentSet[0].name.split('=')[1] })
+      //onDataUpdate({ [name]: componentSet[0].name.split('=')[1] })
     }
   }
 

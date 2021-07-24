@@ -1,4 +1,4 @@
-import { defaultTemplatesv2 } from 'static/defaultTemplates'
+import { defaultTemplatesv2, TemplateObjectV2 } from 'static/defaultTemplates'
 import { Layout } from 'components/Layout'
 import { Canvas } from 'components/Canvas'
 import { getTemplate } from 'data/figma'
@@ -12,32 +12,19 @@ import { useRouter } from 'next/router'
 interface StaticProps {
   initialTemplate: FileResponse
 }
+interface Props extends TemplateObjectV2, StaticProps {}
 
-interface Props extends StaticProps {
-  data: any
-  fonts: any[]
-}
-
-const File: FC<Props> = ({ initialTemplate }) => {
+const File: FC<Props> = ({ initialTemplate, templateID, fileName, disabledFields }) => {
+  const { data, fonts, template, loading } = useEditor(templateID, initialTemplate)
   const { query } = useRouter()
-  const { frames, slug: _slug } = query
-  const slug = Array.isArray(_slug) ? _slug[0] : _slug
-  const {
-    template: templateID,
-    name,
-    disabledFields,
-  } = defaultTemplatesv2.find(t => t.slug === slug)
+  const { frames } = query
 
-  const { onDataUpdate, setData, data, fonts, template, loading } = useEditor(
-    templateID,
-    initialTemplate
-  )
   const { nodes, componentSets, schema } = parseTemplate(template, {
     filter: (_, i) => (frames === 'all' ? true : i === 0),
   })
 
-  const layoutProps = { fileName: name, schema, data, setData, loading, slug }
-  const canvasProps = { data, fonts, nodes, componentSets, disabledFields, onDataUpdate }
+  const layoutProps = { fileName, data, loading, schema }
+  const canvasProps = { data, nodes, componentSets, disabledFields }
   return (
     <Layout {...layoutProps}>
       <Canvas {...canvasProps} />
@@ -45,13 +32,11 @@ const File: FC<Props> = ({ initialTemplate }) => {
   )
 }
 
-export const getStaticProps: GetStaticProps<StaticProps> = async ({ params }) => {
-  const templateID = defaultTemplatesv2.find(({ slug }) => slug === params.slug).template
-
+export const getStaticProps: GetStaticProps<StaticProps> = async ({ params: { slug } }) => {
+  const { templateID, ...rest } = defaultTemplatesv2.find(t => t.slug === slug)
+  const props = { initialTemplate: await getTemplate(templateID), ...rest }
   return {
-    props: {
-      initialTemplate: await getTemplate(templateID),
-    },
+    props,
     revalidate: 1,
   }
 }

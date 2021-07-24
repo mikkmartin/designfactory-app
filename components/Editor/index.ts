@@ -1,4 +1,5 @@
 export { Editor } from './Editor'
 export { ApiLink } from './ApiLink'
 export { Header } from '../Header'
-export { useEditorData as useEditor } from './EditorContext'
+export { useEditor, EditorProvider, withActions } from './model/EditorModel'
+export type { IEditorData } from './model/EditorModel'

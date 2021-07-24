@@ -1,43 +1,40 @@
+import { useRef } from 'react'
 import { renderElement } from '../renderElement'
-import { useTemplate } from '../TemplateContext'
 import { Box } from './Box'
 import { InstanceProvider } from './InstanceContext'
+import { useCanvas } from '../model/CanvasModel'
+import { useEditor } from 'components/Editor'
 
 export const InstanceContainer = ({ children, ...props }) => {
-  const { data, onDataUpdate, componentSets } = useTemplate()
+  const { componentSets } = useCanvas()
+  const { data } = useEditor()
+  const index = useRef(0)
 
-  const renderFromArray = arr => {
-    const updateInstance = (val, i) => {
+  const update = obj => {
+    /*
+    console.log(data.items[0])
+    Object.entries(obj).map(([k, v]) => {
       onDataUpdate({
-        [props.name]: arr.map((prevVal, _i) => {
-          if (_i === i) return val
-          else return prevVal
+        [props.name]: data[props.name].map((item, i) => {
+          if (i === index.current) return { ...item, [k]: v }
+          else return item
         }),
       })
-    }
-
-    const componentSet = Object.values(componentSets).find(set => {
-      return set.find(component => component.id === children[0].componentId)
     })
-
-    return arr.map((str, i) => {
-      const component = children[i]
-        ? componentSet.find(component => component.id === children[i].componentId)
-        : componentSet[componentSet.length - 1]
-
-      return (
-        <InstanceProvider key={i} data={str} update={v => updateInstance(v, i)}>
-          {renderElement(component)}
-        </InstanceProvider>
-      )
-    })
+    */
   }
 
-  console.log(data[props.name])
-
-  const renderedChildren = data[props.name]
-    ? renderFromArray(data[props.name])
-    : children.map(renderElement)
-
-  return <Box {...props}>{renderedChildren}</Box>
+  return (
+    <Box {...props}>
+      {children.map((child, i) =>
+        child.type === 'INSTANCE' ? (
+          <InstanceProvider key={i} data={data[props.name]} update={update}>
+            {renderElement(child)}
+          </InstanceProvider>
+        ) : (
+          renderElement(child)
+        )
+      )}
+    </Box>
+  )
 }

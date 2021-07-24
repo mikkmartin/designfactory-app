@@ -4,14 +4,15 @@ import baseURL from '../../static/baseURL'
 import { EditorDidMount, EditorWillMount } from 'react-monaco-editor'
 import styled from 'styled-components'
 import { useMeasure } from 'react-use'
-import { useEditorData } from './EditorContext'
+import { useEditor } from './index'
 import { theme } from './theme'
 import packagejson from '../../package.json'
+import { observer } from 'mobx-react-lite'
 const MonacoEditor = dynamic(import('react-monaco-editor'), { ssr: false })
 
-export const Editor = () => {
+export const Editor = observer(() => {
   const [ref, { width, height }] = useMeasure()
-  const { data, setData, schema } = useEditorData()
+  const { data, schema, setData } = useEditor()
   const [jsonString, setJsonString] = useState<string>(JSON.stringify(data, null, 2))
 
   const onWillMount: EditorWillMount = monaco => {
@@ -31,7 +32,8 @@ export const Editor = () => {
   }
 
   useEffect(() => {
-    setJsonString(JSON.stringify(data, null, 2))
+    console.log(JSON.stringify(data, null, 2))
+    //setJsonString(JSON.stringify(data, null, 2))
   }, [data])
 
   useEffect(() => {
@@ -75,7 +77,7 @@ export const Editor = () => {
       </Version>
     </Container>
   )
-}
+})
 
 const Version = styled.div`
   position: absolute;

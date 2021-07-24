@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
-import { useTemplate } from '../TemplateContext'
 import styled, { css } from 'styled-components'
+import { useCanvas } from '../model/CanvasModel'
+import { useEditor } from 'components/Editor'
 
 export const Box = ({ children, ...props }) => {
   let overrideUrl = null
   const [isLoading, setIsLoading] = useState(false)
-  const { data, editable } = useTemplate()
+  const { editable } = useCanvas()
+  const { data } = useEditor()
 
   if (props.style.background.includes('url')) {
     const overrideValue = Object.entries(data).find(([key]) => {

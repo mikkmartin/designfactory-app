@@ -11,6 +11,7 @@ type Props = {
 const Context = createContext<Props>()
 
 export const InstanceProvider: FC<Props> = ({ data, update, children }) => {
+  //console.log(data[0], 'InstanceProvider')
   return <Context.Provider value={{ data, update }}>{children}</Context.Provider>
 }
 
