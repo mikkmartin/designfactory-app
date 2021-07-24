@@ -3,8 +3,9 @@ import { AnimatePresence, motion } from 'framer-motion'
 import styled from 'styled-components'
 import { useEditor } from 'components/Editor'
 import { snappy } from 'static/transitions'
+import { observer } from 'mobx-react-lite'
 
-export const Loading: FC = () => {
+export const Loading = observer(() => {
   const { loading } = useEditor()
   const animations = {
     style: { x: '-50%' },
@@ -26,7 +27,7 @@ export const Loading: FC = () => {
       )}
     </AnimatePresence>
   )
-}
+})
 
 const Pill = styled(motion.div)`
   position: absolute;

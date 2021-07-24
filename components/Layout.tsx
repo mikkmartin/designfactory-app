@@ -1,20 +1,13 @@
 import { FC } from 'react'
 import styled from 'styled-components'
 import { Loading } from 'components/Editor/Loading'
-import {
-  EditorProvider,
-  IEditorData,
-  Editor,
-  Header,
-  ApiLink,
-  withActions,
-} from 'components/Editor'
+import { Template } from 'data/figma'
+import { IEditorData, Editor, Header, ApiLink } from 'components/Editor'
+import { EditorProvider } from 'components/Editor/model/EditorProvider'
 
-type Props = Omit<IEditorData, 'downloadUrl' | 'setData'>
-
-export const Layout: FC<Props> = ({ children, ...editorProps }) => {
+export const Layout: FC<{ template: Template }> = ({ children, template }) => {
   return (
-    <EditorProvider value={withActions({ ...editorProps, downloadUrl: '' })}>
+    <EditorProvider template={template}>
       <Container>
         <div className="controls">
           <Header />

@@ -4,7 +4,7 @@ import { Fonts } from 'static/types'
 
 export interface TemplateObject {
   fileName: string
-  templateID: string
+  id: string
   dateAdded?: Date
   fonts?: Fonts
 }
@@ -12,7 +12,7 @@ export interface TemplateObject {
 export const defaultTemplates: TemplateObject[] = [
   {
     fileName: 'Simple',
-    templateID: defaults.template,
+    id: defaults.template,
   },
 ]
 
@@ -25,7 +25,7 @@ export const defaultTemplatesv2: TemplateObjectV2[] = [
   {
     fileName: 'Debugger',
     slug: 'debug',
-    templateID: 'QBeNqpKnj2exAqyWMNYbWM',
+    id: 'QBeNqpKnj2exAqyWMNYbWM',
     disabledFields: [
       'disabled',
       'total',
@@ -37,18 +37,18 @@ export const defaultTemplatesv2: TemplateObjectV2[] = [
   {
     fileName: 'Ida OG',
     slug: 'ida-og',
-    templateID: 'NytILrIsUywpf3Y8EyGGxY',
+    id: 'NytILrIsUywpf3Y8EyGGxY',
   },
   {
     fileName: 'Knowledgebase OG',
     slug: 'knowledgebase-og',
-    templateID: 'WHdIyxfgAUWEDo3GLCz9G5',
+    id: 'WHdIyxfgAUWEDo3GLCz9G5',
     disabledFields: ['subtitle'],
   },
   {
     fileName: 'Brutalist',
     slug: 'invoice',
-    templateID: 'UC7DTEsW3PgoS2ApXyn3V9',
+    id: 'UC7DTEsW3PgoS2ApXyn3V9',
     fonts: [
       {
         family: 'JetBrains Mono',

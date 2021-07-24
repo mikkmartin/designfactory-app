@@ -1,16 +1,16 @@
-import { Instance, onSnapshot, types } from 'mobx-state-tree'
+import { Instance, onSnapshot, types, SnapshotIn } from 'mobx-state-tree'
 import { createContext, useContext } from 'react'
 
 const CanvasModel = types.model('CanvasModel', {
-  nodes: types.maybe(types.frozen<{ [k: string]: string }>()),
-  componentSets: types.maybe(types.frozen<{ [k: string]: string }>()),
+  nodes: types.maybe(types.frozen<{ [k: string]: any }>()),
+  componentSets: types.maybe(types.frozen<{ [k: string]: any }>()),
   editable: types.boolean,
   disabledFields: types.array(types.string)
 })
 
 const RootStoreContext = createContext<null | ICanvasModel>(null)
 
-export type ICanvasModel = Instance<typeof CanvasModel>
+export type ICanvasModel = SnapshotIn<typeof CanvasModel>
 export const CanvasProvider = RootStoreContext.Provider
 
 export function useCanvas() {

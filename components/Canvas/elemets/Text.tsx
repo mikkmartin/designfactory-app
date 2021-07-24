@@ -20,9 +20,11 @@ export const Text = observer<{ style: any; content: any; name: any }>(
     const fillText = (name: string): string => {
       if (instance) {
         if (typeof instance.data === 'string') return instance.data
+        /*
         for (const [key, value] of Object.entries(instance.data)) {
           if (name === key) return value.toString()
         }
+        */
       }
       for (const [key, value] of Object.entries(data)) {
         if (name === key) return value as string
@@ -36,6 +38,7 @@ export const Text = observer<{ style: any; content: any; name: any }>(
       extensions: [StarterKit],
       content: fillText(name),
       onUpdate() {
+        /*
         const { content }: JSONContent = this.getJSON()
         if (content) {
           const value = content.reduce((str, val, i) => {
@@ -43,9 +46,10 @@ export const Text = observer<{ style: any; content: any; name: any }>(
             if (val.content) str = str + val.content.map(v => v.text)
             return str
           }, '')
-          if (instance) instance.update({ [name]: value })
+          //if (instance) instance.update({ [name]: value })
           //else onDataUpdate({ [name]: value })
         }
+        */
       },
       onFocus() {
         setTimeout(() => {
