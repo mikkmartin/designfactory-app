@@ -19,10 +19,7 @@ export const Canvas = ({ template: _template, editable = true }) => {
   })
 
   const { nodes, componentSets, schema } = parseTemplate(template)
-
-  useEffect(() => {
-    setLoading(isValidating)
-  }, [isValidating])
+  useEffect(() => setLoading(isValidating), [isValidating])
   useEffect(() => setSchema(schema), [schema])
 
   return (
