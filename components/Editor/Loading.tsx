@@ -8,7 +8,6 @@ import { observer } from 'mobx-react-lite'
 export const Loading = observer(() => {
   const { loading } = useEditor()
   const animations = {
-    style: { x: '-50%' },
     initial: 'out',
     animate: 'in',
     exit: 'out',
@@ -30,9 +29,8 @@ export const Loading = observer(() => {
 })
 
 const Pill = styled(motion.div)`
-  position: absolute;
+  position: fixed;
   bottom: 16px;
-  left: 50%;
   padding: 1rem 2rem;
   min-width: 160px;
   text-align: center;

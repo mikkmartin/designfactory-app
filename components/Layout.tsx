@@ -44,6 +44,9 @@ const Container = styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    > * {
+      flex-shrink: 0;
+    }
   }
 `
 
