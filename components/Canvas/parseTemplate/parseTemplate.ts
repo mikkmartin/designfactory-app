@@ -19,13 +19,13 @@ import { getSchema } from './getSchema'
 export const parseTemplate = (template: FileResponse, options = { filter: (_, i) => i === 0 }) => {
   const { filter } = options
   const canvas = template.document.children.find(node => node.type === 'CANVAS') as Canvas
-  const componentSets = getComponentSets(canvas)
 
   const visibleNodes = canvas.children
     .filter(node => node.visible !== false && node.type === 'FRAME')
     .filter(filter)
 
   const nodes = visibleNodes.map(c => parseNode(c as BoxNode))
+  const componentSets = getComponentsAndSets(canvas.children)
 
   return {
     nodes,
@@ -34,18 +34,12 @@ export const parseTemplate = (template: FileResponse, options = { filter: (_, i)
   }
 }
 
-export type ParsedCoponentSet = { [key: string]: ParsedNode[] }
-const getComponentSets = (node): ParsedCoponentSet =>
-  findNodes('COMPONENT_SET', node.children).reduce(
-    (sets, set) => ({
-      ...sets,
-      [set.name]: set.children.reduce(
-        (components, component) => [...components, parseNode(component as BoxNode)],
-        []
-      ),
-    }),
-    {}
-  )
+export type ParsedCoponentSet = { components: ParsedNode[], sets: string[][] }
+const getComponentsAndSets = nodes => {
+  const components = findNodes('COMPONENT', nodes).map(node => parseNode(node as BoxNode))
+  const sets = findNodes('COMPONENT_SET', nodes).map(set => set.children.map(child => child.id))
+  return { components, sets }
+}
 
 export const findNodes = <T extends NodeType>(type: T, children): Extract<Node, { type: T }>[] => {
   return children.reduce((a, node) => {

@@ -1,4 +1,4 @@
-import { findNodes, ParsedCoponentSet } from './parseTemplate'
+import { findNodes } from './parseTemplate'
 
 export interface ISchema {
   $id: string
@@ -9,7 +9,7 @@ export interface ISchema {
   }
 }
 
-export const getSchema = (nodes, componentSets: ParsedCoponentSet): ISchema => {
+export const getSchema = (nodes, componentSets): ISchema => {
   const textNodes = findNodes('TEXT', nodes)
   //console.log({ textNodes, componentSets })
 
@@ -27,7 +27,7 @@ export const getSchema = (nodes, componentSets: ParsedCoponentSet): ISchema => {
       [key]: {
         type: 'string',
         description: `Swappable component.`,
-        examples: set.map(({ name }) => name.split('=')[1]),
+        //examples: set.map(({ name }) => name.split('=')[1]),
       },
     }),
     {}

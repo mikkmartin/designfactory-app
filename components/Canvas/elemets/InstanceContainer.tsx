@@ -32,13 +32,20 @@ export const InstanceContainer: FC<ContainerNode> = observer(({ children, ...pro
         consecutiveInstances.push(child)
         return all
       } else if (consecutiveInstances.length > 3 && Boolean(data[props.name])) {
-        // if (consecutiveInstances <= 2)
-        //   return [...all, ...[...Array(2)].fill(runningInstanceChild), child]
-        // else if (consecutiveInstances > 2) return all
-        console.log('more than 2 instances in a row', consecutiveInstances)
-        console.log('time to populate with')
-        console.log(componentSets)
-        return [...all, child]
+        const skippedComponents = consecutiveInstances.map(child =>
+          componentSets.components.find(c => c.id === child.componentId)
+        )
+        const elementsFromfromData = data[props.name]
+          .map((el, i) => {
+            if (skippedComponents[i]) {
+              return skippedComponents[i]
+            } else {
+              return componentSets.components.find(c => c.id === skippedComponents[0].id)
+            }
+          })
+          .map((el, i) => ({ ...el, id: `${el.id}-${i}` }))
+        consecutiveInstances = []
+        return [...all, ...elementsFromfromData, child]
       } else {
         const skippedChildren = [...consecutiveInstances]
         consecutiveInstances = []
@@ -46,15 +53,5 @@ export const InstanceContainer: FC<ContainerNode> = observer(({ children, ...pro
       }
     }, [])
 
-  return (
-    <Box {...props}>
-      {populateSymbols(children).map((child, i) =>
-        child.type === 'INSTANCE' ? (
-          <InstanceProvider key={i}>{renderElement(child)}</InstanceProvider>
-        ) : (
-          renderElement(child)
-        )
-      )}
-    </Box>
-  )
+  return <Box {...props}>{populateSymbols(children).map((child, i) => renderElement(child))}</Box>
 })
