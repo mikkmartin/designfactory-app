@@ -4,7 +4,6 @@ import { useEffect } from 'react'
 import { useInstance } from './InstanceContext'
 import { useCanvas } from '../model/CanvasModel'
 import { useEditor } from 'components/Editor'
-import { onSnapshot } from 'mobx-state-tree'
 import { observer } from 'mobx-react-lite'
 import { TextNode } from '../parseTemplate'
 
@@ -13,7 +12,7 @@ export const Text = observer<TextNode>(({ style, content, name }) => {
   //const instance = useInstance()
   const editor = useEditor()
   const { data, setText } = editor
-  const json = data.toJSON()
+  const json = data
 
   const isDisabled = disabledFields?.find(fieldName => fieldName === name)
   const isEditable = editable && !isDisabled

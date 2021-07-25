@@ -3,20 +3,19 @@ import { FC, createContext, useContext } from 'react'
 import { IEditorData, RootModel } from './EditorModel'
 import baseURL from 'static/baseURL'
 import { objectToParams } from 'lib/urlEncoder'
+import { EditorStore } from './EditorStore'
 
-const Context = createContext<null | IEditorData>(null)
+const Context = createContext<EditorStore>(null)
 
 export const EditorProvider: FC<{ templateId: string }> = ({ children, templateId }) => {
   const { fileName, slug, initialData } = defaultTemplatesv2.find(({ id }) => id === templateId)
-  const initialState = RootModel.create({
+  const store = new EditorStore({
     fileName,
     downloadUrl: `${baseURL}/files/${slug}.png?${objectToParams(initialData)}`,
     loading: false,
     data: initialData,
-    schema: null,
   })
-
-  return <Context.Provider value={initialState}>{children}</Context.Provider>
+  return <Context.Provider value={store}>{children}</Context.Provider>
 }
 
 export function useEditor() {

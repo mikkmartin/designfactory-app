@@ -8,7 +8,8 @@ import { useEditor } from './index'
 import { theme } from './theme'
 import packagejson from '../../package.json'
 import { observer } from 'mobx-react-lite'
-import { onSnapshot } from 'mobx-state-tree'
+import { autorun, toJS } from 'mobx'
+import { dequal } from 'dequal/lite'
 const MonacoEditor = dynamic(import('react-monaco-editor'), { ssr: false })
 
 type Editor = typeof MonacoEditor
@@ -16,15 +17,13 @@ type Editor = typeof MonacoEditor
 export const Editor = observer(() => {
   const editorRef = useRef(null)
   const [ref, { width, height }] = useMeasure()
-  const editor = useEditor()
-  const { data, schema, setData, setJsonErrors } = editor
-  const [jsonString, setJsonString] = useState<string>(JSON.stringify(data, null, 2))
+  const { data, schema, setData } = useEditor()
 
   const onWillMount: EditorWillMount = monaco => {
     monaco.editor.defineTheme('dok-theme', theme)
     monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
       validate: true,
-      schemas: [{ schema, uri: baseURL + '/schema.json', fileMatch: ['*'] }],
+      schemas: [{ schema: toJS(schema), uri: baseURL + '/schema.json', fileMatch: ['*'] }],
     })
   }
 
@@ -37,35 +36,23 @@ export const Editor = observer(() => {
     }
   }
 
-  useEffect(() => {
-    const unsubscribe = onSnapshot(editor, ({ data }) => {
-      setJsonString(JSON.stringify(data, null, 2))
-    })
-    return () => unsubscribe()
-  }, [])
-
-  useEffect(() => {
-    //if (!editorRef.current) return
+  const handleChange = (str, ...rest) => {
+    console.log(rest)
     try {
-      const newJson = JSON.parse(jsonString)
-      setData(newJson)
-      /*
-      const errors = editorRef.current.getModelMarkers({})
-      if (errors.length === 0) setData(newJson)
-      setJsonErrors(errors)
-      */
+      const newData = JSON.parse(str)
+      setData(newData)
     } catch (e) {
       console.error(e)
     }
-  }, [jsonString])
+  }
 
   return (
     <Container ref={ref}>
       <MonacoEditor
         editorWillMount={onWillMount}
         editorDidMount={onDidMount}
-        onChange={setJsonString}
-        value={jsonString}
+        onChange={handleChange}
+        value={JSON.stringify(data, null, 2)}
         language="json"
         theme="vs-dark"
         width={width}
@@ -109,4 +96,7 @@ const Container = styled.div`
   flex: 1;
   min-width: 350px;
   position: relative;
+  > * {
+    position: absolute;
+  }
 `
