@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { renderElement } from '../renderElement'
 import { Box } from './Box'
 import { InstanceProvider } from './InstanceContext'
-import { useCanvas } from '../model/CanvasModel'
+import { useCanvas } from '../store/CanvasProvider'
 import { useEditor } from 'components/Editor'
 
 export const InstanceContainer = ({ children, ...props }) => {

@@ -1,4 +1,4 @@
-import { makeAutoObservable, makeObservable } from 'mobx'
+import { makeAutoObservable } from 'mobx'
 import { ISchema } from 'components/Canvas/parseTemplate/getSchema'
 
 type SomeObject = { [key: string]: any }

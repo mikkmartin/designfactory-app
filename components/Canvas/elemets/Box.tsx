@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
-import { useCanvas } from '../model/CanvasModel'
+import { useCanvas } from '../store/CanvasProvider'
 import { useEditor } from 'components/Editor'
 
 export const Box = ({ children, ...props }) => {

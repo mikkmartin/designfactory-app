@@ -1,7 +1,7 @@
 import { defaultTemplatesv2 } from 'static/defaultTemplates'
 import { renderElement } from './renderElement'
 import { Page } from './elemets'
-import { CanvasProvider } from './model/CanvasModel'
+import { CanvasProvider } from './store/CanvasProvider'
 import { parseTemplate } from './parseTemplate'
 import { useEditor } from 'components/Editor'
 import { useEffect } from 'react'
@@ -26,7 +26,7 @@ export const Canvas = ({ template: _template, editable = true }) => {
   useEffect(() => setSchema(schema), [schema])
 
   return (
-    <CanvasProvider value={{ nodes, componentSets, disabledFields, editable }}>
+    <CanvasProvider initialState={{ nodes, componentSets, disabledFields, editable }}>
       <Page>{nodes.map(renderElement)}</Page>
     </CanvasProvider>
   )

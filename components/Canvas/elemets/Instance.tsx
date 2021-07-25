@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { InstanceNode } from '../parseTemplate/parseTemplate'
 import { renderElement } from '../renderElement'
 import { editable } from './editableStyle'
-import { useCanvas } from '../model/CanvasModel'
+import { useCanvas } from '../store/CanvasProvider'
 import { useEditor } from 'components/Editor'
 
 export const Instance: FC<InstanceNode & { listParent?: null | string; nthChild: number }> = ({

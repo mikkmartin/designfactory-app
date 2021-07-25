@@ -1,6 +1,5 @@
 import { defaultTemplatesv2 } from 'static/defaultTemplates'
 import { FC, createContext, useContext } from 'react'
-import { IEditorData, RootModel } from './EditorModel'
 import baseURL from 'static/baseURL'
 import { objectToParams } from 'lib/urlEncoder'
 import { EditorStore } from './EditorStore'
