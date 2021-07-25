@@ -1,6 +1,6 @@
 import { useEditor as useTipTap, EditorContent, JSONContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useInstance } from './InstanceContext'
 import { useCanvas } from '../store/CanvasProvider'
 import { useEditor } from 'components/Editor'
@@ -8,6 +8,7 @@ import { observer } from 'mobx-react-lite'
 import { TextNode } from '../parseTemplate'
 
 export const Text = observer<TextNode>(({ style, content, name }) => {
+  const acceptUpdates = useRef(true)
   const { editable, disabledFields } = useCanvas()
   //const instance = useInstance()
   const editor = useEditor()
@@ -42,14 +43,19 @@ export const Text = observer<TextNode>(({ style, content, name }) => {
       }
     },
     onFocus() {
+      acceptUpdates.current = false
       setTimeout(() => {
         document.execCommand('selectAll', false, null)
       }, 0)
     },
+    onBlur() {
+      acceptUpdates.current = true
+    }
   })
 
   useEffect(() => {
     if (!contentEditor || typeof json[name] !== 'string') return
+    if (!acceptUpdates.current) return
     contentEditor.commands.setContent({
       type: 'doc',
       content: [
