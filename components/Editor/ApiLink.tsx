@@ -5,7 +5,7 @@ import { Copy } from '../Icons'
 import { snappy } from 'static/transitions'
 import { motion, AnimatePresence } from 'framer-motion'
 import { observer } from 'mobx-react-lite'
-import { useEditor } from './model/EditorProvider'
+import { useEditor } from './store/EditorProvider'
 
 export const ApiLink = observer(() => {
   const { downloadUrl } = useEditor()

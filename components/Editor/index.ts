@@ -1,5 +1,4 @@
 export { Editor } from './Editor'
 export { ApiLink } from './ApiLink'
 export { Header } from '../Header'
-export { useEditor } from './model/EditorProvider'
-export type { IEditorData } from './model/EditorModel'
+export { useEditor } from './store/EditorProvider'

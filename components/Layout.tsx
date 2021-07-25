@@ -2,7 +2,7 @@ import { FC } from 'react'
 import styled from 'styled-components'
 import { Loading } from 'components/Editor/Loading'
 import { Editor, Header, ApiLink } from 'components/Editor'
-import { EditorProvider } from 'components/Editor/model/EditorProvider'
+import { EditorProvider } from 'components/Editor/store/EditorProvider'
 
 export const Layout: FC<{ templateId: string }> = ({ children, templateId }) => {
   return (
