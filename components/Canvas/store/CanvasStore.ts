@@ -16,9 +16,6 @@ export class CanvasStore implements InitialState {
 
   constructor(initialState: Partial<InitialState>) {
     makeObservable<InitialState>(this, {
-      nodes: observable.shallow,
-      componentSets: observable.shallow,
-      editable: observable,
       disabledFields: observable,
     })
     for (const [key, value] of Object.entries(initialState)) {

@@ -10,7 +10,8 @@ import { TextNode } from '../parseTemplate'
 export const Text = observer<TextNode>(({ style, content, name }) => {
   const acceptUpdates = useRef(true)
   const { editable, disabledFields } = useCanvas()
-  //const instance = useInstance()
+  const instance = useInstance()
+
   const editor = useEditor()
   const { data, setText } = editor
   const json = data

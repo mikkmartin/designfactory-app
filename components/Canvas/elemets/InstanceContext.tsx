@@ -1,18 +1,14 @@
-import { FC, createContext, useContext } from 'react'
+import { useEditor } from 'components/Editor'
+import { createContext, useContext } from 'react'
 
-type Props = {
-  data: string | {
-    [key: string]: any
+const Context = createContext(null)
+
+export const InstanceProvider = ({ children }) => {
+  const { data, setData } = useEditor()
+  const handleUpdate = val => {
+    console.log(val)
   }
-  update: (val: any) => void
-}
-
-//@ts-ignore
-const Context = createContext<Props>()
-
-export const InstanceProvider: FC<Props> = ({ data, update, children }) => {
-  //console.log(data[0], 'InstanceProvider')
-  return <Context.Provider value={{ data, update }}>{children}</Context.Provider>
+  return <Context.Provider value={{ data, onUpdate: handleUpdate }}>{children}</Context.Provider>
 }
 
 export const useInstance = () => useContext(Context)

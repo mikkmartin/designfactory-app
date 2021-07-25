@@ -37,7 +37,6 @@ export const Editor = observer(() => {
   }
 
   const handleChange = (str, ...rest) => {
-    console.log(rest)
     try {
       const newData = JSON.parse(str)
       setData(newData)

@@ -1,14 +1,15 @@
-import { useRef } from 'react'
+import { FC } from 'react'
 import { renderElement } from '../renderElement'
 import { Box } from './Box'
 import { InstanceProvider } from './InstanceContext'
 import { useCanvas } from '../store/CanvasProvider'
 import { useEditor } from 'components/Editor'
+import { observer } from 'mobx-react-lite'
+import { ContainerNode } from '../parseTemplate/parseTemplate'
 
-export const InstanceContainer = ({ children, ...props }) => {
+export const InstanceContainer: FC<ContainerNode> = observer(({ children, ...props }) => {
   const { componentSets } = useCanvas()
   const { data } = useEditor()
-  const index = useRef(0)
 
   const update = obj => {
     /*
@@ -24,17 +25,36 @@ export const InstanceContainer = ({ children, ...props }) => {
     */
   }
 
+  let consecutiveInstances = []
+  const populateSymbols = children =>
+    children.reduce((all, child) => {
+      if (child.type === 'INSTANCE') {
+        consecutiveInstances.push(child)
+        return all
+      } else if (consecutiveInstances.length > 3 && Boolean(data[props.name])) {
+        // if (consecutiveInstances <= 2)
+        //   return [...all, ...[...Array(2)].fill(runningInstanceChild), child]
+        // else if (consecutiveInstances > 2) return all
+        console.log('more than 2 instances in a row', consecutiveInstances)
+        console.log('time to populate with')
+        console.log(componentSets)
+        return [...all, child]
+      } else {
+        const skippedChildren = [...consecutiveInstances]
+        consecutiveInstances = []
+        return [...all, ...skippedChildren, child]
+      }
+    }, [])
+
   return (
     <Box {...props}>
-      {children.map((child, i) =>
+      {populateSymbols(children).map((child, i) =>
         child.type === 'INSTANCE' ? (
-          <InstanceProvider key={i} data={data[props.name]} update={update}>
-            {renderElement(child)}
-          </InstanceProvider>
+          <InstanceProvider key={i}>{renderElement(child)}</InstanceProvider>
         ) : (
           renderElement(child)
         )
       )}
     </Box>
   )
-}
+})
