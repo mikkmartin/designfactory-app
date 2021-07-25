@@ -65,7 +65,7 @@ export const Text = observer<TextNode>(({ style, content, name }) => {
         },
       ],
     })
-  }, [contentEditor, json])
+  }, [contentEditor, json[name]])
 
   return <EditorContent style={style} editor={contentEditor} />
 })
