@@ -13,13 +13,13 @@ export const getSchema = (nodes, componentSets: ParsedCoponentSet): ISchema => {
   const textNodes = findNodes('TEXT', nodes)
   //console.log({ textNodes, componentSets })
 
-  const textProps = textNodes.reduce(
-    (props, node) => ({
+  const textProps = textNodes.reduce((props, { name, characters }) => {
+    const val = Boolean(Number(characters)) ? Number(characters) : characters
+    return {
       ...props,
-      [node.name]: { type: 'string', description: 'Text fill', default: node.characters },
-    }),
-    {}
-  )
+      [name]: { type: typeof val, default: val },
+    }
+  }, {})
 
   const componentProps = Object.entries(componentSets).reduce(
     (props, [key, set]) => ({

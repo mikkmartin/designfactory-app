@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import dynamic from 'next/dynamic'
 import baseURL from '../../static/baseURL'
 import { EditorDidMount, EditorWillMount } from 'react-monaco-editor'
@@ -11,10 +11,13 @@ import { observer } from 'mobx-react-lite'
 import { onSnapshot } from 'mobx-state-tree'
 const MonacoEditor = dynamic(import('react-monaco-editor'), { ssr: false })
 
+type Editor = typeof MonacoEditor
+
 export const Editor = observer(() => {
+  const editorRef = useRef(null)
   const [ref, { width, height }] = useMeasure()
   const editor = useEditor()
-  const { data, schema, setData } = editor
+  const { data, schema, setData, setJsonErrors } = editor
   const [jsonString, setJsonString] = useState<string>(JSON.stringify(data, null, 2))
 
   const onWillMount: EditorWillMount = monaco => {
@@ -26,6 +29,7 @@ export const Editor = observer(() => {
   }
 
   const onDidMount: EditorDidMount = (_, monaco) => {
+    editorRef.current = monaco
     monaco.editor.setTheme('dok-theme')
     //@ts-ignore
     window.MonacoEnvironment.getWorkerUrl = (_moduleId: string, label: string) => {
@@ -41,9 +45,15 @@ export const Editor = observer(() => {
   }, [])
 
   useEffect(() => {
+    //if (!editorRef.current) return
     try {
       const newJson = JSON.parse(jsonString)
       setData(newJson)
+      /*
+      const errors = editorRef.current.getModelMarkers({})
+      if (errors.length === 0) setData(newJson)
+      setJsonErrors(errors)
+      */
     } catch (e) {
       console.error(e)
     }
