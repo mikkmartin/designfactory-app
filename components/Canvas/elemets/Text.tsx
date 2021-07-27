@@ -19,10 +19,9 @@ export const Text = observer<TextNode>(({ style, content, name }) => {
   const isEditable = editable && !isDisabled
 
   const fillText = (name: string): string => {
-    for (const [key, value] of Object.entries(data)) {
-      if (name === key && ['string', 'number'].includes(typeof value)) {
-        return value.toString()
-      }
+    const dataObj = data[name]
+    if (dataObj && ['string', 'number'].includes(typeof dataObj)) {
+      return dataObj
     }
     return content
   }
