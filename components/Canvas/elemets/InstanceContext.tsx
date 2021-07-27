@@ -3,12 +3,13 @@ import { createContext, useContext } from 'react'
 
 const Context = createContext(null)
 
-export const InstanceProvider = ({ children }) => {
-  const { data, setData } = useEditor()
-  const handleUpdate = val => {
+export const InstanceProvider = ({ data, children }) => {
+  const { setData } = useEditor()
+  //console.log(data)
+  const setText = val => {
     console.log(val)
   }
-  return <Context.Provider value={{ data, onUpdate: handleUpdate }}>{children}</Context.Provider>
+  return <Context.Provider value={{ data, setText }}>{children}</Context.Provider>
 }
 
 export const useInstance = () => useContext(Context)

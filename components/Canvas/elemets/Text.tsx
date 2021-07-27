@@ -10,18 +10,19 @@ import { TextNode } from '../parseTemplate'
 export const Text = observer<TextNode>(({ style, content, name }) => {
   const acceptUpdates = useRef(true)
   const { editable, disabledFields } = useCanvas()
+  const global = useEditor()
   const instance = useInstance()
-
-  const editor = useEditor()
-  const { data, setText } = editor
-  const json = data
+  const source = instance ? instance : global
+  const { data, setText } = source
 
   const isDisabled = disabledFields?.find(fieldName => fieldName === name)
   const isEditable = editable && !isDisabled
 
   const fillText = (name: string): string => {
     for (const [key, value] of Object.entries(data)) {
-      if (name === key && typeof value === 'string') return value as string
+      if (name === key && ['string', 'number'].includes(typeof value)) {
+        return value.toString()
+      }
     }
     return content
   }
@@ -39,7 +40,6 @@ export const Text = observer<TextNode>(({ style, content, name }) => {
           if (val.content) str = str + val.content.map(v => v.text)
           return str
         }, '')
-        //if (instance) instance.update({ [name]: value })
         setText({ [name]: value })
       }
     },
@@ -51,11 +51,11 @@ export const Text = observer<TextNode>(({ style, content, name }) => {
     },
     onBlur() {
       acceptUpdates.current = true
-    }
+    },
   })
 
   useEffect(() => {
-    if (!contentEditor || typeof json[name] !== 'string') return
+    if (!contentEditor || typeof data[name] !== 'string') return
     if (!acceptUpdates.current) return
     contentEditor.commands.setContent({
       type: 'doc',
@@ -65,13 +65,13 @@ export const Text = observer<TextNode>(({ style, content, name }) => {
           content: [
             {
               type: 'text',
-              text: json[name],
+              text: data[name],
             },
           ],
         },
       ],
     })
-  }, [contentEditor, json[name]])
+  }, [contentEditor, data[name]])
 
   return <EditorContent style={style} editor={contentEditor} />
 })

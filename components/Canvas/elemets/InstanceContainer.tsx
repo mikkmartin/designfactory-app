@@ -11,22 +11,16 @@ export const InstanceContainer: FC<ContainerNode> = observer(({ children, ...pro
   const { componentSets } = useCanvas()
   const { data } = useEditor()
 
-  const update = obj => {
-    /*
-    console.log(data.items[0])
-    Object.entries(obj).map(([k, v]) => {
-      onDataUpdate({
-        [props.name]: data[props.name].map((item, i) => {
-          if (i === index.current) return { ...item, [k]: v }
-          else return item
-        }),
-      })
-    })
-    */
+  const renderWithProvideor = (data, child) => {
+    return (
+      <InstanceProvider data={data} key={child.id}>
+        {renderElement(child)}
+      </InstanceProvider>
+    )
   }
 
   let consecutiveInstances = []
-  const populateSymbols = children =>
+  const renderWithPopulatedSymbols = children =>
     children.reduce((all, child) => {
       if (child.type === 'INSTANCE') {
         consecutiveInstances.push(child)
@@ -45,13 +39,19 @@ export const InstanceContainer: FC<ContainerNode> = observer(({ children, ...pro
           })
           .map((el, i) => ({ ...el, id: `${el.id}-${i}` }))
         consecutiveInstances = []
-        return [...all, ...elementsFromfromData, child]
+        return [
+          ...all,
+          ...elementsFromfromData.map((child, i) =>
+            renderWithProvideor(data[props.name][i], child)
+          ),
+          renderElement(child),
+        ]
       } else {
         const skippedChildren = [...consecutiveInstances]
         consecutiveInstances = []
-        return [...all, ...skippedChildren, child]
+        return [...all, ...skippedChildren.map(c => renderElement(c)), renderElement(child)]
       }
     }, [])
 
-  return <Box {...props}>{populateSymbols(children).map((child, i) => renderElement(child))}</Box>
+  return <Box {...props}>{renderWithPopulatedSymbols(children)}</Box>
 })
