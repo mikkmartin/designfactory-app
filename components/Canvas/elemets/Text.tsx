@@ -7,6 +7,8 @@ import { useEditor } from 'components/Editor'
 import { observer } from 'mobx-react-lite'
 import { TextNode } from '../parseTemplate'
 
+const isAcceptedValue = v => ['string', 'number'].includes(typeof v)
+
 export const Text = observer<TextNode>(({ style, content, name }) => {
   const acceptUpdates = useRef(true)
   const { editable, disabledFields } = useCanvas()
@@ -20,8 +22,8 @@ export const Text = observer<TextNode>(({ style, content, name }) => {
 
   const fillText = (name: string): string => {
     const dataVal = data[name]
-    if (dataVal && ['string', 'number'].includes(typeof dataVal)) {
-      return dataVal
+    if (dataVal && isAcceptedValue(dataVal)) {
+      return String(dataVal)
     }
     return content
   }
@@ -54,7 +56,7 @@ export const Text = observer<TextNode>(({ style, content, name }) => {
   })
 
   useEffect(() => {
-    if (!contentEditor || typeof data[name] !== 'string') return
+    if (!contentEditor || !isAcceptedValue(data[name])) return
     if (!acceptUpdates.current) return
     contentEditor.commands.setContent({
       type: 'doc',
@@ -64,7 +66,7 @@ export const Text = observer<TextNode>(({ style, content, name }) => {
           content: [
             {
               type: 'text',
-              text: data[name],
+              text: data[name].toString(),
             },
           ],
         },
