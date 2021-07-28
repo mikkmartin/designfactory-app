@@ -20,7 +20,7 @@ export const EditorProvider: FC<{ templateId: string }> = ({ children, templateI
 export function useEditor() {
   const store = useContext(Context)
   if (store === null) {
-    throw new Error('Store cannot be null, please add a context provider')
+    console.warn('Store cannot be null, please add a context provider')
   }
   return store
 }
