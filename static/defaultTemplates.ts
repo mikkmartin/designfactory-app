@@ -18,8 +18,33 @@ export const defaultTemplates: TemplateObject[] = [
 
 export interface TemplateObjectV2 extends TemplateObject {
   slug: string
-  initialData?: any
+  initialData: { [key: string]: any }
   disabledFields?: string[]
+}
+
+const invoiceData = {
+  fromName: 'Ettevõte OÜ',
+  fromAddress: 'Aadress 123b, Tallinn, Harjumaa, 00117',
+  fromRegNr: 12702285,
+  toName: 'Klient OÜ',
+  toAddress: 'Aadress 123b, Tallinn, Harjumaa, 00117',
+  toRegNr: 12702285,
+  description: 'Üks kõva veebipood',
+  items: [
+    {
+      title: 'Disain',
+      description: 'Et asi oleks nice',
+      price: 45100,
+    },
+    {
+      title: 'Arendus',
+      description: 'Et asi töötaks',
+      price: 4500,
+    },
+  ],
+  ibanLabel: 'Swedbank',
+  ibanNr: 'EE907700771001360230',
+  template: 'qQJ7d5IKYTCVpaAMNptPH4',
 }
 
 export const defaultTemplatesv2: TemplateObjectV2[] = [
@@ -27,30 +52,7 @@ export const defaultTemplatesv2: TemplateObjectV2[] = [
     fileName: 'Debugger',
     slug: 'debug',
     id: 'QBeNqpKnj2exAqyWMNYbWM',
-    initialData: {
-      fromName: 'Ettevõte OÜ',
-      fromAddress: 'Aadress 123b, Tallinn, Harjumaa, 00117',
-      fromRegNr: 12702285,
-      toName: 'Klient OÜ',
-      toAddress: 'Aadress 123b, Tallinn, Harjumaa, 00117',
-      toRegNr: 12702285,
-      description: 'Üks kõva veebipood',
-      items: [
-        {
-          title: 'Disain',
-          description: 'Et asi oleks nice',
-          price: 45100,
-        },
-        {
-          title: 'Arendus',
-          description: 'Et asi töötaks',
-          price: 4500,
-        },
-      ],
-      ibanLabel: 'Swedbank',
-      ibanNr: 'EE907700771001360230',
-      template: 'qQJ7d5IKYTCVpaAMNptPH4',
-    },
+    initialData: invoiceData,
     disabledFields: [
       'disabled',
       'total',
@@ -63,19 +65,20 @@ export const defaultTemplatesv2: TemplateObjectV2[] = [
     fileName: 'Ida OG',
     slug: 'ida-og',
     id: 'NytILrIsUywpf3Y8EyGGxY',
-    initialData: {}
+    initialData: {},
   },
   {
     fileName: 'Knowledgebase OG',
     slug: 'knowledgebase-og',
     id: 'WHdIyxfgAUWEDo3GLCz9G5',
     disabledFields: ['subtitle'],
-    initialData: {}
+    initialData: {},
   },
   {
     fileName: 'Brutalist',
     slug: 'invoice',
     id: 'UC7DTEsW3PgoS2ApXyn3V9',
+    initialData: invoiceData,
     fonts: [
       {
         family: 'JetBrains Mono',
