@@ -63,12 +63,14 @@ export const defaultTemplatesv2: TemplateObjectV2[] = [
     fileName: 'Ida OG',
     slug: 'ida-og',
     id: 'NytILrIsUywpf3Y8EyGGxY',
+    initialData: {}
   },
   {
     fileName: 'Knowledgebase OG',
     slug: 'knowledgebase-og',
     id: 'WHdIyxfgAUWEDo3GLCz9G5',
     disabledFields: ['subtitle'],
+    initialData: {}
   },
   {
     fileName: 'Brutalist',

@@ -10,6 +10,7 @@ export const Box = ({ children, ...props }) => {
   const { data } = useEditor()
 
   if (props.style.background.includes('url')) {
+    /*
     const overrideValue = Object.entries(data).find(([key]) => {
       return Object.keys(data).find(k => k === key)
     })[1] as string
@@ -17,6 +18,7 @@ export const Box = ({ children, ...props }) => {
       if (overrideValue) overrideUrl = overrideValue
       if (!editable) props.style.background = `url(${overrideUrl}) center center / cover no-repeat`
     }
+    */
   }
 
   useEffect(() => {

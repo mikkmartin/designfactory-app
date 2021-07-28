@@ -28,8 +28,9 @@ export class EditorStore implements InitialState {
     }
   }
 
-  setData = (data: SomeObject) => {
-    this.data = data
+  setData = (data: SomeObject | ((prev: SomeObject) => void)) => {
+    if (typeof data === 'function') this.data = data(this.data)
+    else this.data = data
   }
   setSchema = (schema: ISchema) => {
     this.schema = schema
