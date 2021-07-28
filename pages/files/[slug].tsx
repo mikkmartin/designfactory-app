@@ -20,8 +20,10 @@ interface Props {
   } & FileResponse
 }
 
+const figmaTemplates = defaultTemplatesv2.filter(({ slug }) => slug !== 'mockup')
+
 export const getStaticProps: GetStaticProps<Props> = async ({ params: { slug } }) => {
-  const { id } = defaultTemplatesv2.find(t => t.slug === slug)
+  const { id } = figmaTemplates.find(t => t.slug === slug)
   return {
     props: {
       template: await getTemplate(id),
@@ -31,7 +33,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params: { slug } }
 }
 
 export const getStaticPaths = async () => {
-  const slugs = defaultTemplatesv2.map(({ slug }) => slug).filter(slug => slug !== "mockup")
+  const slugs = figmaTemplates.map(({ slug }) => slug)
   return {
     paths: slugs.map(slugs => `/files/${slugs}`),
     fallback: false,
