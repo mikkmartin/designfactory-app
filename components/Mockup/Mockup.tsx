@@ -27,6 +27,8 @@ export const Mockup = observer<any>(
     }
 
     const tshirtUrl = '/mockups/' + getFileName() + '.png'
+    const displacementUrl =
+      '/mockups/' + (isSweatShirt ? 'sweatshirt-white-front' : 'tshirt-white-front') + '.png'
 
     const uploadPhoto = async e => {
       const file = e.target.files[0]
@@ -64,12 +66,12 @@ export const Mockup = observer<any>(
     const artworkSize = { width: 180, height: isSweatShirt ? 260 : 240 }
 
     const highLights = {
-      amplitude: isSweatShirt ? 0.3 : 15,
-      exponent: isSweatShirt ? 8 : 30
+      amplitude: isSweatShirt ? 0.5 : 15,
+      exponent: isSweatShirt ? 20 : 30
     }
     const shadows = {
       amplitude: isSweatShirt ? 1 : 2,
-      exponent: isSweatShirt ? 1 : 5
+      exponent: isSweatShirt ? 2 : 5
     }
 
     return (
@@ -81,7 +83,7 @@ export const Mockup = observer<any>(
               <feComposite in="flood" in2="SourceAlpha" operator="in" result="composite" />
             </filter>
             <Distplacement {...distortion} />
-            <Overlay id="contrast" highLights={highLights} shadows={shadows} />
+            <Overlay id="contrast" highLights={highLights} shadows={shadows} displacementUrl={displacementUrl} />
             <g id="artwork">
               <g filter="url(#displacement)">
                 <g transform={`translate(${posX + offset} ${190 + offset})`}>

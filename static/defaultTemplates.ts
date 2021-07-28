@@ -49,12 +49,12 @@ const invoiceData = {
 
 export const defaultTemplatesv2: TemplateObjectV2[] = [
   {
-    fileName: 'T-shirt',
+    fileName: 'Mockup',
     id: '',
     slug: 'mockup',
     initialData: {
-      template: "sweatshirt",
-      color: "white"
+      template: 'sweatshirt',
+      color: 'white',
     },
   },
   {

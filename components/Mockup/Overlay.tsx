@@ -1,4 +1,4 @@
-export const Overlay = ({ id, highLights, shadows }) => {
+export const Overlay = ({ id, highLights, shadows, displacementUrl }) => {
   return (
     <filter id={id}>
       <feImage
@@ -6,7 +6,7 @@ export const Overlay = ({ id, highLights, shadows }) => {
         y="0%"
         width="100%"
         height="100%"
-        xlinkHref="/mockups/tshirt-white-front.png"
+        xlinkHref={displacementUrl}
         preserveAspectRatio="xMidYMid meet"
         crossOrigin="anonymous"
         result="image"
