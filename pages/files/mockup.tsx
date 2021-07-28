@@ -1,23 +1,23 @@
+import { defaultTemplatesv2 } from 'static/defaultTemplates'
+import { getTemplate } from 'data/figma'
 import Layout from 'components/Layout'
 import Mockup from 'components/Mockup'
-import { useState } from 'react'
+import { FileResponse } from '@mikkmartin/figma-js'
+import { FC } from 'react'
+import { GetStaticProps } from 'next'
 
-const Tshirt = () => {
-  const [data, setData] = useState({ color: 'white' })
-
-  const layoutProps = {
-    fileName: 'T-shirt',
-    data,
-    schema: {},
-    loading: false,
-    slug: 'mockup',
-  }
-
+const Tshirt: FC<Props> = ({ template }) => {
   return (
-    <Layout {...layoutProps} onDataUpdate={setData}>
+    <Layout templateId="">
       <Mockup editable={true} />
     </Layout>
   )
+}
+
+interface Props {
+  template: {
+    id: string
+  } & FileResponse
 }
 
 export default Tshirt
