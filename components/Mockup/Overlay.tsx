@@ -1,4 +1,4 @@
-export const Overlay = ({ id }) => {
+export const Overlay = ({ id, highLights, shadows }) => {
   return (
     <filter id={id}>
       <feImage
@@ -13,17 +13,17 @@ export const Overlay = ({ id }) => {
       />
       <feColorMatrix type="saturate" values="0" in="image" result="colormatrix" />
       <feComponentTransfer in="colormatrix" result="backs">
-        <feFuncR type="gamma" amplitude="2" exponent="5" offset="0" />
-        <feFuncG type="gamma" amplitude="2" exponent="5" offset="0" />
-        <feFuncB type="gamma" amplitude="2" exponent="5" offset="0" />
-        <feFuncA type="gamma" amplitude="2" exponent="5" offset="0" />
+        <feFuncR type="gamma" {...shadows} offset="0" />
+        <feFuncG type="gamma" {...shadows} offset="0" />
+        <feFuncB type="gamma" {...shadows} offset="0" />
+        <feFuncA type="gamma" {...shadows} offset="0" />
       </feComponentTransfer>
 
       <feComponentTransfer in="colormatrix" result="whites">
-        <feFuncR type="gamma" amplitude="8" exponent="30" offset="0" />
-        <feFuncG type="gamma" amplitude="8" exponent="30" offset="0" />
-        <feFuncB type="gamma" amplitude="8" exponent="30" offset="0" />
-        <feFuncA type="gamma" amplitude="8" exponent="30" offset="0" />
+        <feFuncR type="gamma" {...highLights} offset="0" />
+        <feFuncG type="gamma" {...highLights} offset="0" />
+        <feFuncB type="gamma" {...highLights} offset="0" />
+        <feFuncA type="gamma" {...highLights} offset="0" />
       </feComponentTransfer>
 
       <feBlend mode="multiply" in="SourceGraphic" in2="backs" result="blend" />
