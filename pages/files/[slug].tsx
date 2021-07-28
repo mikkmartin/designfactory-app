@@ -31,7 +31,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params: { slug } }
 }
 
 export const getStaticPaths = async () => {
-  const slugs = defaultTemplatesv2.map(({ slug }) => slug)
+  const slugs = defaultTemplatesv2.map(({ slug }) => slug).filter(slug => slug !== "mockup")
   return {
     paths: slugs.map(slugs => `/files/${slugs}`),
     fallback: false,
