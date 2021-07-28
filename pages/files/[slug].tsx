@@ -27,7 +27,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params: { slug } }
     props: {
       template: await getTemplate(id),
     },
-    notFound: !Boolean(id),
+    notFound: Boolean(id),
     revalidate: 1,
   }
 }
