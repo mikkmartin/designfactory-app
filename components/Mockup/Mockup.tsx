@@ -70,7 +70,7 @@ export const Mockup = observer<any>(
       exponent: isSweatShirt ? 20 : 30
     }
     const shadows = {
-      amplitude: isSweatShirt ? 1 : 2,
+      amplitude: isSweatShirt ? 1.2 : 2,
       exponent: isSweatShirt ? 2 : 5
     }
 
