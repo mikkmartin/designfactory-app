@@ -7,7 +7,6 @@ import { FileResponse } from '@mikkmartin/figma-js'
 import { GetStaticProps, GetStaticPaths } from 'next'
 
 const File: FC<Props> = ({ template }) => {
-  console.log(template.id)
   return (
     <Layout templateId={template.id}>
       <Canvas template={template} />
@@ -22,18 +21,18 @@ interface Props {
 }
 
 export const getStaticProps: GetStaticProps<Props> = async ({ params: { slug } }) => {
-  const { id } = defaultTemplatesv2.filter(({ slug }) => slug !== 'mockup').find(t => t.slug === slug)
+  const { id } = defaultTemplatesv2.find(t => t.slug === slug)
   return {
     props: {
       template: await getTemplate(id),
     },
-    notFound: Boolean(id),
+    notFound: !Boolean(id),
     revalidate: 1,
   }
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const slugs = defaultTemplatesv2.filter(({ slug }) => slug !== 'mockup').map(({ slug }) => slug)
+  const slugs = defaultTemplatesv2.map(({ slug }) => slug)
   return {
     paths: slugs.map(slugs => `/files/${slugs}`),
     fallback: false

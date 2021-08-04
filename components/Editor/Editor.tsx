@@ -18,6 +18,7 @@ export const Editor = observer(() => {
   const editorRef = useRef(null)
   const [ref, { width, height }] = useMeasure()
   const { data, schema, setData } = useEditor()
+  const [jsonString, setJsonString] = useState(JSON.stringify(data, null, 2))
 
   const onWillMount: EditorWillMount = monaco => {
     monaco.editor.defineTheme('dok-theme', theme)
@@ -38,6 +39,7 @@ export const Editor = observer(() => {
 
   const handleChange = (str, ...rest) => {
     try {
+      setJsonString(str)
       const newData = JSON.parse(str)
       setData(newData)
     } catch (e) {
@@ -45,13 +47,22 @@ export const Editor = observer(() => {
     }
   }
 
+  autorun(() => {
+    try {
+      const newJsonString = JSON.parse(jsonString)
+      if (!dequal(data, newJsonString)) setJsonString(JSON.stringify(data, null, 2))
+    } catch (e) {
+      console.error(e)
+    }
+  })
+
   return (
     <Container ref={ref}>
       <MonacoEditor
         editorWillMount={onWillMount}
         editorDidMount={onDidMount}
         onChange={handleChange}
-        value={JSON.stringify(data, null, 2)}
+        value={jsonString}
         language="json"
         theme="vs-dark"
         width={width}
