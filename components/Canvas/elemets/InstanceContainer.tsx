@@ -6,6 +6,7 @@ import { useCanvas } from '../store/CanvasProvider'
 import { useEditor } from 'components/Editor'
 import { observer } from 'mobx-react-lite'
 import { ContainerNode } from '../parseTemplate/parseTemplate'
+import { AddElement } from './AddElement'
 
 export const InstanceContainer: FC<ContainerNode> = ({ children, ...props }) => {
   return (
@@ -49,6 +50,7 @@ const RenderWithPopulatedSymbols = observer<any>(({ children, name }) => {
             </InstanceProvider>
           )
         }),
+        <AddElement containerKey={name}/>,
         renderElement(child),
       ]
     } else {

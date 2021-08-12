@@ -31,5 +31,11 @@ export const Page = styled.div`
         ${editable}
       }
     }
+    &:hover .ProseMirror {
+      ${editable}
+    }
+    &:hover .add-button {
+      opacity: 1;
+    }
   }
 `
