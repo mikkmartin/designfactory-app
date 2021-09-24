@@ -84,6 +84,14 @@ export const defaultTemplatesv2: TemplateObjectV2[] = [
     initialData: {},
   },
   {
+    fileName: 'Edok OG',
+    slug: 'edok-og',
+    id: 'Fo0YkdILJzSSwZKJfH438B',
+    initialData: {
+      title: 'Filename.pdf'
+    },
+  },
+  {
     fileName: 'Brutalist',
     slug: 'invoice',
     id: 'UC7DTEsW3PgoS2ApXyn3V9',

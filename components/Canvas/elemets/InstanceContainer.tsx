@@ -46,11 +46,22 @@ const RenderWithPopulatedSymbols = observer<any>(({ children, name }) => {
         ...elementsFromfromData.map((child, i) => {
           return (
             <InstanceProvider containerKey={name} nth={i} key={child.id}>
-              {renderElement(child)}
+              <div style={{ position: 'relative' }}>
+                {renderElement(child)}
+                <button
+                  style={{
+                    position: 'absolute',
+                    right: -20,
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                  }}>
+                  x
+                </button>
+              </div>
             </InstanceProvider>
           )
         }),
-        <AddElement containerKey={name}/>,
+        <AddElement containerKey={name} />,
         renderElement(child),
       ]
     } else {

@@ -5,7 +5,6 @@ import { defaultTemplatesv2 } from 'static/defaultTemplates'
 import baseURL from 'static/baseURL'
 import { Invoice } from 'static/invoice'
 import { Canvas } from 'components/Canvas'
-import { parseTemplate } from 'components/Canvas/parseTemplate'
 import { urlToJson } from 'lib/urlEncoder'
 
 type Props = {
@@ -14,15 +13,14 @@ type Props = {
 }
 
 export const Screenshot: FC<Props> = ({ template, data }) => {
-  const { nodes, componentSets } = parseTemplate(template)
-  return <Canvas nodes={nodes} componentSets={componentSets} data={data} editable={false} />
+  return <Canvas template={template} editable={false} />
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ query, resolvedUrl }) => {
   const { slug } = query
   const template = query.template as string
   const defaults = defaultTemplatesv2.find(template => template.slug === slug)
-  const url = baseURL + '/api/figma?template=' + (defaults?.template || template)
+  const url = baseURL + '/api/figma?template=' + (defaults?.id || template)
   const figmaResponse = await fetch(url)
   const figmaTemplate = await figmaResponse.json()
 

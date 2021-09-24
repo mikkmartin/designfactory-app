@@ -6,8 +6,8 @@ import { useEditor } from 'components/Editor'
 export const Box = ({ children, ...props }) => {
   let overrideUrl = null
   const [isLoading, setIsLoading] = useState(false)
-  const { editable } = useCanvas()
-  const { data } = useEditor()
+  //const { editable } = useCanvas()
+  //const { data } = useEditor()
 
   if (props.style.background.includes('url')) {
     /*

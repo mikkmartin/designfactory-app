@@ -10,17 +10,19 @@ import useSWR from 'swr'
 export const Canvas = ({ template: _template, editable = true }) => {
   const { id, ...initialTemplate } = _template
   const { disabledFields } = defaultTemplatesv2.find(t => t.id === id)
-  const { setSchema, setLoading } = useEditor()
+  //const { setSchema, setLoading } = useEditor()
 
+  /*
   const fetcher = url => fetch(`${url}?template=${id}`).then(r => r.json())
   const { data: template, isValidating } = useSWR('/api/figma', fetcher, {
     initialData: initialTemplate,
     focusThrottleInterval: 0,
   })
+  */
 
-  const { nodes, componentSets, schema } = parseTemplate(template)
-  useEffect(() => setLoading(isValidating), [isValidating])
-  useEffect(() => setSchema(schema), [schema])
+  const { nodes, componentSets, schema } = parseTemplate(_template)
+  //useEffect(() => setLoading(isValidating), [isValidating])
+  //useEffect(() => setSchema(schema), [schema])
 
   return (
     <CanvasProvider initialState={{ nodes, componentSets, disabledFields, editable }}>
