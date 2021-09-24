@@ -1,7 +1,5 @@
-import { useState, useEffect, useRef } from 'react'
-import dynamic from 'next/dynamic'
+import { useState, useRef } from 'react'
 import baseURL from '../../static/baseURL'
-import { EditorDidMount, EditorWillMount } from 'react-monaco-editor'
 import styled from 'styled-components'
 import { useMeasure } from 'react-use'
 import { store } from 'data'
@@ -10,9 +8,7 @@ import packagejson from '../../package.json'
 import { observer } from 'mobx-react-lite'
 import { autorun, toJS } from 'mobx'
 import { dequal } from 'dequal/lite'
-import MonacoEditor, { Monaco } from '@monaco-editor/react'
-
-type Editor = Monaco
+import MonacoEditor from '@monaco-editor/react'
 
 export const Editor = observer(() => {
   const editorRef = useRef(null)
@@ -20,7 +16,7 @@ export const Editor = observer(() => {
   const { data, schema, setData } = store.editorStore
   const [jsonString, setJsonString] = useState(JSON.stringify(data, null, 2))
 
-  const onWillMount: EditorWillMount = monaco => {
+  const onWillMount = monaco => {
     monaco.editor.defineTheme('dok-theme', theme)
     monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
       validate: true,
@@ -28,16 +24,12 @@ export const Editor = observer(() => {
     })
   }
 
-  const onDidMount: EditorDidMount = (_, monaco) => {
+  const onDidMount = (_, monaco) => {
     editorRef.current = monaco
     monaco.editor.setTheme('dok-theme')
-    //@ts-ignore
-    window.MonacoEnvironment.getWorkerUrl = (_moduleId: string, label: string) => {
-      if (label === 'json') return '/_next/static/json.worker.js'
-    }
   }
 
-  const handleChange = (str, ...rest) => {
+  const handleChange = str => {
     try {
       setJsonString(str)
       const newData = JSON.parse(str)
@@ -59,8 +51,8 @@ export const Editor = observer(() => {
   return (
     <Container ref={ref}>
       <MonacoEditor
-        editorWillMount={onWillMount}
-        editorDidMount={onDidMount}
+        beforeMount={onWillMount}
+        onMount={onDidMount}
         onChange={handleChange}
         value={jsonString}
         language="json"
@@ -68,11 +60,9 @@ export const Editor = observer(() => {
         width={width}
         height={height}
         options={{
-          theme: 'dok-theme',
           folding: false,
           padding: { top: 15 },
           scrollBeyondLastLine: false,
-          //@ts-ignore
           lineNumbers: false,
           minimap: {
             enabled: false,
