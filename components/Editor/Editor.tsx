@@ -10,9 +10,9 @@ import packagejson from '../../package.json'
 import { observer } from 'mobx-react-lite'
 import { autorun, toJS } from 'mobx'
 import { dequal } from 'dequal/lite'
-const MonacoEditor = dynamic(import('react-monaco-editor'), { ssr: false })
+import MonacoEditor, { Monaco } from '@monaco-editor/react'
 
-type Editor = typeof MonacoEditor
+type Editor = Monaco
 
 export const Editor = observer(() => {
   const editorRef = useRef(null)
