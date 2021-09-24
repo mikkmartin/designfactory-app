@@ -6,6 +6,7 @@ type SomeObject = { [key: string]: any }
 
 export class EditorStore {
   private rootStore: RootStore
+  templateId = ''
   fileName = ''
   loading = false
   data: SomeObject = {}

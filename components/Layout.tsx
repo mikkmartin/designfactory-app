@@ -10,6 +10,7 @@ import baseURL from 'static/baseURL'
 export const Layout: FC<{ templateId: string }> = ({ children, templateId }) => {
   const { fileName, slug, initialData } = defaultTemplatesv2.find(({ id }) => id === templateId)
   store.editorStore.setInitialState({
+    templateId,
     data: initialData,
     fileName,
     downloadUrl: `${baseURL}/files/${slug}.png?${objectToParams(initialData)}`,
