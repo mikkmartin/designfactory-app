@@ -1,9 +1,10 @@
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
-import { useEditor } from 'components/Editor'
+import { store } from 'data'
+
 
 export const AddElement = observer<any>(({ containerKey }) => {
-  const { setData } = useEditor()
+  const { setData } = store.editorStore
 
   const addItem = () => {
     setData(data => ({

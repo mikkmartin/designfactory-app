@@ -3,7 +3,7 @@ import StarterKit from '@tiptap/starter-kit'
 import { useEffect, useRef } from 'react'
 import { useInstance } from './InstanceContext'
 import { useCanvas } from '../store/CanvasProvider'
-import { useEditor } from 'components/Editor'
+import { store } from 'data'
 import { observer } from 'mobx-react-lite'
 import { TextNode } from '../parseTemplate'
 
@@ -12,7 +12,7 @@ const isAcceptedValue = v => ['string', 'number'].includes(typeof v)
 export const Text = observer<TextNode>(({ style, content, name }) => {
   const acceptUpdates = useRef(true)
   const { editable, disabledFields } = useCanvas()
-  const global = useEditor()
+  const global = store.editorStore
   const instance = useInstance()
   const source = instance ? instance : global
   const { data, setText } = source

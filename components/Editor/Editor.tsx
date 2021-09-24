@@ -4,7 +4,7 @@ import baseURL from '../../static/baseURL'
 import { EditorDidMount, EditorWillMount } from 'react-monaco-editor'
 import styled from 'styled-components'
 import { useMeasure } from 'react-use'
-import { useEditor } from './index'
+import { store } from 'data'
 import { theme } from './theme'
 import packagejson from '../../package.json'
 import { observer } from 'mobx-react-lite'
@@ -17,7 +17,7 @@ type Editor = typeof MonacoEditor
 export const Editor = observer(() => {
   const editorRef = useRef(null)
   const [ref, { width, height }] = useMeasure()
-  const { data, schema, setData } = useEditor()
+  const { data, schema, setData } = store.editorStore
   const [jsonString, setJsonString] = useState(JSON.stringify(data, null, 2))
 
   const onWillMount: EditorWillMount = monaco => {

@@ -1,13 +1,15 @@
-import { useEditor } from './Editor'
+import { store } from 'data'
 import styled from 'styled-components'
 import { Download } from './Icons'
 import { Button } from './Common/Button'
 import { Drawer } from './Editor/Drawer'
 import { DrawerProvider } from './Drawer/DrawerContext'
 import { TabButton } from './Drawer/TabButton'
+import { observer } from 'mobx-react-lite'
 
-export const Header = () => {
-  const { fileName, downloadUrl } = useEditor()
+export const Header = observer(() => {
+  return null
+  const { fileName, downloadUrl } = store.editorStore
   const buttonLabels = [
     //  'templates',
     //  'info',
@@ -44,7 +46,7 @@ export const Header = () => {
       </Container>
     </DrawerProvider>
   )
-}
+})
 
 const Container = styled.div`
   height: 56px;

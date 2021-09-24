@@ -1,12 +1,11 @@
-import { FC } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import styled from 'styled-components'
-import { useEditor } from 'components/Editor'
+import { store } from 'data'
 import { snappy } from 'static/transitions'
 import { observer } from 'mobx-react-lite'
 
 export const Loading = observer(() => {
-  const { loading } = useEditor()
+  const loading = store.editorStore.loading
   const animations = {
     initial: 'out',
     animate: 'in',

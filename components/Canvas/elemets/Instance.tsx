@@ -6,7 +6,7 @@ import { InstanceNode } from '../parseTemplate/parseTemplate'
 import { renderElement } from '../renderElement'
 import { editable } from './editableStyle'
 import { useCanvas } from '../store/CanvasProvider'
-import { useEditor } from 'components/Editor'
+import { store } from 'data'
 
 export const Instance: FC<InstanceNode & { listParent?: null | string; nthChild: number }> = ({
   style,
@@ -16,7 +16,7 @@ export const Instance: FC<InstanceNode & { listParent?: null | string; nthChild:
   listParent,
   nthChild,
 }) => {
-  const { data } = useEditor()
+  const { data } = store.editorStore
   const { componentSets, editable } = useCanvas()
 
   const componentSet = Object.values(componentSets).find(set => {

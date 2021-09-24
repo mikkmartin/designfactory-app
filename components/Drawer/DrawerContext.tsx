@@ -1,6 +1,6 @@
 import { FC, createContext, useContext, useState, Dispatch, SetStateAction } from 'react'
 import { TemplateObject } from 'static/defaultTemplates'
-import { useEditor } from '../Editor'
+import { store } from 'data'
 import { useTemplate } from './Template/useTemplate'
 
 export type SetPanel = (panel: PanelState) => void
@@ -35,13 +35,8 @@ export const DrawerProvider: FC<{ panels: string[] }> = ({ children, panels }) =
   const [panel, setPanel] = useState<PanelState>(false)
   const [dropdownTarget, setDropdownTarget] = useState<null | HTMLElement>(null)
   const { json, setJson } = useEditor()
-  const {
-    templates,
-    removeTemplate,
-    addTemplate,
-    selectedTemplate,
-    setSelectedTemplate,
-  } = useTemplate(json, setJson)
+  const { templates, removeTemplate, addTemplate, selectedTemplate, setSelectedTemplate } =
+    useTemplate(json, setJson)
 
   return (
     <Context.Provider

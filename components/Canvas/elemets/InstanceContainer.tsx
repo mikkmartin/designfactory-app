@@ -3,7 +3,7 @@ import { renderElement } from '../renderElement'
 import { Box } from './Box'
 import { InstanceProvider, useInstance } from './InstanceContext'
 import { useCanvas } from '../store/CanvasProvider'
-import { useEditor } from 'components/Editor'
+import { store } from 'data'
 import { observer } from 'mobx-react-lite'
 import { ContainerNode } from '../parseTemplate/parseTemplate'
 import { AddElement } from './AddElement'
@@ -20,7 +20,7 @@ let consecutiveInstances = []
 const RenderWithPopulatedSymbols = observer<any>(({ children, name }) => {
   const { componentSets } = useCanvas()
   const instance = useInstance()
-  const global = useEditor()
+  const global = store.editorStore
   const { data } = instance ? instance : global
 
   return children.reduce((all, child) => {

@@ -3,7 +3,7 @@ import { Button } from '../../Common/Button'
 import styled from 'styled-components'
 import { More } from '../../Icons'
 import { ButtonStack, childAnimations } from '../Tab'
-import { useEditor } from '../../Editor'
+import { store } from 'data'
 import { defaults } from 'static/invoice'
 import { snappy } from 'static/transitions'
 import { Check } from "../../Common/Check";
@@ -11,7 +11,7 @@ import { useDrawer } from "../DrawerContext";
 import { Dropdown } from "../../Common/Dropdown";
 
 export const TemplatePanel = ({ close, onModify }) => {
-  const { data, setData } = useEditor()
+  const { data, setData } = store.editorStore
   const { openDropdown, templates } = useDrawer()
   const currentTemplate = data.template || defaults.template
 

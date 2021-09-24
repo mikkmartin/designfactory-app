@@ -1,4 +1,4 @@
 export { Editor } from './Editor'
 export { ApiLink } from './ApiLink'
 export { Header } from '../Header'
-export { useEditor } from './store/EditorProvider'
+export { useEditor as todoUseEditorRemove } from './store/EditorProvider'

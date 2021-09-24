@@ -1,11 +1,11 @@
 import { createContext, useContext } from 'react'
 import { observer } from 'mobx-react-lite'
-import { useEditor } from 'components/Editor'
+import { store } from 'data'
 
 const Context = createContext(null)
 
 export const InstanceProvider = observer<any>(({ containerKey, nth, children }) => {
-  const { data, setData } = useEditor()
+  const { data, setData } = store.editorStore
 
   function setText(obj) {
     const [key, val] = Object.entries(obj)[0]
