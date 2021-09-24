@@ -23,7 +23,6 @@ export class EditorStore {
     for (const [key, value] of Object.entries(initialState)) {
       this[key] = value
     }
-    console.log('initializing')
   }
 
   setData = (data: SomeObject | ((prev: SomeObject) => void)) => {
