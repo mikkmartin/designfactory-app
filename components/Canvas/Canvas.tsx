@@ -3,14 +3,20 @@ import { renderElement } from './renderElement'
 import { Page } from './elemets'
 import { CanvasProvider } from './store/CanvasProvider'
 import { parseTemplate } from './parseTemplate'
-import { useEditor } from 'components/Editor'
-import { useEffect } from 'react'
-import useSWR from 'swr'
+import { store } from 'data'
+import { objectToParams } from 'lib/urlEncoder'
+import baseURL from 'static/baseURL'
 
-export const Canvas = ({ template: _template, editable = true }) => {
+export const Canvas = ({ template: _template, data = {}, editable = true }) => {
+  const { fileName, slug, initialData, disabledFields } = defaultTemplatesv2.find(({ id }) => id === id)
   const { id, ...initialTemplate } = _template
-  const { disabledFields } = defaultTemplatesv2.find(t => t.id === id)
-  //const { setSchema, setLoading } = useEditor()
+
+  store.editorStore.setInitialState({
+    templateId: id,
+    data: {...initialData, ...data},
+    fileName,
+    downloadUrl: `${baseURL}/files/${slug}.png?${objectToParams(initialData)}`,
+  })
 
   /*
   const fetcher = url => fetch(`${url}?template=${id}`).then(r => r.json())

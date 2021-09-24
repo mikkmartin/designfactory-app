@@ -13,7 +13,7 @@ type Props = {
 }
 
 export const Screenshot: FC<Props> = ({ template, data }) => {
-  return <Canvas template={template} editable={false} />
+  return <Canvas template={template} data={data} editable={false} />
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ query, resolvedUrl }) => {
