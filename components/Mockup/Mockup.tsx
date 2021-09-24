@@ -3,12 +3,12 @@ import { useState } from 'react'
 import { Distplacement } from './Displacement'
 import { Overlay } from './Overlay'
 import { Text } from './Text'
-import { useEditor } from 'components/Editor'
 import { observer } from 'mobx-react-lite'
+import { store } from 'data'
 
 export const Mockup = observer<any>(
   ({ editable = false, image = '/images/temp.jpeg', query = {} }) => {
-    const editorData = useEditor()
+    const editorData = store.editorStore
     const [url, setUrl] = useState(image)
     const [uploading, setUploading] = useState(false)
     const { color, template, text } = editorData?.data ? editorData.data : query
