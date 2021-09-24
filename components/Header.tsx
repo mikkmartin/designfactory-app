@@ -8,7 +8,6 @@ import { TabButton } from './Drawer/TabButton'
 import { observer } from 'mobx-react-lite'
 
 export const Header = observer(() => {
-  return null
   const { fileName, downloadUrl } = store.editorStore
   const buttonLabels = [
     //  'templates',

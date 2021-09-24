@@ -34,9 +34,8 @@ const Context = createContext<Values>()
 export const DrawerProvider: FC<{ panels: string[] }> = ({ children, panels }) => {
   const [panel, setPanel] = useState<PanelState>(false)
   const [dropdownTarget, setDropdownTarget] = useState<null | HTMLElement>(null)
-  const { json, setJson } = useEditor()
   const { templates, removeTemplate, addTemplate, selectedTemplate, setSelectedTemplate } =
-    useTemplate(json, setJson)
+    useTemplate()
 
   return (
     <Context.Provider

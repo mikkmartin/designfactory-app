@@ -1,11 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { defaultTemplates, TemplateObject } from 'static/defaultTemplates'
 import { useLocalStorage } from 'react-use'
-import { dequal } from 'dequal/lite'
 import { Invoice } from 'static/invoice'
-import { SetJson } from '../../Editor/EditorContext'
 
-export const useTemplate = (json: Invoice, setJson: SetJson) => {
+export const useTemplate = () => {
   const [selectedTemplate, setSelectedTemplate] = useState<TemplateObject | null>(
     defaultTemplates[0]
   )
@@ -15,7 +13,7 @@ export const useTemplate = (json: Invoice, setJson: SetJson) => {
   )
   //const templates = [...customTemplates, ...defaultTemplates]
   const templates = []
-  const currentTemplate = templates.find(template => template.template === json.template) || defaultTemplates[0]
+  //const currentTemplate = templates.find(template => template.template === json.template) || defaultTemplates[0]
 
   //update fonts for custom template
   /*
@@ -42,9 +40,9 @@ export const useTemplate = (json: Invoice, setJson: SetJson) => {
     setSelectedTemplate,
     removeTemplate: () => {
       if (!selectedTemplate.dateAdded) return
-      const fileterCurrent = template => !(template.template === selectedTemplate.template)
-      setCustomTemplates(customTemplates.filter(fileterCurrent))
-      setJson({ ...json, template: templates.filter(fileterCurrent).find(_ => true).template })
+      //const fileterCurrent = template => !(template.template === selectedTemplate.template)
+      //setCustomTemplates(customTemplates.filter(fileterCurrent))
+      //setJson({ ...json, template: templates.filter(fileterCurrent).find(_ => true).template })
     },
     addTemplate: (template: TemplateObject) => {
       const previousTemplates = customTemplates === undefined ? [] : customTemplates
@@ -53,7 +51,7 @@ export const useTemplate = (json: Invoice, setJson: SetJson) => {
         dateAdded: new Date(),
       }
       setCustomTemplates([newTemplate, ...previousTemplates])
-      setJson({ ...json, template: newTemplate.template })
+      //setJson({ ...json, template: newTemplate.template })
     },
   }
 }
