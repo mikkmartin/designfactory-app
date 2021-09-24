@@ -14,16 +14,16 @@ export class EditorStore {
   schema: ISchema = null
   jsonErrors: string[] = []
 
-  constructor(rootStore, initialState: Partial<RootStore>) {
+  constructor(rootStore) {
     makeAutoObservable(this)
     this.rootStore = rootStore
-    if (initialState) {
-      for (const [key, value] of Object.entries(initialState?.editorStore)) {
-        this[key] = value
-      }
-      console.log('initializing')
-      console.log(this.rootStore)
+  }
+
+  setInitialState = (initialState: Partial<EditorStore>) => {
+    for (const [key, value] of Object.entries(initialState)) {
+      this[key] = value
     }
+    console.log('initializing')
   }
 
   setData = (data: SomeObject | ((prev: SomeObject) => void)) => {

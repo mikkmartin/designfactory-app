@@ -2,23 +2,31 @@ import { FC } from 'react'
 import styled from 'styled-components'
 import { Loading } from 'components/Editor/Loading'
 import { Editor, Header, ApiLink } from 'components/Editor'
-import { EditorProvider } from 'components/Editor/store/EditorProvider'
+import { defaultTemplatesv2 } from 'static/defaultTemplates'
+import { store } from 'data'
+import { objectToParams } from 'lib/urlEncoder'
+import baseURL from 'static/baseURL'
 
 export const Layout: FC<{ templateId: string }> = ({ children, templateId }) => {
+  const { fileName, slug, initialData } = defaultTemplatesv2.find(({ id }) => id === templateId)
+  store.editorStore.setInitialState({
+    data: initialData,
+    fileName,
+    downloadUrl: `${baseURL}/files/${slug}.png?${objectToParams(initialData)}`,
+  })
+
   return (
-    <EditorProvider templateId={templateId}>
-      <Container>
-        <div className="controls">
-          <Header />
-          <Editor />
-          <ApiLink />
-        </div>
-        <div className="container">
-          {children}
-          <Loading />
-        </div>
-      </Container>
-    </EditorProvider>
+    <Container>
+      <div className="controls">
+        <Header />
+        <Editor />
+        <ApiLink />
+      </div>
+      <div className="container">
+        {children}
+        <Loading />
+      </div>
+    </Container>
   )
 }
 

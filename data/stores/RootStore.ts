@@ -4,9 +4,9 @@ import { makeAutoObservable } from 'mobx'
 export class RootStore {
   editorStore: EditorStore
 
-  constructor(initialState?: Partial<RootStore>) {
+  constructor() {
     makeAutoObservable(this)
-    this.editorStore = new EditorStore(this, initialState)
+    this.editorStore = new EditorStore(this)
   }
 }
 
