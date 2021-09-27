@@ -110,6 +110,7 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
 
   switch (node.type) {
     case 'FRAME':
+      baseStyle.borderRadius = node.rectangleCornerRadii?.join('px ') + 'px'
     case 'GROUP':
     case 'COMPONENT':
       return {
@@ -120,7 +121,6 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
           ...baseStyle,
           overflow: node.clipsContent ? 'hidden' : 'visible',
           background: getFill(node),
-          borderRadius: node.cornerRadius,
         },
         children: node.children.map(child => parseNode(child, node)),
       }
@@ -133,7 +133,6 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
           ...baseStyle,
           overflow: node.clipsContent ? 'hidden' : 'visible',
           background: getFill(node),
-          borderRadius: node.cornerRadius,
         },
         componentId: node.componentId,
         children: node.children.map(child => parseNode(child, node)),
