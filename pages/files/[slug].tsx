@@ -22,6 +22,7 @@ interface Props {
 
 export const getStaticProps: GetStaticProps<Props> = async ({ params: { slug } }) => {
   const { id } = defaultTemplatesv2.find(t => t.slug === slug)
+  if (!id) return { notFound: true }
   return {
     props: {
       template: await getTemplate(id),
@@ -35,7 +36,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const slugs = defaultTemplatesv2.map(({ slug }) => slug)
   return {
     paths: slugs.map(slugs => `/files/${slugs}`),
-    fallback: false
+    fallback: false,
   }
 }
 
