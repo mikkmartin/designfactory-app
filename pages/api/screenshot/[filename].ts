@@ -19,6 +19,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
 
     res.statusCode = 200
     res.setHeader('Content-Type', 'image/png')
+    res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate')
     //res.setHeader('Cache-Control', `public, immutable, no-transform, s-maxage=31536000, max-age=31536000`)
 
     res.end(file)
