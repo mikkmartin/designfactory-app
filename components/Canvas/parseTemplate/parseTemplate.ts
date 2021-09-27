@@ -15,6 +15,7 @@ import { getLayout } from './getLayout'
 import { getFill } from './getFill'
 import { getColor } from './getColor'
 import { getSchema } from './getSchema'
+import { getFonts } from './getFonts'
 
 export const parseTemplate = (template: FileResponse, options = { filter: (_, i) => i === 0 }) => {
   const { filter } = options
@@ -25,16 +26,18 @@ export const parseTemplate = (template: FileResponse, options = { filter: (_, i)
     .filter(filter)
 
   const nodes = visibleNodes.map(c => parseNode(c as BoxNode))
+  const fonts = getFonts(visibleNodes)
   const componentSets = getComponentsAndSets(canvas.children)
 
   return {
     nodes,
     componentSets,
+    fonts,
     schema: getSchema(visibleNodes, componentSets),
   }
 }
 
-export type ParsedCoponentSet = { components: ParsedNode[], sets: string[][] }
+export type ParsedCoponentSet = { components: ParsedNode[]; sets: string[][] }
 const getComponentsAndSets = nodes => {
   const components = findNodes('COMPONENT', nodes).map(node => parseNode(node as BoxNode))
   const sets = findNodes('COMPONENT_SET', nodes).map(set => set.children.map(child => child.id))
