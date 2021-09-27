@@ -13,7 +13,7 @@ export default async (req, res: NextApiResponse) => {
     const image = await fetch(url).then(res => res.body)
 
     res.setHeader('Content-Type', 'image/png')
-    res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate')
+    res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=59')
     res.statusCode = 200
     res.send(image)
   } catch (e) {
