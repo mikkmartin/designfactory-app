@@ -7,6 +7,6 @@ export default async (req, res: NextApiResponse) => {
   const templateID = req.query.template || defaults.template
   const template = await getTemplate(templateID)
   //const existingTemplate = defaultTemplatesv2.map(({ id }) => id).includes(templateID)
-  res.setHeader('Cache-Control', 's-maxage=3, stale-while-revalidate=4')
+  res.setHeader('Cache-Control', 's-maxage=5, stale-while-revalidate=360')
   res.json(template)
 }
