@@ -41,7 +41,7 @@ export const Canvas = ({ template: _template, data = {}, editable = true }) => {
         {fonts.map(font => (
           <link
             key={font.family}
-            href={`https://fonts.googleapis.com/css2?family=Montserrat:wght@${font.weights.join(
+            href={`https://fonts.googleapis.com/css2?family=${font.family}:wght@${font.weights.join(
               ';'
             )}&display=swap`}
             rel="stylesheet"
