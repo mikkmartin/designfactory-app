@@ -75,6 +75,13 @@ export const defaultTemplatesv2: TemplateObjectV2[] = [
     initialData: {},
   },
   {
+    fileName: 'Github meta',
+    slug: 'github-og',
+    id: 'KaZkrA7DGXd4uSMz0BdiuJ',
+    initialData: {
+    },
+  },
+  {
     fileName: 'Edok OG',
     slug: 'edok-og',
     id: 'Fo0YkdILJzSSwZKJfH438B',

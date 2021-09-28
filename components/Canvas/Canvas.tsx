@@ -49,7 +49,7 @@ export const Canvas = ({ template: _template, data = {}, editable = true }) => {
         ))}
       </Head>
       <CanvasProvider initialState={{ nodes, componentSets, disabledFields, editable }}>
-        <Page>{nodes.map(renderElement)}</Page>
+        <Page canvas={!editable}>{nodes.map(renderElement)}</Page>
       </CanvasProvider>
     </>
   )
