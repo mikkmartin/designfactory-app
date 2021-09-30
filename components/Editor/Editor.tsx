@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import baseURL from '../../static/baseURL'
 import styled from 'styled-components'
 import { useMeasure } from 'react-use'
@@ -8,25 +8,30 @@ import packagejson from '../../package.json'
 import { observer } from 'mobx-react-lite'
 import { autorun, toJS } from 'mobx'
 import { dequal } from 'dequal/lite'
-import MonacoEditor from '@monaco-editor/react'
+import MonacoEditor, { useMonaco } from '@monaco-editor/react'
 
 export const Editor = observer(() => {
   const editorRef = useRef(null)
   const [ref, { width, height }] = useMeasure()
   const { data, schema, setData } = store.editorStore
   const [jsonString, setJsonString] = useState(JSON.stringify(data, null, 2))
+  const monaco = useMonaco()
+
+  useEffect(() => {
+    monaco?.languages.json.jsonDefaults.setDiagnosticsOptions({
+      validate: true,
+      schemas: [
+        {
+          uri: 'http://myserver/foo-schema.json',
+          fileMatch: ['*'],
+          schema: toJS(schema),
+        },
+      ],
+    })
+  }, [monaco, schema])
 
   const onWillMount = monaco => {
     monaco.editor.defineTheme('dok-theme', theme)
-    monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
-      validate: true,
-      schemas: [{ schema: toJS(schema), uri: baseURL + '/schema.json', fileMatch: ['*'] }],
-    })
-  }
-
-  const onDidMount = (_, monaco) => {
-    editorRef.current = monaco
-    monaco.editor.setTheme('dok-theme')
   }
 
   const handleChange = str => {
@@ -52,11 +57,10 @@ export const Editor = observer(() => {
     <Container ref={ref}>
       <MonacoEditor
         beforeMount={onWillMount}
-        onMount={onDidMount}
         onChange={handleChange}
         value={jsonString}
         language="json"
-        theme="vs-dark"
+        theme="dok-theme"
         width={width}
         height={height}
         options={{
