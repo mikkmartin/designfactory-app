@@ -14,7 +14,7 @@ export const getSchema = (nodes, componentSets): ISchema => {
     const val = Boolean(Number(characters)) ? Number(characters) : characters
     return {
       ...props,
-      [name]: { type: typeof val, default: val },
+      [name]: { type: typeof val === 'number' ? ['number', 'string'] : 'string', default: val },
     }
   }, {})
 
