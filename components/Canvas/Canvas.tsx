@@ -1,4 +1,4 @@
-import { defaultTemplatesv2 } from 'static/defaultTemplates'
+import { defaultTemplates } from 'static/defaultTemplates'
 import { renderElement } from './renderElement'
 import { Page } from './elemets'
 import { CanvasProvider } from './store/CanvasProvider'
@@ -9,7 +9,7 @@ import baseURL from 'static/baseURL'
 import Head from 'next/head'
 
 export const Canvas = ({ template: _template, data = {}, editable = true }) => {
-  const { fileName, slug, initialData, disabledFields } = defaultTemplatesv2.find(
+  const { fileName, slug, initialData, disabledFields } = defaultTemplates.find(
     ({ id }) => id === id
   )
   const { id, ...initialTemplate } = _template

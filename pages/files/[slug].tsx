@@ -1,4 +1,4 @@
-import { defaultTemplatesv2 } from 'static/defaultTemplates'
+import { defaultTemplates } from 'static/defaultTemplates'
 import { Layout } from 'components/Layout'
 import { Canvas } from 'components/Canvas'
 import { getTemplate } from 'data/figma'
@@ -21,7 +21,7 @@ interface Props {
 }
 
 export const getStaticProps: GetStaticProps<Props> = async ({ params: { slug } }) => {
-  const { id } = defaultTemplatesv2.find(t => t.slug === slug)
+  const { id } = defaultTemplates.find(t => t.slug === slug)
   if (!id) return { notFound: true }
   return {
     props: {
@@ -33,7 +33,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params: { slug } }
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const slugs = defaultTemplatesv2.map(({ slug }) => slug)
+  const slugs = defaultTemplates.map(({ slug }) => slug)
   return {
     paths: slugs.map(slugs => `/files/${slugs}`),
     fallback: false,

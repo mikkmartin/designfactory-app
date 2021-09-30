@@ -1,5 +1,4 @@
 import baseURL from './baseURL'
-import { defaults } from './invoice'
 import { Fonts } from 'static/types'
 
 export interface TemplateObject {
@@ -7,16 +6,6 @@ export interface TemplateObject {
   id: string
   dateAdded?: Date
   fonts?: Fonts
-}
-
-export const defaultTemplates: TemplateObject[] = [
-  {
-    fileName: 'Simple',
-    id: defaults.template,
-  },
-]
-
-export interface TemplateObjectV2 extends TemplateObject {
   slug: string
   initialData: { [key: string]: any }
   disabledFields?: string[]
@@ -47,7 +36,7 @@ const invoiceData = {
   template: 'qQJ7d5IKYTCVpaAMNptPH4',
 }
 
-export const defaultTemplatesv2: TemplateObjectV2[] = [
+export const defaultTemplates: TemplateObject[] = [
   {
     fileName: 'Debugger',
     slug: 'debug',
