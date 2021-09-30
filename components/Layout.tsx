@@ -42,6 +42,12 @@ const Container = styled.div`
     justify-content: center;
     > * {
       flex-shrink: 0;
+      &:first-child {
+        padding: 7vmin 7vmin 0 7vmin;
+      }
+      &:last-child {
+        padding-bottom: 7vmin;
+      }
     }
   }
 `
