@@ -37,7 +37,6 @@ const Container = styled.div`
     position: relative;
     overflow: auto;
     background: #1a1e25;
-    padding: 4vw;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
