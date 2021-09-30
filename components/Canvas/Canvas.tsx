@@ -4,8 +4,6 @@ import { Page } from './elemets'
 import { CanvasProvider } from './store/CanvasProvider'
 import { parseTemplate } from './parseTemplate'
 import { store } from 'data'
-import { objectToParams } from 'lib/urlEncoder'
-import baseURL from 'static/baseURL'
 import { Fonts } from './Fonts'
 import { observer } from 'mobx-react-lite'
 
@@ -15,11 +13,9 @@ export const Canvas = observer<{ template: any; data?: any; editable?: boolean }
     const { fileName, slug, initialData, disabledFields } = defaultTemplates.find(
       ({ id }) => id === templateId
     )
-    const downloadUrl = `${baseURL}/files/${slug}.png?${objectToParams(initialData)}`
 
-    store.editorStore.setInitialState({ templateId, fileName, downloadUrl })
+    store.editorStore.setInitialState({ templateId, fileName, slug })
     const { nodes, componentSets, schema, fonts } = parseTemplate(template)
-
     store.editorStore.setInitialState({ data: { ...initialData, ...data }, schema })
 
     return (
