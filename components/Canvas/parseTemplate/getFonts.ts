@@ -1,12 +1,12 @@
 import { Node } from '@mikkmartin/figma-js'
 import { findNodes } from './parseTemplate'
 
-export type Fonts = {
+export interface IFont {
   family: string
   weights: number[]
-}[]
+}
 
-export const getFonts = (nodes: Node[]): Fonts =>
+export const getFonts = (nodes: Node[]): IFont[] =>
   findNodes('TEXT', nodes).reduce((all, node) => {
     const existing = all.find(n => n.family === node.style.fontFamily)
     if (!existing) {

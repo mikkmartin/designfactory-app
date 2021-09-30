@@ -6,51 +6,29 @@ import { parseTemplate } from './parseTemplate'
 import { store } from 'data'
 import { objectToParams } from 'lib/urlEncoder'
 import baseURL from 'static/baseURL'
-import Head from 'next/head'
+import { Fonts } from './Fonts'
+import { observer } from 'mobx-react-lite'
 
-export const Canvas = ({ template: _template, data = {}, editable = true }) => {
-  const { fileName, slug, initialData, disabledFields } = defaultTemplates.find(
-    ({ id }) => id === id
-  )
-  const { id, ...initialTemplate } = _template
+export const Canvas = observer<{ template: any; data?: any; editable?: boolean }>(
+  ({ template: _template, data = {}, editable = true }) => {
+    const { id: templateId, ...template } = _template
+    const { fileName, slug, initialData, disabledFields } = defaultTemplates.find(
+      ({ id }) => id === templateId
+    )
 
-  store.editorStore.setInitialState({
-    templateId: id,
-    data: { ...initialData, ...data },
-    fileName,
-    downloadUrl: `${baseURL}/files/${slug}.png?${objectToParams(initialData)}`,
-  })
+    const { nodes, componentSets, schema, fonts } = parseTemplate(template)
+    const downloadUrl = `${baseURL}/files/${slug}.png?${objectToParams(initialData)}`
+    data = { ...initialData, ...data }
 
-  /*
-  const fetcher = url => fetch(`${url}?template=${id}`).then(r => r.json())
-  const { data: template, isValidating } = useSWR('/api/figma', fetcher, {
-    initialData: initialTemplate,
-    focusThrottleInterval: 0,
-  })
-  */
+    store.editorStore.setInitialState({ templateId, data, fileName, schema, downloadUrl })
 
-  const { nodes, componentSets, schema, fonts } = parseTemplate(_template)
-  //useEffect(() => setLoading(isValidating), [isValidating])
-  //useEffect(() => setSchema(schema), [schema])
-
-  return (
-    <>
-      <Head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
-        {fonts.map(font => (
-          <link
-            key={font.family}
-            href={`https://fonts.googleapis.com/css2?family=${font.family}:wght@${font.weights.join(
-              ';'
-            )}&display=swap`}
-            rel="stylesheet"
-          />
-        ))}
-      </Head>
-      <CanvasProvider initialState={{ nodes, componentSets, disabledFields, editable }}>
-        <Page canvas={!editable}>{nodes.map(renderElement)}</Page>
-      </CanvasProvider>
-    </>
-  )
-}
+    return (
+      <>
+        <Fonts fonts={fonts} />
+        <CanvasProvider initialState={{ nodes, componentSets, disabledFields, editable }}>
+          <Page canvas={!editable}>{nodes.map(renderElement)}</Page>
+        </CanvasProvider>
+      </>
+    )
+  }
+)
