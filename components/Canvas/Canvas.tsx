@@ -15,12 +15,12 @@ export const Canvas = observer<{ template: any; data?: any; editable?: boolean }
     const { fileName, slug, initialData, disabledFields } = defaultTemplates.find(
       ({ id }) => id === templateId
     )
-
-    const { nodes, componentSets, schema, fonts } = parseTemplate(template)
     const downloadUrl = `${baseURL}/files/${slug}.png?${objectToParams(initialData)}`
-    data = { ...initialData, ...data }
 
-    store.editorStore.setInitialState({ templateId, data, fileName, schema, downloadUrl })
+    store.editorStore.setInitialState({ templateId, fileName, downloadUrl })
+    const { nodes, componentSets, schema, fonts } = parseTemplate(template)
+
+    store.editorStore.setInitialState({ data: { ...initialData, ...data }, schema })
 
     return (
       <>
