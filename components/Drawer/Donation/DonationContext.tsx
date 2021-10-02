@@ -20,7 +20,7 @@ type Values = {
 //@ts-ignore
 const Context = createContext<Values>()
 
-//const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
+const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
 export const DonationProvider: FC = ({ children }) => {
   const [amount, setAmount] = useState(3)
   const [paymentType, setPaymentType] = useState<DonationType>('Monthly')
@@ -51,11 +51,7 @@ export const DonationProvider: FC = ({ children }) => {
         showError,
         error,
       }}>
-      {/*
-      <Elements stripe={stripe}>
-        {children}
-      </Elements>
-      */}
+      <Elements stripe={stripe}>{children}</Elements>
     </Context.Provider>
   )
 }

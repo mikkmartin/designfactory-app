@@ -10,7 +10,7 @@ import { observer } from 'mobx-react-lite'
 export const Header = observer(() => {
   const { fileName, downloadUrl } = store.editorStore
   const buttonLabels = [
-    //  'templates',
+    'templates',
     //  'info',
     //  'donation'
   ]

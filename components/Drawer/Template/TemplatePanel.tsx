@@ -6,14 +6,17 @@ import { ButtonStack, childAnimations } from '../Tab'
 import { store } from 'data'
 import { defaults } from 'static/invoice'
 import { snappy } from 'static/transitions'
-import { Check } from "../../Common/Check";
-import { useDrawer } from "../DrawerContext";
-import { Dropdown } from "../../Common/Dropdown";
+import { Check } from '../../Common/Check'
+import { useDrawer } from '../DrawerContext'
+import { Dropdown } from '../../Common/Dropdown'
+import { useRouter } from 'next/dist/client/router'
 
 export const TemplatePanel = ({ close, onModify }) => {
   const { data, setData } = store.editorStore
+  const { defaultTemplates } = store.pages
   const { openDropdown, templates } = useDrawer()
   const currentTemplate = data.template || defaults.template
+  const router = useRouter()
 
   const onSelect = (ev, { template, fonts }) => {
     ev.preventDefault()
@@ -28,7 +31,28 @@ export const TemplatePanel = ({ close, onModify }) => {
     <Container>
       <List>
         <AnimateSharedLayout>
-          {templates.map((templateObject) => {
+          {defaultTemplates.map(templateObject => {
+            const { fileName, slug } = templateObject
+            const selected = false
+            return (
+              <Item layout {...childAnimations} key={slug}>
+                {selected && (
+                  <motion.div layoutId="highlight" className="highlight" transition={snappy} />
+                )}
+                <Button width="100%" onClick={() => router.push(slug)} noHover={selected}>
+                  <Check checked={selected} />
+                  <div className="text">
+                    <span>{fileName}</span>
+                  </div>
+                  <a href="#" onClick={ev => openDropdown(ev, templateObject)}>
+                    <More />
+                  </a>
+                </Button>
+              </Item>
+            )
+          })}
+          {/*
+          templates.map((templateObject) => {
             const { template, name, fonts } = templateObject
             const selected = template === currentTemplate
             return (
@@ -49,10 +73,11 @@ export const TemplatePanel = ({ close, onModify }) => {
                 </Button>
               </Item>
             )
-          })}
+          })
+          */}
         </AnimateSharedLayout>
       </List>
-      <ButtonStack {...childAnimations}>
+      <ButtonStack>
         <Button highlight onClick={close}>
           Close
         </Button>
@@ -102,7 +127,7 @@ const Item = styled(motion.li)`
       cursor: pointer;
     }
     &:hover a {
-      &:hover{
+      &:hover {
         background: rgba(255, 255, 255, 0.05);
         opacity: 1;
       }
