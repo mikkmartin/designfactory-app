@@ -1,9 +1,15 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import styled from 'styled-components'
 import { Loading } from 'components/Editor/Loading'
 import { Editor, Header, ApiLink } from 'components/Editor'
+import useSWR from 'swr'
+import { store } from 'data'
+import { observer } from 'mobx-react-lite'
 
-export const Layout: FC = ({ children }) => {
+const fetcher = templateId => fetch('/api/figma?template=' + templateId).then(res => res.json())
+
+export const Layout: FC = observer(({ children }) => {
+  useRefreshTemplate()
   return (
     <Container>
       <div className="controls">
@@ -17,6 +23,19 @@ export const Layout: FC = ({ children }) => {
       </div>
     </Container>
   )
+})
+
+const useRefreshTemplate = () => {
+  const { templateId, setTemplate, setLoading } = store.editorStore
+  const { isValidating } = useSWR(templateId, fetcher, {
+    revalidateOnMount: false,
+    focusThrottleInterval: 1000,
+    onSuccess: data => setTemplate(data),
+  })
+
+  useEffect(() => {
+    setLoading(isValidating)
+  }, [isValidating])
 }
 
 const Container = styled.div`
@@ -42,12 +61,6 @@ const Container = styled.div`
     justify-content: center;
     > * {
       flex-shrink: 0;
-      &:first-child {
-        padding: 7vmin 7vmin 0 7vmin;
-      }
-      &:last-child {
-        padding-bottom: 7vmin;
-      }
     }
   }
 `

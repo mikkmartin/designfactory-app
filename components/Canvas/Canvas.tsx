@@ -6,6 +6,7 @@ import { parseTemplate } from './parseTemplate'
 import { store } from 'data'
 import { Fonts } from './Fonts'
 import { observer } from 'mobx-react-lite'
+import { useRef } from 'react'
 
 export const Canvas = observer<{ template: any; data?: any; editable?: boolean }>(
   ({ template: _template, data = {}, editable = true }) => {
@@ -14,9 +15,18 @@ export const Canvas = observer<{ template: any; data?: any; editable?: boolean }
       ({ id }) => id === templateId
     )
 
-    store.editorStore.setInitialState({ templateId, fileName, slug })
-    const { nodes, componentSets, schema, fonts } = parseTemplate(template)
-    store.editorStore.setInitialState({ data: { ...initialData, ...data }, schema })
+    const { nodes, componentSets, schema, fonts } = parseTemplate(store.editorStore.template || template)
+    useComponentWillMount(() => {
+      store.editorStore.setInitialState({
+        templateId,
+        fileName,
+        slug,
+        template,
+        data: { ...initialData, ...data },
+        schema
+      })
+    })
+
 
     return (
       <>
@@ -28,3 +38,9 @@ export const Canvas = observer<{ template: any; data?: any; editable?: boolean }
     )
   }
 )
+
+const useComponentWillMount = cb => {
+  const willMount = useRef(true)
+  if (willMount.current) cb()
+  willMount.current = false
+}

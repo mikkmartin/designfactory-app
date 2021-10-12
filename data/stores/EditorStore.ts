@@ -3,6 +3,7 @@ import { ISchema } from 'components/Canvas/parseTemplate/getSchema'
 import { RootStore } from './RootStore'
 import { objectToParams } from 'lib/urlEncoder'
 import baseURL from 'static/baseURL'
+import { FileResponse } from '@mikkmartin/figma-js'
 
 type SomeObject = { [key: string]: any }
 
@@ -13,7 +14,7 @@ export class EditorStore {
   slug = ''
   loading = false
   data: SomeObject = {}
-  template: SomeObject = {}
+  template: FileResponse
   schema: ISchema = null
   jsonErrors: string[] = []
 
@@ -27,11 +28,14 @@ export class EditorStore {
       this[key] = value
     }
   }
-  
-  get downloadUrl () {
+
+  get downloadUrl() {
     return `${baseURL}/files/${this.slug}.png?${objectToParams(this.data)}`
   }
 
+  setTemplate = template => {
+    this.template = template
+  }
   setData = (data: SomeObject | ((prev: SomeObject) => void)) => {
     if (typeof data === 'function') this.data = data(this.data)
     else this.data = data
