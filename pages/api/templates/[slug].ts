@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { slug } = req.query
   if (req.method === 'GET') {
     let { data, error } = await supabase.from('templates').select('slug')
-    res.json(data)
+    res.json({data, error})
   } else if (req.method === 'POST') {
     try {
       const templateID = slug as string
