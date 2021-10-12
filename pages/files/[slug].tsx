@@ -5,6 +5,7 @@ import { getTemplate } from 'data/figma'
 import { FC } from 'react'
 import { FileResponse } from '@mikkmartin/figma-js'
 import { GetStaticProps, GetStaticPaths } from 'next'
+import { supabase } from 'data/supabase'
 
 const File: FC<Props> = ({ template }) => {
   return (
@@ -22,6 +23,8 @@ interface Props {
 
 export const getStaticProps: GetStaticProps<Props> = async ({ params: { slug } }) => {
   const { id } = defaultTemplates.find(t => t.slug === slug)
+  let { data, error } = await supabase.from('files').select('slug')
+  console.log(data)
   if (!id) return { notFound: true }
   return {
     props: {
