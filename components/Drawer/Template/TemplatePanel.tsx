@@ -15,24 +15,23 @@ export const TemplatePanel = ({ close, onModify }) => {
   const { data, setData } = store.editorStore
   const { defaultTemplates } = store.pages
   const { openDropdown, templates } = useDrawer()
-  const currentTemplate = data.template || defaults.template
   const router = useRouter()
 
   const onSelect = (ev, { template, fonts }) => {
     ev.preventDefault()
     //if (ev.target.type === 'submit') setJson({ ...json, template })
     let newData = { ...data, template }
-    if (fonts) newData.fonts = fonts
-    else delete newData.fonts
-    setData(newData)
+    //if (fonts) newData.fonts = fonts
+    //else delete newData.fonts
+    //setData(newData)
   }
 
   return (
     <Container>
       <List>
         <AnimateSharedLayout>
-          {defaultTemplates.map(templateObject => {
-            const { fileName, slug } = templateObject
+          {defaultTemplates.map(list => {
+            const { slug, title } = list
             const selected = false
             return (
               <Item layout {...childAnimations} key={slug}>
@@ -42,9 +41,9 @@ export const TemplatePanel = ({ close, onModify }) => {
                 <Button width="100%" onClick={() => router.push(slug)} noHover={selected}>
                   <Check checked={selected} />
                   <div className="text">
-                    <span>{fileName}</span>
+                    <span>{title}</span>
                   </div>
-                  <a href="#" onClick={ev => openDropdown(ev, templateObject)}>
+                  <a href="#" onClick={ev => openDropdown(ev, list)}>
                     <More />
                   </a>
                 </Button>

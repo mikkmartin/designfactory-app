@@ -1,13 +1,18 @@
 import { makeAutoObservable } from 'mobx'
-import { defaultTemplates, TemplateObject } from 'static/defaultTemplates'
-import { RootStore } from './RootStore'
+import { IFile } from 'data/supabase'
+
+export type FileList = Pick<IFile, 'title' | 'slug' | 'fileType'>[]
 
 export class PageStore {
-  private rootStore: RootStore
-  defaultTemplates: TemplateObject[] = defaultTemplates
+  defaultTemplates: FileList = []
 
-  constructor(rootStore) {
+  constructor(_) {
     makeAutoObservable(this)
-    this.rootStore = rootStore
+    this.getPages()
+  }
+
+  private getPages = async () => {
+    const data = await fetch('/api/templates').then(res => res.json())
+    this.defaultTemplates = data
   }
 }

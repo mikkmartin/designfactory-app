@@ -25,6 +25,7 @@ export interface paths {
           id?: parameters["rowFilter.files.id"];
           disabledFields?: parameters["rowFilter.files.disabledFields"];
           owner?: parameters["rowFilter.files.owner"];
+          fileType?: parameters["rowFilter.files.fileType"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -84,6 +85,7 @@ export interface paths {
           id?: parameters["rowFilter.files.id"];
           disabledFields?: parameters["rowFilter.files.disabledFields"];
           owner?: parameters["rowFilter.files.owner"];
+          fileType?: parameters["rowFilter.files.fileType"];
         };
         header: {
           /** Preference */
@@ -107,6 +109,7 @@ export interface paths {
           id?: parameters["rowFilter.files.id"];
           disabledFields?: parameters["rowFilter.files.disabledFields"];
           owner?: parameters["rowFilter.files.owner"];
+          fileType?: parameters["rowFilter.files.fileType"];
         };
         body: {
           /** files */
@@ -231,6 +234,7 @@ export interface definitions {
      * This is a Foreign Key to `users.id`.<fk table='users' column='id'/>
      */
     owner: string;
+    fileType: string;
   };
   users: {
     /**
@@ -273,6 +277,7 @@ export interface parameters {
   "rowFilter.files.id": string;
   "rowFilter.files.disabledFields": string;
   "rowFilter.files.owner": string;
+  "rowFilter.files.fileType": string;
   /** users */
   "body.users": definitions["users"];
   "rowFilter.users.id": string;
