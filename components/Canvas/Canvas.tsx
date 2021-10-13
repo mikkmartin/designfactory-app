@@ -6,7 +6,7 @@ import { store } from 'data'
 import { Fonts } from './Fonts'
 import { observer } from 'mobx-react-lite'
 
-export const Canvas = observer<{ editable?: boolean }>(({ editable }) => {
+export const Canvas = observer<{ editable?: boolean }>(({ editable = true }) => {
   const { template } = store.editorStore
   const { nodes, componentSets, fonts } = parseTemplate(template)
 
