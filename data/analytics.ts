@@ -1,5 +1,4 @@
 import { SplitbeeAnalytics } from '@splitbee/node'
-import { defaultTemplates } from 'static/defaultTemplates'
 const analytics = new SplitbeeAnalytics(process.env.SPLITBEE_TOKEN)
 const isProduction = process.env.NODE_ENV === 'production'
 

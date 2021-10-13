@@ -1,13 +1,9 @@
 import { useState } from 'react'
-import { defaultTemplates, TemplateObject } from 'static/defaultTemplates'
 import { useLocalStorage } from 'react-use'
-import { Invoice } from 'static/invoice'
 
 export const useTemplate = () => {
-  const [selectedTemplate, setSelectedTemplate] = useState<TemplateObject | null>(
-    defaultTemplates[0]
-  )
-  const [customTemplates, setCustomTemplates] = useLocalStorage<TemplateObject[]>(
+  const [selectedTemplate, setSelectedTemplate] = useState<any | null>()
+  const [customTemplates, setCustomTemplates] = useLocalStorage<any[]>(
     'designTemplates',
     []
   )
@@ -44,7 +40,7 @@ export const useTemplate = () => {
       //setCustomTemplates(customTemplates.filter(fileterCurrent))
       //setJson({ ...json, template: templates.filter(fileterCurrent).find(_ => true).template })
     },
-    addTemplate: (template: TemplateObject) => {
+    addTemplate: (template) => {
       const previousTemplates = customTemplates === undefined ? [] : customTemplates
       let newTemplate = {
         ...template,

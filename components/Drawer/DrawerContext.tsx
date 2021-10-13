@@ -1,6 +1,4 @@
 import { FC, createContext, useContext, useState, Dispatch, SetStateAction } from 'react'
-import { TemplateObject } from 'static/defaultTemplates'
-import { store } from 'data'
 import { useTemplate } from './Template/useTemplate'
 
 export type SetPanel = (panel: PanelState) => void
@@ -8,13 +6,13 @@ type Values = {
   panels: string[]
   panel: PanelState
   setPanel: SetPanel
-  openDropdown: (ev: React.MouseEvent<HTMLAnchorElement>, template: TemplateObject) => void
+  openDropdown: (ev: React.MouseEvent<HTMLAnchorElement>, template) => void
   dropdownTarget: null | HTMLElement
-  selectedTemplate: TemplateObject
+  selectedTemplate: any
   setDropdownTarget: Dispatch<SetStateAction<null | HTMLElement>>
   removeTemplate: () => void
   addTemplate: (TemplateObject) => void
-  templates: TemplateObject[]
+  templates: any[]
 }
 
 export type Panels =
