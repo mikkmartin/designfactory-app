@@ -34,6 +34,7 @@ export class PageStore {
     return storedString ? JSON.parse(storedString) : []
   }
   private getDefaultPages = async () => {
+    if (!process.browser) return []
     const data = await fetch('/api/templates').then(res => res.json())
     this.defaultTemplates = data
   }
