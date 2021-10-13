@@ -1,33 +1,28 @@
-import { FileResponse } from '@mikkmartin/figma-js'
 import { GetServerSideProps } from 'next'
 import { FC } from 'react'
-import { defaultTemplates } from 'static/defaultTemplates'
-import baseURL from 'static/baseURL'
-import { Invoice } from 'static/invoice'
 import { Canvas } from 'components/Canvas'
 import { urlToJson } from 'lib/urlEncoder'
+import { supabase, IFile } from 'data/supabase'
+import { store } from 'data'
 
-type Props = {
-  template: FileResponse
-  data: Invoice
+export const Screenshot: FC<Props> = ({ file }) => {
+  store.editorStore.setFile(file)
+  return <Canvas editable={false} />
 }
 
-export const Screenshot: FC<Props> = ({ template, data }) => {
-  return <Canvas template={template} data={data} editable={false} />
-}
-
-export const getServerSideProps: GetServerSideProps = async ({ query, resolvedUrl }) => {
+type Props = { file: IFile }
+export const getServerSideProps: GetServerSideProps<Props> = async ({ query, resolvedUrl }) => {
   const { slug } = query
-  const template = query.template as string
-  const defaults = defaultTemplates.find(template => template.slug === slug)
-  const url = baseURL + '/api/figma?template=' + (defaults?.id || template)
-  const figmaResponse = await fetch(url)
-  const figmaTemplate = await figmaResponse.json()
+  const { data: file } = await supabase
+    .from<IFile>('files')
+    .select('slug')
+    .eq('slug', slug as string)
+    .select('*')
+    .single()
 
   return {
     props: {
-      template: figmaTemplate,
-      data: urlToJson(resolvedUrl),
+      file: { ...file, data: urlToJson(resolvedUrl) },
     },
   }
 }

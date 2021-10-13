@@ -1,2 +1,8 @@
 export { supabase } from './config'
-export type { definitions } from './types'
+import { definitions } from './types'
+import { FileResponse } from '@mikkmartin/figma-js'
+
+export interface IFile extends Omit<definitions['files'], 'template' | 'data'> {
+  data: Object
+  template: FileResponse
+}

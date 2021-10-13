@@ -12,18 +12,19 @@ export interface paths {
       };
     };
   };
-  "/templates": {
+  "/files": {
     get: {
       parameters: {
         query: {
-          slug?: parameters["rowFilter.templates.slug"];
-          createdAt?: parameters["rowFilter.templates.createdAt"];
-          modifiedAt?: parameters["rowFilter.templates.modifiedAt"];
-          template?: parameters["rowFilter.templates.template"];
-          title?: parameters["rowFilter.templates.title"];
-          initialData?: parameters["rowFilter.templates.initialData"];
-          templateID?: parameters["rowFilter.templates.templateID"];
-          disabledFields?: parameters["rowFilter.templates.disabledFields"];
+          slug?: parameters["rowFilter.files.slug"];
+          createdAt?: parameters["rowFilter.files.createdAt"];
+          modifiedAt?: parameters["rowFilter.files.modifiedAt"];
+          template?: parameters["rowFilter.files.template"];
+          title?: parameters["rowFilter.files.title"];
+          data?: parameters["rowFilter.files.data"];
+          id?: parameters["rowFilter.files.id"];
+          disabledFields?: parameters["rowFilter.files.disabledFields"];
+          owner?: parameters["rowFilter.files.owner"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -45,7 +46,7 @@ export interface paths {
       responses: {
         /** OK */
         200: {
-          schema: definitions["templates"][];
+          schema: definitions["files"][];
         };
         /** Partial Content */
         206: unknown;
@@ -54,8 +55,8 @@ export interface paths {
     post: {
       parameters: {
         body: {
-          /** templates */
-          templates?: definitions["templates"];
+          /** files */
+          files?: definitions["files"];
         };
         query: {
           /** Filtering Columns */
@@ -74,14 +75,15 @@ export interface paths {
     delete: {
       parameters: {
         query: {
-          slug?: parameters["rowFilter.templates.slug"];
-          createdAt?: parameters["rowFilter.templates.createdAt"];
-          modifiedAt?: parameters["rowFilter.templates.modifiedAt"];
-          template?: parameters["rowFilter.templates.template"];
-          title?: parameters["rowFilter.templates.title"];
-          initialData?: parameters["rowFilter.templates.initialData"];
-          templateID?: parameters["rowFilter.templates.templateID"];
-          disabledFields?: parameters["rowFilter.templates.disabledFields"];
+          slug?: parameters["rowFilter.files.slug"];
+          createdAt?: parameters["rowFilter.files.createdAt"];
+          modifiedAt?: parameters["rowFilter.files.modifiedAt"];
+          template?: parameters["rowFilter.files.template"];
+          title?: parameters["rowFilter.files.title"];
+          data?: parameters["rowFilter.files.data"];
+          id?: parameters["rowFilter.files.id"];
+          disabledFields?: parameters["rowFilter.files.disabledFields"];
+          owner?: parameters["rowFilter.files.owner"];
         };
         header: {
           /** Preference */
@@ -96,18 +98,106 @@ export interface paths {
     patch: {
       parameters: {
         query: {
-          slug?: parameters["rowFilter.templates.slug"];
-          createdAt?: parameters["rowFilter.templates.createdAt"];
-          modifiedAt?: parameters["rowFilter.templates.modifiedAt"];
-          template?: parameters["rowFilter.templates.template"];
-          title?: parameters["rowFilter.templates.title"];
-          initialData?: parameters["rowFilter.templates.initialData"];
-          templateID?: parameters["rowFilter.templates.templateID"];
-          disabledFields?: parameters["rowFilter.templates.disabledFields"];
+          slug?: parameters["rowFilter.files.slug"];
+          createdAt?: parameters["rowFilter.files.createdAt"];
+          modifiedAt?: parameters["rowFilter.files.modifiedAt"];
+          template?: parameters["rowFilter.files.template"];
+          title?: parameters["rowFilter.files.title"];
+          data?: parameters["rowFilter.files.data"];
+          id?: parameters["rowFilter.files.id"];
+          disabledFields?: parameters["rowFilter.files.disabledFields"];
+          owner?: parameters["rowFilter.files.owner"];
         };
         body: {
-          /** templates */
-          templates?: definitions["templates"];
+          /** files */
+          files?: definitions["files"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+  };
+  "/users": {
+    get: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.users.id"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["users"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+    post: {
+      parameters: {
+        body: {
+          /** users */
+          users?: definitions["users"];
+        };
+        query: {
+          /** Filtering Columns */
+          select?: parameters["select"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** Created */
+        201: unknown;
+      };
+    };
+    delete: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.users.id"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+    patch: {
+      parameters: {
+        query: {
+          id?: parameters["rowFilter.users.id"];
+        };
+        body: {
+          /** users */
+          users?: definitions["users"];
         };
         header: {
           /** Preference */
@@ -123,7 +213,7 @@ export interface paths {
 }
 
 export interface definitions {
-  templates: {
+  files: {
     /**
      * Note:
      * This is a Primary Key.<pk/>
@@ -133,9 +223,21 @@ export interface definitions {
     modifiedAt: string;
     template: string;
     title: string;
-    initialData: string;
-    templateID: string;
+    data: string;
+    id: string;
     disabledFields?: string;
+    /**
+     * Note:
+     * This is a Foreign Key to `users.id`.<fk table='users' column='id'/>
+     */
+    owner: string;
+  };
+  users: {
+    /**
+     * Note:
+     * This is a Primary Key.<pk/>
+     */
+    id: string;
   };
 }
 
@@ -160,16 +262,20 @@ export interface parameters {
   offset: string;
   /** Limiting and Pagination */
   limit: string;
-  /** templates */
-  "body.templates": definitions["templates"];
-  "rowFilter.templates.slug": string;
-  "rowFilter.templates.createdAt": string;
-  "rowFilter.templates.modifiedAt": string;
-  "rowFilter.templates.template": string;
-  "rowFilter.templates.title": string;
-  "rowFilter.templates.initialData": string;
-  "rowFilter.templates.templateID": string;
-  "rowFilter.templates.disabledFields": string;
+  /** files */
+  "body.files": definitions["files"];
+  "rowFilter.files.slug": string;
+  "rowFilter.files.createdAt": string;
+  "rowFilter.files.modifiedAt": string;
+  "rowFilter.files.template": string;
+  "rowFilter.files.title": string;
+  "rowFilter.files.data": string;
+  "rowFilter.files.id": string;
+  "rowFilter.files.disabledFields": string;
+  "rowFilter.files.owner": string;
+  /** users */
+  "body.users": definitions["users"];
+  "rowFilter.users.id": string;
 }
 
 export interface operations {}
