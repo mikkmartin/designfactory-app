@@ -2,6 +2,9 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { supabase } from 'data/supabase'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  let { data } = await supabase.from('files').select(`slug, title, fileType`).eq('owner', 'public-templates')
+  let { data } = await supabase
+    .from('files')
+    .select(`slug, title, fileType, id`)
+    .eq('owner', 'public-templates')
   res.json(data || [])
 }

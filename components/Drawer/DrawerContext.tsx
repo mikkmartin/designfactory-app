@@ -1,6 +1,7 @@
 import { FC, createContext, useContext, useState, Dispatch, SetStateAction } from 'react'
 import { useTemplate } from './Template/useTemplate'
 
+//TODO move do data
 export type SetPanel = (panel: PanelState) => void
 type Values = {
   panels: string[]

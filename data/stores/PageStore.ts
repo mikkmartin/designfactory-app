@@ -1,19 +1,25 @@
 import { makeAutoObservable } from 'mobx'
 import { IFile } from 'data/supabase'
 
-type FileListItem = Pick<IFile, 'title' | 'slug' | 'fileType'>
+type FileListItem = Pick<IFile, 'title' | 'slug' | 'fileType' | 'id'>
 export type FileList = FileListItem[]
 
 export class PageStore {
   private storageKey = 'my-files'
   private temporaryTemplates: FileList = []
   private defaultTemplates: FileList = []
+  dropDownItem: (FileListItem & { targetEl: HTMLElement }) | null = null
 
   constructor(_) {
     makeAutoObservable(this)
     this.getMyTempFiles()
     this.getDefaultPages()
   }
+
+  openDropDown = (ev: React.MouseEvent<HTMLAnchorElement>, item: FileListItem) => {
+    this.dropDownItem = { targetEl: ev.currentTarget, ...item }
+  }
+  closeDropDown = () => (this.dropDownItem = null)
 
   addTempTemplate = (listItem: FileListItem) => {
     this.temporaryTemplates.push(listItem)

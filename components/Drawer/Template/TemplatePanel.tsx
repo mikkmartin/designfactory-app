@@ -11,16 +11,15 @@ import { Dropdown } from '../../Common/Dropdown'
 import { useRouter } from 'next/dist/client/router'
 
 export const TemplatePanel = ({ close, onModify }) => {
-  const { templates } = store.pages
-  const { openDropdown } = useDrawer()
+  const { templates, openDropDown } = store.pages
   const router = useRouter()
 
   return (
     <Container>
       <List>
         <AnimateSharedLayout>
-          {templates.map(list => {
-            const { slug, title } = list
+          {templates.map(item => {
+            const { slug, title } = item
             const selected = false
             return (
               <Item layout {...childAnimations} key={slug}>
@@ -32,7 +31,7 @@ export const TemplatePanel = ({ close, onModify }) => {
                   <div className="text">
                     <span>{title}</span>
                   </div>
-                  <a href="#" onClick={ev => openDropdown(ev, list)}>
+                  <a href="#" onClick={ev => openDropDown(ev, item)}>
                     <More />
                   </a>
                 </Button>
