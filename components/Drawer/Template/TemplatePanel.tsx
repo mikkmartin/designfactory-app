@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { More } from '../../Icons'
 import { ButtonStack, childAnimations } from '../Tab'
 import { store } from 'data'
-import { defaults } from 'static/invoice'
 import { snappy } from 'static/transitions'
 import { Check } from '../../Common/Check'
 import { useDrawer } from '../DrawerContext'
@@ -12,25 +11,15 @@ import { Dropdown } from '../../Common/Dropdown'
 import { useRouter } from 'next/dist/client/router'
 
 export const TemplatePanel = ({ close, onModify }) => {
-  const { data, setData } = store.editorStore
-  const { defaultTemplates } = store.pages
-  const { openDropdown, templates } = useDrawer()
+  const { templates } = store.pages
+  const { openDropdown } = useDrawer()
   const router = useRouter()
-
-  const onSelect = (ev, { template, fonts }) => {
-    ev.preventDefault()
-    //if (ev.target.type === 'submit') setJson({ ...json, template })
-    let newData = { ...data, template }
-    //if (fonts) newData.fonts = fonts
-    //else delete newData.fonts
-    //setData(newData)
-  }
 
   return (
     <Container>
       <List>
         <AnimateSharedLayout>
-          {defaultTemplates.map(list => {
+          {templates.map(list => {
             const { slug, title } = list
             const selected = false
             return (
@@ -50,30 +39,6 @@ export const TemplatePanel = ({ close, onModify }) => {
               </Item>
             )
           })}
-          {/*
-          templates.map((templateObject) => {
-            const { template, name, fonts } = templateObject
-            const selected = template === currentTemplate
-            return (
-              <Item layout {...childAnimations} key={template}>
-                {selected && <motion.div layoutId="highlight" className="highlight" transition={snappy} />}
-                <Button
-                  width="100%"
-                  noHover={selected}
-                  onClick={(ev) => onSelect(ev, { template, fonts })}
-                >
-                  <Check checked={selected} />
-                  <div className="text">
-                    <span>{name}</span>
-                  </div>
-                  <a href="0" onClick={ev => openDropdown(ev, templateObject)}>
-                    <More />
-                  </a>
-                </Button>
-              </Item>
-            )
-          })
-          */}
         </AnimateSharedLayout>
       </List>
       <ButtonStack>
