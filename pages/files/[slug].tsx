@@ -1,13 +1,15 @@
-import { defaultTemplates } from 'static/defaultTemplates'
 import { Layout } from 'components/Layout'
 import { Canvas } from 'components/Canvas'
-import { getTemplate } from 'data/figma'
 import { FC } from 'react'
 import { FileResponse } from '@mikkmartin/figma-js'
 import { GetStaticProps, GetStaticPaths } from 'next'
-import { supabase } from 'data/supabase'
+import { supabase, definitions } from 'data/supabase'
 
-const File: FC<Props> = ({ template }) => {
+export interface TemplateProps extends Omit<definitions['templates'], 'template'> {
+  template: FileResponse
+}
+
+const File: FC<TemplateProps> = ({ children, ...template }) => {
   return (
     <Layout>
       <Canvas template={template} />
@@ -15,30 +17,28 @@ const File: FC<Props> = ({ template }) => {
   )
 }
 
-interface Props {
-  template: {
-    id: string
-  } & FileResponse
-}
+export const getStaticProps: GetStaticProps<definitions['templates']> = async ({
+  params: { slug },
+}) => {
+  let { data, error } = await supabase
+    .from<definitions['templates']>('templates')
+    .select('slug')
+    .eq('slug', slug as string)
+    .select('*')
+    .single()
 
-export const getStaticProps: GetStaticProps<Props> = async ({ params: { slug } }) => {
-  const { id } = defaultTemplates.find(t => t.slug === slug)
-  let { data, error } = await supabase.from('files').select('slug')
-  console.log(data)
-  if (!id) return { notFound: true }
+  if (error) return { notFound: true }
+
   return {
-    props: {
-      template: await getTemplate(id),
-    },
-    notFound: !Boolean(id),
+    props: { ...data },
     revalidate: 1,
   }
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const slugs = defaultTemplates.map(({ slug }) => slug)
+  let { data } = await supabase.from<definitions['templates']>('templates').select('slug')
   return {
-    paths: slugs.map(slugs => `/files/${slugs}`),
+    paths: data.map(({ slug }) => `/files/${slug}`),
     fallback: false,
   }
 }

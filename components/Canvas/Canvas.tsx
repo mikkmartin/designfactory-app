@@ -1,4 +1,3 @@
-import { defaultTemplates } from 'static/defaultTemplates'
 import { renderElement } from './renderElement'
 import { Page } from './elemets'
 import { CanvasProvider } from './store/CanvasProvider'
@@ -7,37 +6,35 @@ import { store } from 'data'
 import { Fonts } from './Fonts'
 import { observer } from 'mobx-react-lite'
 import { useRef } from 'react'
+import type { TemplateProps } from 'pages/files/[slug]'
 
-export const Canvas = observer<{ template: any; data?: any; editable?: boolean }>(
-  ({ template: _template, data = {}, editable = true }) => {
-    const { id: templateId, ...template } = _template
-    const { fileName, slug, initialData, disabledFields } = defaultTemplates.find(
-      ({ id }) => id === templateId
-    )
+type Props = { template: TemplateProps; editable?: boolean }
 
-    const { nodes, componentSets, schema, fonts } = parseTemplate(store.editorStore.template || template)
-    useComponentWillMount(() => {
-      store.editorStore.setInitialState({
-        templateId,
-        fileName,
-        slug,
-        template,
-        data: { ...initialData, ...data },
-        schema
-      })
+export const Canvas = observer<Props>(({ editable = true, template: _template }) => {
+  const { templateID, title, slug, initialData, disabledFields, template } = _template
+  const { nodes, componentSets, schema, fonts } = parseTemplate(
+    store.editorStore.template || template
+  )
+  useComponentWillMount(() => {
+    store.editorStore.setInitialState({
+      templateId: templateID,
+      fileName: title,
+      slug,
+      template,
+      data: initialData as {},
+      schema,
     })
+  })
 
-
-    return (
-      <>
-        <Fonts fonts={fonts} />
-        <CanvasProvider initialState={{ nodes, componentSets, disabledFields, editable }}>
-          <Page canvas={!editable}>{nodes.map(renderElement)}</Page>
-        </CanvasProvider>
-      </>
-    )
-  }
-)
+  return (
+    <>
+      <Fonts fonts={fonts} />
+      <CanvasProvider initialState={{ nodes, componentSets, disabledFields, editable }}>
+        <Page canvas={!editable}>{nodes.map(renderElement)}</Page>
+      </CanvasProvider>
+    </>
+  )
+})
 
 const useComponentWillMount = cb => {
   const willMount = useRef(true)
