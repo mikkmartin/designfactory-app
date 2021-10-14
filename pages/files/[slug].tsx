@@ -30,10 +30,13 @@ export const getStaticProps: GetStaticProps<IFile> = async ({ params: { slug } }
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const { data } = await supabase.from<IFile>('files').select('slug')
+  const { data } = await supabase
+    .from<IFile>('files')
+    .select('slug')
+    .eq('owner', 'public-templates')
   return {
     paths: data.map(({ slug }) => `/files/${slug}`),
-    fallback: false,
+    fallback: true,
   }
 }
 

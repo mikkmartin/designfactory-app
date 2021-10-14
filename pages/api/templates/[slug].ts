@@ -1,42 +1,34 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { supabase, definitions } from 'data/supabase'
+import { supabase, IFile } from 'data/supabase'
 import { getTemplate } from 'data/figma'
 import { customAlphabet } from 'nanoid'
 import slugify from 'slugify'
 
 const alphabet = '0123456789abcdefghijklmnopqrstuvwxyz'
 const nanoid = customAlphabet(alphabet, 5)
+const createSlug = (title: string) => `${slugify(title, { lower: true })}-${nanoid()}`
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { slug } = req.query
   if (req.method === 'GET') {
     let { data, error } = await supabase.from('templates').select('slug')
-    res.json({data, error})
+    res.json({ data, error })
   } else if (req.method === 'POST') {
     try {
-      const templateID = slug as string
-      const template = await getTemplate(templateID)
+      const id = slug as string
+      const template = await getTemplate(id)
       const { name: title } = template
-
-      const storedTemplate = {
-        slug: `${slugify(title, { lower: true })}-${nanoid()}`,
+      const newFile: Partial<IFile> = {
+        slug: createSlug(title),
+        id,
         title,
-        createdAt: new Date().toISOString(),
-        modifiedAt: new Date().toISOString(),
-        disabledFields: '[]',
-        initialData: '{}',
-        templateID,
-        template: JSON.stringify(template),
+        template,
       }
-
-      const { data, error } = await supabase
-        .from<definitions['templates']>('templates')
-        .insert(storedTemplate)
-
-      res.json({ data, error })
+      supabase.from<IFile>('files').insert(newFile)
+      res.json(newFile)
     } catch (e) {
       res.statusCode = 500
-      res.end()
     }
+    res.end()
   }
 }

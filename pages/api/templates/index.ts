@@ -2,9 +2,13 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { supabase } from 'data/supabase'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  let { data } = await supabase
-    .from('files')
-    .select(`slug, title, fileType, id`)
-    .eq('owner', 'public-templates')
-  res.json(data || [])
+  switch (req.method) {
+    case 'GET': {
+      let { data } = await supabase.from('files').select(`slug, title, fileType, id`)
+      return res.json(data || [])
+    }
+    default:
+      res.statusCode = 501
+      return res.end()
+  }
 }

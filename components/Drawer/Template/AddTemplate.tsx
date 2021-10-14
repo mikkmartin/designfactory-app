@@ -3,6 +3,7 @@ import { ButtonStack, Content } from '../Tab'
 import styled from 'styled-components'
 import { useRef, useState } from 'react'
 import { logTemplateAdded } from 'data/analytics'
+import { store } from 'data'
 
 export const AddTemplate = ({ onCancel, onAdd }) => {
   const ref = useRef<HTMLInputElement>(null)
@@ -16,9 +17,8 @@ export const AddTemplate = ({ onCancel, onAdd }) => {
   const handleConfirm = () => {
     const str = ref.current.value
     try {
-      const [template, filename] = str.split('/file/')[1].split('/')
-      const name = filename.split('?')[0]
-      onAdd({ template, name })
+      const [id] = str.split('/file/')[1].split('/')
+      store.pages.addTempTemplate(id)
       logTemplateAdded()
     } catch (e) {
       console.error(e)
@@ -29,14 +29,23 @@ export const AddTemplate = ({ onCancel, onAdd }) => {
     <>
       <Container>
         <h4>Paste in the figma file url</h4>
-        <input ref={ref} onChange={handleChange} type="text" placeholder="https://www.figma.com/file/QFHu9LnnywkAKOdpuTZcgE..." />
+        <input
+          ref={ref}
+          onChange={handleChange}
+          type="text"
+          placeholder="https://www.figma.com/file/QFHu9LnnywkAKOdpuTZcgE..."
+        />
         <p>
           If the template uses custom fonts – make sure you add them in the parematers (fonts: [])
         </p>
       </Container>
       <ButtonStack>
-        <Button width="inherit" highlight onClick={onCancel}>Cancel</Button>
-        <Button width="inherit" onClick={handleConfirm} primary disabled={!hasInput}>Add template</Button>
+        <Button width="inherit" highlight onClick={onCancel}>
+          Cancel
+        </Button>
+        <Button width="inherit" onClick={handleConfirm} primary disabled={!hasInput}>
+          Add template
+        </Button>
       </ButtonStack>
     </>
   )
