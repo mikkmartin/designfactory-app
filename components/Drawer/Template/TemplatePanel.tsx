@@ -6,7 +6,6 @@ import { ButtonStack, childAnimations } from '../Tab'
 import { store } from 'data'
 import { snappy } from 'static/transitions'
 import { Check } from '../../Common/Check'
-import { useDrawer } from '../DrawerContext'
 import { Dropdown } from '../../Common/Dropdown'
 import { useRouter } from 'next/dist/client/router'
 

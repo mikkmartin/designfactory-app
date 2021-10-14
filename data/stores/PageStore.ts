@@ -17,6 +17,7 @@ export class PageStore {
   }
 
   openDropDown = (ev: React.MouseEvent<HTMLAnchorElement>, item: FileListItem) => {
+    ev.preventDefault()
     this.dropDownItem = { targetEl: ev.currentTarget, ...item }
   }
   closeDropDown = () => (this.dropDownItem = null)
