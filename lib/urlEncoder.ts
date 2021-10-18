@@ -1,4 +1,4 @@
-export const objectToParams = (object: Object) => {
+export const objectToParams = (object: Object): string => {
   var pairs = [],
     add = function (key, value) {
       pairs.push(key + '=' + value)
@@ -6,7 +6,7 @@ export const objectToParams = (object: Object) => {
   for (var name in object) {
     buildParam(name, object[name], add)
   }
-  return pairs.join('&').replace(/%20/g, '+')
+  return pairs.length > 0 ? '?' + pairs.join('&').replace(/%20/g, '+') : ''
   function buildParam(prefix, obj, add) {
     if (Array.isArray(obj)) {
       for (var i = 0, l = obj.length; i < l; ++i) {

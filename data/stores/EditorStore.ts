@@ -20,7 +20,7 @@ export class EditorStore {
   }
 
   get downloadUrl() {
-    return `${baseURL}/files/${this.slug}.png?${objectToParams(this.data)}`
+    return `${baseURL}/files/${this.slug}.png${objectToParams(this.data)}`
   }
   setFile = (file: IFile) => {
     this.template = file.template
