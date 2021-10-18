@@ -5,7 +5,6 @@ import { observer } from 'mobx-react-lite'
 import { RadioButtonGroup, RadioButton } from 'components/Common'
 import { Refresh, Lock } from 'components/Icons'
 import { useState } from 'react'
-import useSWR from 'swr'
 
 export const Loading = observer(() => {
   const loading = store.editorStore.loading

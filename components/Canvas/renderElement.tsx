@@ -34,8 +34,8 @@ export const renderElement = (node): ReactElement<ParsedNode | null> => {
 
 const isInstanceContainer = node => {
   let instanceCount = 0
-  return node.children.some(({ type }) => {
-    if (type === 'INSTANCE') {
+  return node.children.some(n => {
+    if (n && n.type === 'INSTANCE') {
       instanceCount++
       if (instanceCount > 2) return true
       return false
