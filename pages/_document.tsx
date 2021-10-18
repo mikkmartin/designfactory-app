@@ -1,6 +1,7 @@
 import { ServerStyleSheet } from 'styled-components'
-import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/document';
-
+import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/document'
+import { enableStaticRendering } from 'mobx-react-lite'
+if (process.browser) enableStaticRendering(true)
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -10,8 +11,7 @@ export default class MyDocument extends Document {
     try {
       ctx.renderPage = () =>
         originalRenderPage({
-          enhanceApp: (App) => (props) =>
-            sheet.collectStyles(<App {...props} />),
+          enhanceApp: App => props => sheet.collectStyles(<App {...props} />),
         })
 
       const initialProps = await Document.getInitialProps(ctx)
@@ -32,13 +32,13 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <link rel="mask-icon" href="/favicon.svg" color="#32363E"/>
+          <link rel="mask-icon" href="/favicon.svg" color="#32363E" />
         </Head>
         <body>
           <Main />
           <NextScript />
         </body>
       </Html>
-    );
+    )
   }
 }
