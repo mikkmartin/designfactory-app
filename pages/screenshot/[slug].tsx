@@ -15,9 +15,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ query, res
   const { slug } = query
   const { data: file } = await supabase
     .from<IFile>('files')
-    .select('slug')
+    .select('template')
     .eq('slug', slug as string)
-    .select('*')
     .single()
 
   return {

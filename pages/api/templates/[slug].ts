@@ -11,7 +11,7 @@ const createSlug = (title: string) => `${slugify(title, { lower: true })}-${nano
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { slug } = req.query
   if (req.method === 'GET') {
-    let { data, error } = await supabase.from('templates').select('slug')
+    let { data, error } = await supabase.from('files').select('slug')
     res.json({ data, error })
   } else if (req.method === 'POST') {
     try {

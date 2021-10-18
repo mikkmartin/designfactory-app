@@ -1,12 +1,11 @@
 import { NextApiResponse } from 'next'
 import { getTemplate } from 'data/figma'
 import { defaults } from 'static/invoice'
-//import { defaultTemplatesv2 } from 'static/defaultTemplates'
+import { supabase, IFile } from 'data/supabase'
 
 export default async (req, res: NextApiResponse) => {
   const templateID = req.query.template || defaults.template
   const template = await getTemplate(templateID)
-  //const existingTemplate = defaultTemplatesv2.map(({ id }) => id).includes(templateID)
-  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate=60')
   res.json(template)
+  await supabase.from<IFile>('files').update({ template }).eq('id', templateID)
 }
