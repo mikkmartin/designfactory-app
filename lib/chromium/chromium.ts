@@ -1,7 +1,7 @@
 import { ServerResponse } from 'http'
 import core from 'puppeteer-core'
 import { getOptions } from './options'
-import perf from 'lib/performanceMetrics'
+import Metrics from 'lib/performanceMetrics'
 let _page: core.Page | null
 
 async function getPage(isDev: boolean) {
@@ -23,7 +23,7 @@ interface IScreenshot {
 }
 
 export async function getScreenshot(url, { res, isDev, supersample = 2 }: IScreenshot) {
-  
+  const perf = new Metrics()
   perf.startTimer('Engine Boot')
   const page = await getPage(isDev)
   perf.endTimer('Engine Boot')
@@ -31,7 +31,8 @@ export async function getScreenshot(url, { res, isDev, supersample = 2 }: IScree
   await page.setViewport({ width: 800, height: 800, deviceScaleFactor: supersample })
 
   perf.startTimer('Page request')
-  await page.goto(url)
+  const headers = await page.goto(url).then(res => res.headers())
+  perf.endTimer('Page request')
 
   perf.startTimer('Loading page content')
   const selector = '#__next > div > *'
@@ -57,6 +58,14 @@ export async function getScreenshot(url, { res, isDev, supersample = 2 }: IScree
   const file = await element.screenshot({ type: 'png', omitBackground: true })
   perf.endTimer('Image capture')
 
-  perf.setHeader(res)
+  perf.setHeader(res, {
+    headers,
+    nest: [
+      {
+        name: 'DB query',
+        inside: 'Page request',
+      },
+    ],
+  })
   return file
 }
