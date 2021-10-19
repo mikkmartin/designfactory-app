@@ -14,6 +14,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     const { supersample, timeout } = urlToJson(req.url)
     const urlWithParams = params ? `${contentUrl}?${params}` : contentUrl
     const file = await getScreenshot(urlWithParams, {
+      res,
       isDev,
       supersample: supersample && parseInt(supersample),
       timeout: timeout && parseInt(timeout),
