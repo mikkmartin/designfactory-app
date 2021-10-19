@@ -14,7 +14,7 @@ class Performance {
   setHeader = (res: ServerResponse) => {
     const headerValue = Object.entries(this.timers).reduce((str, [k, v], i) => {
       if (i > 0) str += ', '
-      str += `${i};dur=${v.end - v.start};desc="${k}"`
+      str += `#${i};dur=${v.end - v.start};desc="${k}"`
       return str
     }, '')
     this.timers = {}

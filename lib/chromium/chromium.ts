@@ -32,9 +32,8 @@ export async function getScreenshot(url, { res, isDev, supersample = 2 }: IScree
 
   perf.startTimer('Page request')
   await page.goto(url)
-  perf.endTimer('Page request')
 
-  perf.startTimer('Loading images')
+  perf.startTimer('Loading page content')
   const selector = '#__next > div > *'
   await page.waitForSelector(selector)
   const element = await page.$(selector)
@@ -52,7 +51,7 @@ export async function getScreenshot(url, { res, isDev, supersample = 2 }: IScree
       })
     )
   })
-  perf.endTimer('Loading images')
+  perf.endTimer('Loading page content')
 
   perf.startTimer('Image capture')
   const file = await element.screenshot({ type: 'png', omitBackground: true })
