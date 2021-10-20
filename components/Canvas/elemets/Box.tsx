@@ -1,22 +1,26 @@
 import { useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 import { useCanvas } from '../store/CanvasProvider'
-import { useEditor } from 'components/Editor'
+//import { useEditor } from 'components/Editor'
+import { store } from 'data'
 
 export const Box = ({ children, ...props }) => {
   let overrideUrl = null
   const [isLoading, setIsLoading] = useState(false)
+  const { data } = store.editorStore
   //const { editable } = useCanvas()
   //const { data } = useEditor()
 
   if (props.style.background.includes('url')) {
     /*
-    const overrideValue = Object.entries(data).find(([key]) => {
+    const override = Object.entries(data).find(([key]) => {
       return Object.keys(data).find(k => k === key)
-    })[1] as string
+    })
+    if (!override) return
+    const overrideValue = override[1]
     if (typeof overrideValue === 'string' && overrideValue.length > 0) {
       if (overrideValue) overrideUrl = overrideValue
-      if (!editable) props.style.background = `url(${overrideUrl}) center center / cover no-repeat`
+      //if (!editable) props.style.background = `url(${overrideUrl}) center center / cover no-repeat`
     }
     */
   }

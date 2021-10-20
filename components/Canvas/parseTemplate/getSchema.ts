@@ -1,4 +1,5 @@
 import { findNodes, ParsedNode } from './parseTemplate'
+import { toJS } from 'mobx'
 
 export interface ISchema {
   type: 'object'
@@ -13,6 +14,8 @@ type ComponentsSets = {
 }
 
 export const getSchema = (nodes, componentSets: ComponentsSets): ISchema => {
+  const getName = c => c.name.split('=')[1]
+
   const textProps = findNodes('TEXT', nodes).reduce((props, { name, characters }) => {
     const val = Boolean(Number(characters)) ? Number(characters) : characters
     return {
@@ -21,13 +24,23 @@ export const getSchema = (nodes, componentSets: ComponentsSets): ISchema => {
     }
   }, {})
 
+  const imageProps = findNodes('RECTANGLE', nodes)
+    .filter(rect => rect.fills.findIndex(paint => paint.type === 'IMAGE') !== -1)
+    .reduce((props, image) => {
+      return {
+        ...props,
+        [image.name]: {
+          type: 'string',
+        },
+      }
+    }, {})
+
   const instanceProps = findNodes('INSTANCE', nodes).reduce((props, instance) => {
     const { sets, components } = componentSets
     const setIndex = sets.findIndex(set => set.includes(instance.componentId))
     if (setIndex !== -1) {
       const set = sets[setIndex]
       const setComponents = components.filter(component => set.includes(component.id))
-      const getName = c => c.name.split('=')[1]
 
       const defaultComponentName = getName(
         setComponents.find(component => component.id === instance.componentId)
@@ -50,6 +63,7 @@ export const getSchema = (nodes, componentSets: ComponentsSets): ISchema => {
     properties: {
       ...textProps,
       ...instanceProps,
+      ...imageProps,
     },
   }
 }
