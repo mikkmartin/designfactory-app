@@ -7,10 +7,13 @@ export interface ISchema {
   }
 }
 
-export const getSchema = (nodes, componentSets): ISchema => {
-  const textNodes = findNodes('TEXT', nodes)
+type ComponentsSets = {
+  components: { id: string; [key: string]: any }
+  sets: string[][]
+}
 
-  const textProps = textNodes.reduce((props, { name, characters }) => {
+export const getSchema = (nodes, componentSets: ComponentsSets): ISchema => {
+  const textProps = findNodes('TEXT', nodes).reduce((props, { name, characters }) => {
     const val = Boolean(Number(characters)) ? Number(characters) : characters
     return {
       ...props,
@@ -18,23 +21,35 @@ export const getSchema = (nodes, componentSets): ISchema => {
     }
   }, {})
 
-  const componentProps = Object.entries(componentSets).reduce(
-    (props, [key, set]) => ({
-      ...props,
-      [key]: {
-        type: 'string',
-        description: `Swappable component.`,
-        //examples: set.map(({ name }) => name.split('=')[1]),
-      },
-    }),
-    {}
-  )
+  const instanceProps = findNodes('INSTANCE', nodes).reduce((props, instance) => {
+    const { sets, components } = componentSets
+    const setIndex = sets.findIndex(set => set.includes(instance.componentId))
+    if (setIndex !== -1) {
+      const set = sets[setIndex]
+      const setComponents = components.filter(component => set.includes(component.id))
+      const getName = c => c.name.split('=')[1]
+
+      const defaultComponentName = getName(
+        setComponents.find(component => component.id === instance.componentId)
+      )
+      const componentNames = setComponents.map(getName)
+      return {
+        ...props,
+        [instance.name]: {
+          type: 'string',
+          default: defaultComponentName,
+          enum: componentNames,
+        },
+      }
+    }
+    return props
+  }, {})
 
   return {
     type: 'object',
     properties: {
       ...textProps,
-      //...componentProps,
+      ...instanceProps,
     },
   }
 }

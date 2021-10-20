@@ -5,10 +5,15 @@ import { parseTemplate } from './parseTemplate'
 import { store } from 'data'
 import { Fonts } from './Fonts'
 import { observer } from 'mobx-react-lite'
+import { useEffect } from 'react'
 
 export const Canvas = observer<{ editable?: boolean }>(({ editable = true }) => {
   const { template } = store.editorStore
-  const { nodes, componentSets, fonts } = parseTemplate(template)
+  const { nodes, componentSets, fonts, schema } = parseTemplate(template)
+  
+  useEffect(() => {
+    if (editable) store.editorStore.setSchema(schema)
+  }, [schema])
 
   return (
     <>
