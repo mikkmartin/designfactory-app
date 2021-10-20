@@ -7,8 +7,10 @@ import { renderElement } from '../renderElement'
 import { editable } from './editableStyle'
 import { useCanvas } from '../store/CanvasProvider'
 import { store } from 'data'
+import { observer } from 'mobx-react-lite'
 
-export const Instance: FC<InstanceNode & { listParent?: null | string; nthChild: number }> = ({
+
+export const Instance: FC<InstanceNode & { listParent?: null | string; nthChild: number }> = observer(({
   style,
   name,
   componentId,
@@ -75,7 +77,7 @@ export const Instance: FC<InstanceNode & { listParent?: null | string; nthChild:
       )}
     </Container>
   )
-}
+})
 
 export const Container = styled(motion.div)`
   /*

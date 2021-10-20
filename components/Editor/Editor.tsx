@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react'
-import baseURL from '../../static/baseURL'
 import styled from 'styled-components'
 import { useMeasure } from 'react-use'
 import { store } from 'data'
@@ -11,7 +10,6 @@ import { dequal } from 'dequal/lite'
 import MonacoEditor, { useMonaco } from '@monaco-editor/react'
 
 export const Editor = observer(() => {
-  const editorRef = useRef(null)
   const [ref, { width, height }] = useMeasure()
   const { data, schema, setData } = store.editorStore
   const [jsonString, setJsonString] = useState(JSON.stringify(data, null, 2))
@@ -63,10 +61,12 @@ export const Editor = observer(() => {
         theme="dok-theme"
         width={width}
         height={height}
+        keepCurrentModel={true}
         options={{
           folding: false,
           padding: { top: 15 },
           scrollBeyondLastLine: false,
+          //@ts-ignore
           lineNumbers: false,
           minimap: {
             enabled: false,
