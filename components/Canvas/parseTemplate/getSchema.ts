@@ -1,4 +1,4 @@
-import { findNodes } from './parseTemplate'
+import { findNodes, ParsedNode } from './parseTemplate'
 
 export interface ISchema {
   type: 'object'
@@ -8,7 +8,7 @@ export interface ISchema {
 }
 
 type ComponentsSets = {
-  components: { id: string; [key: string]: any }
+  components: ParsedNode[]
   sets: string[][]
 }
 
