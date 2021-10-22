@@ -28,10 +28,6 @@ export const Editor = observer(() => {
     })
   }, [monaco, schema])
 
-  const onWillMount = monaco => {
-    monaco.editor.defineTheme('dok-theme', theme)
-  }
-
   const handleChange = str => {
     try {
       setJsonString(str)
@@ -54,7 +50,7 @@ export const Editor = observer(() => {
   return (
     <Container ref={ref}>
       <MonacoEditor
-        beforeMount={onWillMount}
+        beforeMount={monaco => monaco.editor.defineTheme('dok-theme', theme)}
         onChange={handleChange}
         value={jsonString}
         language="json"

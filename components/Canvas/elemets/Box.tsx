@@ -12,17 +12,15 @@ export const Box = ({ children, ...props }) => {
   //const { data } = useEditor()
 
   if (props.style.background.includes('url')) {
-    /*
     const override = Object.entries(data).find(([key]) => {
       return Object.keys(data).find(k => k === key)
     })
-    if (!override) return
-    const overrideValue = override[1]
-    if (typeof overrideValue === 'string' && overrideValue.length > 0) {
-      if (overrideValue) overrideUrl = overrideValue
-      //if (!editable) props.style.background = `url(${overrideUrl}) center center / cover no-repeat`
+    if (override) {
+      const overrideValue = override[1]
+      if (typeof overrideValue === 'string' && overrideValue.length > 0) {
+        props.style.background = `url(${overrideValue}) center center / cover no-repeat`
+      }
     }
-    */
   }
 
   useEffect(() => {
