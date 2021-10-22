@@ -15,7 +15,6 @@ interface Options {
 
 const args = [
   ...chrome.args,
-  '--disable-web-security',
   '--disable-background-networking',
   '--disable-background-timer-throttling',
   '--disable-backgrounding-occluded-windows',
