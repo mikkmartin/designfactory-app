@@ -1,8 +1,8 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle, css } from 'styled-components'
 
 export const fontFamily = "'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace"
 export const placeholderColor = 'rgba(255, 255, 255, 0.3)'
-export const GlobalStyles = createGlobalStyle`
+export const GlobalStyles = createGlobalStyle<{route: string}>`
   * {
     margin: 0;
     padding: 0;
@@ -20,6 +20,7 @@ export const GlobalStyles = createGlobalStyle`
     min-height: 100vh;
     overflow: hidden;
     color: white;
+    ${p => p.route?.includes('/screenshot/') && screenshot}
   }
   a {
     text-decoration: none;
@@ -59,4 +60,9 @@ export const GlobalStyles = createGlobalStyle`
       margin: 0;
     }
   }
+`
+
+const screenshot = css`
+  min-height: unset;
+  overflow: auto;
 `

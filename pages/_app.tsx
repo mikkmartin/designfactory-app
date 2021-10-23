@@ -11,11 +11,11 @@ if (NEXT_PUBLIC_SENTRY_DSN) {
   })
 }
 
-export default function App({ Component, pageProps, err }) {
+export default function App({ Component, pageProps, err, router }) {
   return (
     <>
       <Head>{isProduction && <script async data-api="/_hive" src="/bee.js" />}</Head>
-      <GlobalStyles />
+      <GlobalStyles route={router.route} />
       <Component {...pageProps} err={err} />
     </>
   )
