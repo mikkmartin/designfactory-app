@@ -108,9 +108,11 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
   }
   if (node.visible === false) baseStyle.display = 'none'
 
+  if (node.name === 'container-thing') console.log(node)
+
   switch (node.type) {
     case 'FRAME':
-      baseStyle.borderRadius = node.rectangleCornerRadii?.join('px ') + 'px'
+      baseStyle.borderRadius = node.cornerRadius + 'px' || (node.rectangleCornerRadii?.join('px ') + 'px')
     case 'GROUP':
     case 'COMPONENT':
       return {
