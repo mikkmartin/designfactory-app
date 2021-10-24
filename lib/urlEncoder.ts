@@ -56,7 +56,7 @@ function idenity(value) {
 }
 
 export const urlToJson = (url, valueDeserializer = undefined) => {
-  const params = url.split('?')[1]
+  const params = url.substring(url.indexOf('?')+1)
   valueDeserializer = valueDeserializer || idenity
   var data: any = {},
     pairs,
