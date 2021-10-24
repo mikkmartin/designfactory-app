@@ -12,9 +12,7 @@ export const Box = ({ children, ...props }) => {
   //const { data } = useEditor()
 
   if (props.style.background.includes('url')) {
-    const override = Object.entries(data).find(([key]) => {
-      return Object.keys(data).find(k => k === key)
-    })
+    const override = Object.entries(data).find(([key]) => key === props.name)
     if (override) {
       const overrideValue = override[1]
       if (typeof overrideValue === 'string' && overrideValue.length > 0) {
