@@ -20,6 +20,7 @@ export const AddTemplate = ({ onCancel, onAdd }) => {
       const [id] = str.split('/file/')[1].split('/')
       store.pages.addTempTemplate(id)
       logTemplateAdded()
+      onAdd()
     } catch (e) {
       console.error(e)
     }

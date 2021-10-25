@@ -1,7 +1,7 @@
 import { store } from 'data'
 import styled from 'styled-components'
 import { Logo } from './Icons'
-import { Drawer } from './Editor/Drawer'
+import { Drawer } from './Drawer/Drawer'
 import { DrawerProvider } from './Drawer/DrawerContext'
 import { TabButton } from './Drawer/TabButton'
 import { observer } from 'mobx-react-lite'
