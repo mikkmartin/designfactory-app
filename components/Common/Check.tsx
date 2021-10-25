@@ -1,7 +1,7 @@
 import { Droplet, Checkbox } from '../Icons'
 import { AnimatePresence, motion } from "framer-motion";
 import styled from 'styled-components'
-import { snappy, bouncy } from 'static/transitions'
+import { snappy, bouncy } from 'lib/static/transitions'
 
 export const Check = ({ checked }) => {
   const animations = {

@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import sharp from 'sharp'
-import baseURL from 'static/baseURL'
+import baseURL from 'lib/static/baseURL'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   try {

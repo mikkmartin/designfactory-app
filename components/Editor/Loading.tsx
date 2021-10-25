@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import styled from 'styled-components'
 import { store } from 'data'
-import { snappy } from 'static/transitions'
+import { snappy } from 'lib/static/transitions'
 import { observer } from 'mobx-react-lite'
 
 export const Loading = observer(() => {

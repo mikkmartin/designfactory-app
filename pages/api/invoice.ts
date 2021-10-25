@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { streamDocument } from 'components/Pdf/Invoice'
-import { defaults } from 'static/invoice'
+import { defaults } from 'lib/static/invoice'
 import { logInvoiceAPIGet } from 'data/analytics'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

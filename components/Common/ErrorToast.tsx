@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { AnimatePresence, motion } from 'framer-motion'
 import { FC } from 'react'
-import { snappy } from 'static/transitions'
+import { snappy } from 'lib/static/transitions'
 
 export const ErrorToast: FC = ({ children }) => {
   return (

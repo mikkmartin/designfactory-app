@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { FC } from 'react'
-import { snappy } from 'static/transitions'
+import { snappy } from 'lib/static/transitions'
 import styled from 'styled-components'
 import { InstanceNode } from '../parseTemplate/parseTemplate'
 import { renderElement } from '../renderElement'

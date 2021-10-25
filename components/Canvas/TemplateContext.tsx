@@ -1,6 +1,6 @@
 import { FC, createContext, useContext, useRef } from 'react'
 import { Component } from '@mikkmartin/figma-js'
-import { Invoice } from 'static/invoice'
+import { Invoice } from 'lib/static/invoice'
 import { ParsedNode } from './parseTemplate/parseTemplate'
 
 type Values = {

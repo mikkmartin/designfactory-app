@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx'
 import { ISchema } from 'components/Canvas/parseTemplate/getSchema'
 import { objectToParams } from 'lib/urlEncoder'
-import baseURL from 'static/baseURL'
+import baseURL from 'lib/static/baseURL'
 import { FileResponse } from '@mikkmartin/figma-js'
 import { IFile } from 'data/supabase'
 

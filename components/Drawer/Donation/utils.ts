@@ -1,4 +1,4 @@
-import { snappy } from 'static/transitions'
+import { snappy } from 'lib/static/transitions'
 import { fontFamily, placeholderColor } from 'components/GlobalStyles'
 
 export const validateEmail = email => {

@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http'
 import { URL } from 'url'
 import { getScreenshot } from 'lib/chromium'
-import baseURL from 'static/baseURL'
+import baseURL from 'lib/static/baseURL'
 
 const isDev = !process.env.AWS_REGION
 

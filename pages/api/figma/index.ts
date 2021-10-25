@@ -1,6 +1,6 @@
 import { NextApiResponse } from 'next'
 import { getTemplate } from 'data/figma'
-import { defaults } from 'static/invoice'
+import { defaults } from 'lib/static/invoice'
 import { supabase, IFile } from 'data/supabase'
 
 export default async (req, res: NextApiResponse) => {
