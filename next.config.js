@@ -42,7 +42,7 @@ module.exports = {
       },
       {
         source: '/files/:slug.([0-9a-z]+$)',
-        destination: '/api/files/:slug',
+        destination: '/api/render/:slug',
       },
       {
         source: '/bee.js',

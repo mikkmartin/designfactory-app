@@ -14,6 +14,10 @@ export const db = {
     .eq('slug', slug)
     .select('*')
     .single(),
+  
+  addFile: (file: Partial<IFile>) => supabase
+    .from<IFile>('files')
+    .insert(file),
 
   getSlugs: () => supabase
     .from<IFile>('files')
@@ -23,6 +27,9 @@ export const db = {
   updateTemplate: (template, templateID: string) => supabase
     .from<IFile>('files')
     .update({ template })
-    .eq('id', templateID)
+    .eq('id', templateID),
   
+  getFileList: () => supabase
+    .from('files')
+    .select(`slug, title, fileType, id`)
 }

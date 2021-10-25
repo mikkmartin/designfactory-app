@@ -4,7 +4,7 @@ import { db } from 'data/db'
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
     case 'GET': {
-      let { data } = await db.from('files').select(`slug, title, fileType, id`)
+      let { data } = await db.getFileList()
       return res.json(data || [])
     }
     default:
