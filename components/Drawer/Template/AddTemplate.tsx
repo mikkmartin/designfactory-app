@@ -18,16 +18,12 @@ export const AddTemplate = ({ onCancel, onAdd }) => {
 
   const handleConfirm = async () => {
     const str = ref.current.value
-    try {
-      const [id] = str.split('/file/')[1].split('/')
-      const template = await store.pages.addTempTemplate(id)
-      if (template) {
-        logTemplateAdded()
-        onAdd()
-      }
-    } catch (e) {
-      console.error(e)
-    }
+    const [id] = str.split('/file/')[1].split('/')
+    const { data, error } = await store.pages.addTempTemplate(id)
+    if (error) return console.error(error)
+    logTemplateAdded()
+    onAdd()
+    router.push(data.slug, undefined, { shallow: true })
   }
 
   return (

@@ -28,7 +28,7 @@ export const Layout: FC = observer(({ children }) => {
 })
 
 const useRefreshTemplate = () => {
-  const { templateId, setTemplate, setLoading } = store.editorStore
+  const { id: templateId, setTemplate, setLoading } = store.editorStore
   const { isValidating } = useSWR(templateId, fetcher, {
     revalidateOnMount: false,
     focusThrottleInterval: 1000,

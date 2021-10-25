@@ -6,8 +6,8 @@ import { FileResponse } from '@mikkmartin/figma-js'
 import { IFile } from 'data/db'
 
 export class EditorStore {
-  templateId = ''
-  fileName = ''
+  id = ''
+  title = ''
   slug = ''
   loading = false
   data: Object
@@ -22,10 +22,10 @@ export class EditorStore {
   get downloadUrl() {
     return `${baseURL}/files/${this.slug}.png${objectToParams(this.data)}`
   }
-  setFile = (file: IFile) => {
+  setFile = (file: Partial<IFile>) => {
     this.template = file.template
-    this.templateId = file.id
-    this.fileName = file.title
+    this.id = file.id
+    this.title = file.title
     this.slug = file.slug
     this.data = file.data
   }

@@ -1,16 +1,20 @@
 import { makeAutoObservable } from 'mobx'
 import { IFile } from 'data/db'
+import { addTemplate } from 'data/api'
+import { RootStore } from './RootStore'
 
 type FileListItem = Pick<IFile, 'title' | 'slug' | 'fileType' | 'id'>
 export type FileList = FileListItem[]
 
 export class PageStore {
+  rootStore: RootStore
   private storageKey = 'my-files'
   private temporaryTemplates: FileList = []
   private defaultTemplates: FileList = []
   dropDownItem: (FileListItem & { targetEl: HTMLElement }) | null = null
 
-  constructor(_) {
+  constructor(rootStore) {
+    this.rootStore = rootStore
     makeAutoObservable(this)
     this.getMyTempFiles()
     this.getDefaultPages()
@@ -22,12 +26,14 @@ export class PageStore {
   }
   closeDropDown = () => (this.dropDownItem = null)
 
-  addTempTemplate = async (templateID: string) => {
-    const res = await fetch('/api/files/' + templateID, { method: 'POST' })
-    const { id, slug, fileType, title } = await res.json()
-    this.temporaryTemplates.push({ id, slug, fileType, title })
-    localStorage.setItem(this.storageKey, JSON.stringify(this.temporaryTemplates))
-  }
+  addTempTemplate = (templateID: string) =>
+    addTemplate(templateID).then(res => {
+      const { id, slug, fileType, title } = res.data
+      this.temporaryTemplates.push({ id, slug, fileType, title })
+      localStorage.setItem(this.storageKey, JSON.stringify(this.temporaryTemplates))
+      this.rootStore.editorStore.setFile(res.data)
+      return res
+    })
   
   removeTempTemplate = (slug: string) => {
     const index = this.temporaryTemplates.findIndex(item => item.slug === slug)

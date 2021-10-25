@@ -1,0 +1,1 @@
+export { addTemplate } from './files'
