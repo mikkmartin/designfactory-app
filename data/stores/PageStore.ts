@@ -21,12 +21,14 @@ export class PageStore {
     this.dropDownItem = { targetEl: ev.currentTarget, ...item }
   }
   closeDropDown = () => (this.dropDownItem = null)
+
   addTempTemplate = async (templateID: string) => {
     const res = await fetch('/api/templates/' + templateID, { method: 'POST' })
     const { id, slug, fileType, title } = await res.json()
     this.temporaryTemplates.push({ id, slug, fileType, title })
     localStorage.setItem(this.storageKey, JSON.stringify(this.temporaryTemplates))
   }
+  
   removeTempTemplate = (slug: string) => {
     const index = this.temporaryTemplates.findIndex(item => item.slug === slug)
     this.temporaryTemplates.splice(index, 1)

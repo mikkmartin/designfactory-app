@@ -44,7 +44,7 @@ export const AddTemplate = ({ onCancel, onAdd }) => {
         <Button width="inherit" highlight onClick={onCancel}>
           Cancel
         </Button>
-        <Button width="inherit" onClick={handleConfirm} primary disabled={!hasInput}>
+        <Button width="inherit" primary disabled={!hasInput} onClick={handleConfirm}>
           Add template
         </Button>
       </ButtonStack>
