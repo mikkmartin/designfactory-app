@@ -20,14 +20,9 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({
 }) => {
   const { slug } = query
   const perf = new Metrics()
+  
   perf.startTimer('DB query', 'db')
-
-  const { data: file } = await db
-    .from<IFile>('files')
-    .select('template,id')
-    .eq('slug', slug as string)
-    .single()
-
+  const { data: file } = await db.getFile(slug as string)
   perf.endTimer('DB query')
   perf.setHeader(res)
 

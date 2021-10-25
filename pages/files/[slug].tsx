@@ -16,12 +16,7 @@ const File: FC<IFile> = ({ children, ...file }) => {
 }
 
 export const getStaticProps: GetStaticProps<IFile> = async ({ params: { slug } }) => {
-  const { data: props, error } = await db
-    .from<IFile>('files')
-    .select('slug')
-    .eq('slug', slug as string)
-    .select('*')
-    .single()
+  const { data: props, error } = await db.getFile(slug as string)
   if (error) return { notFound: true }
   return {
     props,
@@ -30,10 +25,7 @@ export const getStaticProps: GetStaticProps<IFile> = async ({ params: { slug } }
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const { data } = await db
-    .from<IFile>('files')
-    .select('slug')
-    .eq('owner', 'public-templates')
+  const { data } = await db.getSlugs()
   return {
     paths: data.map(({ slug }) => ({ params: { slug } })),
     fallback: true,
