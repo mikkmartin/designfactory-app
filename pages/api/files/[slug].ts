@@ -23,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         template,
       }
       res.json(newFile)
-      db.addFile(newFile)
+      await db.addFile(newFile)
     }
   } catch (e) {
     res.statusCode = 500
