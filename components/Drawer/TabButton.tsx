@@ -1,4 +1,4 @@
-import { Info, Droplet, Thanks } from '../Icons'
+import { Info, Chevron, Thanks } from '../Icons'
 import { Button } from '../Common/Button'
 import { useDrawer } from './DrawerContext'
 
@@ -10,7 +10,7 @@ export const TabButton = ({ name }) => {
       case 'info':
         return <Info />
       case 'templates':
-        return <Droplet />
+        return <Chevron />
       case 'donation':
         return <Thanks />
     }

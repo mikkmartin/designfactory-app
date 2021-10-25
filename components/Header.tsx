@@ -35,11 +35,13 @@ export const Header = observer(() => {
           {buttonLabels.map(name => (
             <TabButton key={name} name={name} />
           ))}
+          {/*
           <a href={downloadUrl} download={`${fileName}.png`}>
             <Button primary onTap={handleDownload}>
               <Download />
             </Button>
           </a>
+            */}
         </div>
         <Drawer />
       </Container>
