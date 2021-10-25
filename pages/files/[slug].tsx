@@ -1,13 +1,14 @@
 import { Layout } from 'components/Layout'
 import { Canvas } from 'components/Canvas'
-import { FC } from 'react'
+import { FC, useRef } from 'react'
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { db, IFile } from 'data/db'
 import { store } from 'data'
 
 const File: FC<IFile> = ({ children, ...file }) => {
-  if (!file.template) return null
-  store.editorStore.setFile(file)
+  if (!file.id) return null
+  setInitialData(file)
+
   return (
     <Layout>
       <Canvas />
@@ -29,6 +30,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: data.map(({ slug }) => ({ params: { slug } })),
     fallback: true,
+  }
+}
+
+const setInitialData = (file) => {
+  const id = useRef(null)
+  if (id.current !== file.id) {
+    id.current = file.id
+    store.editorStore.setFile(file)
   }
 }
 

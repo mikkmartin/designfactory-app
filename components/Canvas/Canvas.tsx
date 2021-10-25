@@ -18,6 +18,9 @@ export const Canvas = observer<{ editable?: boolean }>(({ editable = true }) => 
   return (
     <>
       <Fonts fonts={fonts} />
+      {/*
+      <pre style={{width:'100%', color: 'white'}}>{JSON.stringify(rest, null, 2)}</pre>
+      */}
       <CanvasProvider initialState={{ nodes, componentSets, disabledFields: [], editable }}>
         <Page canvas={!editable}>{nodes.map(renderElement)}</Page>
       </CanvasProvider>
