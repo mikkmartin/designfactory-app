@@ -23,11 +23,15 @@ export const Drawer = () => {
   useClickAway(
     ref,
     (ev: any) => {
-      const el = ev.target
-      const exptions =
-        !!['Button', 'MuiPopover-root', 'MuiMenu-list'].find(str => el.className.includes(str)) ||
-        el.getAttribute('aria-hidden') === 'true'
-      if (!exptions) setPanel(false)
+      try {
+        const el = ev.target
+        const exptions =
+          !!['Button', 'MuiPopover-root', 'MuiMenu-list'].find(str => el.className.includes(str)) ||
+          el.getAttribute('aria-hidden') === 'true'
+        if (!exptions) setPanel(false)
+      } catch (e) {
+        console.error(e)
+      }
     },
     ['click']
   )

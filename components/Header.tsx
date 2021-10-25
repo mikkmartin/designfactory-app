@@ -1,7 +1,6 @@
 import { store } from 'data'
 import styled from 'styled-components'
-import { Download } from './Icons'
-import { Button } from './Common/Button'
+import { Logo } from './Icons'
 import { Drawer } from './Editor/Drawer'
 import { DrawerProvider } from './Drawer/DrawerContext'
 import { TabButton } from './Drawer/TabButton'
@@ -30,7 +29,10 @@ export const Header = observer(() => {
         'thank you',
       ]}>
       <Container>
-        <h1>{fileName}</h1>
+        <div className="title">
+          <Logo className="logo"/>
+          <h1>{fileName}</h1>
+        </div>
         <div className="buttons">
           {buttonLabels.map(name => (
             <TabButton key={name} name={name} />
@@ -57,21 +59,29 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-left: 24px;
-  h1 {
-    font-size: 16px;
-    font-weight: 300;
-    width: 1fr;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    height: 1.2em;
-    white-space: nowrap;
-    padding-right: 4px;
-  }
-  .buttons {
+  .title {
+    height: 100%;
     display: flex;
-    svg {
-      pointer-events: none;
+    align-items: center;
+    .logo {
+      height: 100%;
+      width: auto;
+    }
+    h1 {
+      font-size: 16px;
+      font-weight: 300;
+      width: 1fr;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      height: 1.2em;
+      white-space: nowrap;
+      padding-right: 4px;
+    }
+    .buttons {
+      display: flex;
+      svg {
+        pointer-events: none;
+      }
     }
   }
 `
