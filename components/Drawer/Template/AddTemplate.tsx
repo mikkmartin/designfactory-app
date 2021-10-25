@@ -4,23 +4,27 @@ import styled from 'styled-components'
 import { useRef, useState } from 'react'
 import { logTemplateAdded } from 'data/analytics'
 import { store } from 'data'
+import { useRouter } from 'next/dist/client/router'
 
 export const AddTemplate = ({ onCancel, onAdd }) => {
   const ref = useRef<HTMLInputElement>(null)
   const [hasInput, setHasInput] = useState(false)
+  const router = useRouter()
 
   const handleChange = () => {
     if (ref.current.value.length >= 22) setHasInput(true)
     else setHasInput(false)
   }
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     const str = ref.current.value
     try {
       const [id] = str.split('/file/')[1].split('/')
-      store.pages.addTempTemplate(id)
-      logTemplateAdded()
-      onAdd()
+      const template = await store.pages.addTempTemplate(id)
+      if (template) {
+        logTemplateAdded()
+        onAdd()
+      }
     } catch (e) {
       console.error(e)
     }

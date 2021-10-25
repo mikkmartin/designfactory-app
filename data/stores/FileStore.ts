@@ -1,6 +1,6 @@
 import { EditorStore } from './EditorStore'
 import { makeAutoObservable } from 'mobx'
-import { IFile } from 'data/supabase'
+import { IFile } from 'data/db'
 
 export class FileStore {
   editorStore: EditorStore

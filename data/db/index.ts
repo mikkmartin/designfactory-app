@@ -1,4 +1,4 @@
-export { supabase } from './config'
+export { db } from './config'
 import { definitions } from './types'
 import { FileResponse } from '@mikkmartin/figma-js'
 

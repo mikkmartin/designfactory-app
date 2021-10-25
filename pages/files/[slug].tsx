@@ -2,7 +2,7 @@ import { Layout } from 'components/Layout'
 import { Canvas } from 'components/Canvas'
 import { FC } from 'react'
 import { GetStaticProps, GetStaticPaths } from 'next'
-import { supabase, IFile } from 'data/supabase'
+import { db, IFile } from 'data/db'
 import { store } from 'data'
 
 const File: FC<IFile> = ({ children, ...file }) => {
@@ -16,7 +16,7 @@ const File: FC<IFile> = ({ children, ...file }) => {
 }
 
 export const getStaticProps: GetStaticProps<IFile> = async ({ params: { slug } }) => {
-  const { data: props, error } = await supabase
+  const { data: props, error } = await db
     .from<IFile>('files')
     .select('slug')
     .eq('slug', slug as string)
@@ -30,7 +30,7 @@ export const getStaticProps: GetStaticProps<IFile> = async ({ params: { slug } }
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const { data } = await supabase
+  const { data } = await db
     .from<IFile>('files')
     .select('slug')
     .eq('owner', 'public-templates')

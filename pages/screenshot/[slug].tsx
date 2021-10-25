@@ -2,7 +2,7 @@ import { GetServerSideProps } from 'next'
 import { FC } from 'react'
 import { Canvas } from 'components/Canvas'
 import { urlToJson } from 'lib/urlEncoder'
-import { supabase, IFile } from 'data/supabase'
+import { db, IFile } from 'data/db'
 import { store } from 'data'
 import Metrics from 'lib/performanceMetrics'
 
@@ -22,7 +22,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({
   const perf = new Metrics()
   perf.startTimer('DB query', 'db')
 
-  const { data: file } = await supabase
+  const { data: file } = await db
     .from<IFile>('files')
     .select('template,id')
     .eq('slug', slug as string)

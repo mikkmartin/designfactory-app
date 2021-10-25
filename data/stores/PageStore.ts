@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx'
-import { IFile } from 'data/supabase'
+import { IFile } from 'data/db'
 
 type FileListItem = Pick<IFile, 'title' | 'slug' | 'fileType' | 'id'>
 export type FileList = FileListItem[]

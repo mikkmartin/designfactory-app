@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { supabase, IFile } from 'data/supabase'
+import { db, IFile } from 'data/db'
 import { getTemplate } from 'data/figma'
 import { customAlphabet } from 'nanoid'
 import slugify from 'slugify'
@@ -11,7 +11,7 @@ const createSlug = (title: string) => `${slugify(title, { lower: true })}-${nano
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { slug } = req.query
   if (req.method === 'GET') {
-    let { data, error } = await supabase.from('files').select('slug')
+    let { data, error } = await db.from('files').select('slug')
     res.json({ data, error })
   } else if (req.method === 'POST') {
     try {
@@ -24,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         title,
         template,
       }
-      supabase.from<IFile>('files').insert(newFile)
+      db.from<IFile>('files').insert(newFile)
       res.json(newFile)
     } catch (e) {
       res.statusCode = 500

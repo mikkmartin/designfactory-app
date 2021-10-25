@@ -3,7 +3,7 @@ import { ISchema } from 'components/Canvas/parseTemplate/getSchema'
 import { objectToParams } from 'lib/urlEncoder'
 import baseURL from 'lib/static/baseURL'
 import { FileResponse } from '@mikkmartin/figma-js'
-import { IFile } from 'data/supabase'
+import { IFile } from 'data/db'
 
 export class EditorStore {
   templateId = ''
