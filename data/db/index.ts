@@ -14,7 +14,15 @@ export const db = {
     .eq('slug', slug)
     .select('*')
     .single(),
-  getSlugs: () => supabase.from<IFile>('files')
+
+  getSlugs: () => supabase
+    .from<IFile>('files')
     .select('slug')
-    .eq('owner', 'public-templates')
+    .eq('owner', 'public-templates'),
+
+  updateTemplate: (template, templateID: string) => supabase
+    .from<IFile>('files')
+    .update({ template })
+    .eq('id', templateID)
+  
 }
