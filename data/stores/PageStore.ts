@@ -23,7 +23,7 @@ export class PageStore {
   closeDropDown = () => (this.dropDownItem = null)
 
   addTempTemplate = async (templateID: string) => {
-    const res = await fetch('/api/templates/' + templateID, { method: 'POST' })
+    const res = await fetch('/api/files/' + templateID, { method: 'POST' })
     const { id, slug, fileType, title } = await res.json()
     this.temporaryTemplates.push({ id, slug, fileType, title })
     localStorage.setItem(this.storageKey, JSON.stringify(this.temporaryTemplates))
@@ -45,7 +45,7 @@ export class PageStore {
   }
   private getDefaultPages = async () => {
     if (!process.browser) return []
-    const data = await fetch('/api/templates').then(res => res.json())
+    const data = await fetch('/api/files').then(res => res.json())
     this.defaultTemplates = data
   }
 }
