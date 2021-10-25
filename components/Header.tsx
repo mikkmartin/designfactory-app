@@ -21,8 +21,8 @@ export const Header = observer(() => {
   return (
     <DrawerProvider
       panels={[
-        'addtemplate',
         ...buttonLabels,
+        'addtemplate',
         'payment',
         'subscription-cancel',
         'unsubscribed',
