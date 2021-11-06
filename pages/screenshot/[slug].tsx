@@ -8,7 +8,6 @@ import Metrics from 'lib/performanceMetrics'
 
 export const Screenshot: FC<Props> = ({ file }) => {
   store.editorStore.setFile(file)
-  console.log(file)
   return <Canvas editable={false} />
 }
 
