@@ -19,8 +19,7 @@ export type ScrapeResult = {
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  //const urls = JSON.parse(req.body).urls as string[]
-  const urls = ['https://nakedlove.ee/uue-polvkonna-seksuaalharidus/']
+  const urls = JSON.parse(req.body).urls as string[]
   const metaDatas = await Promise.all(
     urls.map(async url => {
       const res = await fetch(url)
