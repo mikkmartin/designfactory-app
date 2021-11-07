@@ -1,3 +1,4 @@
+import { objectToParams } from 'lib/urlEncoder'
 import { NextPage } from 'next'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
@@ -78,13 +79,8 @@ const Automate: NextPage = () => {
 
 const Image = ({ meta, slug, className }: { meta: ScrapeResult; [key: string]: any }) => {
   if (!meta) return null
-  const { title, description, image } = meta
   return (
-    <img
-      className={className}
-      src={`files/${slug}.png?title=${title}&description=${description}&hero-image=${image}`}
-      alt="twitter"
-    />
+    <img className={className} src={`files/${slug}.png${objectToParams(meta)}`} alt="twitter" />
   )
 }
 
