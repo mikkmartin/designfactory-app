@@ -1,7 +1,7 @@
-import { parseMetaTags } from 'lib/parseMetatags'
 import { NextPage } from 'next'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { parseMetaTags } from 'lib/parseMetatags'
 
 const Automate: NextPage = () => {
   const [items, setItems] = useState<string[]>([])
@@ -24,13 +24,12 @@ const Automate: NextPage = () => {
   }
 
   const handleFetchHtml = async () => {
-    const htmlPages = await Promise.all(
-      items.map(async item => {
-        const res = await fetch(item)
-        const html = await res.text()
-        return html
-      })
-    )
+    const htmlPages = await fetch(`/api/scrape`, {
+      method: 'POST',
+      body: JSON.stringify({
+        urls: items,
+      }),
+    }).then(res => res.json())
     const parsedTags = htmlPages.map(parseMetaTags)
     setMetaTags(parsedTags)
   }
@@ -80,8 +79,8 @@ const Automate: NextPage = () => {
 
 const Image = ({ meta, slug, className }) => {
   if (!meta) return null
-  const title = meta['twitter:title'] || ''
-  const description = meta['twitter:description'] || ''
+  const title = meta['twitter:title'] || meta['og:title'] || ''
+  const description = meta['twitter:description'] || meta['description'] || ''
   const image = meta['og:image'] || ''
 
   return (
