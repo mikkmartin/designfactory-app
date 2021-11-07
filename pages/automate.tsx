@@ -1,13 +1,13 @@
 import { NextPage } from 'next'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { parseMetaTags } from 'lib/parseMetatags'
+import type { ScrapeResult } from './api/scrape'
 
 const Automate: NextPage = () => {
   const [items, setItems] = useState<string[]>([])
   const [slugs, setSlugs] = useState([])
   const [slug, setSlug] = useState('story2-c6wjq')
-  const [metaTags, setMetaTags] = useState<{ [key: string]: string }[]>()
+  const [metaTags, setMetaTags] = useState<ScrapeResult[]>()
   const [opened, setOpened] = useState(0)
   const [refreshKey, setRefreshKey] = useState(0)
 
@@ -24,13 +24,12 @@ const Automate: NextPage = () => {
   }
 
   const handleFetchHtml = async () => {
-    const htmlPages = await fetch(`/api/scrape`, {
+    const parsedTags: ScrapeResult[] = await fetch(`/api/scrape`, {
       method: 'POST',
       body: JSON.stringify({
         urls: items,
       }),
     }).then(res => res.json())
-    const parsedTags = htmlPages.map(parseMetaTags)
     setMetaTags(parsedTags)
   }
 
@@ -77,12 +76,9 @@ const Automate: NextPage = () => {
   )
 }
 
-const Image = ({ meta, slug, className }) => {
+const Image = ({ meta, slug, className }: { meta: ScrapeResult; [key: string]: any }) => {
   if (!meta) return null
-  const title = meta['twitter:title'] || meta['og:title'] || ''
-  const description = meta['twitter:description'] || meta['description'] || ''
-  const image = meta['og:image'] || ''
-
+  const { title, description, image } = meta
   return (
     <img
       className={className}
