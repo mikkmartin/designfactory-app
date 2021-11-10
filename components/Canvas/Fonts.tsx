@@ -1,9 +1,7 @@
 import { FC } from 'react'
 import Head from 'next/head'
 import type { IFont } from './parseTemplate/getFonts'
-import { fontFamily } from 'components/GlobalStyles'
 
-//Get the font url in a similar form: 'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,900&display=swap'
 const getUrl = (font: IFont): string => {
   const family = font.family.replace(/\s/g, '+')
   const italic = font.weights.some(({ italic }) => italic) && 'ital,'
