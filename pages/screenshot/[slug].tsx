@@ -5,6 +5,8 @@ import { urlToJson } from 'lib/urlEncoder'
 import { db, IFile } from 'data/db'
 import { store } from 'data'
 import Metrics from 'lib/performanceMetrics'
+import markdownToHtml from 'lib/markdownToHtml'
+import { findNodes } from 'components/Canvas/parseTemplate/parseTemplate'
 
 export const Screenshot: FC<Props> = ({ file }) => {
   store.editorStore.setFile(file)
@@ -19,15 +21,26 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({
 }) => {
   const { slug } = query
   const perf = new Metrics()
-  
+
   perf.startTimer('DB query', 'db')
   const { data: file } = await db.getFile(slug as string)
   perf.endTimer('DB query')
+  
+
+  const data = urlToJson(resolvedUrl)
+  const textNodes = findNodes('TEXT', file.template.document.children).map(node => node.name)
+
+  perf.startTimer('Converting to markdown', 'md')
+  await Object.keys(data).forEach(async key => {
+    console.log(key, textNodes.includes(key))
+    if (textNodes.includes(key)) data[key] = await markdownToHtml(data[key])
+  })
+  perf.endTimer('Converting to markdown')
   perf.setHeader(res)
 
   return {
     props: {
-      file: { ...file, data: urlToJson(resolvedUrl) },
+      file: { ...file, data },
     },
   }
 }

@@ -50,7 +50,7 @@ export const Text = observer<TextNode>(({ style, content, name, overrides }) => 
 
   //if (!isEditable)
   //{isDisabled ? content : fillText(name)}
-  return (
+  return isDisabled ? (
     <p style={style}>
       {Boolean(overrides.length)
         ? splittString(content, overrides).map(obj =>
@@ -64,6 +64,8 @@ export const Text = observer<TextNode>(({ style, content, name, overrides }) => 
           )
         : content}
     </p>
+  ) : (
+    <div style={style} dangerouslySetInnerHTML={{ __html: fillText(name) }} />
   )
 
   const contentEditor = useTipTap({
