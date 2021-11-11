@@ -74,6 +74,7 @@ interface IBoxNode extends IBaseNode {
 export interface TextNode extends IBaseNode {
   type: Extract<NodeType, 'TEXT'>
   content: string
+  overrides?: Override[]
 }
 
 export interface InstanceNode extends IBaseNode {
@@ -108,11 +109,10 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
   }
   if (node.visible === false) baseStyle.display = 'none'
 
-  if (node.name === 'container-thing') console.log(node)
-
   switch (node.type) {
     case 'FRAME':
-      baseStyle.borderRadius = node.cornerRadius + 'px' || (node.rectangleCornerRadii?.join('px ') + 'px')
+      baseStyle.borderRadius =
+        node.cornerRadius + 'px' || node.rectangleCornerRadii?.join('px ') + 'px'
     case 'GROUP':
     case 'COMPONENT':
       return {
@@ -143,6 +143,10 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
       const { fontSize, fontFamily, fontWeight, textAlignHorizontal: align, italic } = node.style
       const textAlign = align !== 'LEFT' ? (align === 'RIGHT' ? 'right' : 'center') : 'left'
       const { lineHeightPercent, lineHeightPercentFontSize } = node.style
+      const overrides =
+        node.characterStyleOverrides.length > 0
+          ? createOverrides(node.characterStyleOverrides, node.styleOverrideTable)
+          : []
       return {
         ...props,
         type: node.type,
@@ -161,6 +165,7 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
             lineHeightPercent === 100 ? 'initial' : `${lineHeightPercentFontSize * 1.15}%`,
           letterSpacing: `${node.style.letterSpacing}px`,
         },
+        overrides,
       }
     case 'RECTANGLE':
       return {
@@ -170,16 +175,6 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
           ...getLayout(node, parentNode),
           ...baseStyle,
           background: getFill(node),
-          /*
-          outline: `${node.strokeWeight}px solid`,
-          outlineColor: Boolean(node.strokes.length) ? getColor(node.strokes[0]) : 'transparent',
-          outlineOffset:
-            node.strokeAlign === 'CENTER'
-              ? node.strokeWeight / -2
-              : node.strokeAlign === 'INSIDE'
-              ? -node.strokeWeight
-              : 0,
-          */
         },
       }
     case 'BOOLEAN_OPERATION':
@@ -205,4 +200,29 @@ const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
       console.warn(`Node of type "${node.type}" was not parsed.`)
       return null
   }
+}
+
+type Override = {
+  from: number
+  to: number
+  style: CSSProperties
+}
+
+function createOverrides(overRides, styleTable): Override[] {
+  return overRides
+    .reduce((acc, curr, index) => {
+      if (index === 0) acc.push({ type: curr, from: index })
+      if (curr !== acc[acc.length - 1].type) {
+        acc[acc.length - 1].to = index
+        acc.push({ type: curr, from: index })
+      }
+      if (index === overRides.length - 1) acc[acc.length - 1].to = index + 1
+      return acc
+    }, [])
+    .filter(o => o.type !== 0)
+    .map(({ from, to, type }) => ({
+      from,
+      to,
+      style: styleTable[type],
+    }))
 }

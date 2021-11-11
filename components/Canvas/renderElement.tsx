@@ -20,7 +20,7 @@ export const renderElement = (node): ReactElement<ParsedNode | null> => {
       props.componentId = node.componentId
       return <Instance {...props}>{children.map(renderElement)}</Instance>
     case 'TEXT':
-      return <Text {...props} content={node.content} />
+      return <Text {...props} content={node.content} overrides={node.overrides} />
     case 'BOOLEAN_OPERATION':
     case 'VECTOR':
     case 'LINE':

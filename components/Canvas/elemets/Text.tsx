@@ -9,7 +9,27 @@ import { TextNode } from '../parseTemplate'
 
 const isAcceptedValue = v => ['string', 'number'].includes(typeof v)
 
-export const Text = observer<TextNode>(({ style, content, name }) => {
+//zip arrays together
+const zip = (arr1, arr2) => {
+  const zipped = []
+  for (let i = 0; i < arr1.length; i++) {
+    zipped.push(arr1[i])
+    if (arr2[i]) zipped.push(arr2[i])
+  }
+  return zipped
+}
+
+const splittString = (str: string, overRides): { content: string; style?: any }[] => {
+  const leftOvers = []
+  const splittedStrings = overRides.map(({ from, to, style }, i) => {
+    if (overRides[i + 1]) leftOvers.push({ content: str.slice(to, overRides[i + 1].from) })
+    else if (str.length > to) leftOvers.push({ content: str.slice(to, str.length + 1) })
+    return { content: str.slice(from, to), style }
+  })
+  return zip(splittedStrings, leftOvers)
+}
+
+export const Text = observer<TextNode>(({ style, content, name, overrides }) => {
   const acceptUpdates = useRef(true)
   const { editable, disabledFields } = useCanvas()
   const global = store.editorStore
@@ -28,7 +48,23 @@ export const Text = observer<TextNode>(({ style, content, name }) => {
     return content
   }
 
-  if (!isEditable) return <p style={style}>{isDisabled ? content : fillText(name)}</p>
+  //if (!isEditable)
+  //{isDisabled ? content : fillText(name)}
+  return (
+    <p style={style}>
+      {Boolean(overrides.length)
+        ? splittString(content, overrides).map(obj =>
+            obj.style ? (
+              <span style={{ ...obj.style, fontStyle: obj.style.italic ? 'italic' : 'none' }}>
+                {obj.content}
+              </span>
+            ) : (
+              obj.content
+            )
+          )
+        : content}
+    </p>
+  )
 
   const contentEditor = useTipTap({
     extensions: [StarterKit],
