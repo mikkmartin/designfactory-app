@@ -65,4 +65,7 @@ export const GlobalStyles = createGlobalStyle<{route: string}>`
 const screenshot = css`
   min-height: unset;
   overflow: auto;
+  p {
+    line-height: unset;
+  }
 `
