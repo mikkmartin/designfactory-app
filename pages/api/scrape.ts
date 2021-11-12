@@ -7,6 +7,7 @@ const metascraper = require('metascraper')([
   require('metascraper-logo')(),
   require('metascraper-title')(),
   require('metascraper-description')(),
+  require('metascraper-readability')(),
 ])
 
 export type ScrapeResult = {
