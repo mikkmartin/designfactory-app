@@ -27,7 +27,7 @@ const fixWhiteSpace = str => {
       $el.text(text.trim())
     }
   })
-  return html.html().replace(/\/b><i/g, '±b> <i')
+  return html.html().replace(/\/b><i/g, 'b> <i')
 }
 
 const getReadbility = composeRule(($, url) => readability(url, $.html()))
