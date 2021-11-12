@@ -17,7 +17,7 @@ const readability = memoizeOne((url, html) => {
   return parseReader(reader)
 })
 
-const fixWhiteSpace = (str: string) => {
+const fixWhiteSpace = str => {
   function fix(reg, fromFront: boolean) {
     const matches = str.matchAll(reg)
     for (const match of matches) {
@@ -25,12 +25,12 @@ const fixWhiteSpace = (str: string) => {
       const mLength = m.length
       const index = match.index
       if (fromFront) m = `${m.slice(1, mLength)} `
-      if (!fromFront && m.endsWith(' ')) m = ` ${m.slice(0, mLength - 1)}`
+      if (!fromFront && m.endsWith(' ')) m = `> ${m.slice(1, mLength - 1)}`
       str = str.slice(0, index) + m + str.slice(index + mLength)
     }
   }
-  fix(/ <[^>]*>/g, true)
-  fix(/<[^>]*> /g, false)
+  fix(/ <[^>]*></g, true)
+  fix(/><[^>]*> /g, false)
   return str
 }
 
@@ -39,9 +39,7 @@ const toTitle = toRule(title)
 const toMarkDown = async el => {
   const rawHtml = el.html()
   if (!rawHtml) return
-  //const html = fixWhiteSpace(el.html())
   const html = fixWhiteSpace(rawHtml)
-  console.log(html)
   return await htmlToMarkdown(html)
 }
 
