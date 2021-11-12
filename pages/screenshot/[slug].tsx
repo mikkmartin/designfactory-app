@@ -5,7 +5,7 @@ import { urlToJson } from 'lib/urlEncoder'
 import { db, IFile } from 'data/db'
 import { store } from 'data'
 import Metrics from 'lib/performanceMetrics'
-import markdownToHtml from 'lib/markdownToHtml'
+import { markdownToHtml } from 'lib/markdownConverter'
 import { findNodes } from 'components/Canvas/parseTemplate/parseTemplate'
 
 export const Screenshot: FC<Props> = ({ file }) => {
@@ -25,7 +25,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({
   perf.startTimer('DB query', 'db')
   const { data: file } = await db.getFile(slug as string)
   perf.endTimer('DB query')
-  
 
   const data = urlToJson(resolvedUrl)
   const textNodes = findNodes('TEXT', file.template.document.children).map(node => node.name)
