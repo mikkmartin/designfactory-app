@@ -27,7 +27,7 @@ const fixWhiteSpace = str => {
       $el.text(text.trim())
     }
   })
-  return html.html().replace(/\/b><i/g, 'b> <i')
+  return html.html().replace(/\/b><i/g, '/b> <i')
 }
 
 const getReadbility = composeRule(($, url) => readability(url, $.html()))
@@ -36,6 +36,7 @@ const toMarkDown = async el => {
   const rawHtml = el.html()
   if (!rawHtml) return
   const html = fixWhiteSpace(rawHtml)
+  console.log(html)
   return await htmlToMarkdown(html)
 }
 
