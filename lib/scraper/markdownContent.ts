@@ -1,5 +1,4 @@
 import { htmlToMarkdown } from 'lib/markdownConverter'
-
 const { memoizeOne, composeRule, title, toRule, $filter } = require('@metascraper/helpers')
 const { Readability } = require('@mozilla/readability')
 const { JSDOM, VirtualConsole } = require('jsdom')
@@ -18,10 +17,31 @@ const readability = memoizeOne((url, html) => {
   return parseReader(reader)
 })
 
+const fixWhiteSpace = (str: string) => {
+  function fix(reg, fromFront: boolean) {
+    const matches = str.matchAll(reg)
+    for (const match of matches) {
+      let m = match[0]
+      const mLength = m.length
+      const index = match.index
+      if (fromFront) m = `${m.slice(1, mLength)} `
+      if (!fromFront && m.endsWith(' ')) m = ` ${m.slice(0, mLength - 1)}`
+      str = str.slice(0, index) + m + str.slice(index + mLength)
+    }
+  }
+  fix(/ <[^>]*>/g, true)
+  fix(/<[^>]*> /g, false)
+  return str
+}
+
 const getReadbility = composeRule(($, url) => readability(url, $.html()))
 const toTitle = toRule(title)
 const toMarkDown = async el => {
-  const html = el.html()
+  const rawHtml = el.html()
+  if (!rawHtml) return
+  //const html = fixWhiteSpace(el.html())
+  const html = fixWhiteSpace(rawHtml)
+  console.log(html)
   return await htmlToMarkdown(html)
 }
 
