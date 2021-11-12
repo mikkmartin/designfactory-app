@@ -36,7 +36,6 @@ const toMarkDown = async el => {
   const rawHtml = el.html()
   if (!rawHtml) return
   const html = fixWhiteSpace(rawHtml)
-  console.log(html)
   return await htmlToMarkdown(html)
 }
 
