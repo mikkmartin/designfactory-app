@@ -2,6 +2,7 @@ import { htmlToMarkdown } from 'lib/markdownConverter'
 const { memoizeOne, composeRule, title, toRule, $filter } = require('@metascraper/helpers')
 const { Readability } = require('@mozilla/readability')
 const { JSDOM, VirtualConsole } = require('jsdom')
+import cheerio from 'cheerio'
 
 const parseReader = reader => {
   try {
@@ -18,20 +19,15 @@ const readability = memoizeOne((url, html) => {
 })
 
 const fixWhiteSpace = str => {
-  function fix(reg, fromFront: boolean) {
-    const matches = str.matchAll(reg)
-    for (const match of matches) {
-      let m = match[0]
-      const mLength = m.length
-      const index = match.index
-      if (fromFront) m = `${m.slice(1, mLength)} `
-      if (!fromFront && m.endsWith(' ')) m = `> ${m.slice(1, mLength - 1)}`
-      str = str.slice(0, index) + m + str.slice(index + mLength)
+  const html = cheerio.load(str, null, false)
+  html('*').each((_, el) => {
+    const $el = cheerio(el)
+    const text = $el.text()
+    if (text.startsWith(' ') || text.endsWith(' ')) {
+      $el.text(text.trim())
     }
-  }
-  fix(/ <[^>]*></g, true)
-  fix(/><[^>]*> /g, false)
-  return str
+  })
+  return html.html().replace(/\/b><i/g, '±b> <i')
 }
 
 const getReadbility = composeRule(($, url) => readability(url, $.html()))
