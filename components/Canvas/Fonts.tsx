@@ -3,7 +3,6 @@ import Head from 'next/head'
 import type { IFont } from './parseTemplate/getFonts'
 
 const getUrl = (font: IFont): string => {
-  console.log(font)
   const family = font.family.replace(/\s/g, '+')
   const italic = font.weights.some(({ italic }) => italic) && 'ital,'
   const weights = font.weights
@@ -16,7 +15,7 @@ const getUrl = (font: IFont): string => {
 }
 
 export const Fonts: FC<{ fonts: IFont[] }> = ({ fonts }) => {
-  if (fonts.length === 0 || !fonts[0].family) return null
+  if (fonts.length === 0) return null
   fonts = fonts.map(font => ({
     ...font,
     weights: font.weights
