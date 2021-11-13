@@ -48,9 +48,7 @@ export const Text = observer<TextNode>(({ style, content, name, overrides }) => 
     return content
   }
 
-  //if (!isEditable)
-  //{isDisabled ? content : fillText(name)}
-  return isDisabled ? (
+  return !isEditable ? (
     <p style={style}>
       {Boolean(overrides.length)
         ? splittString(content, overrides).map(obj =>

@@ -31,7 +31,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({
 
   perf.startTimer('Converting to markdown', 'md')
   await Object.keys(data).forEach(async key => {
-    console.log(key, textNodes.includes(key))
     if (textNodes.includes(key)) data[key] = await markdownToHtml(data[key])
   })
   perf.endTimer('Converting to markdown')
