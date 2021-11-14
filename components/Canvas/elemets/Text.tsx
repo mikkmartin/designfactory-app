@@ -39,16 +39,15 @@ export const Text = observer<TextNode>(({ style, content, name, overrides }) => 
 
   const isDisabled = disabledFields?.find(fieldName => fieldName === name)
   const isEditable = editable && !isDisabled
+  const isDefaultData = !Boolean(data[name])
 
   const fillText = (name: string): string => {
     const dataVal = data[name]
-    if (dataVal && isAcceptedValue(dataVal)) {
-      return String(dataVal)
-    }
+    if (dataVal && isAcceptedValue(dataVal)) return String(dataVal)
     return content
   }
 
-  return !isEditable ? (
+  return isDefaultData ? (
     <p style={style}>
       {Boolean(overrides.length)
         ? splittString(content, overrides).map(obj =>
