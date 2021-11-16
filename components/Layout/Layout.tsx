@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { Loading } from 'components/Editor/Loading'
 import { Editor } from 'components/Editor'
@@ -12,6 +12,7 @@ const fetcher = templateId => fetch('/api/figma?template=' + templateId).then(re
 
 export const Layout: FC = observer(({ children }) => {
   useRefreshTemplate()
+
   return (
     <Container>
       <div className="controls">
@@ -19,7 +20,7 @@ export const Layout: FC = observer(({ children }) => {
         <Editor />
         <ApiLink />
       </div>
-      <div className="container">
+      <div className="container" ref={el => store.pages.setCanvasContainerRef(el)}>
         {children}
         <Loading />
       </div>

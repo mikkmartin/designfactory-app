@@ -29,6 +29,7 @@ export default () => {
       toTitle($ => $filter($, $('.entry-title'), toMarkDown)),
       toTitle($ => $filter($, $('h1[class*="title" i] a'), toMarkDown)),
       toTitle($ => $filter($, $('h1[class*="title" i]'), toMarkDown)),
+      toTitle($ => $filter($, $('article header h1'), toMarkDown)),
     ],
   }
 }

@@ -1,7 +1,42 @@
-import styled, { css } from 'styled-components'
+import { store } from 'data'
+import { FC } from 'react'
+import { useMeasure } from 'react-use'
+import styled from 'styled-components'
 import { editable } from './editableStyle'
+import { motion } from 'framer-motion'
 
-export const Page = styled.div<{ canvas?: boolean }>`
+type Props = {
+  canvas?: boolean
+}
+
+const getScale = ({ self, parent }) => {
+  const { width, height } = self
+  if (!parent) return {}
+  const isLargerThanParent = width > parent.width || height > parent.height
+  if (!isLargerThanParent) return {}
+
+  const minScale = 0.25
+  const scale = Math.max(Math.min(parent.width / width, parent.height / height), minScale)
+  const marginBottom = (1 - scale) * -100 + '%'
+
+  return {
+    scale,
+    marginBottom,
+  }
+}
+
+export const Page: FC<Props> = ({ children }) => {
+  const parent = store.pages.canvasContainerRef?.getBoundingClientRect()
+  const [ref, self] = useMeasure()
+
+  return (
+    <Container style={getScale({ self, parent })} ref={ref}>
+      {children}
+    </Container>
+  )
+}
+
+const Container = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,6 +45,7 @@ export const Page = styled.div<{ canvas?: boolean }>`
   overflow: auto;
   gap: 16px;
   min-height: 100vh;
+  transform-origin: 50% 0;
   > div {
     .ProseMirror p {
       line-height: unset;
@@ -39,18 +75,4 @@ export const Page = styled.div<{ canvas?: boolean }>`
       opacity: 1;
     }
   }
-  ${p => p.canvas && canvas}
-`
-
-const canvas = css`
-  /*
-  background: white
-    url('data:image/svg+xml,\
-      <svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" fill-opacity=".20" >\
-        <rect x="200" width="200" height="200" />\
-        <rect y="200" width="200" height="200" />\
-      </svg>');
-  background-size: 20px 20px;
-  background-position: 50% 50%;
-  */
 `

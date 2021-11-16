@@ -12,12 +12,17 @@ export class PageStore {
   private temporaryTemplates: FileList = []
   private defaultTemplates: FileList = []
   dropDownItem: (FileListItem & { targetEl: HTMLElement }) | null = null
+  canvasContainerRef: HTMLElement | null = null
 
   constructor(rootStore) {
     this.rootStore = rootStore
     makeAutoObservable(this)
     this.getMyTempFiles()
     this.getDefaultPages()
+  }
+
+  setCanvasContainerRef(ref: HTMLElement) {
+    this.canvasContainerRef = ref
   }
 
   openDropDown = (ev: React.MouseEvent<HTMLAnchorElement>, item: FileListItem) => {
