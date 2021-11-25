@@ -10,7 +10,7 @@ type InitialState = {
 
 export class CanvasStore implements InitialState {
   nodes = null
-  componentSets = null
+  componentSets: any[] | null = null
   editable = true
   disabledFields = []
 
