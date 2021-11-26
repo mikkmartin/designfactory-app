@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx'
+import { makeAutoObservable, isObservable } from 'mobx'
 import { ISchema } from 'components/Canvas/parseTemplate/getSchema'
 import { objectToParams } from 'lib/urlEncoder'
 import baseURL from 'lib/static/baseURL'
@@ -10,7 +10,7 @@ export class EditorStore {
   title = ''
   slug = ''
   loading = false
-  data: Object
+  data = {}
   schema: ISchema = null
   jsonErrors: string[] = []
   template: FileResponse

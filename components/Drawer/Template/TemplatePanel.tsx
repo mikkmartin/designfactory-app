@@ -6,7 +6,7 @@ import { ButtonStack, childAnimations } from '../Tab'
 import { store } from 'data'
 import { snappy } from 'lib/static/transitions'
 import { Check } from '../../Common/Check'
-import { Dropdown } from '../../Common/Dropdown'
+import { Dropdown } from '../../Common/Dropdown_old'
 import { useRouter } from 'next/dist/client/router'
 
 export const TemplatePanel = ({ close, onModify }) => {
