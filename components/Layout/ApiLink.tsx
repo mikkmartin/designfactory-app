@@ -13,7 +13,11 @@ export const ApiLink = observer(() => {
   const [copied, setCopied] = useState(false)
   const [toastShown, setToastShown] = useState(false)
 
-  const copy = () => {
+  const handleIconClick = (ev) => {
+    if (ev.metaKey) {
+      setTimeout(() => window.open(downloadUrl, '_blank'))
+      return
+    }
     setCopied(true)
     navigator.clipboard.writeText(downloadUrl)
   }
@@ -69,7 +73,7 @@ export const ApiLink = observer(() => {
         readOnly
         value={downloadUrl}
       />
-      <Button className="clipboard" onTap={copy} animate="initial" whileHover="hover">
+      <Button className="clipboard" onTap={handleIconClick} animate="initial" whileHover="hover">
         <motion.div variants={{ hover: { scale: 0.85, originY: -1 } }}>
           <Copy />
         </motion.div>
