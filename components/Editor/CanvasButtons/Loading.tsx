@@ -28,9 +28,6 @@ export const Loading = observer(() => {
 })
 
 const Pill = styled(motion.div)`
-  position: fixed;
-  bottom: 16px;
-  padding: 1rem 2rem;
   min-width: 160px;
   text-align: center;
   background: rgba(40, 44, 52, 0.57);

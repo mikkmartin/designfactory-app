@@ -14,6 +14,7 @@ export class EditorStore {
   schema: ISchema = null
   jsonErrors: string[] = []
   template: FileResponse
+  templatePanelIsOpen = true
 
   constructor(_) {
     makeAutoObservable(this)
@@ -21,6 +22,9 @@ export class EditorStore {
 
   get downloadUrl() {
     return `${baseURL}/files/${this.slug}.png${objectToParams(this.data)}`
+  }
+  toggleTemplatePanel = () => {
+    this.templatePanelIsOpen = !this.templatePanelIsOpen
   }
   setFile = (file: Partial<IFile>) => {
     this.template = file.template

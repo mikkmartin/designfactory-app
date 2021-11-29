@@ -1,12 +1,15 @@
-import { FC, useEffect, useRef } from 'react'
+import { FC, useEffect } from 'react'
 import styled from 'styled-components'
-import { Loading } from 'components/Editor/Loading'
 import { Editor } from 'components/Editor'
 import { Header } from './Header'
 import { ApiLink } from './ApiLink'
 import useSWR from 'swr'
 import { store } from 'data'
 import { observer } from 'mobx-react-lite'
+import { TemplatePanel } from './Templates'
+import { Loading } from 'components/Editor/CanvasButtons/Loading'
+import { Templates as TemplateButton } from 'components/Editor/CanvasButtons/Templates'
+import { CanvasButtons } from 'components/Editor/CanvasButtons'
 
 const fetcher = templateId => fetch('/api/figma?template=' + templateId).then(res => res.json())
 
@@ -22,8 +25,12 @@ export const Layout: FC = observer(({ children }) => {
       </div>
       <div className="container" ref={el => store.pages.setCanvasContainerRef(el)}>
         {children}
-        <Loading />
+        <CanvasButtons>
+          <Loading />
+          <TemplateButton />
+        </CanvasButtons>
       </div>
+      {true && <TemplatePanel />}
     </Container>
   )
 })
