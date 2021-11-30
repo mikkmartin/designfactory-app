@@ -24,10 +24,12 @@ export const TemplatePanel = observer(() => {
         </Button>
       </div>
       <ul>
-        <li key={0} className="new">Add</li>
+        <li key={0} className="new">Add template</li>
         {templates.map(({ slug, title, thumbnail_url }) => (
           <li onClick={() => handleSelect(slug)} key={slug}>
-            <pre>{JSON.stringify({ title, slug, thumbnail_url }, null, 2)}</pre>
+            <h4>{title}</h4>
+            <br/>
+            <pre>{JSON.stringify({ slug, thumbnail_url }, null, 2)}</pre>
           </li>
         ))}
       </ul>
@@ -58,17 +60,22 @@ const Container = styled.div`
     li {
       user-select: none;
       display: flex;
-      align-items: center;
+      flex-direction: column;
       width: 100%;
       aspect-ratio: 16 / 9;
       background: black;
       cursor: pointer;
+      padding: 8px;
+      pre {
+        opacity: 0.5;
+      }
       &:hover {
         background: #ffffff22;
       }
       &.new {
         aspect-ratio: 16 / 4;
         justify-content: center;
+        align-items: center;
       }
     }
   }
