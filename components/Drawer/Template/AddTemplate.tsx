@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { useRef, useState } from 'react'
 import { logTemplateAdded } from 'data/analytics'
 import { store } from 'data'
-import { useRouter } from 'next/dist/client/router'
+import { useRouter } from 'next/router'
 
 export const AddTemplate = ({ onCancel, onAdd }) => {
   const ref = useRef<HTMLInputElement>(null)

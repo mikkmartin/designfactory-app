@@ -3,10 +3,17 @@ import { Close } from 'components/Icons'
 import { Button } from 'components/Common'
 import { observer } from 'mobx-react-lite'
 import { store } from 'data'
+import { useRouter } from 'next/router'
 
 export const TemplatePanel = observer(() => {
+  const router = useRouter()
   const { templates } = store.editorStore
   const { templatePanelIsOpen: isOpen, toggleTemplatePanel } = store.editorStore
+
+  const handleSelect = (slug: string) => {
+    router.push(slug)
+  }
+
   if (!isOpen) return null
   return (
     <Container>
@@ -17,12 +24,12 @@ export const TemplatePanel = observer(() => {
         </Button>
       </div>
       <ul>
-        {templates.map(({slug, title, thumbnail_url}) => (
-          <li className="item" key={slug}>
-            <pre>{JSON.stringify({title, thumbnail_url}, null, 2)}</pre>
+        <li key={0} className="new">Add</li>
+        {templates.map(({ slug, title, thumbnail_url }) => (
+          <li onClick={() => handleSelect(slug)} key={slug}>
+            <pre>{JSON.stringify({ title, slug, thumbnail_url }, null, 2)}</pre>
           </li>
         ))}
-        <li className="item">Add</li>
       </ul>
     </Container>
   )
@@ -48,13 +55,21 @@ const Container = styled.div`
     flex-direction: column;
     gap: 8px;
     padding-right: 12px;
-    .item {
+    li {
+      user-select: none;
       display: flex;
       align-items: center;
       width: 100%;
       aspect-ratio: 16 / 9;
       background: black;
-      border-radius: 8px;
+      cursor: pointer;
+      &:hover {
+        background: #ffffff22;
+      }
+      &.new {
+        aspect-ratio: 16 / 4;
+        justify-content: center;
+      }
     }
   }
 `
