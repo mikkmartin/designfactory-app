@@ -13,7 +13,7 @@ export class EditorStore {
   data = {}
   schema: ISchema = null
   jsonErrors: string[] = []
-  template: FileResponse
+  template: FileResponse = null
   templates: TemplateGroup & { template?: FileResponse } = []
   templatePanelIsOpen = true
 
