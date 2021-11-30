@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite'
 import { store } from 'data'
 
 export const TemplatePanel = observer(() => {
-  const { templates } = store.pages
+  const { templates } = store.editorStore
   const { templatePanelIsOpen: isOpen, toggleTemplatePanel } = store.editorStore
   if (!isOpen) return null
   return (
@@ -17,9 +17,9 @@ export const TemplatePanel = observer(() => {
         </Button>
       </div>
       <ul>
-        {templates.map(template => (
-          <li className="item" key={template.id}>
-            <pre>{template.title}</pre>
+        {templates.map(({slug, title, thumbnail_url}) => (
+          <li className="item" key={slug}>
+            <pre>{JSON.stringify({title, thumbnail_url}, null, 2)}</pre>
           </li>
         ))}
         <li className="item">Add</li>

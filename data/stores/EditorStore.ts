@@ -1,9 +1,9 @@
-import { makeAutoObservable, isObservable } from 'mobx'
+import { makeAutoObservable } from 'mobx'
 import { ISchema } from 'components/Canvas/parseTemplate/getSchema'
 import { objectToParams } from 'lib/urlEncoder'
 import baseURL from 'lib/static/baseURL'
 import { FileResponse } from '@mikkmartin/figma-js'
-import { IFile } from 'data/db'
+import { IFileWithTemplates, TemplateGroup } from 'data/db'
 
 export class EditorStore {
   id = ''
@@ -14,6 +14,7 @@ export class EditorStore {
   schema: ISchema = null
   jsonErrors: string[] = []
   template: FileResponse
+  templates: TemplateGroup = []
   templatePanelIsOpen = true
 
   constructor(_) {
@@ -26,12 +27,13 @@ export class EditorStore {
   toggleTemplatePanel = () => {
     this.templatePanelIsOpen = !this.templatePanelIsOpen
   }
-  setFile = (file: Partial<IFile>) => {
+  setFile = (file: Partial<IFileWithTemplates>) => {
     this.template = file.template
     this.id = file.id
     this.title = file.title
     this.slug = file.slug
     this.data = file.data
+    this.templates = file.templates
   }
   setTemplate = template => {
     this.template = template

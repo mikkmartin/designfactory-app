@@ -26,6 +26,8 @@ export interface paths {
           disabledFields?: parameters["rowFilter.files.disabledFields"];
           owner?: parameters["rowFilter.files.owner"];
           fileType?: parameters["rowFilter.files.fileType"];
+          type?: parameters["rowFilter.files.type"];
+          thumbnail_url?: parameters["rowFilter.files.thumbnail_url"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -86,6 +88,8 @@ export interface paths {
           disabledFields?: parameters["rowFilter.files.disabledFields"];
           owner?: parameters["rowFilter.files.owner"];
           fileType?: parameters["rowFilter.files.fileType"];
+          type?: parameters["rowFilter.files.type"];
+          thumbnail_url?: parameters["rowFilter.files.thumbnail_url"];
         };
         header: {
           /** Preference */
@@ -110,6 +114,8 @@ export interface paths {
           disabledFields?: parameters["rowFilter.files.disabledFields"];
           owner?: parameters["rowFilter.files.owner"];
           fileType?: parameters["rowFilter.files.fileType"];
+          type?: parameters["rowFilter.files.type"];
+          thumbnail_url?: parameters["rowFilter.files.thumbnail_url"];
         };
         body: {
           /** files */
@@ -213,6 +219,25 @@ export interface paths {
       };
     };
   };
+  "/rpc/get_templates": {
+    post: {
+      parameters: {
+        body: {
+          args: {
+            slug_input: string;
+          };
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferParams"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: unknown;
+      };
+    };
+  };
 }
 
 export interface definitions {
@@ -235,6 +260,8 @@ export interface definitions {
      */
     owner: string;
     fileType: string;
+    type?: string;
+    thumbnail_url?: string;
   };
   users: {
     /**
@@ -278,6 +305,8 @@ export interface parameters {
   "rowFilter.files.disabledFields": string;
   "rowFilter.files.owner": string;
   "rowFilter.files.fileType": string;
+  "rowFilter.files.type": string;
+  "rowFilter.files.thumbnail_url": string;
   /** users */
   "body.users": definitions["users"];
   "rowFilter.users.id": string;

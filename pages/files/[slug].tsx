@@ -2,10 +2,10 @@ import { Layout } from 'components/Layout'
 import { Canvas } from 'components/Canvas'
 import { FC, useRef } from 'react'
 import { GetStaticProps, GetStaticPaths } from 'next'
-import { db, IFile } from 'data/db'
+import { db, IFileWithTemplates } from 'data/db'
 import { store } from 'data'
 
-const File: FC<IFile> = ({ children, ...file }) => {
+const File: FC<IFileWithTemplates> = ({ children, ...file }) => {
   if (!file.id) return null
   setInitialData(file)
 
@@ -16,8 +16,8 @@ const File: FC<IFile> = ({ children, ...file }) => {
   )
 }
 
-export const getStaticProps: GetStaticProps<IFile> = async ({ params: { slug } }) => {
-  const { data: props, error } = await db.getFile(slug as string)
+export const getStaticProps: GetStaticProps<IFileWithTemplates> = async ({ params: { slug } }) => {
+  const { data: props, error } = await db.getFileWithTemplates(slug as string)
   if (error) return { notFound: true }
   return {
     props,
@@ -33,7 +33,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-const setInitialData = (file) => {
+const setInitialData = file => {
   const id = useRef(null)
   if (id.current !== file.id) {
     id.current = file.id
