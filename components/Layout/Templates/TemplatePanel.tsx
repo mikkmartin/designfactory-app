@@ -5,6 +5,13 @@ import { observer } from 'mobx-react-lite'
 import { store } from 'data'
 import { useRouter } from 'next/router'
 
+type SortProp = { slug: string }
+const alphabetically = (a: SortProp, b: SortProp) => {
+  if (a.slug < b.slug) return -1
+  if (a.slug > b.slug) return 1
+  return 0
+}
+
 export const TemplatePanel = observer(() => {
   const router = useRouter()
   const { templates, slug: selectedSlug } = store.editorStore
@@ -27,7 +34,7 @@ export const TemplatePanel = observer(() => {
         <li key={0} className="new">
           Add template
         </li>
-        {templates.map(({ slug, title, thumbnail_url }) => (
+        {[...templates].sort(alphabetically).map(({ slug, title, thumbnail_url }) => (
           <li
             onClick={() => handleSelect(slug)}
             key={slug}
