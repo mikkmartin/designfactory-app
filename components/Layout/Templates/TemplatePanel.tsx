@@ -7,7 +7,7 @@ import { useRouter } from 'next/router'
 
 export const TemplatePanel = observer(() => {
   const router = useRouter()
-  const { templates } = store.editorStore
+  const { templates, slug: selectedSlug } = store.editorStore
   const { templatePanelIsOpen: isOpen, toggleTemplatePanel } = store.editorStore
 
   const handleSelect = (slug: string) => {
@@ -24,12 +24,23 @@ export const TemplatePanel = observer(() => {
         </Button>
       </div>
       <ul>
-        <li key={0} className="new">Add template</li>
+        <li key={0} className="new">
+          Add template
+        </li>
         {templates.map(({ slug, title, thumbnail_url }) => (
-          <li onClick={() => handleSelect(slug)} key={slug}>
-            <h4>{title}</h4>
-            <br/>
-            <pre>{JSON.stringify({ slug, thumbnail_url }, null, 2)}</pre>
+          <li
+            onClick={() => handleSelect(slug)}
+            key={slug}
+            className={selectedSlug === slug ? 'selected' : ''}>
+            {thumbnail_url && <img src={thumbnail_url} alt={title} />}
+            {selectedSlug === slug ? (
+              <small>selected</small>
+            ) : (
+              <>
+                <small>{slug}</small>
+                <h4>{title}</h4>
+              </>
+            )}
           </li>
         ))}
       </ul>
@@ -63,19 +74,53 @@ const Container = styled.div`
       flex-direction: column;
       width: 100%;
       aspect-ratio: 16 / 9;
-      background: black;
+      background: #00000075;
       cursor: pointer;
       padding: 8px;
-      pre {
-        opacity: 0.5;
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+      h4,
+      small {
+        z-index: 2;
+        opacity: 0;
       }
       &:hover {
-        background: #ffffff22;
+        h4,
+        small {
+          opacity: 1;
+        }
+        img {
+          opacity: 0.3;
+        }
       }
       &.new {
         aspect-ratio: 16 / 4;
         justify-content: center;
         align-items: center;
+        &:hover {
+          background: #ffffff22;
+        }
+      }
+      img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.5;
+        z-index: 1;
+      }
+      &.selected {
+        justify-content: center;
+        align-items: center;
+        small {
+          opacity: 1;
+          opacity: 0.5;
+          font-style: italic;
+        }
+        img {
+          opacity: 0.15;
+        }
       }
     }
   }

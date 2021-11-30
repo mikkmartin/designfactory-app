@@ -14,7 +14,7 @@ export class EditorStore {
   schema: ISchema = null
   jsonErrors: string[] = []
   template: FileResponse
-  templates: TemplateGroup = []
+  templates: TemplateGroup & { template?: FileResponse } = []
   templatePanelIsOpen = true
 
   constructor(_) {
