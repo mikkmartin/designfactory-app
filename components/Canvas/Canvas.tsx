@@ -6,11 +6,12 @@ import { store } from 'data'
 import { Fonts } from './Fonts'
 import { observer } from 'mobx-react-lite'
 import { useEffect } from 'react'
+import { Preview } from './Preview'
 
 export const Canvas = observer<{ editable?: boolean }>(({ editable = true }) => {
   const { template } = store.editorStore
   const { nodes, componentSets, fonts, schema } = parseTemplate(template)
-  
+
   useEffect(() => {
     if (editable) store.editorStore.setSchema(schema)
   }, [schema])
@@ -19,7 +20,10 @@ export const Canvas = observer<{ editable?: boolean }>(({ editable = true }) => 
     <>
       <Fonts fonts={fonts} />
       <CanvasProvider initialState={{ nodes, componentSets, disabledFields: [], editable }}>
-        <Page canvas={!editable}>{nodes.map(renderElement)}</Page>
+        <Page canvas={!editable}>
+          {editable && false && <Preview />}
+          {nodes.map(renderElement)}
+        </Page>
       </CanvasProvider>
     </>
   )

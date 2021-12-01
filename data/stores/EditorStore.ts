@@ -3,7 +3,9 @@ import { ISchema } from 'components/Canvas/parseTemplate/getSchema'
 import { objectToParams } from 'lib/urlEncoder'
 import baseURL from 'lib/static/baseURL'
 import { FileResponse } from '@mikkmartin/figma-js'
-import { IFileWithTemplates, TemplateGroup } from 'data/db'
+import { IFileWithTemplates, TemplateGroupItem } from 'data/db'
+
+type TemplateGroup = Array<TemplateGroupItem & { template?: FileResponse; loading?: boolean }>
 
 export class EditorStore {
   id = ''
@@ -14,7 +16,7 @@ export class EditorStore {
   schema: ISchema = null
   jsonErrors: string[] = []
   template: FileResponse = null
-  templates: TemplateGroup & { template?: FileResponse } = []
+  templates: TemplateGroup = []
   templatePanelIsOpen = true
 
   constructor(_) {

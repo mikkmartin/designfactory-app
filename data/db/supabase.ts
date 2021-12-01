@@ -8,7 +8,7 @@ export interface IFile extends Omit<definitions['files'], 'template' | 'data'> {
 }
 
 export interface IFileWithTemplates extends IFile {
-  templates: TemplateGroup
+  templates: TemplateGroupItem[]
 }
 
 export const getFileWithTemplates = (slug: string) =>
@@ -21,11 +21,11 @@ export const getFileWithTemplates = (slug: string) =>
 export const getFile = (slug: string) =>
   supabase.from<IFile>('files').select('slug').eq('slug', slug).select('*').single()
 
-export type TemplateGroup = Pick<definitions['files'], 'title' | 'slug' | 'thumbnail_url'>[]
+export type TemplateGroupItem = Pick<definitions['files'], 'title' | 'slug' | 'thumbnail_url'>
 
 export const getFileTemplates = (slug: string) =>
   supabase
-    .rpc<TemplateGroup>('get_templates', { slug_input: slug })
+    .rpc<TemplateGroupItem[]>('get_templates', { slug_input: slug })
     .select(`title, slug, thumbnail_url`)
 
 export const addFile = (file: Partial<IFile>) => supabase.from<IFile>('files').insert(file)
