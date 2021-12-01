@@ -4,8 +4,11 @@ import { objectToParams } from 'lib/urlEncoder'
 import baseURL from 'lib/static/baseURL'
 import { FileResponse } from '@mikkmartin/figma-js'
 import { IFileWithTemplates, TemplateGroupItem } from 'data/db'
+import * as api from 'data/api'
 
-type TemplateGroup = Array<TemplateGroupItem & { template?: FileResponse; loading?: boolean }>
+type TemplateGroup = Array<
+  TemplateGroupItem & { hovered?: boolean; template?: FileResponse; loading?: boolean }
+>
 
 export class EditorStore {
   id = ''
@@ -25,6 +28,22 @@ export class EditorStore {
 
   get downloadUrl() {
     return `${baseURL}/files/${this.slug}.png${objectToParams(this.data)}`
+  }
+
+  templateHovered = (slug: string) => {
+    const file = this.templates.find(t => t.slug === slug)
+    file.hovered = true
+    if (file.loading || file.template) return
+    file.loading = true
+    api.getFile(slug).then(({ data }) => {
+      file.template = data.template
+      file.loading = false
+    })
+  }
+  templateBlurred = () => {
+    this.templates.forEach(t => {
+      t.hovered = false
+    })
   }
   toggleTemplatePanel = () => {
     this.templatePanelIsOpen = !this.templatePanelIsOpen

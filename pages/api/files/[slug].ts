@@ -10,7 +10,7 @@ const createSlug = (title: string) => `${slugify(title, { lower: true })}-${nano
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const { slug } = req.query
+    const slug = req.query.slug as string
     if (req.method === 'POST') {
       const id = slug as string
       const template = await getTemplate(id)
@@ -24,6 +24,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
       res.json(newFile)
       await db.addFile(newFile)
+    } else if (req.method === 'GET') {
+      const { data, error } = await db.getFile(slug as string)
+      if (error) throw error
+      res.json(data)
     }
   } catch (e) {
     res.statusCode = 500

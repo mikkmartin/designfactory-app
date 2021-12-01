@@ -1,1 +1,1 @@
-export { addTemplate } from './files'
+export { addTemplate, getFile } from './files'

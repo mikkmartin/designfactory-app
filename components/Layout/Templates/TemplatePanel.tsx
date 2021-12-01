@@ -3,7 +3,7 @@ import { Close } from 'components/Icons'
 import { Button } from 'components/Common'
 import { observer } from 'mobx-react-lite'
 import { store } from 'data'
-import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 type SortProp = { slug: string }
 const alphabetically = (a: SortProp, b: SortProp) => {
@@ -13,13 +13,14 @@ const alphabetically = (a: SortProp, b: SortProp) => {
 }
 
 export const TemplatePanel = observer(() => {
-  const router = useRouter()
-  const { templates, slug: selectedSlug } = store.editorStore
-  const { templatePanelIsOpen: isOpen, toggleTemplatePanel } = store.editorStore
-
-  const handleSelect = (slug: string) => {
-    router.push(slug)
-  }
+  const {
+    templates,
+    slug: selectedSlug,
+    templatePanelIsOpen: isOpen,
+    toggleTemplatePanel,
+    templateHovered,
+    templateBlurred,
+  } = store.editorStore
 
   if (!isOpen) return null
   return (
@@ -34,21 +35,23 @@ export const TemplatePanel = observer(() => {
         <li key={0} className="new">
           Add template
         </li>
-        {[...templates].sort(alphabetically).map(({ slug, title, thumbnail_url }) => (
-          <li
-            onClick={() => handleSelect(slug)}
-            key={slug}
-            className={selectedSlug === slug ? 'selected' : ''}>
-            {thumbnail_url && <img src={thumbnail_url} alt={title} />}
-            {selectedSlug === slug ? (
-              <small>selected</small>
-            ) : (
-              <>
-                <small>{slug}</small>
-                <h4>{title}</h4>
-              </>
-            )}
-          </li>
+        {[...templates].sort(alphabetically).map(({ slug, title, thumbnail_url, loading }) => (
+          <Link key={slug} href={slug} shallow prefetch={false}>
+            <a onMouseEnter={() => templateHovered(slug)} onMouseLeave={templateBlurred}>
+              <li className={selectedSlug === slug ? 'selected' : ''}>
+                {thumbnail_url && <img src={thumbnail_url} alt={title} />}
+                {selectedSlug === slug ? (
+                  <small>selected</small>
+                ) : (
+                  <>
+                    <small>{slug}</small>
+                    <h4>{title}</h4>
+                    <pre>{JSON.stringify({ loading })}</pre>
+                  </>
+                )}
+              </li>
+            </a>
+          </Link>
         ))}
       </ul>
     </Container>
@@ -90,7 +93,6 @@ const Container = styled.div`
       h4,
       small {
         z-index: 2;
-        opacity: 0;
       }
       &:hover {
         h4,
