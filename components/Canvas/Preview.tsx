@@ -6,7 +6,7 @@ export const Preview = observer(() => {
   const templates = store.editorStore.templates
   const hoveredTemplate = templates.find(t => t.hovered)
   return (
-    <AnimatePresence>
+    <AnimatePresence initial={false}>
       {hoveredTemplate && hoveredTemplate.loading && !Boolean(hoveredTemplate.template) && (
         <motion.div
           key={0}
