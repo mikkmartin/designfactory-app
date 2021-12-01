@@ -22,7 +22,7 @@ export const Canvas = observer<{ editable?: boolean }>(({ editable = true }) => 
       <Fonts fonts={fonts} />
       <CanvasProvider initialState={{ nodes, componentSets, disabledFields: [], editable }}>
         <Page canvas={!editable}>
-          {editable && false && <Preview />}
+          {editable && <Preview />}
           {nodes.map(renderElement)}
         </Page>
       </CanvasProvider>

@@ -3,10 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { store } from 'data'
 
 export const Preview = observer(() => {
-  const { slug } = store.editorStore
+  const templates = store.editorStore.templates
+  const hoveredTemplate = templates.find(t => t.hovered)
   return (
     <AnimatePresence>
-      {true && (
+      {hoveredTemplate && hoveredTemplate.loading && !Boolean(hoveredTemplate.template) && (
         <motion.div
           key={0}
           transition={{ duration: 0.2 }}
@@ -18,9 +19,7 @@ export const Preview = observer(() => {
             position: 'absolute',
             zIndex: 2,
           }}>
-          <img
-            src={`https://sdqycteblanimltlbiss.supabase.in/storage/v1/object/public/template-thumbnails/${slug}.png`}
-          />
+          <img src={hoveredTemplate.thumbnail_url} />
           <div
             style={{
               position: 'absolute',

@@ -76,8 +76,11 @@ const Container = styled.div`
   ul {
     display: flex;
     flex-direction: column;
-    gap: 8px;
     padding-right: 12px;
+    a {
+      padding: 4px 0;
+      background: none;
+    }
     li {
       user-select: none;
       display: flex;
