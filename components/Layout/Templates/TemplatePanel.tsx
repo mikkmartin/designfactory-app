@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Close } from 'components/Icons'
+import { Close, FigmaLogo } from 'components/Icons'
 import { Button } from 'components/Common'
 import { observer } from 'mobx-react-lite'
 import { store } from 'data'
@@ -44,9 +44,9 @@ export const TemplatePanel = observer(() => {
                   <small>selected</small>
                 ) : (
                   <>
-                    <small>{slug}</small>
+                    <FigmaLogo />
                     <h4>{title}</h4>
-                    <pre>{JSON.stringify({ loading })}</pre>
+                    <pre>{JSON.stringify({ loading, slug }, null, 2)}</pre>
                   </>
                 )}
               </li>
