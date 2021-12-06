@@ -50,13 +50,13 @@ const Container = styled.div`
       max-width: 650px;
     }
   }
-  img {
+  > img {
     grid-area: image;
   }
-  pre {
+  > pre {
     grid-area: code;
   }
-  button {
+  > button {
     grid-area: close;
     margin-top: -28px;
     margin-left: -4px;
