@@ -11,4 +11,5 @@ const Container = styled.img`
   width: 130px;
   border-radius: 3px;
   height: auto;
+  aspect-ratio: 16 / 9;
 `

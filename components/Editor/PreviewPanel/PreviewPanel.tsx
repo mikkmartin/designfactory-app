@@ -5,9 +5,11 @@ import { Close } from 'components/Icons'
 import { Button } from 'components/Common'
 import { Image } from './Image'
 import { Code } from './Code'
+import { Banner } from './Banner'
 
 export const PreviewPanel = observer(() => {
-  return (
+  const { previewPanelIsOpen: isOpen, togglePreviewPanel } = store.editorStore
+  return isOpen ? (
     <Container>
       <div className="content">
         <h4>How to use it on your site?</h4>
@@ -17,9 +19,13 @@ export const PreviewPanel = observer(() => {
         </p>
       </div>
       <Image />
-      <Code/>
-      <Button><Close/></Button>
+      <Code />
+      <Button onClick={togglePreviewPanel}>
+        <Close width="16" />
+      </Button>
     </Container>
+  ) : (
+    <Banner />
   )
 })
 
@@ -27,7 +33,7 @@ const Container = styled.div`
   background: rgba(40, 44, 52, 0.6);
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr auto 54px;
+  grid-template-columns: 1fr auto 40px;
   grid-template-rows: auto auto;
   gap: 8px 8px;
   grid-template-areas:
@@ -40,8 +46,8 @@ const Container = styled.div`
       margin-bottom: 10px;
     }
     p {
-      opacity: .5;
-      max-width: 700px;
+      opacity: 0.5;
+      max-width: 650px;
     }
   }
   img {
@@ -52,7 +58,16 @@ const Container = styled.div`
   }
   button {
     grid-area: close;
-    margin-top: -30px;
+    margin-top: -28px;
     margin-left: -4px;
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    svg {
+      opacity: 0.5;
+    }
+    &:hover svg {
+      opacity: 1;
+    }
   }
 `

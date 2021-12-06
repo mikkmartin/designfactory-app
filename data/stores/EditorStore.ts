@@ -21,6 +21,7 @@ export class EditorStore {
   template: FileResponse = null
   templates: TemplateGroup = []
   templatePanelIsOpen = true
+  previewPanelIsOpen = false
 
   constructor(_) {
     makeAutoObservable(this)
@@ -47,6 +48,11 @@ export class EditorStore {
   }
   toggleTemplatePanel = () => {
     this.templatePanelIsOpen = !this.templatePanelIsOpen
+    if (this.previewPanelIsOpen) this.previewPanelIsOpen = false
+  }
+  togglePreviewPanel = () => {
+    this.previewPanelIsOpen = !this.previewPanelIsOpen
+    if (this.templatePanelIsOpen) this.templatePanelIsOpen = false
   }
   setFile = (file: Partial<IFileWithTemplates>) => {
     this.template = file.template
