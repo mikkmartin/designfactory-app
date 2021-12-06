@@ -44,7 +44,6 @@ const Container = styled(motion.div)`
   position: relative;
   overflow: auto;
   gap: 16px;
-  min-height: 100vh;
   transform-origin: 50% 0;
   > div {
     .ProseMirror p {

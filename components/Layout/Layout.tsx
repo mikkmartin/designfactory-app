@@ -10,6 +10,7 @@ import { TemplatePanel } from './Templates'
 import { Loading } from 'components/Editor/CanvasButtons/Loading'
 import { Templates as TemplateButton } from 'components/Editor/CanvasButtons/Templates'
 import { CanvasButtons } from 'components/Editor/CanvasButtons'
+import { PreviewPanel } from 'components/Editor/PreviewPanel'
 
 const fetcher = templateId => fetch('/api/figma?template=' + templateId).then(res => res.json())
 
@@ -29,8 +30,9 @@ export const Layout: FC = observer(({ children }) => {
           <Loading />
           <TemplateButton />
         </CanvasButtons>
+        <PreviewPanel />
       </div>
-      {true && <TemplatePanel />}
+      <TemplatePanel />
     </Container>
   )
 })
@@ -62,16 +64,11 @@ const Container = styled.div`
     max-width: 420px;
   }
   .container {
+    display: grid;
+    grid-template-rows: 1fr auto; 
     flex: 2.5;
-    position: relative;
     overflow: auto;
     background: #1a1e25;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    > * {
-      flex-shrink: 0;
-    }
   }
 `
 
