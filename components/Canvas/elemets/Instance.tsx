@@ -41,7 +41,7 @@ export const Instance: FC<InstanceNode & { listParent?: null | string; nthChild:
       return component ? renderElement(component) : children
     }
 
-    const cycleComponent = (ev) => {
+    const cycleComponent = ev => {
       ev.stopPropagation()
       const hasOverrideApplied = Boolean(overrideKey)
       if (hasOverrideApplied) {
@@ -77,7 +77,7 @@ export const Instance: FC<InstanceNode & { listParent?: null | string; nthChild:
 const InstanceOverlay = ({ value, options, onChange = (_: string) => {} }) => {
   return (
     <motion.div className="overlay">
-      <Dropdown value={value} options={options} onChange={onChange}>
+      <Dropdown theme="variant" value={value} options={options} onChange={onChange}>
         <div className="label">
           <Component />
           <span>{value}</span>

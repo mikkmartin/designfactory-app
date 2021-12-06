@@ -1,8 +1,9 @@
-import { observer } from 'mobx-react-lite'
-import styled, { css } from 'styled-components'
+import { Dropdown } from 'components/Common/Dropdown'
 import { FigmaLogo, More } from 'components/Icons'
 import { store } from 'data'
+import { observer } from 'mobx-react-lite'
 import { FC } from 'react'
+import styled, { css } from 'styled-components'
 
 type Props = {
   slug: string
@@ -14,11 +15,13 @@ type Props = {
 
 export const TemplateItem: FC<Props> = observer(({ slug, title, selected, loading, thumbnail }) => {
   const { templateHovered, templateBlurred } = store.editorStore
+  const disabled = true
+  const options = [
+    { value: 'Duplicate' },
+    { value: 'Open in Figma' },
+    { value: 'Remove', disabled },
+  ]
 
-  const handleMore = ev => {
-    ev.stopPropagation()
-    ev.preventDefault()
-  }
   return (
     <Container
       selected={selected}
@@ -29,9 +32,9 @@ export const TemplateItem: FC<Props> = observer(({ slug, title, selected, loadin
           <div className="header">
             <FigmaLogo />
             {loading && 'Loading...'}
-            <button onClick={handleMore}>
+            <Dropdown onChange={console.log} options={options}>
               <More />
-            </button>
+            </Dropdown>
           </div>
           <h3>{title}</h3>
         </div>
@@ -55,12 +58,15 @@ const Container = styled.a<{ selected: boolean }>`
     border-radius: 4px;
     overflow: hidden;
     .overlay {
-      display: none;
+      opacity: 0;
       padding: 14px;
     }
     .overlay {
       position: absolute;
       inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       background-color: #282c34b5;
       backdrop-filter: blur(10px);
       z-index: 2;
@@ -110,11 +116,11 @@ const Container = styled.a<{ selected: boolean }>`
     }
     ${props => props.selected && selected}
   }
-  &:hover {
+  &:hover,
+  &:active,
+  &:focus {
     li .overlay {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      opacity: 1;
     }
     img {
       opacity: 1;
@@ -123,6 +129,5 @@ const Container = styled.a<{ selected: boolean }>`
 `
 
 const selected = css`
-  outline-offset: 2px;
   outline: 1px solid rgba(255, 255, 255, 0.75);
 `
