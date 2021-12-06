@@ -67,7 +67,7 @@ const Container = styled.a<{ selected: boolean }>`
     overflow: hidden;
     .overlay {
       opacity: 0;
-      padding: 12px;
+      padding: 12px 8px 12px 12px;
     }
     .overlay {
       position: absolute;
@@ -88,7 +88,8 @@ const Container = styled.a<{ selected: boolean }>`
         button {
           width: 32px;
           height: 32px;
-          margin: -6px;
+          margin-top: -6px;
+          margin-right: -2px;
           outline: none;
           border: none;
           background: none;
@@ -138,5 +139,5 @@ const Container = styled.a<{ selected: boolean }>`
 `
 
 const selected = css`
-  outline: 1px solid rgba(255, 255, 255, 0.75);
+  outline: 2px solid var(--highlight);
 `
