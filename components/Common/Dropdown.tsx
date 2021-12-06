@@ -28,14 +28,23 @@ interface Option {
 interface Props extends StyleProps {
   options: Array<string | Option>
   onChange?: (value: string) => void
+  onOpenChange?(open: boolean): void
   value?: string | Option
 }
 
-export const Dropdown: FC<Props> = ({ options, value, onChange, children, theme }) => {
+export const Dropdown: FC<Props> = ({
+  options,
+  value,
+  onChange,
+  children,
+  theme,
+  onOpenChange = _ => {},
+}) => {
   const [focusedElement, setFocusedElement] = useState<null | string>(null)
   const [open, setOpen] = useState(false)
 
   const handleOpenChange = isOpen => {
+    onOpenChange(isOpen)
     if (isOpen) {
       setOpen(true)
     } else {

@@ -2,7 +2,7 @@ import { Dropdown } from 'components/Common/Dropdown'
 import { FigmaLogo, More } from 'components/Icons'
 import { store } from 'data'
 import { observer } from 'mobx-react-lite'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import styled, { css } from 'styled-components'
 
 type Props = {
@@ -15,6 +15,7 @@ type Props = {
 
 export const TemplateItem: FC<Props> = observer(({ slug, title, selected, loading, thumbnail }) => {
   const { templateHovered, templateBlurred } = store.editorStore
+  const [isFocused, setIsFocused] = useState(false)
   const disabled = true
   const options = [
     { value: 'Duplicate' },
@@ -22,8 +23,14 @@ export const TemplateItem: FC<Props> = observer(({ slug, title, selected, loadin
     { value: 'Remove', disabled },
   ]
 
+  const handleOpenChange = (focus) => {
+    if (focus) setIsFocused(focus)
+    else setTimeout(() => setIsFocused(focus), 200)
+  }
+
   return (
     <Container
+      className={isFocused && 'focused'}
       selected={selected}
       onMouseEnter={() => templateHovered(slug)}
       onMouseLeave={templateBlurred}>
@@ -32,7 +39,7 @@ export const TemplateItem: FC<Props> = observer(({ slug, title, selected, loadin
           <div className="header">
             <FigmaLogo />
             {loading && 'Loading...'}
-            <Dropdown onChange={console.log} options={options}>
+            <Dropdown onChange={console.log} onOpenChange={handleOpenChange} options={options}>
               <More />
             </Dropdown>
           </div>
@@ -47,6 +54,7 @@ export const TemplateItem: FC<Props> = observer(({ slug, title, selected, loadin
 const Container = styled.a<{ selected: boolean }>`
   padding: 4px 0;
   cursor: pointer;
+  color: white;
   li {
     user-select: none;
     display: flex;
@@ -59,7 +67,7 @@ const Container = styled.a<{ selected: boolean }>`
     overflow: hidden;
     .overlay {
       opacity: 0;
-      padding: 14px;
+      padding: 12px;
     }
     .overlay {
       position: absolute;
@@ -67,8 +75,8 @@ const Container = styled.a<{ selected: boolean }>`
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      background-color: #282c34b5;
-      backdrop-filter: blur(10px);
+      background-color: #353c5079;
+      backdrop-filter: blur(30px);
       z-index: 2;
       > .header {
         display: flex;
@@ -80,7 +88,7 @@ const Container = styled.a<{ selected: boolean }>`
         button {
           width: 32px;
           height: 32px;
-          margin: -8px;
+          margin: -6px;
           outline: none;
           border: none;
           background: none;
@@ -118,7 +126,8 @@ const Container = styled.a<{ selected: boolean }>`
   }
   &:hover,
   &:active,
-  &:focus {
+  &:focus,
+  &.focused {
     li .overlay {
       opacity: 1;
     }
