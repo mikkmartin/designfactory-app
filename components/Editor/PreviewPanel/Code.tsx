@@ -54,6 +54,7 @@ const Container = styled.pre`
     width: 32px;
     height: 32px;
     border-radius: 2px;
+    background: rgba(40, 44, 52, 0.6);
     svg {
       width: 14px;
       opacity: 0.5;
@@ -66,7 +67,7 @@ const Container = styled.pre`
     color: #c594c5;
   }
   .white {
-    color: #99c794;
+    color: #ffffff;
   }
   .green {
     color: #99c794;

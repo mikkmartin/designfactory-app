@@ -14,8 +14,8 @@ export const PreviewPanel = observer(() => {
       <div className="content">
         <h4>How to use it on your site?</h4>
         <p>
-          You can download the image with the blue button on top, or you can embed the code below to
-          generate it on-demand for every page on your site dynamically:
+          You can download the image directly from the image thumnbail, or you can embed the code
+          below to generate it on-demand for every page on your site:
         </p>
       </div>
       <Image />
