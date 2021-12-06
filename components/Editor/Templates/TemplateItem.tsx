@@ -4,6 +4,7 @@ import { store } from 'data'
 import { observer } from 'mobx-react-lite'
 import { FC, useState } from 'react'
 import styled, { css } from 'styled-components'
+import Link from 'next/link'
 
 type Props = {
   slug: string
@@ -23,31 +24,33 @@ export const TemplateItem: FC<Props> = observer(({ slug, title, selected, loadin
     { value: 'Remove', disabled },
   ]
 
-  const handleOpenChange = (focus) => {
+  const handleOpenChange = focus => {
     if (focus) setIsFocused(focus)
     else setTimeout(() => setIsFocused(focus), 200)
   }
 
   return (
-    <Container
-      className={isFocused && 'focused'}
-      selected={selected}
-      onMouseEnter={() => templateHovered(slug)}
-      onMouseLeave={templateBlurred}>
-      <li>
-        <div className="overlay">
-          <div className="header">
-            <FigmaLogo />
-            {loading && 'Loading...'}
-            <Dropdown onChange={console.log} onOpenChange={handleOpenChange} options={options}>
-              <More />
-            </Dropdown>
+    <Link href={slug}>
+      <Container
+        className={isFocused && 'focused'}
+        selected={selected}
+        onMouseEnter={() => templateHovered(slug)}
+        onMouseLeave={templateBlurred}>
+        <li>
+          <div className="overlay">
+            <div className="header">
+              <FigmaLogo />
+              {loading && 'Loading...'}
+              <Dropdown onChange={console.log} onOpenChange={handleOpenChange} options={options}>
+                <More />
+              </Dropdown>
+            </div>
+            <h3>{title}</h3>
           </div>
-          <h3>{title}</h3>
-        </div>
-        {thumbnail && <img src={thumbnail} alt={title} />}
-      </li>
-    </Container>
+          {thumbnail && <img src={thumbnail} alt={title} />}
+        </li>
+      </Container>
+    </Link>
   )
 })
 

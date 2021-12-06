@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Close, FigmaLogo, More } from 'components/Icons'
+import { Close } from 'components/Icons'
 import { Button } from 'components/Common'
 import { observer } from 'mobx-react-lite'
 import { store } from 'data'
@@ -35,7 +35,7 @@ export const TemplatePanel = observer(() => {
           Add template
         </li>
         {[...templates].sort(alphabetically).map(({ slug, title, thumbnail_url, loading }) => (
-          <Link key={slug} href={slug} shallow prefetch={false}>
+          <Link key={slug} href={slug}>
             <TemplateItem
               selected={selectedSlug === slug}
               slug={slug}
