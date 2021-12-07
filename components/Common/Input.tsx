@@ -97,7 +97,9 @@ const getType = type => {
         },
       }
     default:
-      return {}
+      return {
+        type: 'text',
+      }
   }
 }
 
@@ -108,7 +110,7 @@ const getPlaceHolder = type => {
     case 'card':
       return 'Last four digits of the credit card'
     default:
-      return ''
+      return type
   }
 }
 
@@ -123,13 +125,23 @@ const getIcon = icon => {
   }
 }
 
-const StyledInput = styled(motion.div)<{ invalid: boolean }>`
+const StyledInput = styled(motion.div)<{ invalid: boolean; type: any }>`
   height: 48px;
   position: relative;
   input {
     width: 100%;
     height: 100%;
-    padding-left: 44px;
+    ${p =>
+      p.type === 'text'
+        ? css`
+            padding-left: 44px;
+          `
+        : css`
+            padding-left: 16px;
+          `}
+    :focus {
+      outline: 1px solid var(--highlight);
+    }
     &:not(:focus) ~ svg {
       opacity: 0.3;
       transition: opacity 0.1s;
