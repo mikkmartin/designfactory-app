@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { Button, Input as InputBase, Dropdown } from 'components/Common'
-import { Plus, Close, FigmaLogo, Chevron } from 'components/Icons'
+import { Button, Input as InputBase, Dropdown, DropdownSelector } from 'components/Common'
+import { Plus, Close, FigmaLogo } from 'components/Icons'
 import { useState } from 'react'
 
 export const NewTemplate = () => {
@@ -56,30 +56,6 @@ export const NewTemplate = () => {
       )
   }
 }
-
-//Chevron
-const DropdownSelector = ({ children }) => {
-  return (
-    <DropdownSelectorContainer>
-      {children}
-      <Chevron />
-    </DropdownSelectorContainer>
-  )
-}
-
-const DropdownSelectorContainer = styled.div<{ disabled?: boolean }>`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  padding: 12px 9px;
-  background: var(--background);
-  color: white;
-  svg {
-    width: 16px;
-    height: 16px;
-  }
-  ${props => props.disabled && 'opacity: 0.1;'}
-`
 
 const Input = styled(InputBase)`
   height: 40px;

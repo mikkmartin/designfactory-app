@@ -131,6 +131,7 @@ const StyledInput = styled(motion.div)<{ invalid: boolean; type: any }>`
   input {
     width: 100%;
     height: 100%;
+    padding-right: 4px;
     ${p =>
       p.type === 'text'
         ? css`

@@ -1,8 +1,9 @@
 import { Root, Trigger, Content, RadioGroup, RadioItem } from '@radix-ui/react-dropdown-menu'
 import { motion, AnimatePresence } from 'framer-motion'
 import styled, { css, ThemeProvider } from 'styled-components'
+import { Chevron } from 'components/Icons'
 import { FC, useEffect, useRef, useState } from 'react'
-import { snappy } from 'lib/static/transitions'
+import { fast, snappy } from 'lib/static/transitions'
 
 interface Option {
   disabled?: boolean
@@ -63,60 +64,94 @@ export const Dropdown: FC<Props> = ({
   }, [containerRef])
 
   return (
-    <ThemeProvider theme={{ width, fullWidth }}>
-      <Root open={open} onOpenChange={handleOpenChange} modal={false}>
-        <Button theme={theme} ref={containerRef}>
-          {children}
-        </Button>
-        <AnimatePresence>
-          {open && (
-            <Content forceMount side="bottom" align={fullWidth ? 'center' : 'start'}>
-              <Group
-                {...animations}
-                width={fullWidth ? width : undefined}
-                key="g"
-                theme={theme}
-                style={{ transformOrigin: 'var(--radix-dropdown-menu-content-transform-origin)' }}
-                value={formatedValue}
-                onBlur={() => setFocusedElement(null)}
-                onValueChange={onChange}>
-                {options.map(option => {
-                  const value = typeof option === 'string' ? option : option?.value
-                  const label = typeof option === 'string' ? option : option?.label ?? option?.value
-                  const disabled = typeof option === 'string' ? false : Boolean(option.disabled)
+    <Context.Provider value={{ open, setOpen }}>
+      <ThemeProvider theme={{ width, fullWidth }}>
+        <Root open={open} onOpenChange={handleOpenChange} modal={false}>
+          <Button theme={theme} ref={containerRef}>
+            {children}
+          </Button>
+          <AnimatePresence>
+            {open && (
+              <Content forceMount side="bottom" align={fullWidth ? 'center' : 'start'}>
+                <Group
+                  {...animations}
+                  width={fullWidth ? width : undefined}
+                  key="g"
+                  theme={theme}
+                  style={{ transformOrigin: 'var(--radix-dropdown-menu-content-transform-origin)' }}
+                  value={formatedValue}
+                  onBlur={() => setFocusedElement(null)}
+                  onValueChange={onChange}>
+                  {options.map(option => {
+                    const value = typeof option === 'string' ? option : option?.value
+                    const label =
+                      typeof option === 'string' ? option : option?.label ?? option?.value
+                    const disabled = typeof option === 'string' ? false : Boolean(option.disabled)
 
-                  return (
-                    <Item
-                      fullWidth={fullWidth}
-                      disabled={disabled}
-                      className={disabled && 'disabled'}
-                      key={value}
-                      theme={theme}
-                      value={value}
-                      onFocus={() => setFocusedElement(value)}>
-                      {open && focusedElement === value && (
-                        <motion.div
-                          key="focus"
-                          initial={{ opacity: 0, scale: 0.7 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.7 }}
-                          transition={snappy}
-                          className="focus"
-                          layoutId="input-focus"
-                        />
-                      )}
-                      <motion.span>{label}</motion.span>
-                    </Item>
-                  )
-                })}
-              </Group>
-            </Content>
-          )}
-        </AnimatePresence>
-      </Root>
-    </ThemeProvider>
+                    return (
+                      <Item
+                        fullWidth={fullWidth}
+                        disabled={disabled}
+                        className={disabled && 'disabled'}
+                        key={value}
+                        theme={theme}
+                        value={value}
+                        onFocus={() => setFocusedElement(value)}>
+                        {open && focusedElement === value && (
+                          <motion.div
+                            key="focus"
+                            initial={{ opacity: 0, scale: 0.7 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.7 }}
+                            transition={snappy}
+                            className="focus"
+                            layoutId="input-focus"
+                          />
+                        )}
+                        <motion.span>{label}</motion.span>
+                      </Item>
+                    )
+                  })}
+                </Group>
+              </Content>
+            )}
+          </AnimatePresence>
+        </Root>
+      </ThemeProvider>
+    </Context.Provider>
   )
 }
+
+export const DropdownSelector = ({ children }) => {
+  const { open } = useDropdown()
+  return (
+    <DropdownSelectorContainer>
+      {children}
+      <motion.div transition={fast} animate={{ scaleY: !open ? 1 : -1 }}>
+        <Chevron />
+      </motion.div>
+    </DropdownSelectorContainer>
+  )
+}
+
+const DropdownSelectorContainer = styled.div<{ disabled?: boolean }>`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 12px 9px;
+  background: var(--background);
+  color: white;
+  background: rgba(255, 255, 255, 0.05);
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  svg {
+    display: block;
+    height: 16px;
+    width: auto;
+  }
+  ${props => props.disabled && 'opacity: 0.1;'}
+`
 
 interface StyleProps {
   theme?: 'variant'
@@ -198,4 +233,17 @@ const Button = styled(Trigger)<StyleProps>`
   border: none;
   font-family: inherit;
   outline: none;
+  background: none;
 `
+
+import { createContext, useContext, Dispatch, SetStateAction } from 'react'
+
+type ContextProps = {
+  open: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
+}
+
+//@ts-ignore
+const Context = createContext<ContextProps>()
+
+const useDropdown = () => useContext(Context)
