@@ -10,7 +10,10 @@ export const NewTemplate = () => {
   const [frames, setFrames] = useState(['knowlagebase-library', 'two'])
   const [frame, setFrame] = useState(frames[0])
 
-  const handleImport = () => {}
+  const handleImport = (ev) => {
+    ev.preventDefault()
+    console.log('submit')
+  }
 
   switch (set) {
     case 'new':
@@ -29,8 +32,10 @@ export const NewTemplate = () => {
               <Close />
             </Button>
           </div>
-          <Input type="text" placeholder="https://www.figma.com/file/PCnEW..." />
-          <Button onClick={() => setState('select')}>Import</Button>
+          <form onSubmit={handleImport}>
+            <Input type="text" placeholder="https://www.figma.com/file/PCnEW..." />
+            <Button onClick={() => setState('select')}>Import</Button>
+          </form>
         </Container>
       )
     case 'select':
@@ -43,15 +48,15 @@ export const NewTemplate = () => {
               <Close />
             </Button>
           </div>
-          <div className="content">
+          <form onSubmit={handleImport}>
             <Dropdown fullWidth options={pages}>
               <DropdownSelector>{page}</DropdownSelector>
             </Dropdown>
             <Dropdown fullWidth options={frames}>
               <DropdownSelector>{frame}</DropdownSelector>
             </Dropdown>
-          </div>
-          <Button onClick={handleImport}>Import</Button>
+            <Button onClick={handleImport}>Import</Button>
+          </form>
         </Container>
       )
   }
@@ -97,19 +102,17 @@ const Container = styled.div`
       }
     }
   }
-  .content {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  > button {
-    height: 40px;
-    width: 100%;
-    background: rgba(255, 255, 255, 0.1);
-    &:hover {
-      background: rgba(255, 255, 255, 0.15);
-      svg {
-        opacity: 1;
+  form {
+    display: contents;
+    > button {
+      height: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      width: 100%;
+      &:hover {
+        background: rgba(255, 255, 255, 0.15);
+        svg {
+          opacity: 1;
+        }
       }
     }
   }
