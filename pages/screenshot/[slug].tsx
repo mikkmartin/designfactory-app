@@ -9,7 +9,7 @@ import { markdownToHtml } from 'lib/markdownConverter'
 import { findNodes } from 'components/Canvas/parseTemplate/parseTemplate'
 
 export const Screenshot: FC<Props> = ({ file }) => {
-  store.editorStore.setFile(file)
+  store.setInitialData(file)
   return <Canvas editable={false} />
 }
 

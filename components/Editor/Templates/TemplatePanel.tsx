@@ -20,7 +20,7 @@ export const TemplatePanel = observer(() => {
     slug: selectedSlug,
     templatePanelIsOpen: isOpen,
     toggleTemplatePanel,
-  } = store.editorStore
+  } = store.editor
 
   if (!isOpen) return null
   return (

@@ -5,7 +5,7 @@ import { store } from 'data'
 const Context = createContext(null)
 
 export const InstanceProvider = observer<any>(({ containerKey, nth, children }) => {
-  const { data, setData } = store.editorStore
+  const { data, setData } = store.editor
 
   function setText(obj) {
     const [key, val] = Object.entries(obj)[0]

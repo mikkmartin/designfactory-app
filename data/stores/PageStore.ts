@@ -36,7 +36,7 @@ export class PageStore {
       const { id, slug, fileType, title } = res.data
       this.temporaryTemplates.push({ id, slug, fileType, title })
       localStorage.setItem(this.storageKey, JSON.stringify(this.temporaryTemplates))
-      this.rootStore.editorStore.setFile(res.data)
+      this.rootStore.editor.setFile(res.data)
       return res
     })
   

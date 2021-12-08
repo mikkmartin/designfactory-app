@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { store } from 'data'
 
 export const Preview = observer(() => {
-  const templates = store.editorStore.templates
+  const templates = store.editor.templates
   const hoveredTemplate = templates.find(t => t.hovered)
   return (
     <AnimatePresence initial={false}>

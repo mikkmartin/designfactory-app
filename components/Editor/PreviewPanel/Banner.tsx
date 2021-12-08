@@ -4,7 +4,7 @@ import { Info } from 'components/Icons'
 import { store } from 'data'
 
 export const Banner = observer(() => {
-  const { togglePreviewPanel } = store.editorStore
+  const { togglePreviewPanel } = store.editor
   return (
     <Container onClick={togglePreviewPanel}>
       <div className="banner">

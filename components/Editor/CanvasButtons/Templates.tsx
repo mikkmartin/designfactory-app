@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite'
 import { store } from 'data'
 
 export const Templates = observer(() => {
-  const { templatePanelIsOpen: isOpen, toggleTemplatePanel } = store.editorStore
+  const { templatePanelIsOpen: isOpen, toggleTemplatePanel } = store.editor
   if (isOpen) return null
   return (
     <Button onTap={toggleTemplatePanel}>

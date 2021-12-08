@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite'
 import { store } from 'data'
 
 export const Image = observer(() => {
-  const url = store.editorStore.downloadUrl
+  const url = store.editor.downloadUrl
   return <Container src={url} />
 })
 

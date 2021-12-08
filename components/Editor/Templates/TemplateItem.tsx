@@ -15,7 +15,7 @@ type Props = {
 }
 
 export const TemplateItem: FC<Props> = observer(({ slug, title, selected, loading, thumbnail }) => {
-  const { templateHovered, templateBlurred } = store.editorStore
+  const { templateHovered, templateBlurred } = store.editor
   const [isFocused, setIsFocused] = useState(false)
   const disabled = true
   const options = [

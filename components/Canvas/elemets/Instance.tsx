@@ -11,7 +11,7 @@ import { Dropdown } from 'components/Common/Dropdown'
 
 export const Instance: FC<InstanceNode & { listParent?: null | string; nthChild: number }> =
   observer(({ style, name, componentId, children, listParent, nthChild }) => {
-    const { data, setText } = store.editorStore
+    const { data, setText } = store.editor
     const { componentSets, editable } = useCanvas()
 
     const componentSet = Object.values(componentSets).find(set => {

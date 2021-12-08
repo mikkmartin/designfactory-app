@@ -1,16 +1,41 @@
-import { EditorStore } from './EditorStore'
+import { ISchema } from 'components/Canvas/parseTemplate/getSchema'
 import { makeAutoObservable } from 'mobx'
 import { IFile } from 'data/db'
+import { RootStore } from './RootStore'
 
-export class FileStore {
-  editorStore: EditorStore
-  file: IFile
+interface IFileStore extends IFile {
+  loading: boolean
+}
 
-  constructor(_) {
+export class FileStore implements IFileStore {
+  createdAt
+  modifiedAt
+  owner
+  name
+  fileType
+  type
+  id
+  title
+  slug
+  data
+  template
+
+  rootStore: RootStore
+  schema: ISchema
+  loading = false
+
+  constructor(rootStore: RootStore, file: Partial<IFile>) {
+    this.rootStore = rootStore
     makeAutoObservable(this)
+    Object.keys(file).forEach(key => (this[key] = file[key]))
   }
-
-  setFile = (file: IFile) => {
-    this.file = file
+  setTemplate = template => {
+    this.template = template
+  }
+  setSchema = (schema: ISchema) => {
+    this.schema = schema
+  }
+  setLoading = (state: boolean) => {
+    this.loading = state
   }
 }

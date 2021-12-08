@@ -33,11 +33,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-const setInitialData = file => {
+const setInitialData = (file: IFileWithTemplates) => {
   const id = useRef(null)
   if (id.current !== file.id) {
     id.current = file.id
-    store.editorStore.setFile(file)
+    store.setInitialData(file)
   }
 }
 

@@ -8,7 +8,7 @@ import { store } from 'data'
 export const Box = observer<any>(({ children, ...props }) => {
   let overrideUrl = null
   const [isLoading, setIsLoading] = useState(false)
-  const { data } = store.editorStore
+  const { data } = store.editor
   //const { editable } = useCanvas()
   //const { data } = useEditor()
 

@@ -32,7 +32,7 @@ const splittString = (str: string, overRides): { content: string; style?: any }[
 export const Text = observer<TextNode>(({ style, content, name, overrides }) => {
   const acceptUpdates = useRef(true)
   const { editable, disabledFields } = useCanvas()
-  const global = store.editorStore
+  const global = store.editor
   const instance = useInstance()
   const source = instance ? instance : global
   const { data, setText } = source

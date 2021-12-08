@@ -15,7 +15,7 @@ import { PreviewPanel } from 'components/Editor/PreviewPanel'
 const fetcher = templateId => fetch('/api/figma?template=' + templateId).then(res => res.json())
 
 export const Layout: FC = observer(({ children }) => {
-  useRefreshTemplate()
+  //useRefreshTemplate()
 
   return (
     <Container>
@@ -38,7 +38,7 @@ export const Layout: FC = observer(({ children }) => {
 })
 
 const useRefreshTemplate = () => {
-  const { id: templateId, setTemplate, setLoading } = store.editorStore
+  const { id: templateId, setTemplate, setLoading } = store.file
   const { isValidating } = useSWR(templateId, fetcher, {
     revalidateOnMount: false,
     focusThrottleInterval: 1000,

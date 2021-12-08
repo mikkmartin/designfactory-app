@@ -20,7 +20,7 @@ let consecutiveInstances = []
 const RenderWithPopulatedSymbols = observer<any>(({ children, name }) => {
   const { componentSets } = useCanvas()
   const instance = useInstance()
-  const global = store.editorStore
+  const global = store.editor
   const { data } = instance ? instance : global
 
   return children.reduce((all, child) => {

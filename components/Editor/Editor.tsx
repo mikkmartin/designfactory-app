@@ -11,7 +11,7 @@ import MonacoEditor, { useMonaco } from '@monaco-editor/react'
 
 export const Editor = observer(() => {
   const [ref, { width, height }] = useMeasure()
-  const { data, schema, setData } = store.editorStore
+  const { data, schema, setData } = store.editor
   const [jsonString, setJsonString] = useState(JSON.stringify(data, null, 2))
   const monaco = useMonaco()
 

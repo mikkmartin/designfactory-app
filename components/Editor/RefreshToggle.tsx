@@ -7,7 +7,7 @@ import { Refresh, Lock } from 'components/Icons'
 import { useState } from 'react'
 
 export const Loading = observer(() => {
-  const loading = store.editorStore.loading
+  const loading = store.editor.loading
   const [poll, setPoll] = useState(false)
 
   const Spinner = () => {

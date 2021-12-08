@@ -6,7 +6,7 @@ import { Button } from 'components/Common'
 import { Copy } from 'components/Icons'
 
 export const Code = observer(() => {
-  const url = store.editorStore.downloadUrl
+  const url = store.editor.downloadUrl
   const codeRef = useRef<HTMLElement>(null)
 
   const handleCopy = () => {

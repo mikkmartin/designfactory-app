@@ -4,7 +4,7 @@ import { store } from 'data'
 
 
 export const AddElement = observer<any>(({ containerKey }) => {
-  const { setData } = store.editorStore
+  const { setData } = store.editor
 
   const addItem = () => {
     setData(data => ({

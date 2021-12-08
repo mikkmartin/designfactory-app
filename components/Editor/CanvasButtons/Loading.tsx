@@ -5,7 +5,7 @@ import { snappy } from 'lib/static/transitions'
 import { observer } from 'mobx-react-lite'
 
 export const Loading = observer(() => {
-  const loading = store.editorStore.loading
+  const loading = store.editor.loading
   const animations = {
     initial: 'out',
     animate: 'in',

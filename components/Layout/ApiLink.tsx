@@ -8,7 +8,7 @@ import { observer } from 'mobx-react-lite'
 import { store } from 'data'
 
 export const ApiLink = observer(() => {
-  const { downloadUrl } = store.editorStore
+  const { downloadUrl } = store.editor
   const [method, setMethod] = useState<'GET' | 'POST'>('GET')
   const [copied, setCopied] = useState(false)
   const [toastShown, setToastShown] = useState(false)
