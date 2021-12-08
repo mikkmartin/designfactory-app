@@ -1,6 +1,8 @@
 import { GlobalStyles } from 'components/GlobalStyles'
+import { IdProvider } from '@radix-ui/react-id'
 import Head from 'next/head'
 import * as Sentry from '@sentry/node'
+
 const { NEXT_PUBLIC_SENTRY_DSN, NODE_ENV } = process?.env
 const isProduction = NODE_ENV === 'production'
 
@@ -16,7 +18,9 @@ export default function App({ Component, pageProps, err, router }) {
     <>
       <Head>{isProduction && <script async data-api="/_hive" src="/bee.js" />}</Head>
       <GlobalStyles route={router.route} />
-      <Component {...pageProps} err={err} />
+      <IdProvider>
+        <Component {...pageProps} err={err} />
+      </IdProvider>
     </>
   )
 }

@@ -3,6 +3,7 @@ import { Button, Input as InputBase } from 'components/Common'
 import { Trigger, Content, Popover } from 'components/Common/Popover'
 import { Plus, Close, FigmaLogo } from 'components/Icons'
 import { useState, useRef } from 'react'
+import { store } from 'data'
 
 export const NewTemplate = () => {
   const ref = useRef<HTMLInputElement>(null)
@@ -23,9 +24,15 @@ export const NewTemplate = () => {
     }
   }
 
-  const handleImport = ev => {
+  const handleImport = async ev => {
     ev.preventDefault()
-    console.log('submit')
+    const str = ref.current.value
+    const [id] = str.split('/file/')[1].split('/')
+    setLoading(true)
+    //const { data, error } = await store.pages.addTempTemplate(id)
+    console.log(store)
+    setLoading(false)
+    console.log({id})
   }
 
   return (
@@ -63,7 +70,7 @@ export const NewTemplate = () => {
                 </>
               */}
             </div>
-            <Button primary disabled={!hasInput && !loading} onClick={handleImport}>
+            <Button primary disabled={!hasInput || loading} onClick={handleImport}>
               Import
             </Button>
           </form>
