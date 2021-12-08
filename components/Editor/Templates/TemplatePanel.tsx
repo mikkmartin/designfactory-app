@@ -15,12 +15,8 @@ const alphabetically = (a: SortProp, b: SortProp) => {
 }
 
 export const TemplatePanel = observer(() => {
-  const {
-    templates,
-    slug: selectedSlug,
-    templatePanelIsOpen: isOpen,
-    toggleTemplatePanel,
-  } = store.editor
+  const { templates, templatePanelIsOpen: isOpen, toggleTemplatePanel } = store.editor
+  const { slug: selectedSlug } = store.file
 
   if (!isOpen) return null
   return (
