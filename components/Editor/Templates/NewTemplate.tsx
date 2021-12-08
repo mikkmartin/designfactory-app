@@ -1,65 +1,76 @@
 import styled from 'styled-components'
-import { Button, Input as InputBase, Dropdown, DropdownSelector } from 'components/Common'
+import { Button, Input as InputBase } from 'components/Common'
+import { Trigger, Content, Popover } from 'components/Common/Popover'
 import { Plus, Close, FigmaLogo } from 'components/Icons'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 
 export const NewTemplate = () => {
-  const [set, setState] = useState<'new' | 'link' | 'select'>('new')
-  const [pages, setPages] = useState(['Page 1', 'Page 2'])
-  const [page, setPage] = useState(pages[0])
-  const [frames, setFrames] = useState(['knowlagebase-library', 'two'])
-  const [frame, setFrame] = useState(frames[0])
+  const ref = useRef<HTMLInputElement>(null)
+  const [loading, setLoading] = useState(false)
+  const [hasInput, setHasInput] = useState(false)
+  
+  //const [pages, setPages] = useState(['Page 1', 'Page 2'])
+  //const [page, setPage] = useState(pages[0])
+  //const [frames, setFrames] = useState(['knowlagebase-library', 'two'])
+  //const [frame, setFrame] = useState(frames[0])
 
-  const handleImport = (ev) => {
+  const handleChange = () => {
+    if (ref.current.value.length >= 22) {
+      setHasInput(true)
+      setLoading(true)
+    } else {
+      setHasInput(false)
+    }
+  }
+
+  const handleImport = ev => {
     ev.preventDefault()
     console.log('submit')
   }
 
-  switch (set) {
-    case 'new':
-      return (
-        <ButtonNew onClick={() => setState('link')}>
+  return (
+    <Popover>
+      <Trigger>
+        <ButtonNew>
           <Plus />
         </ButtonNew>
-      )
-    case 'link':
-      return (
+      </Trigger>
+      <Content>
         <Container>
           <div className="header">
             <FigmaLogo />
-            <span>Paste the Figma link</span>
-            <Button onClick={() => setState('new')}>
+            <span>{loading ? 'Loading...' : 'Paste the Figma link'}</span>
+            <Button>
               <Close />
             </Button>
           </div>
           <form onSubmit={handleImport}>
-            <Input type="text" placeholder="https://www.figma.com/file/PCnEW..." />
-            <Button onClick={() => setState('select')}>Import</Button>
-          </form>
-        </Container>
-      )
-    case 'select':
-      return (
-        <Container>
-          <div className="header">
-            <FigmaLogo />
-            <span>Import frame</span>
-            <Button onClick={() => setState('new')}>
-              <Close />
+            <div className="inputs">
+              <Input
+                autoFocus
+                ref={ref}
+                onChange={handleChange}
+                type="text"
+                placeholder="https://www.figma.com/file/QFHu9..."
+              />
+              {/*
+                  <Dropdown fullWidth options={pages}>
+                    <DropdownSelector>{page}</DropdownSelector>
+                  </Dropdown>
+                  <Dropdown fullWidth options={frames}>
+                    <DropdownSelector>{frame}</DropdownSelector>
+                  </Dropdown>
+                </>
+              */}
+            </div>
+            <Button primary disabled={!hasInput && !loading} onClick={handleImport}>
+              Import
             </Button>
-          </div>
-          <form onSubmit={handleImport}>
-            <Dropdown fullWidth options={pages}>
-              <DropdownSelector>{page}</DropdownSelector>
-            </Dropdown>
-            <Dropdown fullWidth options={frames}>
-              <DropdownSelector>{frame}</DropdownSelector>
-            </Dropdown>
-            <Button onClick={handleImport}>Import</Button>
           </form>
         </Container>
-      )
-  }
+      </Content>
+    </Popover>
+  )
 }
 
 const Input = styled(InputBase)`
@@ -71,18 +82,17 @@ const Input = styled(InputBase)`
 `
 
 const Container = styled.div`
-  background: #1a1e25;
-  border-radius: 4px;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
-  padding: 4px;
   gap: 4px;
+  border-radius: 4px;
+  overflow: hidden;
   .header {
     display: grid;
     grid-template-columns: auto 1fr auto;
     place-items: center start;
     gap: 8px;
+    padding: 8px 8px 4px 8px;
     > svg {
       margin-left: 6px;
     }
@@ -104,12 +114,16 @@ const Container = styled.div`
   }
   form {
     display: contents;
+    .inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 0 8px 4px;
+    }
     > button {
-      height: 40px;
-      background: rgba(255, 255, 255, 0.1);
+      height: 48px;
       width: 100%;
       &:hover {
-        background: rgba(255, 255, 255, 0.15);
         svg {
           opacity: 1;
         }

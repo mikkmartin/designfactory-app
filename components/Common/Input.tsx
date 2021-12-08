@@ -70,12 +70,13 @@ const Container = styled(motion.div)`
 `
 
 export const Input = forwardRef<HTMLInputElement, any>(
-  ({ type = 'email', placeholder, onChange = () => {}, invalid = false, ...rest }, ref) => {
+  ({ type = 'email', placeholder, onChange = () => {}, invalid = false, autoFocus, ...rest }, ref) => {
     return (
       <StyledInput {...rest} invalid={invalid}>
         <input
           ref={ref}
           {...getType(type)}
+          autoFocus={autoFocus}
           placeholder={getPlaceHolder(placeholder || type)}
           onChange={onChange}
         />
