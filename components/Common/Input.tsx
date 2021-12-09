@@ -146,13 +146,13 @@ export const labelStyle = css`
   grid-template-columns: 1fr 3fr;
   span {
     min-height: 48px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
     padding-top: 17px;
     opacity: 0.5;
     padding-right: 16px;
     overflow: hidden;
+  }
+  > *:nth-child(1):not(span) {
+    grid-column: 1 / span 2;
   }
 `
 
