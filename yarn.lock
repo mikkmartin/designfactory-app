@@ -555,7 +555,7 @@
     "@babel/runtime" "^7.13.10"
     "@radix-ui/react-use-layout-effect" "0.1.0"
 
-"@radix-ui/react-label@0.1.2":
+"@radix-ui/react-label@0.1.2", "@radix-ui/react-label@^0.1.2":
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@radix-ui/react-label/-/react-label-0.1.2.tgz#58f481ccb3403770971043949bef6263fbd94e9c"
   integrity sha512-o+Zqmci9UfbwlSrgacAi64aeKwdJ+oDL4zdQUggnKo2U2O7y4SrJVWvtKJp2DRh+mKtav+jPYOI1SKqcCoxQ8A==

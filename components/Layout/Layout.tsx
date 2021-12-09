@@ -55,16 +55,15 @@ const Container = styled.div`
   background: #525659;
   .controls {
     display: flex;
-    flex: 1;
     position: relative;
     background: #282c34;
     flex-direction: column;
-    max-width: 420px;
+    width: 420px;
   }
   .container {
     display: grid;
     grid-template-rows: 1fr auto;
-    flex: 2.5;
+    flex: 1;
     overflow: auto;
     background: #1a1e25;
   }

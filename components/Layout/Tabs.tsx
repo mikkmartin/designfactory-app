@@ -7,23 +7,16 @@ import {} from 'components/Common'
 import { observer } from 'mobx-react-lite'
 import { ApiLink } from './ApiLink'
 import styled, { css } from 'styled-components'
-import { RadioGroup, Button, buttonHighlight } from 'components/Common/RadioGroup'
+import { buttonHighlight } from 'components/Common/RadioGroup'
 import { fast } from 'lib/static/transitions'
+import { InputPanel } from './InputPanel'
 
 export const Tabs = observer(() => {
   const items = [
     {
       value: 'Inputs',
       Icon: () => <Edit />,
-      Component: () => (
-        <div>
-          <RadioGroup>
-            <Button value="a">Hello</Button>
-            <Button value="b">There</Button>
-            <Button value="c">hi</Button>
-          </RadioGroup>
-        </div>
-      ),
+      Component: InputPanel,
     },
     {
       value: 'Code',
