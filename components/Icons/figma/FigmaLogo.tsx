@@ -1,6 +1,6 @@
 const FigmaLogo = ({ ...props }) => {
   return (
-    <svg width="16" height="16" viewBox="0 0 16" {...props}>
+    <svg width="16" height="16" viewBox="0 0 16 16" {...props}>
       <g transform="translate(64 122)">
         <mask id="a">
           <path fill="#FFF" d="M-64-122h16v16h-16v-16z"></path>

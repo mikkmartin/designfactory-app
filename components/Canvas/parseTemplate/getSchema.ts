@@ -2,9 +2,13 @@ import { findNodes, ParsedNode } from './parseTemplate'
 import { toJS } from 'mobx'
 
 export interface ISchema {
-  type: 'object'
-  properties: {
-    [key: string]: unknown
+  type?: 'object'
+  properties?: {
+    [key: string]: {
+      type: 'string' | 'number' | 'boolean' | 'object' | 'array'
+      enum?: string[]
+      default?: any
+    }
   }
 }
 

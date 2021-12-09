@@ -72,6 +72,7 @@ const Container = styled(motion.div)`
 
 type Props = {
   type?: 'email' | 'card' | 'text'
+  value?: string,
   placeholder?: string
   onChange?: ChangeEventHandler<HTMLInputElement>
   label?: string
@@ -81,7 +82,7 @@ type Props = {
 
 export const Input = forwardRef<HTMLInputElement, Props>(
   (
-    { type = 'text', label, placeholder, onChange = () => {}, invalid = false, autoFocus, ...rest },
+    { type = 'text', value, label, placeholder, onChange = () => {}, invalid = false, autoFocus, ...rest },
     ref
   ) => {
     return (
@@ -92,6 +93,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(
           ref={ref}
           {...getType(type)}
           autoFocus={autoFocus}
+          value={value}
           placeholder={getPlaceHolder(placeholder || type)}
           onChange={onChange}
         />
@@ -145,6 +147,7 @@ export const labelStyle = css`
   display: grid;
   grid-template-columns: 1fr 3fr;
   span {
+    text-transform: capitalize;
     min-height: 48px;
     padding-top: 17px;
     opacity: 0.5;

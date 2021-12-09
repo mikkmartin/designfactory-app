@@ -137,13 +137,13 @@ type DropdownProps = {
   placeholder?: string
 }
 
-export const DropdownSelector = forwardRef<HTMLButtonElement, DropdownProps>(
+export const DropdownSelector: FC<any> = forwardRef<HTMLButtonElement, DropdownProps>(
   ({ children, ...rest }, ref) => {
     const { placeholder } = rest
     const { open } = useDropdown()
     return (
-      <DropdownSelectorContainer {...rest} ref={ref}>
-        {placeholder || children}
+      <DropdownSelectorContainer {...rest} ref={ref} hasValue={Boolean(children)}>
+        {children || placeholder}
         <motion.div transition={fast} animate={{ scaleY: !open ? 1 : -1 }}>
           <Chevron />
         </motion.div>
@@ -152,10 +152,10 @@ export const DropdownSelector = forwardRef<HTMLButtonElement, DropdownProps>(
   }
 )
 
-const DropdownSelectorContainer = styled.button<DropdownProps>`
+const DropdownSelectorContainer = styled.button<any>`
   ${inputStyle}
   ${p =>
-    p.placeholder &&
+    p.placeholder && !p.hasValue &&
     css`
       color: rgba(255, 255, 255, 0.25);
     `}

@@ -7,13 +7,17 @@ type Props = {
   value?: string
   label?: string
   placeholder?: string
+  onChange?: (value: string) => void
 }
 
-export const TextArea: FC<Props> = ({ label, placeholder }) => {
+export const TextArea: FC<Props> = ({ label, value, placeholder, onChange = _ => {} }) => {
   return (
     <Container>
       {label && <LabelPrimitive.Label htmlFor={label}>{label}</LabelPrimitive.Label>}
-      <textarea id={label} placeholder={placeholder}></textarea>
+      <textarea
+        id={label}
+        placeholder={placeholder}
+        onChange={ev => onChange(ev.target.value)}>{value}</textarea>
     </Container>
   )
 }

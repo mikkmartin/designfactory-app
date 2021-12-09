@@ -21,13 +21,13 @@ export class FileStore implements IFileStore {
   template
 
   rootStore: RootStore
-  schema: ISchema
+  schema: ISchema = {}
   loading = false
 
   constructor(rootStore: RootStore, file: Partial<IFile>) {
     this.rootStore = rootStore
-    makeAutoObservable(this)
     Object.keys(file).forEach(key => (this[key] = file[key]))
+    makeAutoObservable(this)
   }
   setTemplate = template => {
     this.template = template
