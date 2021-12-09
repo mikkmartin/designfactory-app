@@ -29,12 +29,12 @@ const Container = styled(motion.a)<any>`
   align-items: center;
   justify-content: center;
   border-radius: 3px;
-  background: var(--highlight);
+  background: rgb(var(--highlight));
   &:hover {
     background: #1886ff;
   }
   &:active {
-    background: var(--highlight);
+    background: rgb(var(--highlight));
   }
   > svg {
     height: 32px;

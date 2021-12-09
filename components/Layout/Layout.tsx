@@ -1,8 +1,6 @@
 import { FC, useEffect } from 'react'
 import styled from 'styled-components'
-import { Editor } from 'components/Editor'
 import { Header } from './Header'
-import { ApiLink } from './ApiLink'
 import useSWR from 'swr'
 import { store } from 'data'
 import { observer } from 'mobx-react-lite'
@@ -11,6 +9,7 @@ import { Loading } from 'components/Editor/CanvasButtons/Loading'
 import { Templates as TemplateButton } from 'components/Editor/CanvasButtons/Templates'
 import { CanvasButtons } from 'components/Editor/CanvasButtons'
 import { PreviewPanel } from 'components/Editor/PreviewPanel'
+import { Tabs } from './Tabs'
 
 const fetcher = templateId => fetch('/api/figma?template=' + templateId).then(res => res.json())
 
@@ -21,8 +20,7 @@ export const Layout: FC = observer(({ children }) => {
     <Container>
       <div className="controls">
         <Header />
-        <Editor />
-        <ApiLink />
+        <Tabs />
       </div>
       <div className="container" ref={el => store.pages.setCanvasContainerRef(el)}>
         {children}
@@ -65,7 +63,7 @@ const Container = styled.div`
   }
   .container {
     display: grid;
-    grid-template-rows: 1fr auto; 
+    grid-template-rows: 1fr auto;
     flex: 2.5;
     overflow: auto;
     background: #1a1e25;

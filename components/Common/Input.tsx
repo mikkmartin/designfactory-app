@@ -142,7 +142,7 @@ const StyledInput = styled(motion.div)<{ invalid: boolean; type: any }>`
             padding-left: 16px;
           `}
     :focus {
-      outline: 1px solid var(--highlight);
+      outline: 1px solid rgb(var(--highlight));
     }
     &:not(:focus) ~ svg {
       opacity: 0.3;

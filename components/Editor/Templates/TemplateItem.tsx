@@ -142,5 +142,5 @@ const Container = styled.a<{ selected: boolean }>`
 `
 
 const selected = css`
-  outline: 2px solid var(--highlight);
+  outline: 2px solid rgb(var(--highlight));
 `

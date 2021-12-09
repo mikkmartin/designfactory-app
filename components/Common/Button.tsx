@@ -16,7 +16,7 @@ export const Button = styled(motion.button) <Props>`
   border: 0;
   color: white;
   cursor: pointer;
-  background: ${props => props.primary ? 'var(--highlight)' :
+  background: ${props => props.primary ? 'rgb(var(--highlight))' :
     props.highlight ?
       'rgba(255, 255, 255, 0.05)' :
       'transparent'};
@@ -28,7 +28,7 @@ export const Button = styled(motion.button) <Props>`
     box-shadow: inset 0 1px 0 0 white;
   ` : props.selected};
   :active {
-    background: var(--highlight);
+    background: rgb(var(--highlight));
   }
   &:disabled, &[disabled] {
     color: rgba(255, 255, 255, 0.2);

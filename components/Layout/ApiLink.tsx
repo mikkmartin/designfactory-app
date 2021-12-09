@@ -126,7 +126,7 @@ const Container = styled.div`
     font-family: sans-serif;
     font-size: 12px;
     &.GET {
-      color: var(--highlight);
+      color: rgb(var(--highlight));
     }
     &.POST {
       color: #53d810;

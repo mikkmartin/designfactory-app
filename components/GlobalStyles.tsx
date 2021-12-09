@@ -2,14 +2,14 @@ import { createGlobalStyle, css } from 'styled-components'
 
 export const fontFamily = "'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace"
 export const placeholderColor = 'rgba(255, 255, 255, 0.3)'
-export const GlobalStyles = createGlobalStyle<{route: string}>`
+export const GlobalStyles = createGlobalStyle<{ route: string }>`
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
   :root {
-    --highlight: #007AFF;
+    --highlight: 0, 122, 255;
     --background: #282C34;
     --error: #fa755a;
     --placeholder: ${placeholderColor};
@@ -26,7 +26,7 @@ export const GlobalStyles = createGlobalStyle<{route: string}>`
     text-decoration: none;
     color: #0097ff;
     :hover {
-      background: var(--highlight);
+      background: rgb(var(--highlight));
       color: white;
     }
   }
@@ -42,7 +42,7 @@ export const GlobalStyles = createGlobalStyle<{route: string}>`
     font-size: 14px;
     color: white;
     background: rgba(255, 255, 255, 0.05);
-    caret-color: var(--highlight);
+    caret-color: rgb(var(--highlight));
     &:hover {
       background: rgba(255, 255, 255, 0.075);
     }

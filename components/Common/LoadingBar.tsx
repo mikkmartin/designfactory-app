@@ -39,6 +39,6 @@ const Container = styled.div`
   div {
     height: 100%;
     width: 100%;
-    background: var(--highlight);
+    background: rgb(var(--highlight));
   }
 `;
