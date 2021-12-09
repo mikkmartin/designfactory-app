@@ -57,6 +57,7 @@ export const InputPanel = observer(() => {
                 <Input
                   label={key}
                   value={value}
+                  autoComplete="off"
                   placeholder={obj.default}
                   onChange={ev => handleDataChange({ [key]: ev.target.value })}
                 />

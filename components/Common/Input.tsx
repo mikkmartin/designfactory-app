@@ -72,8 +72,9 @@ const Container = styled(motion.div)`
 
 type Props = {
   type?: 'email' | 'card' | 'text'
-  value?: string,
+  value?: string
   placeholder?: string
+  autoComplete?: string
   onChange?: ChangeEventHandler<HTMLInputElement>
   label?: string
   invalid?: boolean
@@ -82,7 +83,17 @@ type Props = {
 
 export const Input = forwardRef<HTMLInputElement, Props>(
   (
-    { type = 'text', value, label, placeholder, onChange = () => {}, invalid = false, autoFocus, ...rest },
+    {
+      type = 'text',
+      value,
+      label,
+      autoComplete,
+      placeholder,
+      onChange = () => {},
+      invalid = false,
+      autoFocus,
+      ...rest
+    },
     ref
   ) => {
     return (
@@ -93,6 +104,8 @@ export const Input = forwardRef<HTMLInputElement, Props>(
           ref={ref}
           {...getType(type)}
           autoFocus={autoFocus}
+          
+          autoComplete={autoComplete}
           value={value}
           placeholder={getPlaceHolder(placeholder || type)}
           onChange={onChange}
