@@ -22,7 +22,11 @@ const Container = styled.div`
   ${labelStyle}
   textarea {
     ${inputStyle}
+    resize: vertical;
     min-height: 92px;
     padding-top: 16px;
+    ::-webkit-resizer {
+      display: none;
+    }
   }
 `

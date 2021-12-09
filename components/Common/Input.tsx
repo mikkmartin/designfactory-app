@@ -173,7 +173,8 @@ export const inputStyle = css`
     background: rgba(255, 255, 255, 0.07);
   }
   &:focus {
-    outline: 1px solid rgba(var(--highlight));
+    outline: none;
+    box-shadow: 0 0 0 0.5px rgb(var(--highlight));
   }
 `
 
