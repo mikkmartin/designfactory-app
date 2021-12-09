@@ -142,11 +142,9 @@ const getIcon = icon => {
 }
 
 export const labelStyle = css`
-  display: flex;
-  flex-direction: row;
-  justify-content: stretch;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
   span {
-    flex: 0.3;
     min-height: 48px;
     display: flex;
     justify-content: flex-start;
@@ -159,20 +157,20 @@ export const labelStyle = css`
 `
 
 export const inputStyle = css`
-  flex: 1;
   background: none;
   border: none;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.035);
   padding: 0 4px 0 16px;
   color: inherit;
   font-family: inherit;
   line-height: 140%;
+  border-radius: 4px;
   ::placeholder {
     color: rgba(255, 255, 255, 0.25);
   }
   &:hover,
   &:focus {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.07);
   }
   &:focus {
     outline: 1px solid rgba(var(--highlight));

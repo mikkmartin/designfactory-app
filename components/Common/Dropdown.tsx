@@ -1,9 +1,11 @@
+import * as LabelPrimitive from '@radix-ui/react-label'
 import { Root, Trigger, Content, RadioGroup, RadioItem } from '@radix-ui/react-dropdown-menu'
 import { motion, AnimatePresence } from 'framer-motion'
 import styled, { css, ThemeProvider } from 'styled-components'
 import { Chevron } from 'components/Icons'
-import { FC, useEffect, useRef, useState } from 'react'
+import { FC, forwardRef, useEffect, useRef, useState } from 'react'
 import { fast, snappy } from 'lib/static/transitions'
+import { inputStyle, labelStyle } from './Input'
 
 interface Option {
   disabled?: boolean
@@ -12,6 +14,7 @@ interface Option {
 }
 
 interface Props extends StyleProps {
+  label?: string
   options: Array<string | Option>
   fullWidth?: boolean
   onChange?: (value: string) => void
@@ -20,6 +23,7 @@ interface Props extends StyleProps {
 }
 
 export const Dropdown: FC<Props> = ({
+  label,
   options,
   value,
   onChange,
@@ -67,9 +71,12 @@ export const Dropdown: FC<Props> = ({
     <Context.Provider value={{ open, setOpen }}>
       <ThemeProvider theme={{ width, fullWidth }}>
         <Root open={open} onOpenChange={handleOpenChange} modal={false}>
-          <Button theme={theme} ref={containerRef}>
-            {children}
-          </Button>
+          <Container label={label}>
+            {label && <LabelPrimitive.Label htmlFor={label}>{label}</LabelPrimitive.Label>}
+            <Trigger id={label} ref={containerRef} asChild>
+              {children}
+            </Trigger>
+          </Container>
           <AnimatePresence>
             {open && (
               <Content forceMount side="bottom" align={fullWidth ? 'center' : 'start'}>
@@ -122,35 +129,44 @@ export const Dropdown: FC<Props> = ({
   )
 }
 
-export const DropdownSelector = ({ children }) => {
-  const { open } = useDropdown()
-  return (
-    <DropdownSelectorContainer>
-      {children}
-      <motion.div transition={fast} animate={{ scaleY: !open ? 1 : -1 }}>
-        <Chevron />
-      </motion.div>
-    </DropdownSelectorContainer>
-  )
+const Container = styled.div<{ label?: any }>`
+  ${({ label }) => label && labelStyle}
+`
+
+type DropdownProps = {
+  placeholder?: string
 }
 
-const DropdownSelectorContainer = styled.div<{ disabled?: boolean }>`
+export const DropdownSelector = forwardRef<HTMLButtonElement, DropdownProps>(
+  ({ children, ...rest }, ref) => {
+    const { placeholder } = rest
+    const { open } = useDropdown()
+    return (
+      <DropdownSelectorContainer {...rest} ref={ref}>
+        {placeholder || children}
+        <motion.div transition={fast} animate={{ scaleY: !open ? 1 : -1 }}>
+          <Chevron />
+        </motion.div>
+      </DropdownSelectorContainer>
+    )
+  }
+)
+
+const DropdownSelectorContainer = styled.button<DropdownProps>`
+  ${inputStyle}
+  ${p =>
+    p.placeholder &&
+    css`
+      color: rgba(255, 255, 255, 0.25);
+    `}
+  svg {
+    color: white;
+  }
   display: flex;
   justify-content: space-between;
-  width: 100%;
-  padding: 12px 9px;
-  background: var(--background);
-  color: white;
-  background: rgba(255, 255, 255, 0.05);
-  &:hover {
-    background: rgba(255, 255, 255, 0.1);
-  }
-  svg {
-    display: block;
-    height: 16px;
-    width: auto;
-  }
-  ${props => props.disabled && 'opacity: 0.1;'}
+  align-items: center;
+  padding: 0 16px;
+  height: 48px;
 `
 
 interface StyleProps {
@@ -203,7 +219,7 @@ const Item = styled(motion(RadioItem))<GroupProps>`
   ${p =>
     p.fullWidth &&
     css`
-      padding: 12px 9px;
+      padding: 16px;
       font-size: 12px;
     `};
   .focus {
@@ -226,14 +242,6 @@ const Item = styled(motion(RadioItem))<GroupProps>`
     color: white;
   }
   ${p => themes[p.theme]?.item}
-`
-
-const Button = styled(Trigger)<StyleProps>`
-  user-select: none;
-  border: none;
-  font-family: inherit;
-  outline: none;
-  background: none;
 `
 
 import { createContext, useContext, Dispatch, SetStateAction } from 'react'

@@ -16,8 +16,8 @@ export const InputPanel = () => {
         label="Description"
         placeholder="Generate beautiful, customised preview images for every page automaticall."
       />
-      <Dropdown options={['lambda']} fullWidth>
-        <DropdownSelector>Hello</DropdownSelector>
+      <Dropdown label="Icon" options={['lambda', 'sqs', 'dynamodb', 'step-function']} fullWidth>
+        <DropdownSelector placeholder="dynamodb" />
       </Dropdown>
     </Container>
   )

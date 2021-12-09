@@ -36,6 +36,9 @@ export const GlobalStyles = createGlobalStyle<{ route: string }>`
   h3 {
     font-weight: 400;
   }
+  svg {
+    display: block;
+  }
 `
 
 const screenshot = css`
