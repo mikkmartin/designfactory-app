@@ -1,4 +1,5 @@
-import { FC, useEffect, useRef, forwardRef } from 'react'
+import * as LabelPrimitive from '@radix-ui/react-label'
+import { FC, useEffect, useRef, forwardRef, ChangeEventHandler } from 'react'
 import styled, { css } from 'styled-components'
 import NumberFormat from 'react-number-format'
 import { Button } from './Button'
@@ -69,11 +70,25 @@ const Container = styled(motion.div)`
   }
 `
 
-export const Input = forwardRef<HTMLInputElement, any>(
-  ({ type = 'email', placeholder, onChange = () => {}, invalid = false, autoFocus, ...rest }, ref) => {
+type Props = {
+  type?: 'email' | 'card' | 'text'
+  placeholder?: string
+  onChange?: ChangeEventHandler<HTMLInputElement>
+  label?: string
+  invalid?: boolean
+  autoFocus?: boolean
+}
+
+export const Input = forwardRef<HTMLInputElement, Props>(
+  (
+    { type = 'text', label, placeholder, onChange = () => {}, invalid = false, autoFocus, ...rest },
+    ref
+  ) => {
     return (
       <StyledInput {...rest} invalid={invalid}>
+        {label && <LabelPrimitive.Label htmlFor={label}>{label}</LabelPrimitive.Label>}
         <input
+          id={label}
           ref={ref}
           {...getType(type)}
           autoFocus={autoFocus}
@@ -126,13 +141,48 @@ const getIcon = icon => {
   }
 }
 
-const StyledInput = styled(motion.div)<{ invalid: boolean; type: any }>`
-  height: 48px;
-  position: relative;
+export const labelStyle = css`
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  span {
+    flex: 0.3;
+    min-height: 48px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-top: 17px;
+    opacity: 0.5;
+    padding-right: 16px;
+    overflow: hidden;
+  }
+`
+
+export const inputStyle = css`
+  flex: 1;
+  background: none;
+  border: none;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0 4px 0 16px;
+  color: inherit;
+  font-family: inherit;
+  line-height: 140%;
+  ::placeholder {
+    color: rgba(255, 255, 255, 0.25);
+  }
+  &:hover,
+  &:focus {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  &:focus {
+    outline: 1px solid rgba(var(--highlight));
+  }
+`
+
+const StyledInput = styled(motion.div)<{ invalid: boolean; type?: Props['type'] }>`
+  ${labelStyle}
   input {
-    width: 100%;
-    height: 100%;
-    padding-right: 4px;
+    ${inputStyle}
     ${p =>
       p.type === 'text'
         ? css`

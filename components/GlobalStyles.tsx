@@ -36,30 +36,6 @@ export const GlobalStyles = createGlobalStyle<{ route: string }>`
   h3 {
     font-weight: 400;
   }
-  input {
-    border: 0;
-    font-family: inherit;
-    font-size: 14px;
-    color: white;
-    background: rgba(255, 255, 255, 0.05);
-    caret-color: rgb(var(--highlight));
-    &:hover {
-      background: rgba(255, 255, 255, 0.075);
-    }
-    &::placeholder {
-      color: var(--placeholder);
-    }
-    &:focus {
-      background: rgba(255, 255, 255, 0.1);
-      outline: none;
-    }
-    position: relative;
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-  }
 `
 
 const screenshot = css`

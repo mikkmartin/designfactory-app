@@ -11,7 +11,7 @@ export const InputPanel = () => {
         You can download the image with the blue button on top, or you can embed the code below to
         generate it on-demand for every page on your site dynamically:
       </p>
-      <Input type="text" placeholder="What is AWS Lambda?" />
+      <Input label="Title" placeholder="What is AWS Lambda?" />
       <TextArea
         label="Description"
         placeholder="Generate beautiful, customised preview images for every page automaticall."
