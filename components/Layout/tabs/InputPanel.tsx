@@ -5,6 +5,7 @@ import { Dropdown, DropdownSelector } from 'components/Common'
 import { observer } from 'mobx-react-lite'
 import { store } from 'data'
 import { toJS } from 'mobx'
+import { Tab, tabContentStyle } from './Tabs'
 
 export const InputPanel = observer(() => {
   const properties = store.file.schema.properties
@@ -22,7 +23,7 @@ export const InputPanel = observer(() => {
     })
 
   return (
-    <Container>
+    <Container value="inputs">
       <h4>Link image generator</h4>
       <p>
         You can download the image with the blue button on top, or you can embed the code below to
@@ -68,11 +69,8 @@ export const InputPanel = observer(() => {
   )
 })
 
-const Container = styled.div`
-  padding: 32px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+const Container = styled(Tab)`
+  ${tabContentStyle}
   h4 {
     margin-bottom: 8px;
     font-weight: normal;

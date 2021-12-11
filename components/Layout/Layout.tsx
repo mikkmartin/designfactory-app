@@ -9,7 +9,7 @@ import { Loading } from 'components/Editor/CanvasButtons/Loading'
 import { Templates as TemplateButton } from 'components/Editor/CanvasButtons/Templates'
 import { CanvasButtons } from 'components/Editor/CanvasButtons'
 import { PreviewPanel } from 'components/Editor/PreviewPanel'
-import { Tabs } from './Tabs'
+import { Tabs, BulkEditor, CodeEditor, InputPanel, Navigation } from './tabs'
 
 const fetcher = templateId => fetch('/api/figma?template=' + templateId).then(res => res.json())
 
@@ -18,10 +18,13 @@ export const Layout: FC = observer(({ children }) => {
 
   return (
     <Container>
-      <div className="controls">
+      <Tabs>
         <Header />
-        <Tabs />
-      </div>
+        <InputPanel />
+        <CodeEditor />
+        <BulkEditor />
+        <Navigation />
+      </Tabs>
       <div className="container" ref={el => store.pages.setCanvasContainerRef(el)}>
         {children}
         <CanvasButtons>
@@ -53,13 +56,6 @@ const Container = styled.div`
   width: 100vw;
   height: 100vh;
   background: #525659;
-  .controls {
-    display: flex;
-    position: relative;
-    background: #282c34;
-    flex-direction: column;
-    width: 420px;
-  }
   .container {
     display: grid;
     grid-template-rows: 1fr auto;

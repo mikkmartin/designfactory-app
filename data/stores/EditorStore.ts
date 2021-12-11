@@ -5,7 +5,6 @@ import { FileResponse } from '@mikkmartin/figma-js'
 import { TemplateGroupItem } from 'data/db'
 import * as api from 'data/api'
 import { RootStore } from './RootStore'
-import { FileStore } from './FileStore'
 
 type TemplateGroup = Array<
   TemplateGroupItem & { hovered?: boolean; template?: FileResponse; loading?: boolean }
@@ -15,6 +14,8 @@ export class EditorStore {
   rootStore: RootStore
   data = {}
   jsonErrors: string[] = []
+  tabs = ['inputs', 'code', 'bulk'] as const
+  currentTab: typeof this.tabs[number] = this.tabs[0]
   templates: TemplateGroup = []
   templatePanelIsOpen = true
   previewPanelIsOpen = false
@@ -28,7 +29,10 @@ export class EditorStore {
     const slug = this.rootStore.file.slug
     return `${baseURL}/files/${slug}.png${objectToParams(this.data)}`
   }
-  setTemplates(templates: TemplateGroup) {
+  setCurrentTab = (tab: typeof this.tabs[number]) => {
+    this.currentTab = tab
+  }
+  setTemplates = (templates: TemplateGroup) => {
     this.templates = templates
   }
   setData = (data: Object | ((prev: Object) => void)) => {

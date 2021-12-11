@@ -104,7 +104,6 @@ export const Input = forwardRef<HTMLInputElement, Props>(
           ref={ref}
           {...getType(type)}
           autoFocus={autoFocus}
-          
           autoComplete={autoComplete}
           value={value}
           placeholder={getPlaceHolder(placeholder || type)}
