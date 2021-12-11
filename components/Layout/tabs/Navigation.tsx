@@ -11,11 +11,11 @@ export const Navigation = observer(() => {
   const currentTab = store.editor.currentTab
   const getIcon = (icon: typeof store.editor.tabs[number]) => {
     switch (icon) {
-      case 'bulk':
+      case 'inputs':
         return Edit
       case 'code':
         return Code
-      case 'inputs':
+      case 'bulk':
         return Layer
     }
   }
