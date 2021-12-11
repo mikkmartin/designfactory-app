@@ -157,11 +157,11 @@ const getIcon = icon => {
 
 export const labelStyle = css`
   display: grid;
-  grid-template-columns: 1fr 3fr;
+  grid-template-columns: 1fr 4fr;
   span {
     text-transform: capitalize;
-    min-height: 48px;
-    padding-top: 17px;
+    min-height: 40px;
+    padding-top: 15px;
     opacity: 0.5;
     padding-right: 16px;
     overflow: hidden;
@@ -179,7 +179,7 @@ export const inputStyle = css`
   color: inherit;
   font-family: inherit;
   line-height: 140%;
-  border-radius: 4px;
+  border-radius: 2px;
   ::placeholder {
     color: rgba(255, 255, 255, 0.25);
   }
@@ -189,7 +189,7 @@ export const inputStyle = css`
   }
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 0.5px rgb(var(--highlight));
+    box-shadow: 0 0 0 1px rgb(var(--highlight));
   }
 `
 

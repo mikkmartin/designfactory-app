@@ -1,6 +1,4 @@
-import { monaco } from 'react-monaco-editor'
-
-export const theme: monaco.editor.IStandaloneThemeData = {
+export const theme = {
   base: 'vs-dark',
   inherit: true,
   rules: [

@@ -14,10 +14,9 @@ export const TextArea: FC<Props> = ({ label, value, placeholder, onChange = _ =>
   return (
     <Container>
       {label && <LabelPrimitive.Label htmlFor={label}>{label}</LabelPrimitive.Label>}
-      <textarea
-        id={label}
-        placeholder={placeholder}
-        onChange={ev => onChange(ev.target.value)}>{value}</textarea>
+      <textarea id={label} placeholder={placeholder} onChange={ev => onChange(ev.target.value)}>
+        {value}
+      </textarea>
     </Container>
   )
 }
@@ -28,7 +27,7 @@ const Container = styled.div`
     ${inputStyle}
     resize: vertical;
     min-height: 92px;
-    padding-top: 16px;
+    padding-top: 11px;
     ::-webkit-resizer {
       display: none;
     }

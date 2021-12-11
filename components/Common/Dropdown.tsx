@@ -166,7 +166,7 @@ const DropdownSelectorContainer = styled.button<any>`
   justify-content: space-between;
   align-items: center;
   padding: 0 16px;
-  height: 48px;
+  height: 40px;
 `
 
 interface StyleProps {

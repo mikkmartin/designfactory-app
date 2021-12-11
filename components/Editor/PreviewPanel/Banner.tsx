@@ -8,7 +8,7 @@ export const Banner = observer(() => {
   return (
     <Container onClick={togglePreviewPanel}>
       <div className="banner">
-        <Info stroke-width="1" />
+        <Info strokeWidth="1" />
         <p>How to use it on my site?</p>
       </div>
     </Container>
