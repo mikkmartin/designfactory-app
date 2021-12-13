@@ -27,14 +27,14 @@ export const Layout: FC = observer(({ children }) => {
         <Navigation />
       </Tabs>
       <div className="container" ref={el => store.pages.setCanvasContainerRef(el)}>
-        <Version />
         {children}
-        <CanvasButtons>
-          <Loading />
-          <TemplateButton />
-        </CanvasButtons>
-        <PreviewPanel />
       </div>
+      <Version />
+      <CanvasButtons>
+        <Loading />
+        <TemplateButton />
+      </CanvasButtons>
+      <PreviewPanel />
       <TemplatePanel />
     </Container>
   )
@@ -54,15 +54,21 @@ const useRefreshTemplate = () => {
 }
 
 const Container = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 3fr auto;
+  grid-template-rows: 1fr auto;
+  gap: 0px 0px;
+  grid-template-areas:
+    'sidepanel canvas templates'
+    'sidepanel preview templates';
   width: 100vw;
   height: 100vh;
+  background: #1a1e25;
   .container {
-    flex: 1;
+    grid-area: canvas;
     display: grid;
-    grid-template-rows: 1fr auto;
+    place-items: center;
     overflow: auto;
-    background: #1a1e25;
     position: relative;
   }
 `

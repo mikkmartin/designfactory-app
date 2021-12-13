@@ -16,11 +16,16 @@ export const Banner = observer(() => {
 })
 
 const Container = styled.div`
-  height: 64px;
+  grid-area: preview;
+  height: 0;
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  position: relative;
   .banner {
+    position: absolute;
+    bottom: 0;
+    bottom: 16px;
     display: flex;
     align-items: center;
     gap: 8px;

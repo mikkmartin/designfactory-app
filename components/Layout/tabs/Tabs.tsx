@@ -19,6 +19,7 @@ export const Tabs = observer(({ children }) => {
 })
 
 const Container = styled(Root)`
+  grid-area: sidepanel;
   display: flex;
   position: relative;
   background: #282c34;

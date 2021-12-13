@@ -10,6 +10,9 @@ type Props = {
 }
 
 export const Button = styled(motion.button) <Props>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: ${props => (props.width ? props.width : '56px')};
   height: 56px;
   font-family: inherit;

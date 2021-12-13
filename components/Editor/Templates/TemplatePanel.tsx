@@ -46,6 +46,7 @@ export const TemplatePanel = observer(() => {
 })
 
 const Container = styled.div`
+  grid-area: templates;
   display: flex;
   flex-direction: column;
   flex: 0.5;

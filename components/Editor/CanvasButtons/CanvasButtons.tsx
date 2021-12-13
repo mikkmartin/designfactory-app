@@ -5,7 +5,8 @@ export const CanvasButtons = ({ children }) => {
 }
 
 const Container = styled.div`
-  position: absolute;
+  grid-area: canvas;
+  position: fixed;
   top: 8px;
   right: 8px;
   display: flex;

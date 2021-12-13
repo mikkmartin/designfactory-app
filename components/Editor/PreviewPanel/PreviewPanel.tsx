@@ -30,6 +30,7 @@ export const PreviewPanel = observer(() => {
 })
 
 const Container = styled.div`
+  grid-area: preview;
   background: rgba(40, 44, 52, 0.6);
   width: 100%;
   display: grid;

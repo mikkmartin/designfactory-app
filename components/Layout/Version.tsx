@@ -10,14 +10,11 @@ export const Version = () => {
   )
 }
 
-const Container = styled.div`
-  grid-area: 1 / 1;
-  position: absolute;
-  right: 16px;
-  bottom: 16px;
+const Container = styled.h2`
+  font-weight: normal;
+  grid-area: canvas;
+  padding: 16px;
   opacity: 0.1;
-  font-size: 19px;
-  color: #ffffff;
   pointer-events: none;
   writing-mode: vertical-lr;
   transform: rotate(180deg);
