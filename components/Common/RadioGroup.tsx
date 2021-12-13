@@ -7,12 +7,12 @@ export const RadioGroup = ({ children, ...rest }) => <Container {...rest}>{child
 
 const Container = styled(motion(Root))`
   display: flex;
-  padding: 3px;
+  padding: 2px;
   gap: 3px;
   width: 100%;
   justify-content: stretch;
   background: rgba(0, 0, 0, 0.2);
-  border-radius: 3px;
+  border-radius: 4px;
 `
 
 export const Button = ({ value = null, children }) => (
@@ -30,7 +30,7 @@ const ButtonContainer = styled(motion(Item))`
   background: none;
   color: inherit;
   flex: 1;
-  height: 48px;
+  min-width: 56px;
   font-family: inherit;
   border: none;
   border-radius: 4px;
@@ -50,6 +50,11 @@ const ButtonContainer = styled(motion(Item))`
     justify-content: center;
     opacity: 0.5;
     cursor: pointer;
+    transition: transform 0.1s ease-out;
+    &:active {
+      transform: scale(0.8);
+      transition: transform 0s;
+    }
     &:hover {
       opacity: 1;
     }

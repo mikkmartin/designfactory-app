@@ -25,10 +25,7 @@ export const InputPanel = observer(() => {
   return (
     <Container value="inputs">
       <h4>Link image generator</h4>
-      <p>
-        You can download the image with the blue button on top, or you can embed the code below to
-        generate it on-demand for every page on your site dynamically:
-      </p>
+      <p>Automate link preview images with one line of code.</p>
       {properties &&
         Object.entries(properties).map(([key, obj]) => {
           if (obj.type !== 'string') return null
