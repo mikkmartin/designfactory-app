@@ -26,5 +26,6 @@ const Container = styled.div`
   }
   svg {
     height: 20px;
+    stroke-width: 1.5px;
   }
 `
