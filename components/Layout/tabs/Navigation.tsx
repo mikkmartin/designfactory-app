@@ -70,7 +70,7 @@ const RadioButton = styled(Trigger)`
   }
   &:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 0.5px rgb(var(--highlight));
+    box-shadow: 0 0 0 1px rgb(var(--highlight));
     background-color: rgba(var(--highlight), 0.1);
     border-radius: 0.25rem;
     > * {
