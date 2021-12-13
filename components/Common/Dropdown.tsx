@@ -161,6 +161,7 @@ const DropdownSelectorContainer = styled.button<any>`
     `}
   svg {
     color: white;
+    width: 16px;
   }
   display: flex;
   justify-content: space-between;
