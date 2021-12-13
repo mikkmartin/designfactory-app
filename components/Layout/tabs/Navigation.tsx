@@ -54,11 +54,13 @@ const RadioButton = styled(Trigger)`
   display: flex;
   align-items: center;
   justify-content: center;
+  border: none;
   svg {
     width: 20px;
     stroke-width: 1.5px;
     transition: transform 0.1s ease-out;
     opacity: 0.5;
+    color: white;
   }
   &:hover svg,
   &[data-state='active'] svg {
