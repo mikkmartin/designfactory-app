@@ -12,4 +12,12 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   gap: 4px;
+  > button {
+    height: 48px;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.05);
+    svg {
+      height: 20px;
+    }
+  }
 `
