@@ -31,6 +31,9 @@ const Container = styled(Root)`
   }
 `
 
+Content.defaultProps = {
+  tabIndex: -1,
+}
 export const Tab = styled(Content)<{ value: Tab }>`
   height: 100%;
   overflow: auto;

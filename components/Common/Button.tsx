@@ -36,14 +36,22 @@ export const Button = styled(motion.button)<Props>`
           box-shadow: inset 0 1px 0 0 white;
         `
       : props.selected};
-  :active {
-    background: rgb(var(--highlight));
-  }
   &:disabled,
   &[disabled] {
     color: rgba(255, 255, 255, 0.2);
     background: rgba(255, 255, 255, 0.05);
     cursor: default;
   }
-  outline: none;
+  box-shadow: inset 0 0 0 0 rgb(var(--highlight));
+  transition: background-color 0, box-shadow 0;
+  :focus-visible {
+    transition: background-color 0.1s, box-shadow 0.1s;
+    outline: none;
+    border-radius: 4px;
+    background: rgb(172, 230, 255, 0.1);
+    box-shadow: inset 0 0 0 1px rgb(var(--highlight));
+  }
+  :active {
+    background: rgb(var(--highlight));
+  }
 `
