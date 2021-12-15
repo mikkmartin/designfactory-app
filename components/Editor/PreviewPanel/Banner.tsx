@@ -2,15 +2,16 @@ import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 import { Info } from 'components/Icons'
 import { store } from 'data'
+import { Button } from 'components/Common'
 
 export const Banner = observer(() => {
   const { togglePreviewPanel } = store.editor
   return (
     <Container onClick={togglePreviewPanel}>
-      <div className="banner">
+      <Button className="banner">
         <Info strokeWidth="1" />
         <p>How to use it on my site?</p>
-      </div>
+      </Button>
     </Container>
   )
 })
@@ -26,19 +27,20 @@ const Container = styled.div`
     position: absolute;
     bottom: 0;
     bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: #282c34;
-    border-radius: 3px;
-    padding: 10px 16px;
+    gap: 12px;
+    border-radius: 4px;
+    height: 48px;
+    padding: 8px 16px;
     cursor: pointer;
+    background-color: rgba(40, 44, 52, 0.8);
+    backdrop-filter: blur(20px);
     p {
       opacity: 0.5;
     }
-    &:hover {
-      background: #3e4c59;
+    &:hover, &:focus {
+      background-color: rgba(61, 67, 80, 0.8);
       p {
+        transition: opacity 0.1s ease-out;
         opacity: 1;
       }
     }
