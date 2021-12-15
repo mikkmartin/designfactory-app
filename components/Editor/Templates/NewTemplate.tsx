@@ -9,7 +9,7 @@ export const NewTemplate = () => {
   const ref = useRef<HTMLInputElement>(null)
   const [loading, setLoading] = useState(false)
   const [hasInput, setHasInput] = useState(false)
-  
+
   //const [pages, setPages] = useState(['Page 1', 'Page 2'])
   //const [page, setPage] = useState(pages[0])
   //const [frames, setFrames] = useState(['knowlagebase-library', 'two'])
@@ -32,7 +32,7 @@ export const NewTemplate = () => {
     //const { data, error } = await store.pages.addTempTemplate(id)
     console.log(store)
     setLoading(false)
-    console.log({id})
+    console.log({ id })
   }
 
   return (
@@ -142,7 +142,10 @@ const Container = styled.div`
 const ButtonNew = styled(Button)`
   width: 100%;
   background: rgba(255, 255, 255, 0.05);
-  border-radius: 4px;
+  border-radius: 6px;
+  :focus-visible {
+    border-radius: 6px;
+  }
   svg {
     width: 18px;
     opacity: 0.5;

@@ -27,20 +27,18 @@ export const TemplatePanel = observer(() => {
           <Close />
         </Button>
       </div>
-      <ul>
-        <NewTemplate key={0} />
-        {[...templates].sort(alphabetically).map(({ slug, title, thumbnail_url, loading }) => (
-          <Link key={slug} href={slug}>
-            <TemplateItem
-              selected={selectedSlug === slug}
-              slug={slug}
-              title={title}
-              thumbnail={thumbnail_url}
-              loading={loading}
-            />
-          </Link>
-        ))}
-      </ul>
+      <NewTemplate />
+      {[...templates].sort(alphabetically).map(({ slug, title, thumbnail_url, loading }) => (
+        <Link key={slug} href={slug}>
+          <TemplateItem
+            selected={selectedSlug === slug}
+            slug={slug}
+            title={title}
+            thumbnail={thumbnail_url}
+            loading={loading}
+          />
+        </Link>
+      ))}
     </Container>
   )
 })
@@ -51,10 +49,10 @@ const Container = styled.div`
   flex-direction: column;
   flex: 0.5;
   background: var(--background);
-  padding-left: 8px;
-  padding-bottom: 16px;
   overflow: auto;
-  min-width: 250px;
+  width: 250px;
+  padding: 16px;
+  gap: 4px;
   > .header {
     align-items: center;
     display: flex;
@@ -62,17 +60,6 @@ const Container = styled.div`
     justify-content: space-between;
     h3 {
       margin-left: 4px;
-    }
-  }
-  ul {
-    display: flex;
-    flex-direction: column;
-    padding-right: 8px;
-    > *:nth-child(1) {
-      margin-bottom: 4px;
-    }
-    a {
-      background: none;
     }
   }
 `

@@ -9,33 +9,16 @@ type Props = {
   noHover?: boolean
 }
 
-export const Button = styled(motion.button)<Props>`
+export const buttonStyles = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${props => (props.width ? props.width : '56px')};
-  height: 56px;
-  min-width: 56px;
   font-family: inherit;
   border: 0;
-  color: white;
+  color: inherit;
   cursor: pointer;
-  background: ${props =>
-    props.primary
-      ? 'rgb(var(--highlight))'
-      : props.highlight
-      ? 'rgba(255, 255, 255, 0.05)'
-      : 'transparent'};
-  :hover {
-    background: ${props => (!props.noHover ? 'rgba(255, 255, 255, 0.1)' : 'unset')};
-  }
-  ${props =>
-    typeof props.selected === 'boolean' && props.selected === true
-      ? css`
-          background: rgba(255, 255, 255, 0.05);
-          box-shadow: inset 0 1px 0 0 white;
-        `
-      : props.selected};
+  background: transparent;
+  padding: 8px;
   &:disabled,
   &[disabled] {
     color: rgba(255, 255, 255, 0.2);
@@ -54,4 +37,27 @@ export const Button = styled(motion.button)<Props>`
   :active {
     background: rgb(var(--highlight));
   }
+`
+
+export const Button = styled(motion.button)<Props>`
+  ${buttonStyles}
+  width: ${props => props.width && props.width};
+  height: 56px;
+  min-width: 56px;
+  background: ${props =>
+    props.primary
+      ? 'rgb(var(--highlight))'
+      : props.highlight
+      ? 'rgba(255, 255, 255, 0.05)'
+      : 'transparent'};
+  :hover {
+    background: ${props => (!props.noHover ? 'rgba(255, 255, 255, 0.1)' : 'unset')};
+  }
+  ${props =>
+    typeof props.selected === 'boolean' && props.selected === true
+      ? css`
+          background: rgba(255, 255, 255, 0.05);
+          box-shadow: inset 0 1px 0 0 white;
+        `
+      : props.selected};
 `
