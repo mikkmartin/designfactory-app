@@ -60,6 +60,16 @@ export const InputPanel = observer(() => {
                   onChange={ev => handleDataChange({ [key]: ev.target.value })}
                 />
               )
+            case obj.type === 'string' && !obj.default:
+              return (
+                <Input
+                  label={key}
+                  value={value}
+                  autoComplete="off"
+                  placeholder="Image url..."
+                  onChange={ev => handleDataChange({ [key]: ev.target.value })}
+                />
+              )
           }
         })}
     </Container>
