@@ -43,10 +43,14 @@ const Container = styled.div`
   background: #1a1e25;
   .container {
     grid-area: canvas;
-    display: grid;
-    place-items: center;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 5.5rem 2rem;
     overflow: auto;
-    position: relative;
+    > div {
+      margin: auto;
+    }
   }
 `
 

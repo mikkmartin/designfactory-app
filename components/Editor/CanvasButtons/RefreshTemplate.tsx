@@ -32,7 +32,8 @@ const Refresh = styled(motion(RefreshIcon))``
 
 const Toggle = styled(RadioGroup)`
   height: 48px;
-  background: rgba(255, 255, 255, 0.05);
+  background: #282c34f0;
+  backdrop-filter: blur(20px);
   svg {
     stroke-width: 1.5px;
   }
