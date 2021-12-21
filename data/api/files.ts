@@ -1,11 +1,20 @@
 import { IFile } from 'data/db'
 
-type IAddTemplate = Pick<IFile, 'slug' | 'id' | 'title' | 'template' | 'fileType' | 'data'>
+type IAddTemplateRes = Pick<IFile, 'slug' | 'id' | 'title' | 'template' | 'fileType' | 'data' | 'type'>
 type WithError<T> = Promise<{ data: T; error: string | null }>
 
-type TemplateResponse = { data: IAddTemplate; error: any }
-export const addTemplate = async (templateID: string): WithError<TemplateResponse> =>
-  fetch('/api/files/' + templateID, { method: 'POST' })
+type AddTemplateFn = (
+  templateID: string,
+  body?: {
+    type: string
+  }
+) => Promise<{ data: IAddTemplateRes; error: any }>
+
+export const addTemplate: AddTemplateFn = async (templateID, body) =>
+  fetch('/api/files/' + templateID, {
+    method: 'POST',
+    body: body ? JSON.stringify(body) : null,
+  })
     .then(res => res.json())
     .then(data => ({ data, error: null }))
     .catch(error => ({ data: null, error }))

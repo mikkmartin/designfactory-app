@@ -73,6 +73,7 @@ const Container = styled(motion.div)`
 type Props = {
   type?: 'email' | 'card' | 'text'
   value?: string
+  disabled?: boolean
   placeholder?: string
   autoComplete?: string
   onChange?: ChangeEventHandler<HTMLInputElement>
@@ -85,6 +86,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(
   (
     {
       type = 'text',
+      disabled = false,
       value,
       label,
       autoComplete,
@@ -102,6 +104,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(
         <input
           id={label}
           ref={ref}
+          disabled={disabled}
           {...getType(type)}
           autoFocus={autoFocus}
           autoComplete={autoComplete}
@@ -185,7 +188,11 @@ export const inputStyle = css`
   ::placeholder {
     color: rgba(255, 255, 255, 0.25);
   }
-  &:hover,
+  :disabled {
+    color: rgba(255, 255, 255, 0.25);
+    user-select: none;
+  }
+  &:not(:disabled):hover,
   &:focus {
     background: rgba(255, 255, 255, 0.07);
   }

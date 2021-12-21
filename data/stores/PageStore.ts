@@ -3,7 +3,7 @@ import { IFile } from 'data/db'
 import { addTemplate } from 'data/api'
 import { RootStore } from './RootStore'
 
-type FileListItem = Pick<IFile, 'title' | 'slug' | 'fileType' | 'id'>
+type FileListItem = Pick<IFile, 'title' | 'slug' | 'fileType' | 'id' | 'type'>
 export type FileList = FileListItem[]
 
 export class PageStore {
@@ -31,15 +31,22 @@ export class PageStore {
   }
   closeDropDown = () => (this.dropDownItem = null)
 
-  addTempTemplate = (templateID: string) =>
-    addTemplate(templateID).then(res => {
-      const { id, slug, fileType, title } = res.data
-      this.temporaryTemplates.push({ id, slug, fileType, title })
+  addTempTemplate = (
+    templateID: Parameters<typeof addTemplate>[0],
+    body?: Parameters<typeof addTemplate>[1]
+  ) =>
+    addTemplate(templateID, body).then(res => {
+      const { id, slug, fileType, title, type } = res.data
+      const newTemplate = { id, slug, fileType, title, type }
+      this.temporaryTemplates.push(newTemplate)
       localStorage.setItem(this.storageKey, JSON.stringify(this.temporaryTemplates))
-      this.rootStore.editor.setFile(res.data)
+      const newTemplates = [newTemplate, ...this.defaultTemplates].filter(
+        template => template.type === type
+      )
+      this.rootStore.editor.setTemplates(newTemplates)
       return res
     })
-  
+
   removeTempTemplate = (slug: string) => {
     const index = this.temporaryTemplates.findIndex(item => item.slug === slug)
     this.temporaryTemplates.splice(index, 1)

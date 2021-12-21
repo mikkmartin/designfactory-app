@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Button, Input as InputBase } from 'components/Common'
+import { Button, Input as InputBase, Loader } from 'components/Common'
 import { Trigger, Content, Popover } from 'components/Common/Popover'
 import { Plus, Close, FigmaLogo } from 'components/Icons'
 import { useState, useRef } from 'react'
@@ -7,6 +7,7 @@ import { store } from 'data'
 
 export const NewTemplate = () => {
   const ref = useRef<HTMLInputElement>(null)
+  const [isOpen, setIsOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [hasInput, setHasInput] = useState(false)
 
@@ -18,7 +19,7 @@ export const NewTemplate = () => {
   const handleChange = () => {
     if (ref.current.value.length >= 22) {
       setHasInput(true)
-      setLoading(true)
+      //setLoading(true)
     } else {
       setHasInput(false)
     }
@@ -29,14 +30,18 @@ export const NewTemplate = () => {
     const str = ref.current.value
     const [id] = str.split('/file/')[1].split('/')
     setLoading(true)
-    //const { data, error } = await store.pages.addTempTemplate(id)
-    console.log(store)
-    setLoading(false)
-    console.log({ id })
+    const { error } = await store.pages.addTempTemplate(id, { type: store.file.type })
+    if (!error) {
+      setLoading(false)
+      setIsOpen(false)
+      setHasInput(false)
+    } else {
+      console.error(error)
+    }
   }
 
   return (
-    <Popover>
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
       <Trigger>
         <ButtonNew>
           <Plus />
@@ -45,7 +50,7 @@ export const NewTemplate = () => {
       <Content>
         <Container>
           <div className="header">
-            <FigmaLogo />
+            {loading ? <Loader /> : <FigmaLogo />}
             <span>{loading ? 'Loading...' : 'Paste the Figma link'}</span>
             <Button>
               <Close />
@@ -55,6 +60,7 @@ export const NewTemplate = () => {
             <div className="inputs">
               <Input
                 autoFocus
+                disabled={loading}
                 ref={ref}
                 onChange={handleChange}
                 type="text"
@@ -67,7 +73,6 @@ export const NewTemplate = () => {
                   <Dropdown fullWidth options={frames}>
                     <DropdownSelector>{frame}</DropdownSelector>
                   </Dropdown>
-                </>
               */}
             </div>
             <Button primary disabled={!hasInput || loading} onClick={handleImport}>

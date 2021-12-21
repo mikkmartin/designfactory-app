@@ -6,6 +6,7 @@ import { FC, useState } from 'react'
 import styled, { css } from 'styled-components'
 import Link from 'next/link'
 import { Button, buttonStyles } from 'components/Common/Button'
+import { toJS } from 'mobx'
 
 type Props = {
   slug: string
@@ -15,8 +16,18 @@ type Props = {
   loading: boolean
 }
 
+/*
+const getSize = (template): { width: number; height: number } => {
+  const { width, height } = template.document.children[0].children.find(
+    child => child.type === 'FRAME'
+  ).absoluteBoundingBox
+  return { width, height }
+}
+*/
+
 export const TemplateItem: FC<Props> = observer(({ slug, title, selected, loading, thumbnail }) => {
   const { templateHovered, templateBlurred } = store.editor
+  //const { width, height } = getSize(store.file.template)
   const [isFocused, setIsFocused] = useState(false)
   const disabled = true
   const options = [
@@ -31,7 +42,11 @@ export const TemplateItem: FC<Props> = observer(({ slug, title, selected, loadin
   }
 
   return (
-    <Container selected={selected} focused={isFocused} className={isFocused && 'focused'}>
+    <Container
+      //style={{ aspectRatio: `${width} / ${height}` }}
+      selected={selected}
+      focused={isFocused}
+      className={isFocused && 'focused'}>
       {thumbnail && <img src={thumbnail} alt={title} />}
 
       <Link href={slug}>
