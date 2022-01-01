@@ -139,6 +139,8 @@ const Container = styled.div<StyleProps>`
       &:hover,
       &:focus-within {
         backdrop-filter: sepia(1) hue-rotate(180deg) saturate(75%) brightness(40%) blur(4px);
+        background: rgba(69, 77, 92, 0.75);
+        backdrop-filter: sepia(1) hue-rotate(180deg) brightness(40%) blur(4px);
         opacity: 1;
       }
     }
