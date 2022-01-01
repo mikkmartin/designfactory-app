@@ -4,6 +4,7 @@ import { useDrop, useDropArea } from 'react-use'
 import { TextInput } from './TextInput'
 import { Button } from '../Button'
 import type { InputBase } from './Input'
+import { Close } from 'components/Icons'
 
 export interface Props extends InputBase {
   type: 'image'
@@ -47,20 +48,25 @@ export const ImageInput: FC<Props> = ({ value, onChange }) => {
   }
 
   return (
-    <Container {...bond} dragging={draggingState.over} over={state.over} hasValue={hasValue}>
-      {uri && (
-        <div className="image">
-          <img src={uri} />
-          <Button onClick={handleClear}>x</Button>
-        </div>
-      )}
-      <TextInput
-        type="text"
-        placeholder="Image url..."
-        onChange={handleInputChange}
-        value={fileName || uri}
-      />
-    </Container>
+    <>
+      <Container {...bond} dragging={draggingState.over} over={state.over} hasValue={hasValue}>
+        {uri && (
+          <div className="image">
+            <img src={uri} />
+            <Button onClick={handleClear}>
+              <Close />
+            </Button>
+          </div>
+        )}
+        <TextInput
+          type="text"
+          placeholder="Image url..."
+          onChange={handleInputChange}
+          value={fileName || uri}
+        />
+      </Container>
+      <pre>{JSON.stringify({ draggingState, state }, null, 2)}</pre>
+    </>
   )
 }
 
@@ -104,18 +110,21 @@ const Container = styled.div<StyleProps>`
     button {
       position: absolute;
       width: 100%;
-      opacity: 0;
       height: 100%;
       border-radius: 0;
-      &:hover {
-        background: rgba(40, 44, 52, 0.5);
-        backdrop-filter: blur(5px);
+      opacity: 0;
+      svg {
+        width: 16px;
+        stroke-width: 2px;
+      }
+      &:hover, &:focus-within {
+        backdrop-filter: blur(4px) brightness(0.7);
+        opacity: 1;
       }
     }
   }
-  &:hover {
-    > .image img,
-    > .image button {
+  &:hover, &:focus-within {
+    > .image img {
       opacity: 1;
     }
     > .image img {
@@ -126,21 +135,24 @@ const Container = styled.div<StyleProps>`
   input {
     text-overflow: ellipsis;
     ${p => p.hasValue && hasValue}
+    ${props => props.dragging && dragging}
+    ${props => props.over && over}
   }
   > *:last-child {
     grid-area: 1 / 1 / 1 / span 2;
   }
-  outline: 4px solid transparent;
-  ${props => props.dragging && dragging}
-  ${props => props.over && over}
+  transition: outline 0.2s ease-in-out;
 `
 
 const hasValue = css`
   padding-left: calc(25% + 12px);
 `
 const dragging = css`
-  outline-color: yellow;
+  outline: 1px solid rgb(var(--highlight));
 `
 const over = css`
-  outline-color: red;
+  background: rgba(var(--highlight), 0.2);
+  .image {
+    pointer-events: none;
+  }
 `
