@@ -136,16 +136,10 @@ const Container = styled.div<StyleProps>`
         width: 16px;
         stroke-width: 2px;
       }
-      &:hover {
-        background: rgba(69, 77, 92, 0.65);
-        backdrop-filter: sepia(1) hue-rotate(180deg) brightness(40%) blur(4px);
+      &:hover,
+      &:focus-within {
+        backdrop-filter: sepia(1) hue-rotate(180deg) saturate(75%) brightness(40%) blur(4px);
         opacity: 1;
-      }
-      &:hover {
-        background: rgba(69, 77, 92, 0.75);
-      }
-      &:active {
-        background: rgba(69, 77, 92, 0.85);
       }
     }
   }
