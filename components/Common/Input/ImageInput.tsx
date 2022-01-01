@@ -13,7 +13,8 @@ export interface Props extends InputBase {
 }
 
 export const ImageInput: FC<Props> = ({ value, onChange }) => {
-  const [uri, setUri] = useState(value || '')
+  const [_value, setValue] = useState(value || '')
+  const [uri, setUri] = useState('')
   const [fileName, setFileName] = useState('')
   const draggingState = useDrop()
   const hasValue = !!uri || !!fileName
@@ -24,49 +25,67 @@ export const ImageInput: FC<Props> = ({ value, onChange }) => {
     setUri(base64)
     onchange && onChange(base64)
     setFileName(file.name)
+    setValue(file.name)
   }
   const [bond, state] = useDropArea({
     onFiles: handleFile,
     onUri: uri => {
       setUri(uri)
+      setValue(uri)
       onchange && onChange(uri)
     },
   })
 
   const handleClear = () => {
+    setValue('')
     setUri('')
     onchange && onChange(undefined)
     setFileName('')
   }
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const preFetchImage = async (value: string): Promise<boolean> => {
+    const image = new Image()
+    image.src = value
+    return await new Promise((resolve, reject) => {
+      image.onload = () => resolve(true)
+      image.onerror = reject
+    })
+  }
+
+  const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
-    if (value.startsWith('http')) {
-      setUri(value)
-      onchange && onChange(value)
-    }
+    if (fileName) setFileName('')
+    setValue(value)
+    onchange && onChange(value)
+    let url = value
+    const isUrl = /^(http(s)?:\/\/)?(www\.)?[a-zA-Z0-9]+\.[a-zA-Z]+(\/\S*)?$/.test(value)
+    if (isUrl)
+      url = value.startsWith('https')
+        ? value.startsWith('http')
+          ? value
+          : `http://${value}`
+        : `https://${value}`
+    const isImage = await preFetchImage(url).catch(_ => setUri(''))
+    if (isImage) setUri(url)
   }
 
   return (
-    <>
-      <Container {...bond} dragging={draggingState.over} over={state.over} hasValue={hasValue}>
-        {uri && (
-          <div className="image">
-            <img src={uri} />
-            <Button onClick={handleClear}>
-              <Close />
-            </Button>
-          </div>
-        )}
-        <TextInput
-          type="text"
-          placeholder="Image url..."
-          onChange={handleInputChange}
-          value={fileName || uri}
-        />
-      </Container>
-      <pre>{JSON.stringify({ draggingState, state }, null, 2)}</pre>
-    </>
+    <Container {...bond} dragging={draggingState.over} over={state.over} hasValue={hasValue}>
+      {uri && (
+        <div className="image">
+          <img src={uri} />
+          <Button onClick={handleClear}>
+            <Close />
+          </Button>
+        </div>
+      )}
+      <TextInput
+        type="text"
+        placeholder="Image url..."
+        onChange={handleInputChange}
+        value={value || _value || fileName || uri}
+      />
+    </Container>
   )
 }
 
@@ -117,13 +136,15 @@ const Container = styled.div<StyleProps>`
         width: 16px;
         stroke-width: 2px;
       }
-      &:hover, &:focus-within {
-        backdrop-filter: blur(4px) brightness(0.7);
+      &:hover,
+      &:focus-within {
+        backdrop-filter: blur(4px) sepia(1) hue-rotate(183deg) saturate(10%) brightness(0.5);
         opacity: 1;
       }
     }
   }
-  &:hover, &:focus-within {
+  &:hover,
+  &:focus-within {
     > .image img {
       opacity: 1;
     }
