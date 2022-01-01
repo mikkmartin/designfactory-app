@@ -123,7 +123,7 @@ const Container = styled.div<StyleProps>`
       height: 100%;
       object-fit: cover;
       opacity: 0.5;
-      filter: grayscale(100%);
+      filter: grayscale(100%) contrast(1.5) brightness(75%);
       mix-blend-mode: screen;
     }
     button {
@@ -138,7 +138,7 @@ const Container = styled.div<StyleProps>`
       }
       &:hover,
       &:focus-within {
-        backdrop-filter: blur(4px) sepia(1) hue-rotate(183deg) saturate(10%) brightness(0.5);
+        backdrop-filter: sepia(1) hue-rotate(180deg) saturate(75%) brightness(40%) blur(4px);
         opacity: 1;
       }
     }
