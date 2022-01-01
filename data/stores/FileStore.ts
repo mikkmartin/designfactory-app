@@ -1,4 +1,5 @@
-import { ISchema, UiSchema } from 'components/Canvas/parseTemplate/getSchemas'
+import { JSONSchema7Object } from 'json-schema'
+import type { UiSchema } from "@rjsf/core";
 import { makeAutoObservable } from 'mobx'
 import { IFile } from 'data/db'
 import { RootStore } from './RootStore'
@@ -21,7 +22,7 @@ export class FileStore implements IFileStore {
   template
 
   rootStore: RootStore
-  schema: ISchema = {}
+  schema: JSONSchema7Object = {}
   uiSchema: UiSchema = {}
   loading = false
 
@@ -33,7 +34,7 @@ export class FileStore implements IFileStore {
   setTemplate = template => {
     this.template = template
   }
-  setSchema = (schema: ISchema) => {
+  setSchema = (schema: JSONSchema7Object) => {
     this.schema = schema
   }
   setUiSchema = (uiSchema: UiSchema) => {

@@ -16,6 +16,7 @@
     "@radix-ui/react-radio-group": "^0.1.3",
     "@radix-ui/react-tabs": "^0.1.3",
     "@react-pdf/renderer": "^2.0.21",
+    "@rjsf/core": "^3.2.1",
     "@sentry/browser": "^6.16.1",
     "@sentry/node": "^6.16.1",
     "@sentry/webpack-plugin": "^1.18.3",

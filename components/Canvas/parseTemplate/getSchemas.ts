@@ -1,19 +1,6 @@
+import type { UiSchema } from "@rjsf/core";
+import { JSONSchema7Object } from 'json-schema'
 import { findNodes, ParsedNode } from './parseTemplate'
-
-export interface ISchema {
-  type?: 'object'
-  properties?: {
-    [key: string]: {
-      type: 'string' | 'number' | 'boolean' | 'object' | 'array'
-      enum?: string[]
-      default?: any
-    }
-  }
-}
-
-export type UiSchema = {
-  'ui:widget'?: string
-}
 
 type ComponentsSets = {
   components: ParsedNode[]
@@ -21,7 +8,7 @@ type ComponentsSets = {
 }
 
 type Schemas = {
-  schema: ISchema
+  schema: JSONSchema7Object
   uiSchema: UiSchema
 }
 

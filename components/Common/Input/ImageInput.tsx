@@ -13,7 +13,7 @@ export interface Props extends InputBase {
 }
 
 export const ImageInput: FC<Props> = ({ value, onValueChange }) => {
-  const [_value, setValue] = useState(value || '')
+  const [_value, setValue] = useState(value)
   const [uri, setUri] = useState('')
   const [fileName, setFileName] = useState('')
   const draggingState = useDrop()

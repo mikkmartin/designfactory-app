@@ -6,74 +6,15 @@ import { observer } from 'mobx-react-lite'
 import { store } from 'data'
 import { toJS } from 'mobx'
 import { Tab, tabContentStyle } from './Tabs'
+import { Form } from 'components/Editor/Form'
 
 export const InputPanel = observer(() => {
-  const properties = store.file.schema.properties
-  const uiSchema = store.file.uiSchema
-  console.log(toJS(uiSchema))
-  const setData = store.editor.setData
-
-  const handleDataChange = (obj: Object) =>
-    Object.entries(obj).forEach(([key, value]) => {
-      if (!Boolean(value)) {
-        const newData = toJS(store.editor.data)
-        delete newData[key]
-        setData(newData)
-      } else {
-        setData(prev => ({ ...prev, ...obj }))
-      }
-    })
-
+  console.log(toJS(store.file.uiSchema))
   return (
     <Container value="inputs">
       <h4>Link image generator</h4>
       <p>Automate link preview images with one line of code.</p>
-      {properties &&
-        Object.entries(properties).map(([key, obj]) => {
-          if (obj.type !== 'string') return null
-          const value = store.editor.data[key]
-          switch (true) {
-            case !!obj.enum:
-              return (
-                <Dropdown
-                  label={key}
-                  options={obj.enum}
-                  onChange={v => handleDataChange({ [key]: v })}
-                  fullWidth>
-                  <DropdownSelector placeholder={obj.default}>{value}</DropdownSelector>
-                </Dropdown>
-              )
-            case obj.default?.length > 20:
-              return (
-                <TextArea
-                  label={key}
-                  value={value}
-                  placeholder={obj.default}
-                  onChange={v => handleDataChange({ [key]: v })}
-                />
-              )
-            case !!obj.default:
-              return (
-                <Input
-                  label={key}
-                  value={value}
-                  autoComplete="off"
-                  placeholder={obj.default}
-                  onChange={ev => handleDataChange({ [key]: ev.target.value })}
-                />
-              )
-            case obj.type === 'string' && !obj.default:
-              return (
-                <Input
-                  label={key}
-                  value={value}
-                  autoComplete="off"
-                  placeholder="Image url..."
-                  onChange={ev => handleDataChange({ [key]: ev.target.value })}
-                />
-              )
-          }
-        })}
+      <Form schema={store.file.schema} onValueChange={store.editor.setData} />
     </Container>
   )
 })
