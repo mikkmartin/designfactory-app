@@ -14,7 +14,7 @@ import { CSSProperties } from 'react'
 import { getLayout } from './getLayout'
 import { getFill } from './getFill'
 import { getColor } from './getColor'
-import { getSchema } from './getSchema'
+import { getSchemas } from './getSchemas'
 import { getFonts } from './getFonts'
 
 export const parseTemplate = (template: FileResponse, options = { filter: (_, i) => i === 0 }) => {
@@ -28,12 +28,14 @@ export const parseTemplate = (template: FileResponse, options = { filter: (_, i)
   const nodes = visibleNodes.map(c => parseNode(c as BoxNode))
   const fonts = getFonts(visibleNodes)
   const componentSets = getComponentsAndSets(canvas.children)
+  const { schema, uiSchema } = getSchemas(visibleNodes, componentSets)
 
   return {
     nodes,
     componentSets,
     fonts,
-    schema: getSchema(visibleNodes, componentSets),
+    schema,
+    uiSchema,
   }
 }
 

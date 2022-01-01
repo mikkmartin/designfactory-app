@@ -1,4 +1,4 @@
-import { ISchema } from 'components/Canvas/parseTemplate/getSchema'
+import { ISchema, UiSchema } from 'components/Canvas/parseTemplate/getSchemas'
 import { makeAutoObservable } from 'mobx'
 import { IFile } from 'data/db'
 import { RootStore } from './RootStore'
@@ -22,6 +22,7 @@ export class FileStore implements IFileStore {
 
   rootStore: RootStore
   schema: ISchema = {}
+  uiSchema: UiSchema = {}
   loading = false
 
   constructor(rootStore: RootStore, file: Partial<IFile>) {
@@ -34,6 +35,9 @@ export class FileStore implements IFileStore {
   }
   setSchema = (schema: ISchema) => {
     this.schema = schema
+  }
+  setUiSchema = (uiSchema: UiSchema) => {
+    this.uiSchema = uiSchema
   }
   setLoading = (state: boolean) => {
     this.loading = state

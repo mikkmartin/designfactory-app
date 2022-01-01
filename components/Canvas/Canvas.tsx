@@ -12,10 +12,13 @@ export const Canvas = observer<{ editable?: boolean }>(({ editable = true }) => 
   const { template: selectedTemplate } = store.file
   const { templates } = store.editor
   const template = templates?.find(t => t.hovered)?.template || selectedTemplate
-  const { nodes, componentSets, fonts, schema } = parseTemplate(template)
+  const { nodes, componentSets, fonts, schema, uiSchema } = parseTemplate(template)
 
   useEffect(() => {
-    if (editable) store.file.setSchema(schema)
+    if (editable) {
+      store.file.setSchema(schema)
+      store.file.setUiSchema(uiSchema)
+    }
   }, [schema])
 
   return (

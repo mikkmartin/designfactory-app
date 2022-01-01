@@ -9,6 +9,8 @@ import { Tab, tabContentStyle } from './Tabs'
 
 export const InputPanel = observer(() => {
   const properties = store.file.schema.properties
+  const uiSchema = store.file.uiSchema
+  console.log(toJS(uiSchema))
   const setData = store.editor.setData
 
   const handleDataChange = (obj: Object) =>

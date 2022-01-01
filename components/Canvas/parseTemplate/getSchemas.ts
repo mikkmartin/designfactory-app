@@ -1,5 +1,4 @@
 import { findNodes, ParsedNode } from './parseTemplate'
-import { toJS } from 'mobx'
 
 export interface ISchema {
   type?: 'object'
@@ -12,13 +11,23 @@ export interface ISchema {
   }
 }
 
+export type UiSchema = {
+  'ui:widget'?: string
+}
+
 type ComponentsSets = {
   components: ParsedNode[]
   sets: string[][]
 }
 
-export const getSchema = (nodes, componentSets: ComponentsSets): ISchema => {
+type Schemas = {
+  schema: ISchema
+  uiSchema: UiSchema
+}
+
+export const getSchemas = (nodes, componentSets: ComponentsSets): Schemas => {
   const getName = c => c.name.split('=')[1]
+  let uiSchema = {}
 
   const textProps = findNodes('TEXT', nodes).reduce((props, { name, characters }) => {
     const val = Boolean(Number(characters)) ? Number(characters) : characters
@@ -31,6 +40,7 @@ export const getSchema = (nodes, componentSets: ComponentsSets): ISchema => {
   const imageProps = findNodes('RECTANGLE', nodes)
     .filter(rect => rect.fills.findIndex(paint => paint.type === 'IMAGE') !== -1)
     .reduce((props, image) => {
+      uiSchema = { ...uiSchema, [image.name]: { 'ui:widget': 'image-picker' } }
       return {
         ...props,
         [image.name]: {
@@ -63,11 +73,14 @@ export const getSchema = (nodes, componentSets: ComponentsSets): ISchema => {
   }, {})
 
   return {
-    type: 'object',
-    properties: {
-      ...textProps,
-      ...instanceProps,
-      ...imageProps,
+    schema: {
+      type: 'object',
+      properties: {
+        ...textProps,
+        ...instanceProps,
+        ...imageProps,
+      },
     },
+    uiSchema,
   }
 }
