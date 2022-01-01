@@ -13,6 +13,7 @@ export const GlobalStyles = createGlobalStyle<{ route: string }>`
     --background: #282C34;
     --error: #fa755a;
     --placeholder: ${placeholderColor};
+    --input-border-radius: 2px;
     font-family: ${fontFamily};
     font-size: 12px;
   }
@@ -20,6 +21,7 @@ export const GlobalStyles = createGlobalStyle<{ route: string }>`
     min-height: 100vh;
     overflow: hidden;
     color: white;
+    background: var(--background);
     ${p => p.route?.includes('/screenshot/') && screenshot}
   }
   a {

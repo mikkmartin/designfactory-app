@@ -1,76 +1,10 @@
 import * as LabelPrimitive from '@radix-ui/react-label'
-import { FC, useEffect, useRef, forwardRef, ChangeEventHandler } from 'react'
+import { forwardRef, ChangeEventHandler } from 'react'
 import styled, { css } from 'styled-components'
-import NumberFormat from 'react-number-format'
-import { Button } from './Button'
-import { Email, Card } from '../Icons'
+import { Email, Card } from '../../Icons'
 import { motion } from 'framer-motion'
 
-type Types = {
-  value: number
-  onChange: (value: number) => void
-}
-
-export const NumberInput: FC<Types> = ({ value, onChange, ...rest }) => {
-  const ref = useRef<HTMLInputElement>(null)
-  const highlight = useRef(true)
-
-  useEffect(() => {
-    if (!ref.current) return
-    setTimeout(() => ref.current.focus(), 100)
-  }, [])
-
-  return (
-    <Container {...rest}>
-      <Button highlight disabled={value <= 1} onClick={() => value > 1 && onChange(value - 1)}>
-        -
-      </Button>
-      <NumberFormat
-        style={{ width: '160px' }}
-        onMouseDown={() =>
-          document.activeElement !== ref.current
-            ? (highlight.current = true)
-            : (highlight.current = false)
-        }
-        onMouseMove={() => highlight.current && (highlight.current = false)}
-        onClick={() => highlight.current && ref.current.select()}
-        value={'' + value}
-        getInputRef={ref}
-        allowEmptyFormatting
-        allowNegative={false}
-        decimalScale={0}
-        thousandSeparator={true}
-        onValueChange={obj => onChange(obj.floatValue)}
-        prefix={'€'}
-      />
-      <Button highlight onClick={() => onChange(value + 1)}>
-        +
-      </Button>
-    </Container>
-  )
-}
-
-const Container = styled(motion.div)`
-  height: 58px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  input {
-    font-size: 48px;
-    font-weight: 200;
-    width: 160px;
-    text-align: center;
-    background: none !important;
-  }
-  button {
-    width: 40px;
-    height: 40px;
-    font-size: 24px;
-    font-weight: 200;
-  }
-`
-
-type Props = {
+export type Props = {
   type?: 'email' | 'card' | 'text'
   value?: string
   disabled?: boolean
@@ -82,7 +16,7 @@ type Props = {
   autoFocus?: boolean
 }
 
-export const Input = forwardRef<HTMLInputElement, Props>(
+export const TextInput = forwardRef<HTMLInputElement, Props>(
   (
     {
       type = 'text',
@@ -99,7 +33,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(
     ref
   ) => {
     return (
-      <StyledInput {...rest} invalid={invalid}>
+      <Container {...rest} invalid={invalid}>
         {label && <LabelPrimitive.Label htmlFor={label}>{label}</LabelPrimitive.Label>}
         <input
           id={label}
@@ -113,7 +47,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(
           onChange={onChange}
         />
         {getIcon(type)}
-      </StyledInput>
+      </Container>
     )
   }
 )
@@ -184,7 +118,8 @@ export const inputStyle = css`
   color: inherit;
   font-family: inherit;
   line-height: 140%;
-  border-radius: 2px;
+  border-radius: var(--input-border-radius);
+  min-height: 40px;
   ::placeholder {
     color: rgba(255, 255, 255, 0.25);
   }
@@ -202,7 +137,7 @@ export const inputStyle = css`
   }
 `
 
-const StyledInput = styled(motion.div)<{ invalid: boolean; type?: Props['type'] }>`
+const Container = styled(motion.div)<{ invalid: boolean; type?: Props['type'] }>`
   ${labelStyle}
   input {
     ${inputStyle}

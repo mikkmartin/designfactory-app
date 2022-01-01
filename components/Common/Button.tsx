@@ -30,7 +30,7 @@ export const buttonStyles = css`
   :focus-visible {
     transition: background-color 0.1s, box-shadow 0.1s;
     outline: none;
-    border-radius: 4px;
+    border-radius: var(--input-border-radius);
     background: rgb(172, 230, 255, 0.1);
     box-shadow: inset 0 0 0 1px rgb(var(--highlight));
   }

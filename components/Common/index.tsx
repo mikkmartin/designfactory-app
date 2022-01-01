@@ -1,4 +1,4 @@
-export { Input, NumberInput } from './Input'
+export { Input } from './Input/index'
 export { ErrorToast } from './ErrorToast'
 export { LoadingBar } from './LoadingBar'
 export { Button } from './Button'
