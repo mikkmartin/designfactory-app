@@ -9,10 +9,10 @@ import { Close } from 'components/Icons'
 export interface Props extends InputBase {
   type: 'image'
   value?: string
-  onChange?: (value: string | undefined) => void
+  onValueChange?: (value: string | undefined) => void
 }
 
-export const ImageInput: FC<Props> = ({ value, onChange }) => {
+export const ImageInput: FC<Props> = ({ value, onValueChange }) => {
   const [_value, setValue] = useState(value || '')
   const [uri, setUri] = useState('')
   const [fileName, setFileName] = useState('')
@@ -23,7 +23,7 @@ export const ImageInput: FC<Props> = ({ value, onChange }) => {
     const file = files[0]
     const base64 = await getBase64(file)
     setUri(base64)
-    onchange && onChange(base64)
+    onValueChange && onValueChange(base64)
     setFileName(file.name)
     setValue(file.name)
   }
@@ -32,14 +32,14 @@ export const ImageInput: FC<Props> = ({ value, onChange }) => {
     onUri: uri => {
       setUri(uri)
       setValue(uri)
-      onchange && onChange(uri)
+      onValueChange && onValueChange(uri)
     },
   })
 
   const handleClear = () => {
     setValue('')
     setUri('')
-    onchange && onChange(undefined)
+    onValueChange && onValueChange(undefined)
     setFileName('')
   }
 
@@ -56,7 +56,6 @@ export const ImageInput: FC<Props> = ({ value, onChange }) => {
     const { value } = e.target
     if (fileName) setFileName('')
     setValue(value)
-    onchange && onChange(value)
     let url = value
     const isUrl = /^(http(s)?:\/\/)?(www\.)?[a-zA-Z0-9]+\.[a-zA-Z]+(\/\S*)?$/.test(value)
     if (isUrl)
@@ -65,6 +64,7 @@ export const ImageInput: FC<Props> = ({ value, onChange }) => {
           ? value
           : `http://${value}`
         : `https://${value}`
+    onValueChange && isUrl ? onValueChange(url) : onValueChange(value)
     const isImage = await preFetchImage(url).catch(_ => setUri(''))
     if (isImage) setUri(url)
   }

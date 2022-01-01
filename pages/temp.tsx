@@ -5,14 +5,14 @@ import { Input } from 'components/Common'
 import { motion } from 'framer-motion'
 
 const Test: NextPage = () => {
-  const [open, setOpen] = useState(false)
+  const [state, setState] = useState('')
   return (
     <>
-      <button onClick={() => setOpen(!open)}>Toggle</button>
+      <pre>{JSON.stringify(state, null, 2)}</pre>
       <Container>
         <h1>Input test</h1>
         <Input type="text" />
-        <Input type="image" />
+        <Input type="image" onValueChange={setState} />
         <Input type="text" />
       </Container>
     </>
