@@ -163,6 +163,7 @@ const DropdownSelectorContainer = styled.button<any>`
     color: white;
     width: 16px;
   }
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
