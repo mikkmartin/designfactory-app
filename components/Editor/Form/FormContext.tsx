@@ -10,17 +10,15 @@ interface Context extends Props {
 
 const FormContext = createContext<Context | null>(null)
 
-export const FormProvider: FC<Props> = ({ schema, onValueChange, children }) => {
-  const [value, setValue] = useState({})
+export const FormProvider: FC<Props> = ({ children, ...rest }) => {
   const [editing, setEditing] = useState(false)
 
   const handleChange = (value: Object) => {
-    setValue(value)
-    onValueChange && onValueChange(value)
+    rest.onValueChange && rest.onValueChange(value)
   }
 
   return (
-    <FormContext.Provider value={{ editing, setEditing, schema, value, handleChange }}>
+    <FormContext.Provider value={{ ...rest, handleChange, editing, setEditing }}>
       {children}
     </FormContext.Provider>
   )

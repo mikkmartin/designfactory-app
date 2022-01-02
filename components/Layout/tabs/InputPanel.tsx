@@ -1,20 +1,17 @@
 import styled from 'styled-components'
-import { Input } from 'components/Common'
-import { TextArea } from 'components/Common/TextArea'
-import { Dropdown, DropdownSelector } from 'components/Common'
 import { observer } from 'mobx-react-lite'
 import { store } from 'data'
-import { toJS } from 'mobx'
 import { Tab, tabContentStyle } from './Tabs'
 import { Form } from 'components/Editor/Form'
 
 export const InputPanel = observer(() => {
-  console.log(toJS(store.file.uiSchema))
+  const { schema, uiSchema } = store.file
+  const { data, setData } = store.editor
   return (
     <Container value="inputs">
       <h4>Link image generator</h4>
       <p>Automate link preview images with one line of code.</p>
-      <Form schema={store.file.schema} onValueChange={store.editor.setData} />
+      <Form schema={schema} uiSchema={uiSchema} value={data} onValueChange={setData} />
     </Container>
   )
 })

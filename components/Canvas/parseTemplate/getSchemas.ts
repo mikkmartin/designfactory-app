@@ -1,4 +1,4 @@
-import type { UiSchema } from "@rjsf/core";
+import type { UiSchema } from '@rjsf/core'
 import { JSONSchema7Object } from 'json-schema'
 import { findNodes, ParsedNode } from './parseTemplate'
 
@@ -18,16 +18,23 @@ export const getSchemas = (nodes, componentSets: ComponentsSets): Schemas => {
 
   const textProps = findNodes('TEXT', nodes).reduce((props, { name, characters }) => {
     const val = Boolean(Number(characters)) ? Number(characters) : characters
+    uiSchema = {
+      ...uiSchema,
+      [name]: { 'ui:placeholder': val },
+    }
     return {
       ...props,
-      [name]: { type: typeof val === 'number' ? ['number', 'string'] : 'string', default: val },
+      [name]: { type: typeof val, default: val },
     }
   }, {})
 
   const imageProps = findNodes('RECTANGLE', nodes)
     .filter(rect => rect.fills.findIndex(paint => paint.type === 'IMAGE') !== -1)
     .reduce((props, image) => {
-      uiSchema = { ...uiSchema, [image.name]: { 'ui:widget': 'image-picker' } }
+      uiSchema = {
+        ...uiSchema,
+        [image.name]: { 'ui:widget': 'image-picker' },
+      }
       return {
         ...props,
         [image.name]: {
