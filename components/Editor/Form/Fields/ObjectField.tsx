@@ -1,7 +1,5 @@
 import { ObjectFieldTemplateProps } from '@rjsf/core'
-import { Reorder } from 'framer-motion'
 import styled from 'styled-components'
-import { useForm } from '../FormContext'
 
 export const ObjectField = (props: ObjectFieldTemplateProps) => {
   //const {} = useForm()
@@ -13,7 +11,7 @@ const Container = styled.div`
   gap: 4px;
   > .form-group:not(.field-array) {
     display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 2fr 4fr;
     > *:last-child {
       grid-column: 2;
     }

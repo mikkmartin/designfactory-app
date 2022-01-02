@@ -1,18 +1,16 @@
-import * as LabelPrimitive from '@radix-ui/react-label'
 import { forwardRef, ChangeEventHandler } from 'react'
 import styled, { css } from 'styled-components'
 import { Email, Card } from '../../Icons'
 import { motion } from 'framer-motion'
-import { inputStyle, labelStyle } from './inputStyles'
+import { inputStyle } from './inputStyles'
+import { InputBase } from './Input'
 
-export type Props = {
+export interface Props extends InputBase {
   type?: 'email' | 'card' | 'text'
   value?: string
-  disabled?: boolean
   placeholder?: string
   autoComplete?: string
   onChange?: ChangeEventHandler<HTMLInputElement>
-  label?: string
   invalid?: boolean
   autoFocus?: boolean
 }
@@ -22,8 +20,8 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(
     {
       type = 'text',
       disabled = false,
+      id,
       value,
-      label,
       autoComplete,
       placeholder,
       onChange = () => {},
@@ -35,9 +33,8 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(
   ) => {
     return (
       <Container {...rest} invalid={invalid}>
-        {label && <LabelPrimitive.Label htmlFor={label}>{label}</LabelPrimitive.Label>}
         <input
-          id={label}
+          id={id}
           ref={ref}
           disabled={disabled}
           {...getType(type)}
@@ -94,9 +91,9 @@ const getIcon = icon => {
 }
 
 const Container = styled(motion.div)<{ invalid: boolean; type?: Props['type'] }>`
-  ${labelStyle}
   input {
     ${inputStyle}
+    width: 100%;
     ${p =>
       p.type === 'text'
         ? css`

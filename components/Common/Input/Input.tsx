@@ -18,4 +18,5 @@ export const Input: FC<Props> = props => {
 
 export interface InputBase {
   disabled?: boolean
+  id?: string
 }

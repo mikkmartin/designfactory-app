@@ -26,21 +26,3 @@ export const inputStyle = css`
     box-shadow: 0 0 0 1px rgb(var(--highlight));
   }
 `
-
-export const labelStyle = css`
-  display: grid;
-  grid-template-columns: 2fr 4fr;
-  span {
-    text-transform: capitalize;
-    min-height: 40px;
-    padding-top: 15px;
-    opacity: 0.5;
-    padding-right: 16px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  > *:nth-child(1):not(span) {
-    grid-column: 1 / span 2;
-  }
-`

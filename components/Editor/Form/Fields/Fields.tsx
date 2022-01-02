@@ -6,11 +6,12 @@ import { ArrayField } from './ArrayField'
 import { store } from 'data'
 import { Input, Dropdown, DropdownSelector } from 'components/Common'
 import { observer } from 'mobx-react-lite'
+import { FieldContainer } from './FieldContainer'
 
 const Form = withTheme({
   widgets: {
-    TextWidget: ({ onChange, value }) => (
-      <Input type="text" onChange={ev => onChange(ev.target.value)} value={value} />
+    TextWidget: ({ onChange, value, label }) => (
+      <Input type="text" id={label} onChange={ev => onChange(ev.target.value)} value={value} />
     ),
     SelectWidget: ({ value, onChange, options }) => {
       return (
@@ -19,7 +20,9 @@ const Form = withTheme({
         </Dropdown>
       )
     },
-    'image-picker': props => <Input type="image" value={props.value} onValueChange={props.onChange} {...props} />,
+    'image-picker': props => (
+      <Input type="image" value={props.value} onValueChange={props.onChange} {...props} />
+    ),
   },
 })
 
@@ -30,6 +33,7 @@ export const Fields = observer(() => {
       formData={value}
       ObjectFieldTemplate={ObjectField}
       ArrayFieldTemplate={ArrayField}
+      FieldTemplate={FieldContainer}
       onChange={({ formData }) => handleChange(formData)}
       uiSchema={store.file.uiSchema}
       schema={schema}

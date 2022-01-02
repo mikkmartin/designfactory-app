@@ -26,7 +26,7 @@ const Container = styled.div`
   display: grid;
   grid-row-gap: 4px;
   display: grid;
-  grid-template-columns: 1fr 3fr;
+  grid-template-columns: 2fr 4fr;
   > button {
     grid-column: 2;
   }

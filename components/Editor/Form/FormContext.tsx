@@ -1,6 +1,6 @@
 import { JSONSchema7Object } from 'json-schema'
 import { createContext, useContext, useState, FC } from 'react'
-import { Inputs } from './Inputs'
+import { Fields } from './Fields'
 
 interface Props {
   schema: JSONSchema7Object
@@ -27,7 +27,7 @@ export const FormProvider: FC<Props> = ({ schema, onValueChange }) => {
 
   return (
     <FormContext.Provider value={{ editing, setEditing, schema, value, handleChange }}>
-      <Inputs />
+      <Fields />
     </FormContext.Provider>
   )
 }
