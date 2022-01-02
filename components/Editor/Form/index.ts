@@ -1,1 +1,1 @@
-export { FormProvider as Form } from './FormContext'
+export { Form } from './Form'

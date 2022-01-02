@@ -1,11 +1,5 @@
-import { JSONSchema7Object } from 'json-schema'
 import { createContext, useContext, useState, FC } from 'react'
-import { Fields } from './Fields'
-
-interface Props {
-  schema: JSONSchema7Object
-  onValueChange?: (value: any) => void
-}
+import { Props } from './Form'
 
 interface Context extends Props {
   editing: boolean
@@ -16,7 +10,7 @@ interface Context extends Props {
 
 const FormContext = createContext<Context | null>(null)
 
-export const FormProvider: FC<Props> = ({ schema, onValueChange }) => {
+export const FormProvider: FC<Props> = ({ schema, onValueChange, children }) => {
   const [value, setValue] = useState({})
   const [editing, setEditing] = useState(false)
 
@@ -27,7 +21,7 @@ export const FormProvider: FC<Props> = ({ schema, onValueChange }) => {
 
   return (
     <FormContext.Provider value={{ editing, setEditing, schema, value, handleChange }}>
-      <Fields />
+      {children}
     </FormContext.Provider>
   )
 }
