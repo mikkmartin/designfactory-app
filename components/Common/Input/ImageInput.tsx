@@ -12,7 +12,7 @@ export interface Props extends InputBase {
   onValueChange?: (value: string | undefined) => void
 }
 
-export const ImageInput: FC<Props> = ({ value, placeholder, onValueChange }) => {
+export const ImageInput: FC<Props> = ({ value, placeholder, onValueChange, id }) => {
   const [_value, setValue] = useState(value)
   const [uri, setUri] = useState('')
   const [fileName, setFileName] = useState('')
@@ -81,6 +81,7 @@ export const ImageInput: FC<Props> = ({ value, placeholder, onValueChange }) => 
       )}
       <TextInput
         type="text"
+        id={id}
         placeholder={placeholder ? placeholder : 'Image'}
         onChange={handleInputChange}
         value={value || _value || fileName || uri}

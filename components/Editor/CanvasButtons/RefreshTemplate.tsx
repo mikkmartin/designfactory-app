@@ -34,6 +34,7 @@ const Toggle = styled(RadioGroup)`
   height: 48px;
   background: #282c34f0;
   backdrop-filter: blur(20px);
+  border-radius: 6px;
   svg {
     stroke-width: 1.5px;
   }
