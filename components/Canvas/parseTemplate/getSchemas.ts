@@ -33,7 +33,10 @@ export const getSchemas = (nodes, componentSets: ComponentsSets): Schemas => {
     .reduce((props, image) => {
       uiSchema = {
         ...uiSchema,
-        [image.name]: { 'ui:widget': 'image-picker' },
+        [image.name]: {
+          'ui:widget': 'image-picker',
+          'ui:placeholder': image.name,
+        },
       }
       return {
         ...props,

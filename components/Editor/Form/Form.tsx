@@ -21,9 +21,9 @@ const FormBase = withTheme({
         <Input
           type="text"
           id={label}
+          value={value}
           placeholder={placeholder}
           onChange={ev => onChange(ev.target.value)}
-          value={value}
         />
       )
     },
@@ -34,8 +34,14 @@ const FormBase = withTheme({
         </Dropdown>
       )
     },
-    'image-picker': props => (
-      <Input type="image" value={props.value} onValueChange={props.onChange} {...props} />
+    'image-picker': ({ label, value, placeholder, onChange }) => (
+      <Input
+        type="image"
+        id={label}
+        value={value}
+        placeholder={placeholder}
+        onValueChange={onChange}
+      />
     ),
   },
 })
