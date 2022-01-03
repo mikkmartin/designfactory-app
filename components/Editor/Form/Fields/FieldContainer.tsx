@@ -3,7 +3,13 @@ import { Root } from '@radix-ui/react-label'
 import { FC } from 'react'
 import styled from 'styled-components'
 
-export const FieldContainer: FC<FieldTemplateProps> = ({ children, label, displayLabel }) => {
+export const FieldContainer: FC<FieldTemplateProps> = ({
+  children,
+  label,
+  displayLabel,
+  hidden,
+}) => {
+  if (hidden) return null
   return displayLabel ? (
     <Container>
       {label && <Label htmlFor={label}>{label}</Label>}
