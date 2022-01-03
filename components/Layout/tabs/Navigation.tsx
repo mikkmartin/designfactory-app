@@ -1,7 +1,7 @@
 import { List, Trigger } from '@radix-ui/react-tabs'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
-import { Edit, Code, Layer } from 'components/Icons'
+import { Edit, Code, Droplet } from 'components/Icons'
 import { store } from 'data'
 import { buttonHighlight } from 'components/ui/RadioGroup'
 import { fast } from 'lib/static/transitions'
@@ -15,8 +15,8 @@ export const Navigation = observer(() => {
         return Edit
       case 'code':
         return Code
-      case 'bulk':
-        return Layer
+      case 'designs':
+        return Droplet
     }
   }
   const tabs = [...store.editor.tabs].map(tab => ({

@@ -4,7 +4,7 @@ import { Tab, tabContentStyle } from './Tabs'
 
 export const BulkEditor = observer(() => {
   return (
-    <Container value="bulk">
+    <Container value="designs">
       <h4>Link image generator</h4>
     </Container>
   )

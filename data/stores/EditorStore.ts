@@ -14,7 +14,7 @@ export class EditorStore {
   rootStore: RootStore
   data = {}
   jsonErrors: string[] = []
-  tabs = ['inputs', 'code', 'bulk'] as const
+  tabs = ['inputs', 'code', 'designs'] as const
   currentTab: typeof this.tabs[number] = this.tabs[0]
   templates: TemplateGroup = []
   templatePanelIsOpen = true
