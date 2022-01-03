@@ -4,7 +4,7 @@ import { PayPal as PayPalIcon, CardTypes } from 'components/Icons/PaymentTypes'
 import { Stripe } from './Stripe'
 import { PayPal } from './PayPal'
 import { useDonation } from './DonationContext'
-import { LoadingBar, ErrorToast, RadioButtonGroup, RadioButton, Button } from 'components/Common'
+import { LoadingBar, ErrorToast, RadioButtonGroup, RadioButton, Button } from 'components/ui'
 import styled from 'styled-components'
 
 export const Payment = ({ onBack, onDonationComplete }) => {

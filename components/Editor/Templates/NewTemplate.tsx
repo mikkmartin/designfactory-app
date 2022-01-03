@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { Button, Input as InputBase, Loader } from 'components/Common'
-import { Trigger, Content, Popover } from 'components/Common/Popover'
+import { Button, Input as InputBase, Loader } from 'components/ui'
+import { Trigger, Content, Popover } from 'components/ui/Popover'
 import { Plus, Close, FigmaLogo } from 'components/Icons'
 import { useState, useRef } from 'react'
 import { store } from 'data'

@@ -1,11 +1,11 @@
-import { Dropdown } from 'components/Common/Dropdown'
+import { Dropdown } from 'components/ui/Dropdown'
 import { FigmaLogo, More } from 'components/Icons'
 import { store } from 'data'
 import { observer } from 'mobx-react-lite'
 import { FC, useState } from 'react'
 import styled, { css } from 'styled-components'
 import Link from 'next/link'
-import { Button, buttonStyles } from 'components/Common/Button'
+import { Button, buttonStyles } from 'components/ui/Button'
 import { toJS } from 'mobx'
 
 type Props = {

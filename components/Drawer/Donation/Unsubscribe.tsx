@@ -12,7 +12,7 @@ import {
   RadioButtonGroup,
   RadioButton,
   Button,
-} from 'components/Common'
+} from 'components/ui'
 import { unsubscribe } from 'data/unsubscribe'
 
 export const Unsubscribe = ({ onCancel, onConfirmed }) => {

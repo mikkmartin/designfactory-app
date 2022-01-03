@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Button } from '../Common/Button'
+import { Button } from '../ui/Button'
 import { Copy } from '../Icons'
 import { snappy } from 'lib/static/transitions'
 import { motion, AnimatePresence } from 'framer-motion'

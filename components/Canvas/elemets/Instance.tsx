@@ -7,7 +7,7 @@ import { useCanvas } from '../store/CanvasProvider'
 import { store } from 'data'
 import { observer } from 'mobx-react-lite'
 import { Component, Chevron } from 'components/Icons'
-import { Dropdown } from 'components/Common/Dropdown'
+import { Dropdown } from 'components/ui/Dropdown'
 
 export const Instance: FC<InstanceNode & { listParent?: null | string; nthChild: number }> =
   observer(({ style, name, componentId, children, listParent, nthChild }) => {

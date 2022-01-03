@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { Close } from 'components/Icons'
-import { Button } from 'components/Common'
+import { Button } from 'components/ui'
 import { observer } from 'mobx-react-lite'
 import { store } from 'data'
 import Link from 'next/link'

@@ -1,7 +1,7 @@
 import useSWR from 'swr'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
-import { RadioGroup, Button } from 'components/Common/RadioGroup'
+import { RadioGroup, Button } from 'components/ui/RadioGroup'
 import { Lock, Refresh as RefreshIcon } from 'components/Icons'
 import { useEffect, useState } from 'react'
 import { store } from 'data'

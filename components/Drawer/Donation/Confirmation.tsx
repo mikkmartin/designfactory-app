@@ -1,5 +1,5 @@
 import { childAnimations } from '../Tab'
-import { Button } from 'components/Common/Button'
+import { Button } from 'components/ui/Button'
 import { LogoAnimation } from './LogoAnimation'
 import { useDonation } from './DonationContext'
 import { motion } from 'framer-motion'

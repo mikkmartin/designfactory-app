@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Button } from 'components/Common'
+import { Button } from 'components/ui'
 import { Droplet } from 'components/Icons'
 import { observer } from 'mobx-react-lite'
 import { store } from 'data'

@@ -3,7 +3,7 @@ import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { validateEmail, animations, stripeInputStyle, stripeTokenHandler } from './utils'
 import styled from 'styled-components'
 import { Card } from 'components/Icons'
-import { Input } from 'components/Common/Input'
+import { Input } from 'components/ui/Input'
 import { motion } from 'framer-motion'
 import { useDonation } from './DonationContext'
 

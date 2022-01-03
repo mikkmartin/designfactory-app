@@ -1,12 +1,12 @@
 import { motion, AnimateSharedLayout } from 'framer-motion'
-import { Button } from '../../Common/Button'
+import { Button } from '../../ui/Button'
 import styled from 'styled-components'
 import { More } from '../../Icons'
 import { ButtonStack, childAnimations } from '../Tab'
 import { store } from 'data'
 import { snappy } from 'lib/static/transitions'
-import { Check } from '../../Common/Check'
-import { Dropdown } from '../../Common/Dropdown_old'
+import { Check } from '../../ui/Check'
+import { Dropdown } from '../../ui/Dropdown_old'
 import { useRouter } from 'next/dist/client/router'
 
 export const TemplatePanel = ({ close, onModify }) => {

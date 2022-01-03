@@ -1,5 +1,5 @@
 import { Info, Chevron, Thanks } from '../Icons'
-import { Button } from '../Common/Button'
+import { Button } from '../ui/Button'
 import { useDrawer } from './DrawerContext'
 
 export const TabButton = ({ name }) => {

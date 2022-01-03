@@ -1,4 +1,4 @@
-import { Button } from '../../Common/Button'
+import { Button } from '../../ui/Button'
 import { ButtonStack, Content } from '../Tab'
 import styled from 'styled-components'
 import { useRef, useState } from 'react'

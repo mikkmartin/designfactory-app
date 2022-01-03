@@ -1,7 +1,7 @@
 import { NextPage } from 'next'
 import { useState } from 'react'
 import styled from 'styled-components'
-import { Input } from 'components/Common'
+import { Input } from 'components/ui'
 import { motion } from 'framer-motion'
 
 const Test: NextPage = () => {

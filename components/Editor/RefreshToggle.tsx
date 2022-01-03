@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import styled from 'styled-components'
 import { store } from 'data'
 import { observer } from 'mobx-react-lite'
-import { RadioButtonGroup, RadioButton } from 'components/Common'
+import { RadioButtonGroup, RadioButton } from 'components/ui'
 import { Refresh, Lock } from 'components/Icons'
 import { useState } from 'react'
 
