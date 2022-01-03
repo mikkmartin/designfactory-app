@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Button } from '../ui/Button'
 import { Copy } from '../Icons'
-import { snappy } from 'lib/static/transitions'
+import { snappy, fast } from 'lib/static/transitions'
 import { motion, AnimatePresence } from 'framer-motion'
 import { observer } from 'mobx-react-lite'
 import { store } from 'data'
@@ -13,7 +13,7 @@ export const ApiLink = observer(() => {
   const [copied, setCopied] = useState(false)
   const [toastShown, setToastShown] = useState(false)
 
-  const handleIconClick = (ev) => {
+  const handleIconClick = ev => {
     if (ev.metaKey) {
       setTimeout(() => window.open(downloadUrl, '_blank'))
       return
@@ -74,11 +74,11 @@ export const ApiLink = observer(() => {
         value={downloadUrl}
       />
       <Button className="clipboard" onTap={handleIconClick} animate="initial" whileHover="hover">
-        <motion.div variants={{ hover: { scale: 0.85, originY: -1 } }}>
+        <motion.div transition={fast} variants={{ hover: { scale: 0.85, originY: -1.35 } }}>
           <Copy />
         </motion.div>
         <motion.small
-          transition={{ duration: 0.15, opacity: { duration: 0.1 } }}
+          transition={fast}
           style={{ originY: 1.2 }}
           variants={{
             initial: { opacity: 0, scale: 0 },
@@ -109,15 +109,7 @@ const Container = styled.div`
   height: 54px;
   position: relative;
   display: flex;
-  background: rgba(255, 255, 255, 0.05);
-  button {
-    :hover {
-      background: rgba(255, 255, 255, 0.05);
-    }
-    :not(:hover) {
-      background: transparent;
-    }
-  }
+  box-shadow: 0 -0.5px 0 0 rgba(255, 255, 255, 0.1);
   button.method {
     width: 80px;
     height: 100%;
@@ -133,18 +125,33 @@ const Container = styled.div`
     }
   }
   button.clipboard {
-    font-family: inherit;
     position: absolute;
-    right: 0;
+    top: 5px;
+    right: 4px;
+    width: 44px;
+    height: 44px;
     z-index: 2;
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(20px);
     overflow: hidden;
+    background: rgba(255,255,255,0.05);
+    border-radius: 4px;
+    svg {
+      width: 18px;
+
+    }
+    :hover {
+      background: rgba(255, 255, 255, 0.1);
+      svg {
+        opacity: 1;
+      }
+    }
     small {
       position: absolute;
       width: 100%;
-      bottom: 11px;
+      bottom: 7px;
       text-align: center;
       left: 0;
+      font-size: 10px;
     }
   }
 `
@@ -153,7 +160,7 @@ const Input = styled.input`
   width: 100%;
   height: 100%;
   font-family: inherit;
-  padding: 16px 0 16px 8px;
+  padding: 16px 4px 16px 8px;
   background: transparent;
   border: 0;
   color: white;

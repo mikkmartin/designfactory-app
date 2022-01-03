@@ -1,5 +1,5 @@
 export { Tabs } from './Tabs'
 export { Navigation } from './Navigation'
 export { InputPanel } from './InputPanel'
-export { BulkEditor } from './BulkEditor'
+export { BulkEditor } from './DesignsPanel'
 export { JsonEditor } from './JsonEditor'

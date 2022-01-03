@@ -42,8 +42,6 @@ export const buttonStyles = css`
 export const Button = styled(motion.button)<Props>`
   ${buttonStyles}
   width: ${props => props.width && props.width};
-  height: 56px;
-  min-width: 56px;
   background: ${props =>
     props.primary
       ? 'rgb(var(--highlight))'

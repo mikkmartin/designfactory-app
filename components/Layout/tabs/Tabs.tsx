@@ -24,7 +24,7 @@ const Container = styled(Root)`
   position: relative;
   background: #282c34;
   flex-direction: column;
-  width: 420px;
+  width: 380px;
   height: 100%;
   > [data-state='inactive'] {
     display: none;
