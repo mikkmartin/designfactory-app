@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite'
 import { store } from 'data'
 import Link from 'next/link'
 import { TemplateItem } from './TemplateItem'
-import { NewTemplate } from './NewTemplate'
+import { NewTemplateItem } from './NewTemplateItem'
 
 type SortProp = { slug: string }
 const alphabetically = (a: SortProp, b: SortProp) => {
@@ -27,7 +27,7 @@ export const TemplatePanel = observer(() => {
           <Close />
         </Button>
       </div>
-      <NewTemplate />
+      <NewTemplateItem />
       {[...templates].sort(alphabetically).map(({ slug, title, thumbnail_url, loading }) => (
         <Link key={slug} href={slug}>
           <TemplateItem

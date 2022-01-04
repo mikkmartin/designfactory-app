@@ -2,11 +2,13 @@ import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 import { store } from 'data'
 import { Button } from 'components/ui'
-import { Close, Plus } from 'components/Icons'
+import { Close } from 'components/Icons'
 import { motion, usePresence } from 'framer-motion'
+import { NewTemplateItem, TemplateItem } from './designs'
+import Link from 'next/link'
 
 export const DesignsPreview = observer(() => {
-  const { toggleTemplatePanel } = store.editor
+  const { toggleTemplatePanel, templates } = store.editor
   const [isPresent, unmount] = usePresence()
 
   const itemVariants = i => ({
@@ -42,38 +44,48 @@ export const DesignsPreview = observer(() => {
           initial: { opacity: 1 },
           exit: { opacity: 0 },
         }}>
-        <h4>Design templates</h4>
-        <Button onClick={toggleTemplatePanel}>
-          <Close />
-        </Button>
-      </motion.div>
-      <motion.div className="items">
+        <p>Design templates</p>
         <Button
-          className="item new"
+          small
+          onClick={toggleTemplatePanel}
           transition={{ duration: 0.1 }}
           variants={{
             initial: { opacity: 1 },
             exit: { opacity: 0 },
           }}>
-          <Plus />
+          <Close />
         </Button>
-        {[...Array(4)].map((_, i) => (
-          <motion.img
-            key={i}
-            layout="position"
-            src={
-              !(i % 2)
-                ? 'https://sdqycteblanimltlbiss.supabase.in/storage/v1/object/public/template-thumbnails/notion-blog-og.png'
-                : 'https://sdqycteblanimltlbiss.supabase.in/storage/v1/object/public/template-thumbnails/link-image.png'
-            }
-            transition={{ delay: 1 * 0.05 - i * 0.05 }}
-            style={
-              isPresent ? { position: 'relative' } : { position: 'absolute', top: 16, right: 16 }
-            }
-            variants={itemVariants(i)}
-            onAnimationComplete={unmount}
-            className="item"
-          />
+      </motion.div>
+      <motion.div className="grid">
+        <NewTemplateItem
+          highlight
+          transition={{ duration: 0.1 }}
+          variants={{
+            initial: { opacity: 1 },
+            exit: { opacity: 0 },
+          }}
+        />
+        {templates.map(({ slug, title, thumbnail_url, loading }, i) => (
+          <Link key={slug} href={slug} passHref>
+            <motion.a
+              key={i}
+              layout="position"
+              transition={{ delay: 1 * 0.05 - i * 0.05 }}
+              style={
+                isPresent ? { position: 'relative' } : { position: 'absolute', top: 16, right: 16 }
+              }
+              variants={itemVariants(i)}
+              onAnimationComplete={unmount}
+              className="item">
+              <TemplateItem
+                selected={false}
+                slug={slug}
+                title={title}
+                thumbnail={thumbnail_url}
+                loading={loading}
+              />
+            </motion.a>
+          </Link>
         ))}
       </motion.div>
     </Container>
@@ -92,7 +104,7 @@ const Container = styled(motion.div)`
     padding: 8px 8px 0 16px;
     width: 100%;
   }
-  .items {
+  .grid {
     display: grid;
     grid-auto-flow: column;
     grid-template-rows: 100px;
@@ -101,23 +113,16 @@ const Container = styled(motion.div)`
     overflow: auto;
     gap: 6px;
     padding: 8px 8px 16px 16px;
-    .item {
+    > a {
+      display: block;
       transform-origin: 81% 35% !important;
-      //aspect-ratio: 16 / 9;
+      aspect-ratio: 16 / 9;
       height: 100px;
       width: auto;
       background: rgba(255, 255, 255, 0.5);
       border-radius: 4px;
       display: grid;
       place-items: center;
-      &.new {
-        background: rgba(255, 255, 255, 0.1);
-        aspect-ratio: unset;
-        min-width: 50px;
-        svg {
-          width: 20px;
-        }
-      }
     }
   }
 `

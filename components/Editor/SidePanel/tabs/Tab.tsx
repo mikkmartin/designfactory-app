@@ -9,7 +9,7 @@ export const Tab = styled(Content)<{ value: Tab }>`
 `
 
 export const tabContentStyle = css`
-  padding: 32px 16px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 4px;

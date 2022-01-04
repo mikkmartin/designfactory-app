@@ -33,7 +33,11 @@ export class EditorStore {
     this.currentTab = tab
   }
   setTemplates = (templates: TemplateGroup) => {
-    this.templates = templates
+    this.templates = templates.sort((a, b) => {
+      if (a.slug < b.slug) return -1
+      if (a.slug > b.slug) return 1
+      return 0
+    })
   }
   setData = (data: Object | ((prev: Object) => void)) => {
     if (typeof data === 'function') this.data = data(this.data)

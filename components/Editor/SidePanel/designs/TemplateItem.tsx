@@ -25,9 +25,11 @@ const getSize = (template): { width: number; height: number } => {
 }
 */
 
+const getSize = (_): { width: number; height: number } => ({ width: 16, height: 9 })
+
 export const TemplateItem: FC<Props> = observer(({ slug, title, selected, loading, thumbnail }) => {
   const { templateHovered, templateBlurred } = store.editor
-  //const { width, height } = getSize(store.file.template)
+  const { width, height } = getSize(store.file.template)
   const [isFocused, setIsFocused] = useState(false)
   const disabled = true
   const options = [
@@ -43,11 +45,13 @@ export const TemplateItem: FC<Props> = observer(({ slug, title, selected, loadin
 
   return (
     <Container
-      //style={{ aspectRatio: `${width} / ${height}` }}
+      style={{ aspectRatio: `${width} / ${height}` }}
       selected={selected}
       focused={isFocused}
       className={isFocused && 'focused'}>
-      {thumbnail && <img src={thumbnail} alt={title} />}
+      {thumbnail && (
+        <img style={{ aspectRatio: `${width} / ${height}` }} src={thumbnail} alt={title} />
+      )}
 
       <Link href={slug}>
         <Button onMouseEnter={() => templateHovered(slug)} onMouseLeave={templateBlurred}></Button>
@@ -71,18 +75,16 @@ export const TemplateItem: FC<Props> = observer(({ slug, title, selected, loadin
 
 const Container = styled.div<{ selected: boolean; focused: boolean }>`
   display: grid;
-  width: 100%;
   position: relative;
   border-radius: 6px;
-  min-height: 115px;
   > * {
     grid-area: 1 / 1;
   }
   img {
     display: block;
+    border-radius: 6px;
     width: 100%;
     height: auto;
-    border-radius: 6px;
     opacity: 0.5;
     ${p =>
       p.selected &&

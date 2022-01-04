@@ -5,7 +5,7 @@ import { Plus, Close, FigmaLogo } from 'components/Icons'
 import { useState, useRef } from 'react'
 import { store } from 'data'
 
-export const NewTemplate = () => {
+export const NewTemplateItem = props => {
   const ref = useRef<HTMLInputElement>(null)
   const [isOpen, setIsOpen] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -43,7 +43,7 @@ export const NewTemplate = () => {
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <Trigger>
-        <ButtonNew>
+        <ButtonNew small {...props}>
           <Plus />
         </ButtonNew>
       </Trigger>
@@ -66,14 +66,6 @@ export const NewTemplate = () => {
                 type="text"
                 placeholder="https://www.figma.com/file/QFHu9..."
               />
-              {/*
-                  <Dropdown fullWidth options={pages}>
-                    <DropdownSelector>{page}</DropdownSelector>
-                  </Dropdown>
-                  <Dropdown fullWidth options={frames}>
-                    <DropdownSelector>{frame}</DropdownSelector>
-                  </Dropdown>
-              */}
             </div>
             <Button primary disabled={!hasInput || loading} onClick={handleImport}>
               Import
@@ -145,14 +137,10 @@ const Container = styled.div`
 `
 
 const ButtonNew = styled(Button)`
-  width: 100%;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 6px;
-  :focus-visible {
-    border-radius: 6px;
-  }
+  height: 100%;
+  border-radius: 4px;
+  min-width: 48px;
   svg {
-    width: 18px;
     opacity: 0.5;
   }
   &:hover svg {

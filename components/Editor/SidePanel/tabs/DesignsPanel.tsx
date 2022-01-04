@@ -1,21 +1,31 @@
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
-import { Button } from 'components/ui'
-import { Plus } from 'components/Icons'
 import { Tab, tabContentStyle } from './Tab'
+import { NewTemplateItem, TemplateItem } from '../designs'
+import { store } from 'data'
+import Link from 'next/link'
 
 export const DesignPanel = observer(() => {
+  const { templates } = store.editor
+  const { slug: selectedSlug } = store.file
+
   return (
     <Container value="designs">
       <div className="header">
-        <p>Designs</p>
-        <Button>
-          <Plus />
-        </Button>
+        <p>Design templates</p>
+        <NewTemplateItem small={false} />
       </div>
-      <div className="item-container">
-        {[...Array(5)].map((_, i) => (
-          <div key={i} className="item" />
+      <div className="grid">
+        {templates.map(({ slug, title, thumbnail_url, loading }) => (
+          <Link key={slug} href={slug}>
+            <TemplateItem
+              selected={selectedSlug === slug}
+              slug={slug}
+              title={title}
+              thumbnail={thumbnail_url}
+              loading={loading}
+            />
+          </Link>
         ))}
       </div>
     </Container>
@@ -27,19 +37,12 @@ const Container = styled(Tab)`
   .header {
     display: flex;
     justify-content: space-between;
+    place-items: center;
+    margin-bottom: 8px;
   }
-  .item-container {
+  .grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    .item {
-      aspect-ratio: 16 / 9;
-      //aspect-ratio: 210 / 297;
-      background: #ffffff1c;
-      border-radius: 4px;
-      &:hover {
-        background: #ffffff1c;
-      }
-    }
+    gap: 4px;
   }
 `
