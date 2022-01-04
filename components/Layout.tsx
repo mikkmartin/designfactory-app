@@ -1,13 +1,11 @@
 import { FC } from 'react'
 import styled from 'styled-components'
-import { Header } from './SidePanel/Header'
 import { store } from 'data'
 import { observer } from 'mobx-react-lite'
-import { TemplatePanel } from '../Editor/Templates'
 import { CanvasButtons } from 'components/Editor/CanvasButtons'
 import { PreviewPanel } from 'components/Editor/PreviewPanel'
-import { SidePanel } from './SidePanel'
-import { Version } from 'components/Layout/Version'
+import { SidePanel } from 'components/Editor/SidePanel'
+import { Version } from 'components/Editor/Version'
 
 export const Layout: FC = observer(({ children }) => {
   return (

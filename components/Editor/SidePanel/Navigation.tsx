@@ -29,6 +29,7 @@ export const Navigation = observer(() => {
 
   useEffect(() => {
     if (!templatePanelIsOpen) {
+      iconAnimation.set({ background: 'rgba(255, 255, 255, 0)' })
       iconAnimation.start({
         y: 0,
         background: ['rgba(255, 255, 255, 0.1)', 'rgba(255, 255, 255, 0)'],
@@ -54,7 +55,7 @@ export const Navigation = observer(() => {
     <Container aria-label="Navigation">
       {tabs.map(({ tab, Icon }) => {
         return (
-          <RadioButton key={tab} animate={tab === 'designs' ? iconAnimation : {}}>
+          <RadioButton key={tab} initial={false} animate={tab === 'designs' ? iconAnimation : {}}>
             <Trigger value={tab}>
               <Icon />
               {currentTab === tab && <HighLight transition={fast} layoutId="tab-highlight" />}
