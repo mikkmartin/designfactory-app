@@ -13,6 +13,11 @@ export class RootStore {
     makeAutoObservable(this)
     this.editor = new EditorStore(this)
     this.pages = new PageStore(this)
+    if (process.browser) {
+      window['df'] = {
+        toggleTemplatePanel: this.editor.toggleTemplatePanel,
+      }
+    }
   }
 
   setInitialData = ({ data, templates, ...file }: InitialData) => {
@@ -22,8 +27,7 @@ export class RootStore {
   }
 }
 
-type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
+type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 type InitialData = Optional<IFileWithTemplates, 'templates'>
-
 
 export const store = new RootStore()

@@ -3,11 +3,11 @@ import { observer } from 'mobx-react-lite'
 import { store } from 'data'
 import { Button } from 'components/ui'
 import { Close, Plus } from 'components/Icons'
-import { motion } from 'framer-motion'
-import { snappy } from 'lib/static/transitions'
+import { motion, usePresence } from 'framer-motion'
 
 export const DesignsPreview = observer(() => {
-  const { templatePanelIsOpen, toggleTemplatePanel } = store.editor
+  const { toggleTemplatePanel } = store.editor
+  const [isPresent, unmount] = usePresence()
 
   const itemVariants = i => ({
     initial: { scale: 1, y: 0 },
@@ -29,10 +29,14 @@ export const DesignsPreview = observer(() => {
   })
 
   return (
-    <Container>
+    <Container
+      animate={isPresent ? 'initial' : 'exit'}
+      transition={{ duration: 0.1 }}
+      variants={{
+        exit: { background: 'rgba(40, 44, 52, 0)' },
+      }}>
       <motion.div
         className="header"
-        animate={templatePanelIsOpen ? 'initial' : 'exit'}
         transition={{ duration: 0.1 }}
         variants={{
           initial: { opacity: 1 },
@@ -46,7 +50,6 @@ export const DesignsPreview = observer(() => {
       <motion.div className="items">
         <Button
           className="item new"
-          animate={templatePanelIsOpen ? 'initial' : 'exit'}
           transition={{ duration: 0.1 }}
           variants={{
             initial: { opacity: 1 },
@@ -58,7 +61,6 @@ export const DesignsPreview = observer(() => {
           <motion.img
             key={i}
             layout="position"
-            animate={templatePanelIsOpen ? 'initial' : 'exit'}
             src={
               !(i % 2)
                 ? 'https://sdqycteblanimltlbiss.supabase.in/storage/v1/object/public/template-thumbnails/notion-blog-og.png'
@@ -66,12 +68,10 @@ export const DesignsPreview = observer(() => {
             }
             transition={{ delay: 1 * 0.05 - i * 0.05 }}
             style={
-              templatePanelIsOpen
-                ? { position: 'relative' }
-                : { position: 'absolute', top: 16, right: 16 }
+              isPresent ? { position: 'relative' } : { position: 'absolute', top: 16, right: 16 }
             }
             variants={itemVariants(i)}
-            onAnimationComplete={() => {}}
+            onAnimationComplete={unmount}
             className="item"
           />
         ))}
@@ -82,12 +82,15 @@ export const DesignsPreview = observer(() => {
 
 const Container = styled(motion.div)`
   position: relative;
+  background: var(--background);
+  width: 380px;
   .header {
     box-shadow: inset 0 0.5px 0 0 rgba(255, 255, 255, 0.1);
     display: grid;
     grid-template-columns: 1fr auto;
     place-items: center left;
     padding: 8px 8px 0 16px;
+    width: 100%;
   }
   .items {
     display: grid;
