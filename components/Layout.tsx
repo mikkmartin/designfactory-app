@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { store } from 'data'
 import { observer } from 'mobx-react-lite'
 import { CanvasButtons } from 'components/Editor/CanvasButtons'
-import { PreviewPanel } from 'components/Editor/PreviewPanel'
+import { TutorialPanel } from 'components/Editor/TutorialPanel'
 import { SidePanel } from 'components/Editor/SidePanel'
 import { Version } from 'components/Editor/Version'
 
@@ -16,7 +16,7 @@ export const Layout: FC = observer(({ children }) => {
       </div>
       <Version />
       <CanvasButtons />
-      <PreviewPanel />
+      <TutorialPanel />
     </Container>
   )
 })

@@ -7,7 +7,7 @@ import { Image } from './Image'
 import { Code } from './Code'
 import { Banner } from './Banner'
 
-export const PreviewPanel = observer(() => {
+export const TutorialPanel = observer(() => {
   const { previewPanelIsOpen: isOpen, togglePreviewPanel } = store.editor
   return isOpen ? (
     <Container>
