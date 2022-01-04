@@ -58,7 +58,7 @@ export class EditorStore {
     this.templatePanelIsOpen = !this.templatePanelIsOpen
     if (this.previewPanelIsOpen) this.previewPanelIsOpen = false
   }
-  togglePreviewPanel = () => {
+  toggleTutorialPanel = () => {
     this.previewPanelIsOpen = !this.previewPanelIsOpen
     if (this.templatePanelIsOpen) this.templatePanelIsOpen = false
   }

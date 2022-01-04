@@ -8,7 +8,7 @@ import { Code } from './Code'
 import { Banner } from './Banner'
 
 export const TutorialPanel = observer(() => {
-  const { previewPanelIsOpen: isOpen, togglePreviewPanel } = store.editor
+  const { previewPanelIsOpen: isOpen, toggleTutorialPanel: togglePreviewPanel } = store.editor
   return isOpen ? (
     <Container>
       <div className="content">

@@ -5,7 +5,7 @@ import { store } from 'data'
 import { Button } from 'components/ui'
 
 export const Banner = observer(() => {
-  const { togglePreviewPanel } = store.editor
+  const { toggleTutorialPanel: togglePreviewPanel } = store.editor
   return (
     <Container onClick={togglePreviewPanel}>
       <Button className="banner">
