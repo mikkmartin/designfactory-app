@@ -1,10 +1,10 @@
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
-import { Tab, tabContentStyle } from './Tabs'
 import { Button } from 'components/ui'
 import { Plus } from 'components/Icons'
+import { Tab, tabContentStyle } from './Tab'
 
-export const BulkEditor = observer(() => {
+export const DesignPanel = observer(() => {
   return (
     <Container value="designs">
       <div className="header">

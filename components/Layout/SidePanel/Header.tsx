@@ -1,9 +1,9 @@
 import { store } from 'data'
 import styled from 'styled-components'
-import { Logo } from '../Icons'
-import { Drawer } from '../Drawer'
-import { DrawerProvider } from '../Drawer/DrawerContext'
-import { TabButton } from '../Drawer/TabButton'
+import { Logo } from 'components/Icons'
+import { Drawer } from '../../Drawer'
+import { DrawerProvider } from '../../Drawer/DrawerContext'
+import { TabButton } from '../../Drawer/TabButton'
 import { observer } from 'mobx-react-lite'
 
 export const Header = observer(() => {
@@ -30,7 +30,7 @@ export const Header = observer(() => {
       ]}>
       <Container>
         <div className="title">
-          <Logo className="logo"/>
+          <Logo className="logo" />
           <h1>{fileName}</h1>
         </div>
         <div className="buttons">

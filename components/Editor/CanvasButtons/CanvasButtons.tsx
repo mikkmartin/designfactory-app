@@ -1,12 +1,10 @@
 import styled from 'styled-components'
-import { Templates } from './Templates'
 import { RefreshTemplate } from './RefreshTemplate'
 
 export const CanvasButtons = () => {
   return (
     <Container>
       <RefreshTemplate />
-      <Templates />
     </Container>
   )
 }

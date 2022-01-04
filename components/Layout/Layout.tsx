@@ -1,31 +1,24 @@
 import { FC } from 'react'
 import styled from 'styled-components'
-import { Header } from './Header'
+import { Header } from './SidePanel/Header'
 import { store } from 'data'
 import { observer } from 'mobx-react-lite'
 import { TemplatePanel } from '../Editor/Templates'
 import { CanvasButtons } from 'components/Editor/CanvasButtons'
 import { PreviewPanel } from 'components/Editor/PreviewPanel'
-import { Tabs, BulkEditor, JsonEditor, InputPanel, Navigation } from './tabs'
+import { SidePanel } from './SidePanel'
 import { Version } from 'components/Layout/Version'
 
 export const Layout: FC = observer(({ children }) => {
   return (
     <Container>
-      <Tabs>
-        <Header />
-        <InputPanel />
-        <JsonEditor />
-        <BulkEditor />
-        <Navigation />
-      </Tabs>
+      <SidePanel />
       <div className="container" ref={el => store.pages.setCanvasContainerRef(el)}>
         {children}
       </div>
       <Version />
       <CanvasButtons />
       <PreviewPanel />
-      <TemplatePanel />
     </Container>
   )
 })
