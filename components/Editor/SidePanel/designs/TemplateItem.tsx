@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { Button } from 'components/ui/Button'
 
 type Props = {
+  id: string
   slug: string
   title: string
   thumbnail: string
@@ -17,7 +18,7 @@ type Props = {
 
 const getSize = (_): { width: number; height: number } => ({ width: 16, height: 9 })
 
-export const TemplateItem: FC<Props> = observer(({ slug, title, selected, thumbnail }) => {
+export const TemplateItem: FC<Props> = observer(({ slug, title, selected, thumbnail, id }) => {
   const { templateHovered, templateBlurred } = store.editor
   const { width, height } = getSize(store.file.template)
   const [isFocused, setIsFocused] = useState(false)
@@ -28,9 +29,23 @@ export const TemplateItem: FC<Props> = observer(({ slug, title, selected, thumbn
     { value: 'Remove', disabled },
   ]
 
+  const handleDropdownSelection = (value: string) => {
+    if (value === 'Duplicate') {
+      openDesign()
+    } else if (value === 'Open in Figma') {
+      openDesign(false)
+    } else if (value === 'Remove') {
+    }
+  }
+
   const handleOpenChange = focus => {
     if (focus) setIsFocused(focus)
     else setTimeout(() => setIsFocused(focus), 200)
+  }
+
+  const openDesign = (duplicate = true) => {
+    const url = `https://www.figma.com/file/${id}` + (duplicate ? '/duplicate' : '')
+    window.open(url, '_blank').focus()
   }
 
   return (
@@ -50,10 +65,13 @@ export const TemplateItem: FC<Props> = observer(({ slug, title, selected, thumbn
       <div className="overlay">
         <FigmaLogo />
         <div className="buttons">
-          <Button small className="edit">
+          <Button small className="edit" onClick={() => openDesign()}>
             Edit
           </Button>
-          <Dropdown onChange={console.log} onOpenChange={handleOpenChange} options={options}>
+          <Dropdown
+            onChange={handleDropdownSelection}
+            onOpenChange={handleOpenChange}
+            options={options}>
             <Button small>
               <More />
             </Button>

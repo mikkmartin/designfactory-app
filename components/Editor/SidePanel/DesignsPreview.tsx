@@ -66,7 +66,7 @@ export const DesignsPreview = observer(() => {
             exit: { opacity: 0 },
           }}
         />
-        {templates.map(({ slug, title, thumbnail_url, loading }, i) => (
+        {templates.map(({ slug, title, thumbnail_url, id, loading }, i) => (
           <Link key={slug} href={slug} passHref>
             <motion.a
               key={i}
@@ -79,6 +79,7 @@ export const DesignsPreview = observer(() => {
               onAnimationComplete={unmount}
               className="item">
               <TemplateItem
+                id={id}
                 selected={slug === selectedSlug}
                 slug={slug}
                 title={title}

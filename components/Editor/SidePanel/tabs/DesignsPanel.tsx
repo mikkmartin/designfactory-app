@@ -16,9 +16,10 @@ export const DesignPanel = observer(() => {
         <NewTemplateItem small={false} />
       </div>
       <div className="grid">
-        {templates.map(({ slug, title, thumbnail_url, loading }) => (
+        {templates.map(({ slug, title, thumbnail_url, loading, id }) => (
           <Link key={slug} href={slug}>
             <TemplateItem
+              id={id}
               selected={selectedSlug === slug}
               slug={slug}
               title={title}
