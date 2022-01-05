@@ -1,1 +1,1 @@
-export { TutorialPanel } from './PreviewPanel'
+export { TutorialPanel } from './TutorialPanel'

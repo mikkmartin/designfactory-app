@@ -3,11 +3,22 @@ import { observer } from 'mobx-react-lite'
 import { Info } from 'components/Icons'
 import { store } from 'data'
 import { Button } from 'components/ui'
+import { motion } from 'framer-motion'
+import { fast } from 'lib/static/transitions'
 
 export const Banner = observer(() => {
   const { toggleTutorialPanel: togglePreviewPanel } = store.editor
   return (
-    <Container onClick={togglePreviewPanel}>
+    <Container
+      onClick={togglePreviewPanel}
+      initial="hidden"
+      animate="shown"
+      exit="hidden"
+      transition={fast}
+      variants={{
+        shown: { opacity: 1, scale: 1 },
+        hidden: { opacity: 0, scale: 0.5 },
+      }}>
       <Button className="banner">
         <Info strokeWidth="1" />
         <p>How to use it on my site?</p>
@@ -16,13 +27,12 @@ export const Banner = observer(() => {
   )
 })
 
-const Container = styled.div`
+const Container = styled(motion.div)`
   grid-area: preview;
-  height: 0;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  position: relative;
+  transform-origin: top center;
   .banner {
     position: absolute;
     bottom: 0;
@@ -37,7 +47,8 @@ const Container = styled.div`
     p {
       opacity: 0.5;
     }
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       background-color: rgba(61, 67, 80, 0.8);
       p {
         transition: opacity 0.1s ease-out;

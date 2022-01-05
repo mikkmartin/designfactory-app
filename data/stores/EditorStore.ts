@@ -18,7 +18,7 @@ export class EditorStore {
   currentTab: typeof this.tabs[number] = this.tabs[0]
   templates: TemplateGroup = []
   templatePanelIsOpen = true
-  previewPanelIsOpen = false
+  tutorialPanelIsOpen = false
 
   constructor(rootStore) {
     this.rootStore = rootStore
@@ -60,11 +60,9 @@ export class EditorStore {
   }
   toggleTemplatePanel = () => {
     this.templatePanelIsOpen = !this.templatePanelIsOpen
-    if (this.previewPanelIsOpen) this.previewPanelIsOpen = false
   }
   toggleTutorialPanel = () => {
-    this.previewPanelIsOpen = !this.previewPanelIsOpen
-    if (this.templatePanelIsOpen) this.templatePanelIsOpen = false
+    this.tutorialPanelIsOpen = !this.tutorialPanelIsOpen
   }
   setJsonErrors = jsonErrors => {
     this.jsonErrors = jsonErrors
