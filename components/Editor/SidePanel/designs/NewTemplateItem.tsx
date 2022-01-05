@@ -11,11 +11,6 @@ export const NewTemplateItem = props => {
   const [loading, setLoading] = useState(false)
   const [hasInput, setHasInput] = useState(false)
 
-  //const [pages, setPages] = useState(['Page 1', 'Page 2'])
-  //const [page, setPage] = useState(pages[0])
-  //const [frames, setFrames] = useState(['knowlagebase-library', 'two'])
-  //const [frame, setFrame] = useState(frames[0])
-
   const handleChange = () => {
     if (ref.current.value.length >= 22) {
       setHasInput(true)
@@ -59,11 +54,11 @@ export const NewTemplateItem = props => {
           <form onSubmit={handleImport}>
             <div className="inputs">
               <Input
+                type="text"
+                ref={ref}
                 autoFocus
                 disabled={loading}
-                ref={ref}
                 onChange={handleChange}
-                type="text"
                 placeholder="https://www.figma.com/file/QFHu9..."
               />
             </div>

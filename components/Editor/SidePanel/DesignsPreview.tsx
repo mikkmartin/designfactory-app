@@ -10,6 +10,7 @@ import Link from 'next/link'
 export const DesignsPreview = observer(() => {
   const { toggleTemplatePanel, templates } = store.editor
   const [isPresent, unmount] = usePresence()
+  const { slug: selectedSlug } = store.file
 
   const itemVariants = i => ({
     initial: { scale: 1, y: 0 },
@@ -78,7 +79,7 @@ export const DesignsPreview = observer(() => {
               onAnimationComplete={unmount}
               className="item">
               <TemplateItem
-                selected={false}
+                selected={slug === selectedSlug}
                 slug={slug}
                 title={title}
                 thumbnail={thumbnail_url}
@@ -119,7 +120,6 @@ const Container = styled(motion.div)`
       aspect-ratio: 16 / 9;
       height: 100px;
       width: auto;
-      background: rgba(255, 255, 255, 0.5);
       border-radius: 4px;
       display: grid;
       place-items: center;

@@ -27,6 +27,9 @@ export const buttonStyles = css`
   }
   box-shadow: inset 0 0 0 0 rgb(var(--highlight));
   transition: background-color 0, box-shadow 0;
+  :hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
   :focus-visible {
     transition: background-color 0.1s, box-shadow 0.1s;
     outline: none;
@@ -41,29 +44,21 @@ export const buttonStyles = css`
 `
 
 export const Button = styled(motion.button)<Props>`
-  background: ${props =>
-    props.primary
-      ? 'rgb(var(--highlight))'
-      : props.highlight
-      ? 'rgba(255, 255, 255, 0.05)'
-      : 'transparent'};
-  ${p =>
-    typeof p.selected === 'boolean' && p.selected === true
-      ? css`
-          background: rgba(255, 255, 255, 0.05);
-          box-shadow: inset 0 1px 0 0 white;
-        `
-      : p.selected};
-  :hover {
-    background: ${p => (!p.highlight ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.1)')};
-  }
   ${buttonStyles}
+  ${p => p.highlight && highlight}
   ${p => p.small && small}
+`
+
+const highlight = css`
+  background: rgba(255, 255, 255, 0.05);
+  :hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
 `
 
 const small = css`
   border-radius: 2px;
-  font-size: 14px;
+  font-size: 10px;
   > svg {
     width: 16px;
     height: 16px;

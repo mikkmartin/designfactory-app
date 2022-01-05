@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, ChangeEventHandler } from 'react'
 import { TextInput, Props as TextInputProps } from './TextInput'
 import { ImageInput, Props as ImageInputProps } from './ImageInput'
 import { NumberInput, Props as NumberInputProps } from './NumberInput'
@@ -17,7 +17,11 @@ export const Input: FC<Props> = props => {
 }
 
 export interface InputBase {
+  autoFocus?: boolean
   disabled?: boolean
   placeholder?: string
+  ref?: React.Ref<HTMLInputElement>
+  onChange?: ChangeEventHandler<HTMLInputElement>
+  onValueChange?: (value: string | number) => void
   id?: string
 }

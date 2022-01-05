@@ -8,7 +8,6 @@ import { InputBase } from './Input'
 export interface Props extends InputBase {
   type?: 'email' | 'card' | 'text'
   value?: string
-  placeholder?: string
   autoComplete?: string
   onChange?: ChangeEventHandler<HTMLInputElement>
   invalid?: boolean
