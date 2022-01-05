@@ -28,15 +28,11 @@ export const Banner = observer(() => {
 })
 
 const Container = styled(motion.div)`
-  grid-area: preview;
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  transform-origin: top center;
+  align-items: end;
+  height: 0;
   .banner {
-    position: absolute;
-    bottom: 0;
-    bottom: 16px;
+    margin-bottom: 16px;
     gap: 12px;
     border-radius: 4px;
     height: 48px;

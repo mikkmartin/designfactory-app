@@ -30,7 +30,7 @@ export const Page: FC<Props> = ({ children }) => {
   const [ref, self] = useMeasure()
 
   return (
-    <Container style={getScale({ self, parent })} ref={ref}>
+    <Container layout="position" style={getScale({ self, parent })} ref={ref}>
       {children}
     </Container>
   )
