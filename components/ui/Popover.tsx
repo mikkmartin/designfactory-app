@@ -1,4 +1,3 @@
-import { FC } from 'react'
 import * as Radix from '@radix-ui/react-popover'
 import styled from 'styled-components'
 
@@ -10,7 +9,7 @@ export const Trigger = ({ children }) => {
 
 export const Content = ({ children }) => {
   return (
-    <Container alignOffset={93} sideOffset={-20}>
+    <Container>
       <Arrow offset={16} />
       {children}
     </Container>
