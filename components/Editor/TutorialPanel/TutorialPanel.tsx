@@ -51,6 +51,7 @@ export const TutorialPanel = observer(() => {
 const Container = styled(motion.div)`
   display: flex;
   align-items: end;
+  width: 100%;
   .panel {
     background: rgba(40, 44, 52, 0.6);
     width: 100%;
