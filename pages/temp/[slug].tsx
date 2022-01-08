@@ -1,37 +1,31 @@
 import { NextPage } from 'next'
-import { useState } from 'react'
 import styled from 'styled-components'
-import { store } from 'data/stores_v2/RootStore'
 import { GetStaticProps, GetStaticPaths } from 'next'
-import { supabase } from 'data/db/config'
-import type { definitions } from 'data/db/types'
-
-type GetTemplatesData = definitions['templates'] & {
-  theme_options: definitions['themes'][]
-}
+import { db, TemplateData } from 'data/db'
 
 type Props = {
   slug: string
-  data: GetTemplatesData
+  data: TemplateData
 }
 
-const Test: NextPage<Props> = props => {
-  const { title } = props.data
-
-  props.data.theme_options
+const Test: NextPage<Props> = ({ data }) => {
+  const { title, description } = data
 
   return (
     <Container>
       <h1>{title}</h1>
+      <p>{description}</p>
       <select>
-        {props.data.theme_options.map(({id, title}) => (
-          <option value={id} key={id}>{title}</option>
+        {data.theme_options.map(({ id, title }) => (
+          <option value={id} key={id}>
+            {title}
+          </option>
         ))}
       </select>
       {/*
       <button onClick={() => setState(!state)}>toggle</button>
         */}
-      <pre>{JSON.stringify({ props }, null, 2)}</pre>
+      <pre>{JSON.stringify({ data }, null, 2)}</pre>
     </Container>
   )
 }
@@ -39,11 +33,9 @@ const Container = styled.div``
 
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const slug = params.slug as string
-  const { data, error } = await supabase
-    .rpc<GetTemplatesData>('get_template_by_slug', { slug })
-    .single()
+  const { data } = await db.getTemplate(slug)
   return {
-    props: { slug, data, error },
+    props: { slug, data },
     revalidate: 1,
   }
 }

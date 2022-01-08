@@ -21,7 +21,10 @@ export const getFileWithTemplates = (slug: string) =>
 export const getFile = (slug: string) =>
   supabase.from<IFile>('files').select('slug').eq('slug', slug).select('*').single()
 
-export type TemplateGroupItem = Pick<definitions['files'], 'id' | 'title' | 'slug' | 'thumbnail_url'>
+export type TemplateGroupItem = Pick<
+  definitions['files'],
+  'id' | 'title' | 'slug' | 'thumbnail_url'
+>
 
 export const getFileTemplates = (slug: string) =>
   supabase
@@ -37,3 +40,11 @@ export const updateTemplate = (template, templateID: string) =>
   supabase.from<IFile>('files').update({ template }).eq('id', templateID)
 
 export const getFileList = () => supabase.from('files').select(`slug, title, fileType, id`)
+
+//V2
+export type TemplateData = definitions['templates'] & {
+  theme_options: definitions['themes'][]
+}
+
+export const getTemplate = async (slug: string) =>
+  supabase.rpc<TemplateData>('get_template_by_slug', { slug }).single()
