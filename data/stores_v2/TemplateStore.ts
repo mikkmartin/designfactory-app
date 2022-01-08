@@ -32,10 +32,10 @@ export class TemplateStore {
     if (!this.theme.data) this.loadTheme()
   }
 
-  loadTheme = () => {
+  loadTheme = async () => {
     this.theme.loading = true
-    runInAction(async () => {
-      const data = await fetch(this.theme.figma_file_url).then(res => res.json())
+    const data = await fetch(this.theme.figma_file_url).then(res => res.json())
+    runInAction(() => {
       this.theme.data = data
       this.theme.loading = false
     })
