@@ -4,38 +4,36 @@ import { GetStaticProps, GetStaticPaths } from 'next'
 import { db, TemplateData } from 'data/db'
 
 type Props = {
-  slug: string
   data: TemplateData
 }
 
 const Test: NextPage<Props> = ({ data }) => {
   const { title, description } = data
+  const theme = data.theme_options.find(theme => theme.id === data.default_theme)
 
   return (
-    <Container>
+    <div>
       <h1>{title}</h1>
       <p>{description}</p>
       <select>
-        {data.theme_options.map(({ id, title }) => (
+        {data.theme_options.map(({ id, name }) => (
           <option value={id} key={id}>
-            {title}
+            {name}
           </option>
         ))}
       </select>
-      {/*
-      <button onClick={() => setState(!state)}>toggle</button>
-        */}
+      <div>
+        <img style={{ width: 200 }} src={theme.thumbnail_url} />
+        <h2>{theme.title}</h2>
+      </div>
       <pre>{JSON.stringify({ data }, null, 2)}</pre>
-    </Container>
+    </div>
   )
 }
-const Container = styled.div``
 
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
-  const slug = params.slug as string
-  const { data } = await db.getTemplate(slug)
   return {
-    props: { slug, data },
+    props: await db.getTemplate(params.slug as string),
     revalidate: 1,
   }
 }
