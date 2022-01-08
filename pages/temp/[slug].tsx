@@ -1,21 +1,25 @@
 import { NextPage } from 'next'
-import styled from 'styled-components'
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { db, TemplateData } from 'data/db'
+import { observer } from 'mobx-react-lite'
+import { useRef } from 'react'
+import { useStore } from 'hooks/useStore'
 
 type Props = {
   data: TemplateData
 }
 
-const Test: NextPage<Props> = ({ data }) => {
-  const { title, description } = data
-  const theme = data.theme_options.find(theme => theme.id === data.default_theme)
+const Test: NextPage<Props> = observer(({ data }) => {
+  setInitialData(data)
+  const { template } = useStore()
+  const { title, description, theme, setTheme } = template
 
   return (
     <div>
       <h1>{title}</h1>
       <p>{description}</p>
-      <select>
+      <p>{JSON.stringify({ loading: theme.loading })}</p>
+      <select onChange={ev => setTheme(ev.target.value)}>
         {data.theme_options.map(({ id, name }) => (
           <option value={id} key={id}>
             {name}
@@ -29,7 +33,7 @@ const Test: NextPage<Props> = ({ data }) => {
       <pre>{JSON.stringify({ data }, null, 2)}</pre>
     </div>
   )
-}
+})
 
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   return {
@@ -42,6 +46,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [{ params: { slug: 'og-image' } }],
     fallback: true,
+  }
+}
+
+const setInitialData = (template: TemplateData) => {
+  const id = useRef(null)
+  const store = useStore()
+  if (id.current !== template.id) {
+    id.current = template.id
+    store.template.setTemplate(template)
   }
 }
 
