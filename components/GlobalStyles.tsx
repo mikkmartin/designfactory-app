@@ -19,7 +19,7 @@ export const GlobalStyles = createGlobalStyle<{ route: string }>`
   }
   body, #__next {
     min-height: 100vh;
-    overflow: hidden;
+    //overflow: hidden;
     color: white;
     background: var(--background);
     ${p => p.route?.includes('/screenshot/') && screenshot}

@@ -10,6 +10,7 @@ type Theme = TemplateData['theme_options'][0] & {
 
 export class TemplateStore {
   rootStore: RootStore
+  id: TemplateData['id'] = null
   title: TemplateData['title'] = null
   description: TemplateData['description'] = null
   theme: Theme = null
@@ -20,7 +21,15 @@ export class TemplateStore {
     this.rootStore = rootStore
   }
 
+  handleAddTheme = async (figmaFileID: string) => {
+    const res = await fetch(
+      `/api/themes/add?templateID=${this.id}&figmaFileID=${figmaFileID}`
+    ).then(res => res.json())
+    console.log(res)
+  }
+
   setTemplate = (template: TemplateData) => {
+    this.id = template.id
     this.title = template.title
     this.description = template.description
     this.themes = template.theme_options.map(theme => ({ ...theme, loading: false, data: null }))

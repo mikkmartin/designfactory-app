@@ -473,6 +473,50 @@ export interface paths {
       };
     };
   };
+  "/rpc/template_append_theme": {
+    post: {
+      parameters: {
+        body: {
+          args: {
+            /** Format: uuid */
+            new_theme_id: string;
+            /** Format: uuid */
+            id: string;
+          };
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferParams"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: unknown;
+      };
+    };
+  };
+  "/rpc/template_remove_theme": {
+    post: {
+      parameters: {
+        body: {
+          args: {
+            /** Format: uuid */
+            new_theme_id: string;
+            /** Format: uuid */
+            id: string;
+          };
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferParams"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: unknown;
+      };
+    };
+  };
   "/rpc/get_template_by_slug": {
     post: {
       parameters: {

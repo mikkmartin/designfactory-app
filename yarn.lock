@@ -297,9 +297,9 @@
     video-extensions "~1.2.0"
 
 "@mikkmartin/figma-js@^1.13.3":
-  version "1.13.3"
-  resolved "https://registry.yarnpkg.com/@mikkmartin/figma-js/-/figma-js-1.13.3.tgz#9d4d43e9d2c42cf0e09aae4fbc02335c9d5525b8"
-  integrity sha512-JppWHTi7Yq7Tajay+isMKw4mVzmZtifWrCq4+EcgyoqliS3O7Yksl+1mqYcBmHB8Zn27QWIyerE1SXh8ksdZJw==
+  version "1.13.4"
+  resolved "https://registry.yarnpkg.com/@mikkmartin/figma-js/-/figma-js-1.13.4.tgz#8cb0898068b6cb01a23d8e784605912cd63117c7"
+  integrity sha512-+2+kgtOCvAroefQF2a0VVuDLgn7u1smUtSRaKLmEb+KjZ9YwgmEJrg8vEeRQPsR4NDS71nzyMh0ztRGeGUtYZw==
   dependencies:
     axios "^0.19.0"
 
