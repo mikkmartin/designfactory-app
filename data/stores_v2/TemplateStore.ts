@@ -3,7 +3,7 @@ import type { TemplateData } from 'data/db'
 import { makeAutoObservable, runInAction } from 'mobx'
 import { FileResponse } from '@mikkmartin/figma-js'
 
-type Theme = TemplateData['theme_options'][0] & {
+type Theme = TemplateData['themes'][0] & {
   data: FileResponse
   loading: boolean
 }

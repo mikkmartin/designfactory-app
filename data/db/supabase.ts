@@ -43,7 +43,7 @@ export const getFileList = () => supabase.from('files').select(`slug, title, fil
 
 //V2
 export type TemplateData = definitions['templates'] & {
-  theme_options: definitions['themes'][]
+  themes: definitions['themes'][]
 }
 
 export const getTemplate = async (slug: string) =>
