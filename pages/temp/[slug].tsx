@@ -18,15 +18,8 @@ type Props = {
 const Test: NextPage<Props> = observer(({ slug, data }) => {
   //return <pre>{JSON.stringify({ slug, data }, null, 2)}</pre>
   setInitialData(data, slug)
-  const {
-    theme: selectedTheme,
-    themes,
-    setTheme,
-    handleAddTheme,
-    handleDeleteTheme,
-    template: selectedTemplate,
-    templates,
-  } = store.content
+  const { template, templates } = store.content
+  const { theme, themes, setTheme, handleAddTheme, handleDeleteTheme } = template
 
   const [figmaID, setFigmaID] = useState('uhifEQPClI8AdGz3vX667v')
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -38,49 +31,46 @@ const Test: NextPage<Props> = observer(({ slug, data }) => {
     <div style={{ display: 'grid', gap: 16, padding: 32 }}>
       <select style={{ width: 200 }}>
         {!Boolean(templates.length) ? (
-          <option key={selectedTemplate.id} value={selectedTemplate.id} selected>
-            {selectedTemplate.title}
+          <option key={template.id} value={template.id} selected>
+            {template.title}
           </option>
         ) : (
-          templates.map(template => (
-            <option
-              key={template.id}
-              value={template.id}
-              selected={selectedTemplate.id === template.id}>
+          templates.map(({ id }) => (
+            <option key={id} value={id} selected={id === id}>
               {template.title}
             </option>
           ))
         )}
       </select>
-      <h1>{selectedTemplate.title}</h1>
-      <p>{selectedTemplate.description}</p>
+      <h1>{template.title}</h1>
+      <p>{template.description}</p>
       <form onSubmit={handleSubmit}>
         <input type="text" value={figmaID} onChange={ev => setFigmaID(ev.target.value)} />
         <button type="submit">Submit</button>
       </form>
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-        {themes.map(theme => (
-          <Link key={theme.slug} href={theme.slug} shallow>
+        {themes.map(({ slug, title }) => (
+          <Link key={slug} href={slug} shallow>
             <a
-              onClick={() => setTheme(theme.slug)}
-              key={theme.slug}
+              onClick={() => setTheme(slug)}
+              key={slug}
               style={{
-                background: theme.slug === selectedTheme.slug ? 'pink' : 'black',
+                background: theme.slug === slug ? 'pink' : 'black',
                 display: 'block',
               }}>
               <img
-                src={`${storageURL}/themes/files/${theme.slug}.png`}
+                src={`${storageURL}/themes/files/${slug}.png`}
                 style={{ width: 100, height: 50, objectFit: 'cover' }}
               />
-              <h2>{theme.title}</h2>
-              <small>{theme.slug}</small>
+              <h2>{title}</h2>
+              <small>{slug}</small>
               <button
                 style={{ width: '100%' }}
                 onClick={ev => {
                   ev.preventDefault()
                   ev.stopPropagation()
-                  handleDeleteTheme(theme.slug)
+                  handleDeleteTheme(slug)
                 }}>
                 Delete
               </button>
@@ -90,7 +80,7 @@ const Test: NextPage<Props> = observer(({ slug, data }) => {
       </div>
       <pre>
         {JSON.stringify(
-          { selectedTemplate, loading: selectedTheme.loading, themeData: selectedTheme.data?.name },
+          { theme: theme.slug, loading: theme.loading, themeData: theme.data?.name },
           null,
           2
         )}
