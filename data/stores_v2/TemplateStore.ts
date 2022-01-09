@@ -9,16 +9,16 @@ type Theme = TemplateData['theme_options'][0] & {
 }
 
 export class TemplateStore {
-  rootStore: RootStore
+  //private rootStore: RootStore
   id: TemplateData['id'] = null
   title: TemplateData['title'] = null
   description: TemplateData['description'] = null
   theme: Theme = null
   themes: Theme[] = []
 
-  constructor(rootStore: RootStore) {
+  constructor(_: RootStore) {
     makeAutoObservable(this)
-    this.rootStore = rootStore
+    //this.rootStore = rootStore
   }
 
   handleAddTheme = async (figmaFileID: string) => {
