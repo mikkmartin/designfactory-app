@@ -2,6 +2,7 @@ import type { RootStore } from './RootStore'
 import type { TemplateData } from 'data/db'
 import { makeAutoObservable, runInAction } from 'mobx'
 import { FileResponse } from '@mikkmartin/figma-js'
+import storageURL from 'lib/static/storageURL'
 
 type Theme = TemplateData['themes'][0] & {
   data: FileResponse
@@ -44,7 +45,7 @@ export class TemplateStore {
 
   loadTheme = async () => {
     this.theme.loading = true
-    const data = await fetch(`/files/${this.theme.slug}`).then(res => res.json())
+    const data = await fetch(`${storageURL}/themes/files/${this.theme.slug}.json`).then(res => res.json())
     console.log('loading')
     runInAction(() => {
       this.theme.data = data
@@ -56,7 +57,7 @@ export class TemplateStore {
     this.id = template.id
     this.title = template.title
     this.description = template.description
-    this.themes = template.themes.map(theme => ({ ...theme, loading: false, data: null }))
+    this.themes = template.themes.map(theme => ({ ...theme, loading: true, data: null }))
     this.setTheme(slug)
   }
 }

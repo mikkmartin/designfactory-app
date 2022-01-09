@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import { supabase } from 'data/db/config'
 import { definitions } from 'data/db/types'
 import Link from 'next/link'
+import storageURL from 'lib/static/storageURL'
 
 type Props = {
   slug: string
@@ -43,14 +44,11 @@ const Test: NextPage<Props> = observer(({ slug, data }) => {
         <input type="text" value={figmaID} onChange={ev => setFigmaID(ev.target.value)} />
         <button type="submit">Submit</button>
       </form>
-      {/*
-      <pre>{JSON.stringify({ loading: theme.loading, themeData: theme.data?.name }, null, 2)}</pre>
-      */}
-      <pre>{JSON.stringify({ themes: themes.length }, null, 2)}</pre>
+      <pre>{JSON.stringify({ loading: selectedTheme.loading, themeData: selectedTheme.data?.name }, null, 2)}</pre>
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
         {themes.map(theme => (
-          <Link href={theme.slug} shallow>
+          <Link key={theme.slug} href={theme.slug} shallow>
             <a
               onClick={() => setTheme(theme.slug)}
               key={theme.slug}
@@ -59,7 +57,7 @@ const Test: NextPage<Props> = observer(({ slug, data }) => {
                 display: 'block',
               }}>
               <img
-                src={`https://sdqycteblanimltlbiss.supabase.in/storage/v1/object/public/themes/files/${theme.slug}.png`}
+                src={`${storageURL}/themes/files/${theme.slug}.png`}
                 style={{ width: 100, height: 50, objectFit: 'cover' }}
               />
               <h2>{theme.title}</h2>
