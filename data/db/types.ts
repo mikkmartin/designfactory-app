@@ -234,8 +234,6 @@ export interface paths {
           description?: parameters["rowFilter.templates.description"];
           title?: parameters["rowFilter.templates.title"];
           file_type?: parameters["rowFilter.templates.file_type"];
-          slug?: parameters["rowFilter.templates.slug"];
-          default_theme?: parameters["rowFilter.templates.default_theme"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -294,8 +292,6 @@ export interface paths {
           description?: parameters["rowFilter.templates.description"];
           title?: parameters["rowFilter.templates.title"];
           file_type?: parameters["rowFilter.templates.file_type"];
-          slug?: parameters["rowFilter.templates.slug"];
-          default_theme?: parameters["rowFilter.templates.default_theme"];
         };
         header: {
           /** Preference */
@@ -318,8 +314,6 @@ export interface paths {
           description?: parameters["rowFilter.templates.description"];
           title?: parameters["rowFilter.templates.title"];
           file_type?: parameters["rowFilter.templates.file_type"];
-          slug?: parameters["rowFilter.templates.slug"];
-          default_theme?: parameters["rowFilter.templates.default_theme"];
         };
         body: {
           /** templates */
@@ -340,16 +334,13 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.themes.id"];
+          slug?: parameters["rowFilter.themes.slug"];
           created_at?: parameters["rowFilter.themes.created_at"];
-          modified_at?: parameters["rowFilter.themes.modified_at"];
-          deleted_at?: parameters["rowFilter.themes.deleted_at"];
           owner_template_id?: parameters["rowFilter.themes.owner_template_id"];
-          thumbnail_url?: parameters["rowFilter.themes.thumbnail_url"];
-          figma_file_url?: parameters["rowFilter.themes.figma_file_url"];
-          ui_schema?: parameters["rowFilter.themes.ui_schema"];
-          name?: parameters["rowFilter.themes.name"];
+          deleted_at?: parameters["rowFilter.themes.deleted_at"];
+          modified_at?: parameters["rowFilter.themes.modified_at"];
           title?: parameters["rowFilter.themes.title"];
+          ui_schema?: parameters["rowFilter.themes.ui_schema"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -400,16 +391,13 @@ export interface paths {
     delete: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.themes.id"];
+          slug?: parameters["rowFilter.themes.slug"];
           created_at?: parameters["rowFilter.themes.created_at"];
-          modified_at?: parameters["rowFilter.themes.modified_at"];
-          deleted_at?: parameters["rowFilter.themes.deleted_at"];
           owner_template_id?: parameters["rowFilter.themes.owner_template_id"];
-          thumbnail_url?: parameters["rowFilter.themes.thumbnail_url"];
-          figma_file_url?: parameters["rowFilter.themes.figma_file_url"];
-          ui_schema?: parameters["rowFilter.themes.ui_schema"];
-          name?: parameters["rowFilter.themes.name"];
+          deleted_at?: parameters["rowFilter.themes.deleted_at"];
+          modified_at?: parameters["rowFilter.themes.modified_at"];
           title?: parameters["rowFilter.themes.title"];
+          ui_schema?: parameters["rowFilter.themes.ui_schema"];
         };
         header: {
           /** Preference */
@@ -424,16 +412,13 @@ export interface paths {
     patch: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.themes.id"];
+          slug?: parameters["rowFilter.themes.slug"];
           created_at?: parameters["rowFilter.themes.created_at"];
-          modified_at?: parameters["rowFilter.themes.modified_at"];
-          deleted_at?: parameters["rowFilter.themes.deleted_at"];
           owner_template_id?: parameters["rowFilter.themes.owner_template_id"];
-          thumbnail_url?: parameters["rowFilter.themes.thumbnail_url"];
-          figma_file_url?: parameters["rowFilter.themes.figma_file_url"];
-          ui_schema?: parameters["rowFilter.themes.ui_schema"];
-          name?: parameters["rowFilter.themes.name"];
+          deleted_at?: parameters["rowFilter.themes.deleted_at"];
+          modified_at?: parameters["rowFilter.themes.modified_at"];
           title?: parameters["rowFilter.themes.title"];
+          ui_schema?: parameters["rowFilter.themes.ui_schema"];
         };
         body: {
           /** themes */
@@ -631,53 +616,40 @@ export interface definitions {
      * @default image
      */
     file_type: string;
-    /** Format: character varying */
-    slug: string;
-    /** Format: uuid */
-    default_theme?: string;
   };
   themes: {
+    /**
+     * Format: character varying
+     * @description Note:
+     * This is a Primary Key.<pk/>
+     */
+    slug: string;
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
+    created_at?: string;
     /**
      * Format: uuid
      * @description Note:
      * This is a Primary Key.<pk/>
-     * @default extensions.uuid_generate_v4()
+     * This is a Foreign Key to `templates.id`.<fk table='templates' column='id'/>
      */
-    id: string;
-    /**
-     * Format: timestamp with time zone
-     * @default now()
-     */
-    created_at: string;
-    /**
-     * Format: timestamp with time zone
-     * @default now()
-     */
-    modified_at: string;
+    owner_template_id: string;
     /** Format: timestamp with time zone */
     deleted_at?: string;
     /**
-     * Format: uuid
-     * @description Note:
-     * This is a Foreign Key to `templates.id`.<fk table='templates' column='id'/>
+     * Format: timestamp with time zone
+     * @default now()
      */
-    owner_template_id?: string;
+    modified_at?: string;
     /** Format: character varying */
-    thumbnail_url?: string;
-    /** Format: character varying */
-    figma_file_url?: string;
+    title?: string;
     /**
      * Format: jsonb
      * @default {}
      */
-    ui_schema: string;
-    /** Format: character varying */
-    name: string;
-    /**
-     * Format: character varying
-     * @default Untitled
-     */
-    title: string;
+    ui_schema?: string;
   };
 }
 
@@ -755,32 +727,22 @@ export interface parameters {
   "rowFilter.templates.title": string;
   /** Format: character varying */
   "rowFilter.templates.file_type": string;
-  /** Format: character varying */
-  "rowFilter.templates.slug": string;
-  /** Format: uuid */
-  "rowFilter.templates.default_theme": string;
   /** @description themes */
   "body.themes": definitions["themes"];
-  /** Format: uuid */
-  "rowFilter.themes.id": string;
+  /** Format: character varying */
+  "rowFilter.themes.slug": string;
   /** Format: timestamp with time zone */
   "rowFilter.themes.created_at": string;
-  /** Format: timestamp with time zone */
-  "rowFilter.themes.modified_at": string;
-  /** Format: timestamp with time zone */
-  "rowFilter.themes.deleted_at": string;
   /** Format: uuid */
   "rowFilter.themes.owner_template_id": string;
-  /** Format: character varying */
-  "rowFilter.themes.thumbnail_url": string;
-  /** Format: character varying */
-  "rowFilter.themes.figma_file_url": string;
-  /** Format: jsonb */
-  "rowFilter.themes.ui_schema": string;
-  /** Format: character varying */
-  "rowFilter.themes.name": string;
+  /** Format: timestamp with time zone */
+  "rowFilter.themes.deleted_at": string;
+  /** Format: timestamp with time zone */
+  "rowFilter.themes.modified_at": string;
   /** Format: character varying */
   "rowFilter.themes.title": string;
+  /** Format: jsonb */
+  "rowFilter.themes.ui_schema": string;
 }
 
 export interface operations {}

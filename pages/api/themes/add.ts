@@ -3,6 +3,12 @@ import { getTemplate } from 'data/figma'
 import { supabase } from 'data/db/config'
 import { definitions } from 'data/db/types'
 import slugify from 'slugify'
+import baseURL from 'lib/static/baseURL'
+import { customAlphabet } from 'nanoid'
+
+const alphabet = '0123456789abcdefghijklmnopqrstuvwxyz'
+const nanoid = customAlphabet(alphabet, 5)
+const createSlug = (title: string) => `${slugify(title, { lower: true })}-${nanoid()}`
 
 export default async (req, res: NextApiResponse) => {
   try {
@@ -11,24 +17,18 @@ export default async (req, res: NextApiResponse) => {
     const file = await getTemplate(figmaFileID)
     if (file.editorType !== 'figma') throw new Error('File is is not a Figma file')
     const title = file.name
-    const name = slugify(title, { lower: true })
+    const slug = createSlug(title)
+    res.json({ data: { slug, title, owner_template_id: templateID }, error: null }) //send response to client
 
     //create theme db entry
-    const { data, error } = await supabase
+    const themeEntryRes = await supabase
       .from<definitions['themes']>('themes')
-      //@ts-ignore
-      .insert({ name, title, owner_template_id: templateID })
+      .insert({ slug, title, owner_template_id: templateID })
       .single()
-    if (error) throw new Error(error.message)
-    res.json({ data, error })
+    if (themeEntryRes.error) throw new Error(themeEntryRes.error.message)
 
-    const new_theme_id = data.id
-
-    //merge to theme
-    //await appendTemplateTheme({ id: templateID, new_theme_id })
-    
     //upload theme file
-    const path = `files/link-image/${name}`
+    const path = `files/${slug}`
     await supabase.storage
       .from('themes')
       .upload(path + '.json', Buffer.from(JSON.stringify(file)), {
@@ -36,16 +36,10 @@ export default async (req, res: NextApiResponse) => {
       })
 
     //upload thumbnail
-    const thumbnail_url = `http://localhost:3000/files/link-image.png?theme=${name}`
-    await supabase.storage.from('themes').upload(path + '.png', thumbnail_url, {
+    const thumbnail_url = `/files/${slug}.png`
+    await supabase.storage.from('themes').upload(path + '.png', baseURL + thumbnail_url, {
       contentType: 'image/png',
     })
-
-    //update theme db entry
-    await supabase
-      .from<definitions['themes']>('themes')
-      .update({ thumbnail_url })
-      .eq('id', new_theme_id)
 
     res.end()
   } catch (error) {
