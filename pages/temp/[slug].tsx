@@ -44,7 +44,6 @@ const Test: NextPage<Props> = observer(({ slug, data }) => {
         <input type="text" value={figmaID} onChange={ev => setFigmaID(ev.target.value)} />
         <button type="submit">Submit</button>
       </form>
-      <pre>{JSON.stringify({ loading: selectedTheme.loading, themeData: selectedTheme.data?.name }, null, 2)}</pre>
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
         {themes.map(theme => (
@@ -75,7 +74,7 @@ const Test: NextPage<Props> = observer(({ slug, data }) => {
           </Link>
         ))}
       </div>
-      <pre>{JSON.stringify({}, null, 2)}</pre>
+      <pre>{JSON.stringify({ loading: selectedTheme.loading, themeData: selectedTheme.data?.name }, null, 2)}</pre>
     </div>
   )
 })
