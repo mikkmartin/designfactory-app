@@ -11,14 +11,16 @@ export default async (req, res: NextApiResponse) => {
 
     const [_, themeRes] = await Promise.all([
       removeTemplateTheme({ id: templateID, remove_theme_id: themeID }),
-      supabase.from<definitions['themes']>('themes').delete().eq('id', themeID).single(),
+      supabase
+        .from<definitions['themes']>('themes')
+        .update({ deleted_at: new Date().toISOString() })
+        .eq('id', themeID)
+        .single(),
     ])
 
     if (themeRes.error) throw new Error(themeRes.error.message)
 
-    const path = `files/link-image/${themeRes.data.name}`
-    await supabase.storage.from('themes').remove([path + '.json', path + '.png'])
-    res.json({ themeID })
+    res.json({ data: themeRes.data })
   } catch (error) {
     res.status(500).json({ data: null, error: error.message })
   }

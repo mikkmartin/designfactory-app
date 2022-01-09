@@ -26,6 +26,9 @@ export class TemplateStore {
       `/api/themes/add?templateID=${this.id}&figmaFileID=${figmaFileID}`
     ).then(res => res.json())
     console.log(res)
+    runInAction(() => {
+      this.themes.push(res.data)
+    })
   }
 
   handleDeleteTheme = async (themeID: string) => {

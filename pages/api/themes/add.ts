@@ -5,9 +5,7 @@ import { definitions, paths, parameters } from 'data/db/types'
 import slugify from 'slugify'
 
 type Params = paths['/rpc/template_append_theme']['post']['parameters']['body']['args']
-const appendTemplateTheme = (
-  params: Params
-) => supabase.rpc('template_append_theme', params)
+const appendTemplateTheme = (params: Params) => supabase.rpc('template_append_theme', params)
 
 export default async (req, res: NextApiResponse) => {
   try {
@@ -24,7 +22,7 @@ export default async (req, res: NextApiResponse) => {
       .insert({ name, title })
       .single()
     if (error) throw new Error(error.message)
-    res.json(data)
+    res.json({ data, error })
 
     const new_theme_id = data.id
 
@@ -33,9 +31,11 @@ export default async (req, res: NextApiResponse) => {
     const path = `files/link-image/${name}`
 
     //upload theme file
-    await supabase.storage.from('themes').upload(path + '.json', Buffer.from(JSON.stringify(file)), {
-      contentType: 'application/json',
-    })
+    await supabase.storage
+      .from('themes')
+      .upload(path + '.json', Buffer.from(JSON.stringify(file)), {
+        contentType: 'application/json',
+      })
 
     //upload thumbnail
     const thumbnail_url = `http://localhost:3000/files/link-image.png?theme=${name}`
@@ -44,7 +44,10 @@ export default async (req, res: NextApiResponse) => {
     })
 
     //update theme db entry
-    await supabase.from<definitions['themes']>('themes').update({ thumbnail_url }).eq('id', new_theme_id)
+    await supabase
+      .from<definitions['themes']>('themes')
+      .update({ thumbnail_url })
+      .eq('id', new_theme_id)
 
     res.end()
   } catch (error) {

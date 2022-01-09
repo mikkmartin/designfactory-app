@@ -45,7 +45,7 @@ const Test: NextPage<Props> = observer(({ data }) => {
         {themes.map(theme => (
           <div
             key={theme.id}
-            style={{ background: theme.id === selectedTheme.id ? 'white' : 'black' }}>
+            style={{ background: theme.id === selectedTheme.id ? 'pink' : 'black' }}>
             <input
               type="radio"
               id={theme.id}
@@ -55,7 +55,8 @@ const Test: NextPage<Props> = observer(({ data }) => {
             />
             <label htmlFor={theme.id}>
               <img style={{ width: 100, height: 50 }} src={theme.thumbnail_url} />
-              <h2>{theme.name}</h2>
+              <h2>{theme.title}</h2>
+              <small>{theme.name}</small>
             </label>
             <button style={{ width: '100%' }} onClick={() => handleDeleteTheme(theme.id)}>
               Delete
