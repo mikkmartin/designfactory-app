@@ -12,27 +12,31 @@ type Props = {
 const Test: NextPage<Props> = observer(({ data }) => {
   setInitialData(data)
   const { template } = useStore()
-  const { title, description, theme, themes, setTheme, handleAddTheme } = template
+  const { title, description, theme, themes, setTheme, handleAddTheme, handleDeleteTheme } =
+    template
 
-  const [figmaID] = useState('uhifEQPClI8AdGz3vX667v')
+  const [figmaID, setFigmaID] = useState('uhifEQPClI8AdGz3vX667v')
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     handleAddTheme(figmaID)
   }
 
   return (
-    <div style={{display: 'grid', gap: 8, padding: '1rem'}}>
+    <div style={{ display: 'grid', gap: 8, padding: '1rem' }}>
       <h1>{title}</h1>
       <p>{description}</p>
       <form onSubmit={handleSubmit}>
-        <input type="text" value={figmaID} />
+        <input type="text" value={figmaID} onChange={ev => setFigmaID(ev.target.value)} />
         <button type="submit">Submit</button>
       </form>
+      {/*
       <pre>{JSON.stringify({ loading: theme.loading, themeData: theme.data?.name }, null, 2)}</pre>
+      */}
+      <pre>{JSON.stringify({ themes: themes.length }, null, 2)}</pre>
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
         {themes.map(theme => (
-          <div style={{background: 'black'}}>
+          <div key={theme.id} style={{ background: 'black' }}>
             <input
               type="radio"
               id={theme.id}
@@ -44,11 +48,13 @@ const Test: NextPage<Props> = observer(({ data }) => {
               <img style={{ width: 100, height: 50 }} src={theme.thumbnail_url} />
               <h2>{theme.name}</h2>
             </label>
-            <button style={{width: '100%'}}>Delete</button>
+            <button style={{ width: '100%' }} onClick={() => handleDeleteTheme(theme.id)}>
+              Delete
+            </button>
           </div>
         ))}
       </div>
-      <pre>{JSON.stringify({  }, null, 2)}</pre>
+      <pre>{JSON.stringify({}, null, 2)}</pre>
     </div>
   )
 })

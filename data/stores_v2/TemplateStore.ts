@@ -28,6 +28,13 @@ export class TemplateStore {
     console.log(res)
   }
 
+  handleDeleteTheme = async (themeID: string) => {
+    const index = this.themes.findIndex(theme => theme.id === themeID)
+    if (index) delete this.themes[index]
+    const res = await fetch(`/api/themes/delete?themeID=${themeID}`).then(res => res.json())
+    console.log(res)
+  }
+
   setTemplate = (template: TemplateData) => {
     this.id = template.id
     this.title = template.title
