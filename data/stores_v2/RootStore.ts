@@ -1,11 +1,13 @@
 import { makeAutoObservable } from 'mobx'
-import { TemplateStore } from './TemplateStore'
+import { ContentStore } from './content/ContentStore'
 
 export class RootStore {
-  template: TemplateStore = null
+  content: ContentStore = null
 
   constructor() {
-    this.template = new TemplateStore(this)
+    this.content = new ContentStore(this)
     makeAutoObservable(this)
   }
 }
+
+export const store = new RootStore()

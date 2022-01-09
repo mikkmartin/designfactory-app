@@ -2,13 +2,12 @@ import { NextPage } from 'next'
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { db, TemplateData } from 'data/db'
 import { observer } from 'mobx-react-lite'
-import { useEffect, useRef, useState } from 'react'
-import { useStore } from 'hooks/useStore'
-import { useRouter } from 'next/router'
+import { useRef, useState } from 'react'
 import { supabase } from 'data/db/config'
 import { definitions } from 'data/db/types'
 import Link from 'next/link'
 import storageURL from 'lib/static/storageURL'
+import { store } from 'data/stores_v2'
 
 type Props = {
   slug: string
@@ -19,16 +18,15 @@ type Props = {
 const Test: NextPage<Props> = observer(({ slug, data }) => {
   //return <pre>{JSON.stringify({ slug, data }, null, 2)}</pre>
   setInitialData(data, slug)
-  const { template } = useStore()
   const {
-    title,
-    description,
     theme: selectedTheme,
     themes,
     setTheme,
     handleAddTheme,
     handleDeleteTheme,
-  } = template
+    template: selectedTemplate,
+    templates,
+  } = store.content
 
   const [figmaID, setFigmaID] = useState('uhifEQPClI8AdGz3vX667v')
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -37,15 +35,31 @@ const Test: NextPage<Props> = observer(({ slug, data }) => {
   }
 
   return (
-    <div style={{ display: 'grid', gap: 8, padding: '1rem' }}>
-      <h1>{title}</h1>
-      <p>{description}</p>
+    <div style={{ display: 'grid', gap: 16, padding: 32 }}>
+      <select style={{ width: 200 }}>
+        {!Boolean(templates.length) ? (
+          <option key={selectedTemplate.id} value={selectedTemplate.id} selected>
+            {selectedTemplate.title}
+          </option>
+        ) : (
+          templates.map(template => (
+            <option
+              key={template.id}
+              value={template.id}
+              selected={selectedTemplate.id === template.id}>
+              {template.title}
+            </option>
+          ))
+        )}
+      </select>
+      <h1>{selectedTemplate.title}</h1>
+      <p>{selectedTemplate.description}</p>
       <form onSubmit={handleSubmit}>
         <input type="text" value={figmaID} onChange={ev => setFigmaID(ev.target.value)} />
         <button type="submit">Submit</button>
       </form>
 
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
         {themes.map(theme => (
           <Link key={theme.slug} href={theme.slug} shallow>
             <a
@@ -74,7 +88,13 @@ const Test: NextPage<Props> = observer(({ slug, data }) => {
           </Link>
         ))}
       </div>
-      <pre>{JSON.stringify({ loading: selectedTheme.loading, themeData: selectedTheme.data?.name }, null, 2)}</pre>
+      <pre>
+        {JSON.stringify(
+          { selectedTemplate, loading: selectedTheme.loading, themeData: selectedTheme.data?.name },
+          null,
+          2
+        )}
+      </pre>
     </div>
   )
 })
@@ -102,10 +122,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 const setInitialData = (template: TemplateData, slug: string) => {
   const id = useRef(null)
-  const store = useStore()
   if (id.current !== template.id) {
     id.current = template.id
-    store.template.setTemplate(template, slug)
+    store.content.setInitialData(template, slug)
   }
 }
 
