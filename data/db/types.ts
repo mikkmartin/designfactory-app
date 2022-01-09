@@ -501,9 +501,9 @@ export interface paths {
         body: {
           args: {
             /** Format: uuid */
-            new_theme_id: string;
-            /** Format: uuid */
             id: string;
+            /** Format: uuid */
+            remove_theme_id: string;
           };
         };
         header: {

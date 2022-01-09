@@ -29,8 +29,7 @@ export class TemplateStore {
   }
 
   handleDeleteTheme = async (themeID: string) => {
-    const index = this.themes.findIndex(theme => theme.id === themeID)
-    if (index) delete this.themes[index]
+    this.themes = this.themes.filter(theme => theme.id !== themeID)
     const res = await fetch(`/api/themes/delete?themeID=${themeID}`).then(res => res.json())
     console.log(res)
   }

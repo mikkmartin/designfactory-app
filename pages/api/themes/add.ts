@@ -4,8 +4,9 @@ import { supabase } from 'data/db/config'
 import { definitions, paths, parameters } from 'data/db/types'
 import slugify from 'slugify'
 
+type Params = paths['/rpc/template_append_theme']['post']['parameters']['body']['args']
 const appendTemplateTheme = (
-  params: paths['/rpc/template_append_theme']['post']['parameters']['body']['args']
+  params: Params
 ) => supabase.rpc('template_append_theme', params)
 
 export default async (req, res: NextApiResponse) => {

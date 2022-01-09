@@ -12,8 +12,15 @@ type Props = {
 const Test: NextPage<Props> = observer(({ data }) => {
   setInitialData(data)
   const { template } = useStore()
-  const { title, description, theme, themes, setTheme, handleAddTheme, handleDeleteTheme } =
-    template
+  const {
+    title,
+    description,
+    theme: selectedTheme,
+    themes,
+    setTheme,
+    handleAddTheme,
+    handleDeleteTheme,
+  } = template
 
   const [figmaID, setFigmaID] = useState('uhifEQPClI8AdGz3vX667v')
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -36,7 +43,9 @@ const Test: NextPage<Props> = observer(({ data }) => {
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
         {themes.map(theme => (
-          <div key={theme.id} style={{ background: 'black' }}>
+          <div
+            key={theme.id}
+            style={{ background: theme.id === selectedTheme.id ? 'white' : 'black' }}>
             <input
               type="radio"
               id={theme.id}
