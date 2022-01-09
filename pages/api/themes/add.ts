@@ -37,7 +37,11 @@ export default async (req, res: NextApiResponse) => {
 
     //upload thumbnail
     const thumbnail_url = `/files/${slug}.png`
-    await supabase.storage.from('themes').upload(path + '.png', baseURL + thumbnail_url, {
+    const fileAsset =
+      process.env.NODE_ENV === 'production'
+        ? baseURL + thumbnail_url
+        : await fetch(baseURL + thumbnail_url).then(res => res.blob())
+    await supabase.storage.from('themes').upload(path + '.png', fileAsset, {
       contentType: 'image/png',
     })
 

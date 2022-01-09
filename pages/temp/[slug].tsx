@@ -60,7 +60,7 @@ const Test: NextPage<Props> = observer(({ slug, data }) => {
               }}>
               <img
                 src={`https://sdqycteblanimltlbiss.supabase.in/storage/v1/object/public/themes/files/${theme.slug}.png`}
-                style={{ width: 100, height: 50 }}
+                style={{ width: 100, height: 50, objectFit: 'cover' }}
               />
               <h2>{theme.title}</h2>
               <small>{theme.slug}</small>
