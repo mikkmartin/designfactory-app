@@ -236,7 +236,6 @@ export interface paths {
           file_type?: parameters["rowFilter.templates.file_type"];
           slug?: parameters["rowFilter.templates.slug"];
           default_theme?: parameters["rowFilter.templates.default_theme"];
-          themes?: parameters["rowFilter.templates.themes"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -297,7 +296,6 @@ export interface paths {
           file_type?: parameters["rowFilter.templates.file_type"];
           slug?: parameters["rowFilter.templates.slug"];
           default_theme?: parameters["rowFilter.templates.default_theme"];
-          themes?: parameters["rowFilter.templates.themes"];
         };
         header: {
           /** Preference */
@@ -322,7 +320,6 @@ export interface paths {
           file_type?: parameters["rowFilter.templates.file_type"];
           slug?: parameters["rowFilter.templates.slug"];
           default_theme?: parameters["rowFilter.templates.default_theme"];
-          themes?: parameters["rowFilter.templates.themes"];
         };
         body: {
           /** templates */
@@ -347,7 +344,7 @@ export interface paths {
           created_at?: parameters["rowFilter.themes.created_at"];
           modified_at?: parameters["rowFilter.themes.modified_at"];
           deleted_at?: parameters["rowFilter.themes.deleted_at"];
-          owner_profile_id?: parameters["rowFilter.themes.owner_profile_id"];
+          owner_template_id?: parameters["rowFilter.themes.owner_template_id"];
           thumbnail_url?: parameters["rowFilter.themes.thumbnail_url"];
           figma_file_url?: parameters["rowFilter.themes.figma_file_url"];
           ui_schema?: parameters["rowFilter.themes.ui_schema"];
@@ -407,7 +404,7 @@ export interface paths {
           created_at?: parameters["rowFilter.themes.created_at"];
           modified_at?: parameters["rowFilter.themes.modified_at"];
           deleted_at?: parameters["rowFilter.themes.deleted_at"];
-          owner_profile_id?: parameters["rowFilter.themes.owner_profile_id"];
+          owner_template_id?: parameters["rowFilter.themes.owner_template_id"];
           thumbnail_url?: parameters["rowFilter.themes.thumbnail_url"];
           figma_file_url?: parameters["rowFilter.themes.figma_file_url"];
           ui_schema?: parameters["rowFilter.themes.ui_schema"];
@@ -431,7 +428,7 @@ export interface paths {
           created_at?: parameters["rowFilter.themes.created_at"];
           modified_at?: parameters["rowFilter.themes.modified_at"];
           deleted_at?: parameters["rowFilter.themes.deleted_at"];
-          owner_profile_id?: parameters["rowFilter.themes.owner_profile_id"];
+          owner_template_id?: parameters["rowFilter.themes.owner_template_id"];
           thumbnail_url?: parameters["rowFilter.themes.thumbnail_url"];
           figma_file_url?: parameters["rowFilter.themes.figma_file_url"];
           ui_schema?: parameters["rowFilter.themes.ui_schema"];
@@ -638,8 +635,6 @@ export interface definitions {
     slug: string;
     /** Format: uuid */
     default_theme?: string;
-    /** Format: ARRAY */
-    themes?: unknown[];
   };
   themes: {
     /**
@@ -664,9 +659,9 @@ export interface definitions {
     /**
      * Format: uuid
      * @description Note:
-     * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
+     * This is a Foreign Key to `templates.id`.<fk table='templates' column='id'/>
      */
-    owner_profile_id?: string;
+    owner_template_id?: string;
     /** Format: character varying */
     thumbnail_url?: string;
     /** Format: character varying */
@@ -764,8 +759,6 @@ export interface parameters {
   "rowFilter.templates.slug": string;
   /** Format: uuid */
   "rowFilter.templates.default_theme": string;
-  /** Format: ARRAY */
-  "rowFilter.templates.themes": string;
   /** @description themes */
   "body.themes": definitions["themes"];
   /** Format: uuid */
@@ -777,7 +770,7 @@ export interface parameters {
   /** Format: timestamp with time zone */
   "rowFilter.themes.deleted_at": string;
   /** Format: uuid */
-  "rowFilter.themes.owner_profile_id": string;
+  "rowFilter.themes.owner_template_id": string;
   /** Format: character varying */
   "rowFilter.themes.thumbnail_url": string;
   /** Format: character varying */

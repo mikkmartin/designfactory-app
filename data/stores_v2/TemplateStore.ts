@@ -41,7 +41,7 @@ export class TemplateStore {
     this.id = template.id
     this.title = template.title
     this.description = template.description
-    this.themes = template.theme_options.map(theme => ({ ...theme, loading: false, data: null }))
+    this.themes = template.themes.map(theme => ({ ...theme, loading: false, data: null }))
     this.setTheme(template.default_theme)
   }
 

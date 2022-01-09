@@ -1,11 +1,8 @@
 import { NextApiResponse } from 'next'
 import { getTemplate } from 'data/figma'
 import { supabase } from 'data/db/config'
-import { definitions, paths } from 'data/db/types'
+import { definitions } from 'data/db/types'
 import slugify from 'slugify'
-
-type Params = paths['/rpc/template_append_theme']['post']['parameters']['body']['args']
-const appendTemplateTheme = (params: Params) => supabase.rpc('template_append_theme', params)
 
 export default async (req, res: NextApiResponse) => {
   try {
@@ -19,7 +16,8 @@ export default async (req, res: NextApiResponse) => {
     //create theme db entry
     const { data, error } = await supabase
       .from<definitions['themes']>('themes')
-      .insert({ name, title })
+      //@ts-ignore
+      .insert({ name, title, owner_template_id: templateID })
       .single()
     if (error) throw new Error(error.message)
     res.json({ data, error })
@@ -27,10 +25,10 @@ export default async (req, res: NextApiResponse) => {
     const new_theme_id = data.id
 
     //merge to theme
-    await appendTemplateTheme({ id: templateID, new_theme_id })
-    const path = `files/link-image/${name}`
-
+    //await appendTemplateTheme({ id: templateID, new_theme_id })
+    
     //upload theme file
+    const path = `files/link-image/${name}`
     await supabase.storage
       .from('themes')
       .upload(path + '.json', Buffer.from(JSON.stringify(file)), {
