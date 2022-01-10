@@ -13,7 +13,6 @@ import { useRouter } from 'next/router'
 type Props = {
   slug: string
   data: TemplateData
-  error: any
 }
 
 const Test: NextPage<Props> = observer(() => {
@@ -98,8 +97,9 @@ const Test: NextPage<Props> = observer(() => {
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const slug = params.slug as string
   const { data, error } = await db.getTemplate(slug)
+  if (error) return { notFound: true }
   return {
-    props: { slug, data, error },
+    props: { slug, data },
     revalidate: 1,
   }
 }
@@ -108,11 +108,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const { data } = await supabase
     .from<definitions['themes']>('themes')
     .select('slug')
-    .not('deleted_at', 'is', 'null')
-  return {
-    paths: data.map(({ slug }) => ({ params: { slug } })),
-    fallback: 'blocking',
-  }
+    .is('deleted_at', null)
+  const paths = data.map(({ slug }) => ({ params: { slug } }))
+  return { paths, fallback: 'blocking' }
 }
 
 export default Test
