@@ -47,4 +47,4 @@ export type TemplateData = definitions['templates'] & {
 }
 
 export const getTemplate = async (slug: string) =>
-  supabase.rpc<TemplateData>('get_template_by_slug', { slug }).single()
+  supabase.rpc<TemplateData>('get_template_by_slug', { slug_input: slug }).single()

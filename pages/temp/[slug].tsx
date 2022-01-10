@@ -15,8 +15,8 @@ type Props = {
   error: any
 }
 
-const Test: NextPage<Props> = observer(({ slug, data }) => {
-  //return <pre>{JSON.stringify({ slug, data }, null, 2)}</pre>
+const Test: NextPage<Props> = observer(({ slug, data, error }) => {
+  //return <pre>{JSON.stringify({ slug, data, error }, null, 2)}</pre>
   setInitialData(data, slug)
   const { template, templates } = store.content
   const { theme, themes, setTheme, handleAddTheme, handleDeleteTheme } = template
@@ -35,9 +35,9 @@ const Test: NextPage<Props> = observer(({ slug, data }) => {
             {template.title}
           </option>
         ) : (
-          templates.map(({ id }) => (
-            <option key={id} value={id} selected={id === id}>
-              {template.title}
+          templates.map(({ id, title }) => (
+            <option key={id} value={id} selected={template.id === id}>
+              {title}
             </option>
           ))
         )}
@@ -90,9 +90,8 @@ const Test: NextPage<Props> = observer(({ slug, data }) => {
 })
 
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
-  console.log(params)
   const slug = params.slug as string
-  const { data, error } = await db.getTemplate(slug)
+  const { data, error, status, statusText } = await db.getTemplate(slug)
   return {
     props: { slug, data, error },
     revalidate: 1,
