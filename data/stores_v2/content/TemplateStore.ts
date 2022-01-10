@@ -1,14 +1,10 @@
 import { definitions } from 'data/db/types'
-import { FileResponse } from '@mikkmartin/figma-js'
 import { makeAutoObservable, runInAction } from 'mobx'
 import storageURL from 'lib/static/storageURL'
+import { ThemeStore } from './ThemeStore'
 
 type TemplateData = definitions['templates'] & {
   themes: definitions['themes'][]
-}
-type Theme = definitions['themes'] & {
-  data: FileResponse
-  loading: boolean
 }
 
 export class TemplateStore {
@@ -16,17 +12,17 @@ export class TemplateStore {
   title: TemplateData['title'] = null
   description: TemplateData['description'] = null
   defaultThemeSlug: TemplateData['default_theme_slug'] = null
-  theme: Theme = null
-  themes: Theme[] = []
+  theme: ThemeStore = null
+  themes: ThemeStore[] = []
 
   constructor(template: TemplateData, slug?: string) {
-    makeAutoObservable(this)
     this.id = template.id
     this.title = template.title
     this.description = template.description
     this.defaultThemeSlug = template.default_theme_slug
+    makeAutoObservable(this)
     if (slug) {
-      this.themes = template.themes.map(theme => ({ ...theme, data: null, loading: true }))
+      this.themes = template.themes.map(theme => new ThemeStore(theme))
       this.setTheme(slug)
     }
   }

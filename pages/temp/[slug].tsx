@@ -2,7 +2,7 @@ import { NextPage } from 'next'
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { db, TemplateData } from 'data/db'
 import { observer } from 'mobx-react-lite'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { supabase } from 'data/db/config'
 import { definitions } from 'data/db/types'
 import Link from 'next/link'
@@ -16,10 +16,9 @@ type Props = {
   error: any
 }
 
-const Test: NextPage<Props> = observer(({ slug, data, error }) => {
-  //return <pre>{JSON.stringify({ slug, data, error }, null, 2)}</pre>
-  setInitialData(data, slug)
-  const { template, templates, setTemplate } = store.content
+const Test: NextPage<Props> = observer(() => {
+  //return <pre>{JSON.stringify({ template, templates }, null, 2)}</pre>
+  const { template, templates } = store.content
   const { theme, themes, setTheme, handleAddTheme, handleDeleteTheme } = template
   const router = useRouter()
 
@@ -32,20 +31,18 @@ const Test: NextPage<Props> = observer(({ slug, data, error }) => {
   const handleTemplateChange = (ev: React.ChangeEvent<HTMLSelectElement>) => {
     const id = ev.target.value
     const template = templates.find(t => t.id === id)
-    const slug = template?.defaultThemeSlug
-    if (slug) router.push(`/temp/${slug}`)
+    const slug = template.defaultThemeSlug
+    router.push(`/temp/${slug}`)
   }
 
   return (
     <div style={{ display: 'grid', gap: 16, padding: 32 }}>
-      <select style={{ width: 200 }} onChange={handleTemplateChange}>
+      <select style={{ width: 200 }} defaultValue={template.id} onChange={handleTemplateChange}>
         {!Boolean(templates.length) ? (
-          <option key={template.id} value={template.id} selected>
-            {template.title}
-          </option>
+          <option key={template.id}>{template.title}</option>
         ) : (
           templates.map(({ id, title }) => (
-            <option key={id} value={id} selected={template.id === id}>
+            <option key={id} value={id}>
               {title}
             </option>
           ))
@@ -100,7 +97,7 @@ const Test: NextPage<Props> = observer(({ slug, data, error }) => {
 
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const slug = params.slug as string
-  const { data, error, status, statusText } = await db.getTemplate(slug)
+  const { data, error } = await db.getTemplate(slug)
   return {
     props: { slug, data, error },
     revalidate: 1,
@@ -115,14 +112,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: data.map(({ slug }) => ({ params: { slug } })),
     fallback: 'blocking',
-  }
-}
-
-const setInitialData = (template: TemplateData, slug: string) => {
-  const id = useRef(null)
-  if (id.current !== template.id) {
-    id.current = template.id
-    store.content.setInitialData(template, slug)
   }
 }
 
