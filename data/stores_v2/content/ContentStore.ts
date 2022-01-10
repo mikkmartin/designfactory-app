@@ -7,11 +7,15 @@ export class ContentStore {
   //@ts-ignore
   private rootStore: RootStore
   template: TemplateStore = null
-  templates = []
+  templates: TemplateStore[] = []
 
   constructor(rootStore: RootStore) {
     makeAutoObservable(this)
     this.rootStore = rootStore
+  }
+
+  setTemplate = (id: string) => {
+    this.template = this.templates.find(template => template.id === id)
   }
 
   setInitialData = async (template: TemplateData, slug: string) => {

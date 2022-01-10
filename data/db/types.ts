@@ -234,6 +234,7 @@ export interface paths {
           description?: parameters["rowFilter.templates.description"];
           title?: parameters["rowFilter.templates.title"];
           file_type?: parameters["rowFilter.templates.file_type"];
+          default_theme_slug?: parameters["rowFilter.templates.default_theme_slug"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -292,6 +293,7 @@ export interface paths {
           description?: parameters["rowFilter.templates.description"];
           title?: parameters["rowFilter.templates.title"];
           file_type?: parameters["rowFilter.templates.file_type"];
+          default_theme_slug?: parameters["rowFilter.templates.default_theme_slug"];
         };
         header: {
           /** Preference */
@@ -314,6 +316,7 @@ export interface paths {
           description?: parameters["rowFilter.templates.description"];
           title?: parameters["rowFilter.templates.title"];
           file_type?: parameters["rowFilter.templates.file_type"];
+          default_theme_slug?: parameters["rowFilter.templates.default_theme_slug"];
         };
         body: {
           /** templates */
@@ -572,6 +575,8 @@ export interface definitions {
      * @default image
      */
     file_type: string;
+    /** Format: character varying */
+    default_theme_slug: string;
   };
   themes: {
     /**
@@ -683,6 +688,8 @@ export interface parameters {
   "rowFilter.templates.title": string;
   /** Format: character varying */
   "rowFilter.templates.file_type": string;
+  /** Format: character varying */
+  "rowFilter.templates.default_theme_slug": string;
   /** @description themes */
   "body.themes": definitions["themes"];
   /** Format: character varying */

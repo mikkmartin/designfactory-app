@@ -15,6 +15,7 @@ export class TemplateStore {
   id: TemplateData['id'] = null
   title: TemplateData['title'] = null
   description: TemplateData['description'] = null
+  defaultThemeSlug: TemplateData['default_theme_slug'] = null
   theme: Theme = null
   themes: Theme[] = []
 
@@ -23,6 +24,7 @@ export class TemplateStore {
     this.id = template.id
     this.title = template.title
     this.description = template.description
+    this.defaultThemeSlug = template.default_theme_slug
     if (slug) {
       this.themes = template.themes.map(theme => ({ ...theme, data: null, loading: true }))
       this.setTheme(slug)

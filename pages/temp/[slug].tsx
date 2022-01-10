@@ -8,6 +8,7 @@ import { definitions } from 'data/db/types'
 import Link from 'next/link'
 import storageURL from 'lib/static/storageURL'
 import { store } from 'data/stores_v2'
+import { useRouter } from 'next/router'
 
 type Props = {
   slug: string
@@ -18,8 +19,9 @@ type Props = {
 const Test: NextPage<Props> = observer(({ slug, data, error }) => {
   //return <pre>{JSON.stringify({ slug, data, error }, null, 2)}</pre>
   setInitialData(data, slug)
-  const { template, templates } = store.content
+  const { template, templates, setTemplate } = store.content
   const { theme, themes, setTheme, handleAddTheme, handleDeleteTheme } = template
+  const router = useRouter()
 
   const [figmaID, setFigmaID] = useState('uhifEQPClI8AdGz3vX667v')
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -27,9 +29,16 @@ const Test: NextPage<Props> = observer(({ slug, data, error }) => {
     handleAddTheme(figmaID)
   }
 
+  const handleTemplateChange = (ev: React.ChangeEvent<HTMLSelectElement>) => {
+    const id = ev.target.value
+    const template = templates.find(t => t.id === id)
+    const slug = template?.defaultThemeSlug
+    if (slug) router.push(`/temp/${slug}`)
+  }
+
   return (
     <div style={{ display: 'grid', gap: 16, padding: 32 }}>
-      <select style={{ width: 200 }}>
+      <select style={{ width: 200 }} onChange={handleTemplateChange}>
         {!Boolean(templates.length) ? (
           <option key={template.id} value={template.id} selected>
             {template.title}
