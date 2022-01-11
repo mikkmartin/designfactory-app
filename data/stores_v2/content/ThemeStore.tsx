@@ -3,16 +3,16 @@ import { FileResponse } from '@mikkmartin/figma-js'
 import { makeAutoObservable, runInAction } from 'mobx'
 import storageURL from 'lib/static/storageURL'
 
-type ThemeData = definitions['themes']
+type Data = definitions['themes']
 
 export class ThemeStore {
-  slug: ThemeData['slug']
-  title: ThemeData['title']
+  slug: Data['slug']
+  title: Data['title']
 
   loading: boolean = true
   data: FileResponse = null
 
-  constructor(themeData: ThemeData) {
+  constructor(themeData: Data) {
     this.title = themeData.title
     this.slug = themeData.slug
     makeAutoObservable(this)

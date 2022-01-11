@@ -1,21 +1,20 @@
 import { definitions } from 'data/db/types'
 import { makeAutoObservable, runInAction } from 'mobx'
 import { ThemeStore } from './ThemeStore'
-import {} from 'next/router'
 
-type TemplateData = definitions['templates'] & {
+type Data = definitions['templates'] & {
   themes: definitions['themes'][]
 }
 
 export class TemplateStore {
-  id: TemplateData['id'] = null
-  title: TemplateData['title'] = null
-  description: TemplateData['description'] = null
-  defaultThemeSlug: TemplateData['default_theme_slug'] = null
+  id: Data['id'] = null
+  title: Data['title'] = null
+  description: Data['description'] = null
+  defaultThemeSlug: Data['default_theme_slug'] = null
   theme: ThemeStore = null
   themes: ThemeStore[] = []
 
-  constructor(data) {
+  constructor(data: Data) {
     const { id, title, description, default_theme_slug, themes } = data
     this.id = id
     this.title = title

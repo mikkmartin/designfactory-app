@@ -1,6 +1,7 @@
 import type { RootStore } from '../RootStore'
 import { makeAutoObservable, runInAction } from 'mobx'
 import { TemplateStore } from './TemplateStore'
+import type { Router } from 'next/router'
 
 export class ContentStore {
   //@ts-ignore
@@ -13,6 +14,30 @@ export class ContentStore {
     this.rootStore = rootStore
   }
 
+  setRouteListener = (router: Router) => {
+    router.events.on('routeChangeStart', (url, { shallow }) => {
+      try {
+        if (!shallow) return
+        this.onShallowRouteChange(url)
+      } catch (e) {
+        console.error(e)
+      }
+    })
+  }
+
+  onShallowRouteChange = (url: string) => {
+    if (!url.includes('/temp/')) return
+    const slug = url.split('/temp/')[1]
+    const synced = this.template.theme.slug === slug
+    if (synced) return
+    this.templates.forEach(template => {
+      const theme = template.themes.find(theme => theme.slug === slug)
+      if (!theme) return
+      this.template = template
+      this.template.theme = theme
+    })
+  }
+
   setInitialData = ({ data, slug }) => {
     this.templates[0] = new TemplateStore(data)
     this.template = this.templates[0]
@@ -22,7 +47,9 @@ export class ContentStore {
 
   setTemplate = id => {
     this.template = this.templates.find(template => template.id === id)
-    this.template.theme = this.template.themes.find(theme => theme.slug === this.template.defaultThemeSlug)
+    this.template.theme = this.template.themes.find(
+      theme => theme.slug === this.template.defaultThemeSlug
+    )
   }
 
   getAllTempaltes = async () => {
