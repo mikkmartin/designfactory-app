@@ -56,7 +56,7 @@ const Test: NextPage<Props> = observer(() => {
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
         {themes.map(({ slug, title }) => (
-          <Link key={slug} href={slug} shallow>
+          <Link key={slug} href={`/temp/${slug}`} shallow>
             <a
               onClick={() => setTheme(slug)}
               key={slug}

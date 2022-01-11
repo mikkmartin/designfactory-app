@@ -37,7 +37,6 @@ export class TemplateStore {
     const data = await fetch(`${storageURL}/themes/files/${this.theme.slug}.json`).then(res =>
       res.json()
     )
-    console.log('loading')
     runInAction(() => {
       this.theme.data = data
       this.theme.loading = false
@@ -48,7 +47,6 @@ export class TemplateStore {
     const res = await fetch(
       `/api/themes/add?templateID=${this.id}&figmaFileID=${figmaFileID}`
     ).then(res => res.json())
-    console.log(res)
     runInAction(() => {
       this.themes.push(res.data)
     })

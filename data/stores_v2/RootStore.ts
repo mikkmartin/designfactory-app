@@ -1,12 +1,6 @@
 import { makeAutoObservable } from 'mobx'
 import { ContentStore } from './content/ContentStore'
-import type { TemplateData } from 'data/db'
-import type { Router } from 'next/router'
-
-type HydrationData = {
-  router: Router
-  pageProps: { data: TemplateData }
-}
+import { enableStaticRendering } from 'mobx-react-lite'
 
 export class RootStore {
   content: ContentStore = null
@@ -15,12 +9,13 @@ export class RootStore {
     this.content = new ContentStore(this)
     makeAutoObservable(this)
   }
-
-  hydrate({ router, pageProps }: HydrationData) {
-    if (router.route === '/temp/[slug]') {
-      this.content.hydrateTemplate(pageProps.data, router.query.slug as string)
-    }
-  }
 }
 
-export const store = new RootStore()
+enableStaticRendering(!process.browser)
+let _store: RootStore
+const getStore = () => {
+  if (_store && process.browser) return _store
+  return new RootStore()
+}
+
+export const store = getStore()

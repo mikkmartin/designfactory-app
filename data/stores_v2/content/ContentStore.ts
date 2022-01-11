@@ -15,13 +15,14 @@ export class ContentStore {
     this.rootStore = rootStore
   }
 
-  hydrateTemplate = (initialData: TemplateData, slug: string) => {
+  hydrateTemplate = ({ data, slug }: { data: TemplateData; slug: string }) => {
     if (!this.template) {
-      this.template = new TemplateStore(initialData, slug)
+      this.template = new TemplateStore(data, slug)
       this.getAllTempaltes()
-    } else {
-      this.template = this.templates.find(({ id }) => id === initialData.id)
-      this.template.themes = initialData.themes.map(theme => new ThemeStore(theme))
+    } else if (process.browser) {
+      this.template = this.templates.find(({ id }) => id === data.id)
+      this.template.themes = data.themes.map(theme => new ThemeStore(theme))
+      this.template.theme = this.template.themes.find(({ slug }) => slug === slug)
     }
   }
 
@@ -29,7 +30,7 @@ export class ContentStore {
     const { data, error } = await fetch(`/api/templates/get`).then(res => res.json())
     if (error) return console.error(error)
     runInAction(() => {
-      this.templates = data.map(t => new TemplateStore(t))
+      this.templates = data.map(template => new TemplateStore(template))
     })
   }
 }
