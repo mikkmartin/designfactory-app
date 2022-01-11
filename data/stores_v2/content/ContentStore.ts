@@ -1,8 +1,6 @@
 import type { RootStore } from '../RootStore'
-import type { TemplateData } from 'data/db'
 import { makeAutoObservable, runInAction } from 'mobx'
 import { TemplateStore } from './TemplateStore'
-import { ThemeStore } from './ThemeStore'
 
 export class ContentStore {
   //@ts-ignore
@@ -15,12 +13,16 @@ export class ContentStore {
     this.rootStore = rootStore
   }
 
-  hydrateTemplate = ({ data, slug }: { data: TemplateData; slug: string }) => {
-    if (this.template && this.template.id === data.id) return
-    this.template = new TemplateStore(data)
-    this.template.themes = data.themes.map(theme => new ThemeStore(theme))
+  setInitialData = ({ data, slug }) => {
+    this.templates[0] = new TemplateStore(data)
+    this.template = this.templates[0]
     this.template.theme = this.template.themes.find(theme => theme.slug === slug)
     this.getAllTempaltes()
+  }
+
+  setTemplate = id => {
+    this.template = this.templates.find(template => template.id === id)
+    this.template.theme = this.template.themes.find(theme => theme.slug === this.template.defaultThemeSlug)
   }
 
   getAllTempaltes = async () => {

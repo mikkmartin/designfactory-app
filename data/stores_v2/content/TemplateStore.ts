@@ -14,12 +14,15 @@ export class TemplateStore {
   theme: ThemeStore = null
   themes: ThemeStore[] = []
 
-  constructor(template: TemplateData) {
-    this.id = template.id
-    this.title = template.title
-    this.description = template.description
-    this.defaultThemeSlug = template.default_theme_slug
+  constructor(data) {
+    const { id, title, description, default_theme_slug, themes } = data
+    this.id = id
+    this.title = title
+    this.description = description
+    this.defaultThemeSlug = default_theme_slug
+
     makeAutoObservable(this)
+    this.themes = themes.map(theme => new ThemeStore(theme))
   }
 
   setTheme = (slug: string) => {

@@ -9,6 +9,12 @@ export class RootStore {
     this.content = new ContentStore(this)
     makeAutoObservable(this)
   }
+
+  setInitialState = props => {
+    //Auth Store
+    //this.auth.authenticate(props)
+    this.content.setInitialData(props)
+  }
 }
 
 enableStaticRendering(!process.browser)

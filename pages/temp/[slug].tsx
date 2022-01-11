@@ -6,7 +6,6 @@ import { useState } from 'react'
 import { supabase } from 'data/db/config'
 import { definitions } from 'data/db/types'
 import Link from 'next/link'
-import storageURL from 'lib/static/storageURL'
 import { store } from 'data/stores_v2'
 import { useRouter } from 'next/router'
 
@@ -16,7 +15,7 @@ type Props = {
 }
 
 const Test: NextPage<Props> = observer(() => {
-  const { template, templates } = store.content
+  const { template, templates, setTemplate } = store.content
   //return <pre>{JSON.stringify({ template, templates }, null, 2)}</pre>
   const { theme, themes, setTheme, addTheme, deleteTheme } = template
   const router = useRouter()
@@ -31,7 +30,8 @@ const Test: NextPage<Props> = observer(() => {
     const id = ev.target.value
     const template = templates.find(t => t.id === id)
     const slug = template.defaultThemeSlug
-    router.push(`/temp/${slug}`)
+    setTemplate(id)
+    router.push(`/temp/${slug}`, undefined, { shallow: true })
   }
 
   return (
