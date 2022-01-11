@@ -1,22 +1,32 @@
 import { definitions } from 'data/db/types'
 import { FileResponse } from '@mikkmartin/figma-js'
-import { makeAutoObservable } from 'mobx'
+import { makeAutoObservable, runInAction } from 'mobx'
+import storageURL from 'lib/static/storageURL'
 
 type ThemeData = definitions['themes']
 
 export class ThemeStore {
   slug: ThemeData['slug']
   title: ThemeData['title']
-  created_at: ThemeData['created_at']
-  modified_at: ThemeData['modified_at']
-  deleted_at: ThemeData['deleted_at']
-  owner_template_id: ThemeData['owner_template_id']
 
   loading: boolean = true
   data: FileResponse = null
 
   constructor(themeData: ThemeData) {
-    Object.assign(this, themeData)
+    this.title = themeData.title
+    this.slug = themeData.slug
     makeAutoObservable(this)
+  }
+
+  get thumbnailUrl() {
+    return `${storageURL}/themes/files/${this.slug}.png`
+  }
+
+  loadData = async () => {
+    const data = await fetch(`${storageURL}/themes/files/${this.slug}.json`).then(res => res.json())
+    runInAction(() => {
+      this.data = data
+      this.loading = false
+    })
   }
 }

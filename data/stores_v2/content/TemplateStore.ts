@@ -1,6 +1,5 @@
 import { definitions } from 'data/db/types'
 import { makeAutoObservable, runInAction } from 'mobx'
-import storageURL from 'lib/static/storageURL'
 import { ThemeStore } from './ThemeStore'
 
 type TemplateData = definitions['templates'] & {
@@ -15,35 +14,20 @@ export class TemplateStore {
   theme: ThemeStore = null
   themes: ThemeStore[] = []
 
-  constructor(template: TemplateData, slug?: string) {
+  constructor(template: TemplateData) {
     this.id = template.id
     this.title = template.title
     this.description = template.description
     this.defaultThemeSlug = template.default_theme_slug
     makeAutoObservable(this)
-    if (slug) {
-      this.themes = template.themes.map(theme => new ThemeStore(theme))
-      this.setTheme(slug)
-    }
   }
 
   setTheme = (slug: string) => {
     this.theme = this.themes.find(theme => theme.slug === slug)
-    if (!this.theme.data) this.loadTheme()
+    if (!this.theme.data) this.theme.loadData()
   }
 
-  loadTheme = async () => {
-    this.theme.loading = true
-    const data = await fetch(`${storageURL}/themes/files/${this.theme.slug}.json`).then(res =>
-      res.json()
-    )
-    runInAction(() => {
-      this.theme.data = data
-      this.theme.loading = false
-    })
-  }
-
-  handleAddTheme = async (figmaFileID: string) => {
+  addTheme = async (figmaFileID: string) => {
     const res = await fetch(
       `/api/themes/add?templateID=${this.id}&figmaFileID=${figmaFileID}`
     ).then(res => res.json())
@@ -52,7 +36,7 @@ export class TemplateStore {
     })
   }
 
-  handleDeleteTheme = async (slug: string) => {
+  deleteTheme = async (slug: string) => {
     this.themes = this.themes.filter(theme => theme.slug !== slug)
     const res = await fetch(`/api/themes/delete?slug=${slug}`).then(res => res.json())
     console.log(res)

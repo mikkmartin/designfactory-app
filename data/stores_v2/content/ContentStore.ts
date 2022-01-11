@@ -16,14 +16,11 @@ export class ContentStore {
   }
 
   hydrateTemplate = ({ data, slug }: { data: TemplateData; slug: string }) => {
-    if (!this.template) {
-      this.template = new TemplateStore(data, slug)
-      this.getAllTempaltes()
-    } else if (process.browser) {
-      this.template = this.templates.find(({ id }) => id === data.id)
-      this.template.themes = data.themes.map(theme => new ThemeStore(theme))
-      this.template.theme = this.template.themes.find(({ slug }) => slug === slug)
-    }
+    if (this.template && this.template.id === data.id) return
+    this.template = new TemplateStore(data)
+    this.template.themes = data.themes.map(theme => new ThemeStore(theme))
+    this.template.theme = this.template.themes.find(theme => theme.slug === slug)
+    this.getAllTempaltes()
   }
 
   getAllTempaltes = async () => {

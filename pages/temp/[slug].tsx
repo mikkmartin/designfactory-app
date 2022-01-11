@@ -16,15 +16,15 @@ type Props = {
 }
 
 const Test: NextPage<Props> = observer(() => {
-  //return <pre>{JSON.stringify({ template, templates }, null, 2)}</pre>
   const { template, templates } = store.content
-  const { theme, themes, setTheme, handleAddTheme, handleDeleteTheme } = template
+  //return <pre>{JSON.stringify({ template, templates }, null, 2)}</pre>
+  const { theme, themes, setTheme, addTheme, deleteTheme } = template
   const router = useRouter()
 
   const [figmaID, setFigmaID] = useState('uhifEQPClI8AdGz3vX667v')
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    handleAddTheme(figmaID)
+    addTheme(figmaID)
   }
 
   const handleTemplateChange = (ev: React.ChangeEvent<HTMLSelectElement>) => {
@@ -55,7 +55,7 @@ const Test: NextPage<Props> = observer(() => {
       </form>
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-        {themes.map(({ slug, title }) => (
+        {themes.map(({ slug, title, thumbnailUrl }) => (
           <Link key={slug} href={`/temp/${slug}`} shallow>
             <a
               onClick={() => setTheme(slug)}
@@ -64,10 +64,7 @@ const Test: NextPage<Props> = observer(() => {
                 background: theme.slug === slug ? 'pink' : 'black',
                 display: 'block',
               }}>
-              <img
-                src={`${storageURL}/themes/files/${slug}.png`}
-                style={{ width: 100, height: 50, objectFit: 'cover' }}
-              />
+              <img src={thumbnailUrl} style={{ width: 100, height: 50, objectFit: 'cover' }} />
               <h2>{title}</h2>
               <small>{slug}</small>
               <button
@@ -75,7 +72,7 @@ const Test: NextPage<Props> = observer(() => {
                 onClick={ev => {
                   ev.preventDefault()
                   ev.stopPropagation()
-                  handleDeleteTheme(slug)
+                  deleteTheme(slug)
                 }}>
                 Delete
               </button>
