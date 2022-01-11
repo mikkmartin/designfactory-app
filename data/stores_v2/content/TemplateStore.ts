@@ -1,6 +1,7 @@
 import { definitions } from 'data/db/types'
 import { makeAutoObservable, runInAction } from 'mobx'
 import { ThemeStore } from './ThemeStore'
+import {} from 'next/router'
 
 type TemplateData = definitions['templates'] & {
   themes: definitions['themes'][]
@@ -35,13 +36,19 @@ export class TemplateStore {
       `/api/themes/add?templateID=${this.id}&figmaFileID=${figmaFileID}`
     ).then(res => res.json())
     runInAction(() => {
-      this.themes.push(res.data)
+      this.themes.push(new ThemeStore(res.data))
     })
   }
 
-  deleteTheme = async (slug: string) => {
-    this.themes = this.themes.filter(theme => theme.slug !== slug)
-    const res = await fetch(`/api/themes/delete?slug=${slug}`).then(res => res.json())
-    console.log(res)
+  deleteTheme = async (slug: string, callback: (newSlug: string) => void) => {
+    if (this.themes.length <= 1) return
+    const removeIndex = this.themes.findIndex(theme => theme.slug === slug)
+    this.themes = this.themes.filter((_, i) => i !== removeIndex)
+    if (!this.themes.find(theme => theme.slug === this.theme.slug)) {
+      const newIndex = removeIndex - 1 > 0 ? removeIndex - 1 : 0
+      this.theme = this.themes[newIndex]
+      if (callback) callback(this.theme.slug)
+    }
+    return await fetch(`/api/themes/delete?slug=${slug}`).then(res => res.json())
   }
 }

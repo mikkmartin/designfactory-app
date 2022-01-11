@@ -34,6 +34,14 @@ const Test: NextPage<Props> = observer(() => {
     router.push(`/temp/${slug}`, undefined, { shallow: true })
   }
 
+  const handleDelete = (ev: React.MouseEvent<HTMLButtonElement>, slug: string) => {
+    ev.preventDefault()
+    ev.stopPropagation()
+    deleteTheme(slug, newSlug => {
+      router.replace(`/temp/${newSlug}`, undefined, { shallow: true })
+    })
+  }
+
   return (
     <div style={{ display: 'grid', gap: 16, padding: 32 }}>
       <select style={{ width: 200 }} defaultValue={template.id} onChange={handleTemplateChange}>
@@ -67,13 +75,7 @@ const Test: NextPage<Props> = observer(() => {
               <img src={thumbnailUrl} style={{ width: 100, height: 50, objectFit: 'cover' }} />
               <h2>{title}</h2>
               <small>{slug}</small>
-              <button
-                style={{ width: '100%' }}
-                onClick={ev => {
-                  ev.preventDefault()
-                  ev.stopPropagation()
-                  deleteTheme(slug)
-                }}>
+              <button style={{ width: '100%' }} onClick={ev => handleDelete(ev, slug)}>
                 Delete
               </button>
             </a>
