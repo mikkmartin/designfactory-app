@@ -10,10 +10,13 @@ export class RootStore {
     makeAutoObservable(this)
   }
 
-  setInitialState = props => {
+  setInitialState = (props, route) => {
     //Auth Store
     //this.auth.authenticate(props)
-    this.content.setInitialData(props)
+    switch (route) {
+      case '/temp/[slug]':
+        this.content.setInitialData(props)
+    }
   }
 }
 
