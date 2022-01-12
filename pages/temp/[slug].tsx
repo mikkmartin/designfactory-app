@@ -1,10 +1,8 @@
 import { NextPage } from 'next'
-import { GetStaticProps, GetStaticPaths } from 'next'
+import { GetServerSideProps } from 'next'
 import { db, TemplateData } from 'data/db'
 import { observer } from 'mobx-react-lite'
 import { useState } from 'react'
-import { supabase } from 'data/db/config'
-import { definitions } from 'data/db/types'
 import Link from 'next/link'
 import { store } from 'data/stores_v2'
 import { useRouter } from 'next/router'
@@ -17,11 +15,10 @@ type Props = {
 
 const Test: NextPage<Props> = observer(() => {
   const { template, templates, setTemplate } = store.content
-  //return <pre>{JSON.stringify({ template, templates }, null, 2)}</pre>
   const { theme, themes, setTheme, addTheme, deleteTheme } = template
+  const [figmaID, setFigmaID] = useState('uhifEQPClI8AdGz3vX667v')
   const router = useRouter()
 
-  const [figmaID, setFigmaID] = useState('uhifEQPClI8AdGz3vX667v')
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     addTheme(figmaID).then(slug => {
@@ -98,23 +95,13 @@ const Test: NextPage<Props> = observer(() => {
   )
 })
 
-export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps<Props> = async ({ params }) => {
   const slug = params.slug as string
   const { data, error } = await db.getTemplate(slug)
   if (error) return { notFound: true }
   return {
     props: { slug, data },
-    revalidate: 1,
   }
-}
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  const { data } = await supabase
-    .from<definitions['themes']>('themes')
-    .select('slug')
-    .is('deleted_at', null)
-  const paths = data.map(({ slug }) => ({ params: { slug } }))
-  return { paths, fallback: 'blocking' }
 }
 
 export default Test
