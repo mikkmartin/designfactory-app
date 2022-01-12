@@ -84,7 +84,7 @@ const Test: NextPage<Props> = observer(() => {
       </div>
       <pre>
         {JSON.stringify(
-          { theme: theme.slug, loading: theme.loading, themeData: theme.data?.name },
+          { theme: theme.slug, loading: theme.loading, themeData: theme.data?.document?.children[0] },
           null,
           2
         )}

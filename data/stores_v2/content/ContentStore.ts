@@ -18,16 +18,16 @@ export class ContentStore {
     router.events.on('routeChangeStart', (url, { shallow }) => {
       try {
         if (!shallow) return
-        this.onShallowRouteChange(url)
+        if (!url.includes('/temp/')) return
+        const slug = url.split('/temp/')[1]
+        this.onShallowRouteChange(slug)
       } catch (e) {
         console.error(e)
       }
     })
   }
 
-  onShallowRouteChange = (url: string) => {
-    if (!url.includes('/temp/')) return
-    const slug = url.split('/temp/')[1]
+  onShallowRouteChange = (slug: string) => {
     const synced = this.template.theme.slug === slug
     if (synced) return
     this.templates.forEach(template => {

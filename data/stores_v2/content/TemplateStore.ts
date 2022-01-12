@@ -22,12 +22,11 @@ export class TemplateStore {
     this.defaultThemeSlug = default_theme_slug
 
     makeAutoObservable(this)
-    this.themes = themes.map(theme => new ThemeStore(theme))
+    this.themes = themes.map(theme => new ThemeStore(this, theme))
   }
 
   setTheme = (slug: string) => {
     this.theme = this.themes.find(theme => theme.slug === slug)
-    if (!this.theme.data) this.theme.loadData()
   }
 
   addTheme = async (figmaFileID: string) => {
@@ -35,7 +34,7 @@ export class TemplateStore {
       `/api/themes/add?templateID=${this.id}&figmaFileID=${figmaFileID}`
     ).then(res => res.json())
     runInAction(() => {
-      this.themes.push(new ThemeStore(res.data))
+      this.themes.push(new ThemeStore(this, res.data))
     })
   }
 
