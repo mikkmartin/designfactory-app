@@ -18,7 +18,7 @@ export default async (req, res: NextApiResponse) => {
     if (file.editorType !== 'figma') throw new Error('File is is not a Figma file')
     const title = file.name
     const slug = createSlug(title)
-    res.json({ data: { slug, title, owner_template_id: templateID }, error: null }) //send response to client
+    res.json({ data: { slug, title, owner_template_id: templateID, file }, error: null }) //send response to client
 
     //create theme db entry
     const themeEntryRes = await supabase

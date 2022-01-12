@@ -14,11 +14,12 @@ export class ThemeStore {
   loading: boolean = true
   data: FileResponse = null
 
-  constructor(template: TemplateStore, themeData: Data) {
+  constructor(template: TemplateStore, themeData: Data, file?: FileResponse) {
     this.title = themeData.title
     this.slug = themeData.slug
     makeAutoObservable(this)
     this.template = template
+    if (file) this.data = file
     when(
       () => !this.data && this.template.theme?.slug === this.slug,
       () => this.loadData()

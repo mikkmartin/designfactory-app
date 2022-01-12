@@ -30,11 +30,17 @@ export class TemplateStore {
   }
 
   addTheme = async (figmaFileID: string) => {
-    const res = await fetch(
+    return fetch(
       `/api/themes/add?templateID=${this.id}&figmaFileID=${figmaFileID}`
-    ).then(res => res.json())
-    runInAction(() => {
-      this.themes.push(new ThemeStore(this, res.data))
+    ).then(res => res.json()).then(res => {
+      if (res.error) return console.error(res.error)
+      const { file, ...rest } = res.data
+      const newTheme = new ThemeStore(this, rest, file)
+      runInAction(() => {
+        this.theme = newTheme
+        this.themes.push(newTheme)
+      })
+      return newTheme.slug
     })
   }
 

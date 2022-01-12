@@ -23,7 +23,9 @@ const Test: NextPage<Props> = observer(() => {
   const [figmaID, setFigmaID] = useState('uhifEQPClI8AdGz3vX667v')
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    addTheme(figmaID)
+    addTheme(figmaID).then(slug => {
+      router.replace(`/temp/${slug}`, undefined, { shallow: true })
+    })
   }
 
   const handleTemplateChange = (ev: React.ChangeEvent<HTMLSelectElement>) => {
