@@ -8,6 +8,7 @@ import { definitions } from 'data/db/types'
 import Link from 'next/link'
 import { store } from 'data/stores_v2'
 import { useRouter } from 'next/router'
+import { Canvas } from 'components/Canvas'
 
 type Props = {
   slug: string
@@ -71,7 +72,8 @@ const Test: NextPage<Props> = observer(() => {
               onClick={() => setTheme(slug)}
               key={slug}
               style={{
-                background: theme.slug === slug ? 'pink' : 'black',
+                background: theme.slug === slug ? 'rgb(var(--highlight))' : 'black',
+                color: 'white',
                 display: 'block',
               }}>
               <img src={thumbnailUrl} style={{ width: 100, height: 50, objectFit: 'cover' }} />
@@ -86,11 +88,12 @@ const Test: NextPage<Props> = observer(() => {
       </div>
       <pre>
         {JSON.stringify(
-          { theme: theme.slug, loading: theme.loading, themeData: theme.data?.document?.children[0] },
+          { theme: theme.slug, loading: theme.loading, themeData: theme.data?.name },
           null,
           2
         )}
       </pre>
+      {theme.data?.document && <Canvas template={theme.data} />}
     </div>
   )
 })

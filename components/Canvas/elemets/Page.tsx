@@ -26,17 +26,18 @@ const getScale = ({ self, parent }) => {
 }
 
 export const Page: FC<Props> = ({ children }) => {
-  const parent = store.pages.canvasContainerRef?.getBoundingClientRect()
-  const [ref, self] = useMeasure()
+  //const parent = store.pages.canvasContainerRef?.getBoundingClientRect()
+ // const [ref, self] = useMeasure()
 
   return (
-    <Container layout="position" style={getScale({ self, parent })} ref={ref}>
+    <Container layout="position" style={getScale({ self, parent })}>
       {children}
     </Container>
   )
 }
 
 const Container = styled(motion.div)`
+  /*
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -45,6 +46,7 @@ const Container = styled(motion.div)`
   overflow: auto;
   gap: 16px;
   transform-origin: 50% 0;
+  */
   > div {
     .ProseMirror p {
       line-height: unset;
