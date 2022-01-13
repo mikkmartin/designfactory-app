@@ -38,6 +38,7 @@ const Test: NextPage<Props> = observer(() => {
   const handleDelete = (ev, slug: string) => {
     ev.preventDefault()
     ev.stopPropagation()
+    setPreviewSlug(null)
     deleteTheme(slug, newSlug => setRoute(newSlug, true))
   }
 
