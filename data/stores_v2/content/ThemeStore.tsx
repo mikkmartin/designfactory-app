@@ -10,6 +10,7 @@ export class ThemeStore {
   template: TemplateStore = null
   slug: Data['slug']
   title: Data['title']
+  modifiedAt: Date
 
   loading: boolean = true
   data: FileResponse = null
@@ -17,6 +18,7 @@ export class ThemeStore {
   constructor(template: TemplateStore, themeData: Data, file?: FileResponse) {
     this.title = themeData.title
     this.slug = themeData.slug
+    this.modifiedAt = new Date(themeData.modified_at)
     makeAutoObservable(this)
     this.template = template
     if (file) this.data = file

@@ -54,8 +54,8 @@ const Test: NextPage<Props> = observer(() => {
         {!Boolean(templates.length) ? (
           <option key={template.id}>{template.title}</option>
         ) : (
-          templates.map(({ id, title, defaultThemeSlug }) => (
-            <option key={id} value={defaultThemeSlug}>
+          templates.map(({ id, title, themes }) => (
+            <option key={id} value={themes[0].slug}>
               {title}
             </option>
           ))
@@ -69,26 +69,28 @@ const Test: NextPage<Props> = observer(() => {
       </form>
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-        {themes.map(({ slug, title, thumbnailUrl }) => (
-          <Link key={slug} href={`/temp/${slug}`} shallow={true}>
-            <a
-              key={slug}
-              onMouseEnter={() => setPreviewSlug(slug)}
-              onMouseLeave={() => setPreviewSlug(null)}
-              style={{
-                background: selectedSlug === slug ? 'rgb(var(--highlight))' : 'black',
-                color: 'white',
-                display: 'block',
-              }}>
-              <img src={thumbnailUrl} style={{ width: 100, height: 50, objectFit: 'cover' }} />
-              <h2>{title}</h2>
-              <small>{slug}</small>
-              <button style={{ width: '100%' }} onClick={ev => handleDelete(ev, slug)}>
-                Delete
-              </button>
-            </a>
-          </Link>
-        ))}
+        {[...themes]
+          .sort((a, b) => +b.modifiedAt - +a.modifiedAt)
+          .map(({ slug, title, thumbnailUrl }) => (
+            <Link key={slug} href={`/temp/${slug}`} shallow={true}>
+              <a
+                key={slug}
+                onMouseEnter={() => setPreviewSlug(slug)}
+                onMouseLeave={() => setPreviewSlug(null)}
+                style={{
+                  background: selectedSlug === slug ? 'rgb(var(--highlight))' : 'black',
+                  color: 'white',
+                  display: 'block',
+                }}>
+                <img src={thumbnailUrl} style={{ width: 100, height: 50, objectFit: 'cover' }} />
+                <h2>{title}</h2>
+                <small>{slug}</small>
+                <button style={{ width: '100%' }} onClick={ev => handleDelete(ev, slug)}>
+                  Delete
+                </button>
+              </a>
+            </Link>
+          ))}
       </div>
       <pre>
         {JSON.stringify(
