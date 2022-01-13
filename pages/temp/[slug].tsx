@@ -75,7 +75,7 @@ const Test: NextPage<Props> = observer(() => {
             <Link key={slug} href={`/temp/${slug}`} shallow={true}>
               <a
                 key={slug}
-                onMouseEnter={() => setPreviewSlug(slug)}
+                onMouseEnter={() => theme.slug !== slug ?? setPreviewSlug(slug)}
                 onMouseLeave={() => setPreviewSlug(null)}
                 style={{
                   background: selectedSlug === slug ? 'rgb(var(--highlight))' : 'black',
