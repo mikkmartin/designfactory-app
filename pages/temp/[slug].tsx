@@ -2,7 +2,7 @@ import { NextPage } from 'next'
 import { GetServerSideProps } from 'next'
 import { db, TemplateData } from 'data/db'
 import { observer } from 'mobx-react-lite'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import Link from 'next/link'
 import { store } from 'data/stores_v2'
 import { useRouter } from 'next/router'
@@ -14,37 +14,37 @@ type Props = {
 }
 
 const Test: NextPage<Props> = observer(() => {
-  const { template, templates, setTemplate } = store.content
-  const { theme, themes, setTheme, addTheme, deleteTheme } = template
-  const [figmaID, setFigmaID] = useState('uhifEQPClI8AdGz3vX667v')
+  const { template, templates, setTemplate, getTheme } = store.content
+  const { themes, addTheme, deleteTheme } = template
+
   const router = useRouter()
+  const theme = getTheme(router.query.slug as string)
+  const setRoute = useCallback((slug: string) => {
+    router.replace(`/temp/${slug}`, undefined, { shallow: true })
+  }, [])
+
+  const [figmaID, setFigmaID] = useState('uhifEQPClI8AdGz3vX667v')
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    addTheme(figmaID).then(slug => {
-      router.replace(`/temp/${slug}`, undefined, { shallow: true })
-    })
-  }
-
-  const handleTemplateChange = (ev: React.ChangeEvent<HTMLSelectElement>) => {
-    const id = ev.target.value
-    const template = templates.find(t => t.id === id)
-    const slug = template.defaultThemeSlug
-    setTemplate(id)
-    router.push(`/temp/${slug}`, undefined, { shallow: true })
+    addTheme(figmaID).then(setRoute)
   }
 
   const handleDelete = (ev: React.MouseEvent<HTMLButtonElement>, slug: string) => {
     ev.preventDefault()
     ev.stopPropagation()
-    deleteTheme(slug, newSlug => {
-      router.replace(`/temp/${newSlug}`, undefined, { shallow: true })
-    })
+    deleteTheme(slug, setRoute)
+  }
+
+  const handleSetTemplate = ev => {
+    const id = ev.target.value
+    const slug = setTemplate(id)
+    setRoute(slug)
   }
 
   return (
     <div style={{ display: 'grid', gap: 16, padding: 32 }}>
-      <select style={{ width: 200 }} defaultValue={template.id} onChange={handleTemplateChange}>
+      <select style={{ width: 200 }} defaultValue={template.id} onChange={handleSetTemplate}>
         {!Boolean(templates.length) ? (
           <option key={template.id}>{template.title}</option>
         ) : (
@@ -64,9 +64,8 @@ const Test: NextPage<Props> = observer(() => {
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
         {themes.map(({ slug, title, thumbnailUrl }) => (
-          <Link key={slug} href={`/temp/${slug}`} shallow>
+          <Link key={slug} href={`/temp/${slug}`} shallow={true}>
             <a
-              onClick={() => setTheme(slug)}
               key={slug}
               style={{
                 background: theme.slug === slug ? 'rgb(var(--highlight))' : 'black',
@@ -90,7 +89,7 @@ const Test: NextPage<Props> = observer(() => {
           2
         )}
       </pre>
-      {theme.data?.document && <Canvas template={theme.data} />}
+      {theme.data?.document && false && <Canvas template={theme.data} />}
     </div>
   )
 })

@@ -15,7 +15,7 @@ if (NEXT_PUBLIC_SENTRY_DSN) {
 }
 
 export default function App({ Component, pageProps, err, router }) {
-  useState(() => store.setInitialState(pageProps, router))
+  useState(() => store.setInitialState(pageProps, router.route))
   return (
     <>
       <Head>{isProduction && <script async data-api="/_hive" src="/bee.js" />}</Head>

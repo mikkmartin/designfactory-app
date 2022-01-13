@@ -11,13 +11,12 @@ export class RootStore {
     this.ui = new UiStore(this)
   }
 
-  setInitialState = (props, router) => {
+  setInitialState = (props, route: string) => {
     //Auth Store
     //this.auth.authenticate(props)
-    switch (router.route) {
+    switch (route) {
       case '/temp/[slug]':
         this.content.setInitialData(props)
-        process.browser && this.content.setRouteListener(router)
     }
   }
 }

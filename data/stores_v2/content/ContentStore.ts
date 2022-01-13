@@ -1,7 +1,7 @@
 import type { RootStore } from '../RootStore'
 import { makeAutoObservable, runInAction } from 'mobx'
 import { TemplateStore } from './TemplateStore'
-import type { Router } from 'next/router'
+import type { ThemeStore } from './ThemeStore'
 
 export class ContentStore {
   //@ts-ignore
@@ -14,45 +14,35 @@ export class ContentStore {
     this.rootStore = rootStore
   }
 
-  setRouteListener = (router: Router) => {
-    router.events.on('routeChangeStart', (url, { shallow }) => {
-      try {
-        if (!shallow) return
-        if (!url.includes('/temp/')) return
-        const slug = url.split('/temp/')[1]
-        this.onShallowRouteChange(slug)
-      } catch (e) {
-        console.error(e)
-      }
-    })
-  }
-
-  onShallowRouteChange = (slug: string) => {
-    const synced = this.template.theme.slug === slug
-    if (synced) return
-    this.templates.forEach(template => {
-      const theme = template.themes.find(theme => theme.slug === slug)
-      if (!theme) return
-      this.template = template
-      this.template.theme = theme
-    })
-  }
-
   setInitialData = ({ data, slug }) => {
     this.templates[0] = new TemplateStore(data)
     this.template = this.templates[0]
     this.template.theme = this.template.themes.find(theme => theme.slug === slug)
-    this.getAllTempaltes()
+    if (process.browser) this.getAllTemplates()
   }
 
-  setTemplate = id => {
+  getTheme = (slug: string): ThemeStore => {
+    if (this.template.theme.slug === slug) return this.template.theme
+    return this.templates.find(template => {
+      const theme = template.themes.find(theme => theme.slug === slug)
+      if (!theme) return false
+      runInAction(() => {
+        this.template = template
+        this.template.theme = theme
+      })
+      return true
+    }).theme
+  }
+
+  setTemplate = (id: string): string => {
     this.template = this.templates.find(template => template.id === id)
     this.template.theme = this.template.themes.find(
       theme => theme.slug === this.template.defaultThemeSlug
     )
+    return this.template.theme.slug
   }
 
-  getAllTempaltes = async () => {
+  getAllTemplates = async () => {
     const { data, error } = await fetch(`/api/templates/get`).then(res => res.json())
     if (error) return console.error(error)
     runInAction(() => {
