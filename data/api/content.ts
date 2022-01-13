@@ -1,24 +1,21 @@
-import { PostgrestSingleResponse } from '@supabase/supabase-js'
-import { post, _delete, WithError } from './fetch'
+import { PostgrestError } from '@supabase/supabase-js'
+import { get, post, _delete, WithError } from './fetch'
+import { FileResponse } from '@mikkmartin/figma-js'
 import { definitions } from 'data/db/types'
+
+//Get tempaltes
+export type TemplateWithThemes = (definitions['templates'] & { themes: definitions['themes'][] })[]
+export type GetTempaltesWithThemesResponse = { data: TemplateWithThemes; error?: PostgrestError }
+export const getTemplates = () => get<TemplateWithThemes>({ url: '/api/templates' })
 
 const url = '/api/themes'
 //Add theme
-export type AddThemeResponse = WithError<{
-  slug: string
-  title: string
-  owner_template_id: string
-  file: any
-}>
-export const addTheme = (body: {
-  templateID: string
-  figmaFileID: string
-}): Promise<AddThemeResponse> => post({ url, body })
+type ThemeWithFile = definitions['themes'] & { file: FileResponse }
+export type AddThemeResponse = WithError<ThemeWithFile>
+export const addTheme = (body: { templateID: string; figmaFileID: string }) =>
+  post<ThemeWithFile>({ url, body })
 
 //Delete theme
-export type DeleteThemeResponse = Pick<
-  PostgrestSingleResponse<definitions['themes']>,
-  'data' | 'error'
->
+export type DeleteThemeResponse = { data: definitions['themes']; error?: PostgrestError }
 export const deleteTheme = (slug: string) =>
-  _delete<DeleteThemeResponse['data']>({ url, params: { slug } })
+  _delete<definitions['themes']>({ url, params: { slug } })

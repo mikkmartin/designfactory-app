@@ -14,7 +14,7 @@ export default async (req: Req, res: Res) => {
     case 'DELETE':
       return handleDelete(req, res)
     default:
-      res.setHeader('Allow', ['GET', 'DELETE'])
+      res.setHeader('Allow', ['POST', 'DELETE'])
       res.status(405).json({ data: null, error: { message: `Method ${method} Not Allowed` } })
   }
 }

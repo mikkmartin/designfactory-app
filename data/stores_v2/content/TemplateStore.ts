@@ -1,11 +1,9 @@
-import { definitions } from 'data/db/types'
 import { makeAutoObservable, runInAction } from 'mobx'
 import { ThemeStore } from './ThemeStore'
 import { api } from 'data/api'
+import type { GetTempaltesWithThemesResponse } from 'data/api/content'
 
-type Data = definitions['templates'] & {
-  themes: definitions['themes'][]
-}
+type Data = GetTempaltesWithThemesResponse['data'][0]
 
 export class TemplateStore {
   id: Data['id'] = null

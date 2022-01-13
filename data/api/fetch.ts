@@ -1,10 +1,16 @@
 import { ApiError } from '@supabase/supabase-js'
-export type WithError<T> = { data: T; error: ApiError }
 import { objectToParams } from 'lib/urlEncoder'
 
+export type WithError<T> = { data: T; error: ApiError }
 type RequestProps<T> = T & {
   url: string
 }
+
+export const get = <T = any>({
+  url,
+  params,
+}: RequestProps<{ params?: Object }>): Promise<WithError<T>> =>
+  fetch(url + objectToParams(params)).then(res => res.json())
 
 export const post = <T = any>({
   url,

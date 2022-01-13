@@ -2,6 +2,7 @@ import type { RootStore } from '../RootStore'
 import { makeAutoObservable, runInAction } from 'mobx'
 import { TemplateStore } from './TemplateStore'
 import { ThemeStore } from './ThemeStore'
+import { api } from 'data/api'
 
 export class ContentStore {
   //@ts-ignore
@@ -27,8 +28,7 @@ export class ContentStore {
   }
 
   fetchTemplates = async () => {
-    const { data, error } = await fetch(`/api/templates/get`).then(res => res.json())
-    if (error) return console.error(error)
+    const { data, error } = await api.getTemplates()
     runInAction(() => {
       this.templates = data.map(template => new TemplateStore(template))
     })
