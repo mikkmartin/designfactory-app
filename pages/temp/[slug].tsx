@@ -14,14 +14,16 @@ type Props = {
 
 const Test: NextPage<Props> = observer(() => {
   const router = useRouter()
+  const slug = router.query.slug as string
+  console.log(slug)
 
   const { templates, getTemplateWithTheme } = store.content
-  const { theme, template } = getTemplateWithTheme(router.query.slug as string)
+  const { theme, template } = getTemplateWithTheme(slug)
   const { themes, addTheme, deleteTheme } = template
 
   const setRoute = useCallback((slug: string, replace = false) => {
-    if (replace) router.replace(`/temp/${slug}`, undefined, { shallow: true })
-    router.push(`/temp/${slug}`, undefined, { shallow: true })
+    if (replace) return router.replace(`/temp/${slug}`, undefined, { shallow: true })
+    return router.push(`/temp/${slug}`, undefined, { shallow: true })
   }, [])
 
   const [figmaID, setFigmaID] = useState('uhifEQPClI8AdGz3vX667v')
@@ -34,7 +36,7 @@ const Test: NextPage<Props> = observer(() => {
   const handleDelete = (ev, slug: string) => {
     ev.preventDefault()
     ev.stopPropagation()
-    deleteTheme(slug, setRoute)
+    deleteTheme(slug, newSlug => setRoute(newSlug, true))
   }
 
   return (

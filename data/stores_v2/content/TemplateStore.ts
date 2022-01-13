@@ -38,17 +38,23 @@ export class TemplateStore {
       })
   }
 
-  deleteTheme = async (slug: string, newSlugCallback?: (newSlug: string) => void) => {
+  deleteTheme = async (slug: string, newSlugCallback?: (newSlug: string) => Promise<boolean>) => {
     if (this.themes.length <= 1) return
     const removeIndex = this.themes.findIndex(theme => theme.slug === slug)
-    this.themes = this.themes.filter((_, i) => i !== removeIndex)
 
-    //when the theme is deleted, set the default theme to previous theme with a callback
-    if (!this.themes.find(theme => theme.slug === slug)) {
+    //when the theme is deleted, set the theme to previous theme and fire callback
+    if (this.themes[removeIndex].slug === slug) {
       const newIndex = removeIndex - 1 > 0 ? removeIndex - 1 : 0
       const newSlug = this.themes[newIndex].slug
-      if (newSlugCallback) newSlugCallback(newSlug)
+      if (newSlugCallback)
+        newSlugCallback(newSlug).then(() => this.removeThemeFromStore(removeIndex))
+    } else {
+      this.removeThemeFromStore(removeIndex)
     }
     return await fetch(`/api/themes/delete?slug=${slug}`).then(res => res.json())
+  }
+
+  private removeThemeFromStore = (removeIndex: number) => {
+    this.themes = this.themes.filter((_, i) => i !== removeIndex)
   }
 }
