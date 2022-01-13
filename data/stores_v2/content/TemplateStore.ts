@@ -25,7 +25,13 @@ export class TemplateStore {
   }
 
   addTheme = async (figmaFileID: string) => {
-    return fetch(`/api/themes/add?templateID=${this.id}&figmaFileID=${figmaFileID}`)
+    return fetch(`/api/themes`, {
+      method: 'POST',
+      body: JSON.stringify({
+        templateID: this.id,
+        figmaFileID,
+      }),
+    })
       .then(res => res.json())
       .then(res => {
         if (res.error) return console.error(res.error)
@@ -51,7 +57,7 @@ export class TemplateStore {
     } else {
       this.removeThemeFromStore(removeIndex)
     }
-    return await fetch(`/api/themes/delete?slug=${slug}`).then(res => res.json())
+    return await fetch(`/api/themes?slug=${slug}`, { method: 'DELETE' }).then(res => res.json())
   }
 
   private removeThemeFromStore = (removeIndex: number) => {
