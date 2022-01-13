@@ -56,7 +56,7 @@ const Test: NextPage<Props> = observer(() => {
           <option key={template.id}>{template.title}</option>
         ) : (
           templates.map(({ id, title, themes }) => (
-            <option key={id} value={themes[0].slug}>
+            <option key={id} value={themes[themes.length - 1].slug}>
               {title}
             </option>
           ))
