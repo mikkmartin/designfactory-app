@@ -26,11 +26,11 @@ const getScale = ({ self, parent }) => {
 }
 
 export const Page: FC<Props> = ({ children }) => {
-  //const parent = store.pages.canvasContainerRef?.getBoundingClientRect()
- // const [ref, self] = useMeasure()
+  const parent = store.pages.canvasContainerRef?.getBoundingClientRect()
+  const [ref, self] = useMeasure()
 
   return (
-    <Container layout="position" style={getScale({ self, parent })}>
+    <Container layout="position" style={getScale({ self, parent })} ref={ref}>
       {children}
     </Container>
   )
