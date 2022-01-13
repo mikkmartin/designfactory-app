@@ -2,7 +2,7 @@ import { NextPage } from 'next'
 import { GetServerSideProps } from 'next'
 import { db, TemplateData } from 'data/db'
 import { observer } from 'mobx-react-lite'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { store } from 'data/stores_v2'
 import { useRouter } from 'next/router'
@@ -38,6 +38,10 @@ const Test: NextPage<Props> = observer(() => {
     ev.stopPropagation()
     deleteTheme(slug, newSlug => setRoute(newSlug, true))
   }
+
+  useEffect(() => {
+    if (!theme.data) theme.loadData()
+  }, [theme.data])
 
   return (
     <div style={{ display: 'grid', gap: 16, padding: 32 }}>

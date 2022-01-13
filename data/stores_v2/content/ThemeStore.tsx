@@ -20,10 +20,6 @@ export class ThemeStore {
     makeAutoObservable(this)
     this.template = template
     if (file) this.data = file
-    when(
-      () => !this.data && this.template.theme?.slug === this.slug,
-      () => this.loadData()
-    )
   }
 
   get thumbnailUrl() {
