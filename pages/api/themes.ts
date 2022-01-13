@@ -1,12 +1,12 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextApiRequest as Req, NextApiResponse as Res } from 'next'
+import type { AddThemeResponse, DeleteThemeResponse } from 'data/api/content'
 import { getTemplate } from 'data/figma'
 import { supabase } from 'data/db/config'
 import { definitions } from 'data/db/types'
-import slugify from 'slugify'
 import baseURL from 'lib/static/baseURL'
-import { customAlphabet } from 'nanoid'
+import createSlug from 'lib/createSlug'
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (req: Req, res: Res) => {
   const { method } = req
   switch (method) {
     case 'POST':
@@ -19,11 +19,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-const alphabet = '0123456789abcdefghijklmnopqrstuvwxyz'
-const nanoid = customAlphabet(alphabet, 5)
-const createSlug = (title: string) => `${slugify(title, { lower: true })}-${nanoid()}`
-
-const handleAdd = async (req: NextApiRequest, res: NextApiResponse) => {
+const handleAdd = async (req: Req, res: Res<AddThemeResponse>) => {
   try {
     const { templateID, figmaFileID } = JSON.parse(req.body)
     //Get figma template
@@ -31,7 +27,10 @@ const handleAdd = async (req: NextApiRequest, res: NextApiResponse) => {
     if (file.editorType !== 'figma') throw new Error('File is is not a Figma file')
     const title = file.name
     const slug = createSlug(title)
-    res.json({ data: { slug, title, owner_template_id: templateID, file }, error: null }) //send response to client
+    res.json({
+      data: { slug, title, owner_template_id: templateID, file },
+      error: null,
+    })
 
     //create theme db entry
     const themeEntryRes = await supabase
@@ -58,21 +57,21 @@ const handleAdd = async (req: NextApiRequest, res: NextApiResponse) => {
       contentType: 'image/png',
     })
 
-    res.end()
+    return res.end()
   } catch ({ message: error }) {
     res.status(500).json({ data: null, error })
   }
 }
 
-const handleDelete = async (req: NextApiRequest, res: NextApiResponse) => {
+const handleDelete = async (req: Req, res: Res<DeleteThemeResponse>) => {
   try {
     const slug = req.query.slug as string
-    const response = await supabase
+    const { data, error } = await supabase
       .from<definitions['themes']>('themes')
       .update({ deleted_at: new Date().toISOString() })
       .eq('slug', slug)
       .single()
-    res.json(response)
+    res.status(200).json({ data, error })
   } catch ({ message: error }) {
     res.status(500).json({ data: null, error })
   }

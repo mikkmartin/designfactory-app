@@ -1,6 +1,7 @@
 import { definitions } from 'data/db/types'
 import { makeAutoObservable, runInAction } from 'mobx'
 import { ThemeStore } from './ThemeStore'
+import { api } from 'data/api'
 
 type Data = definitions['templates'] & {
   themes: definitions['themes'][]
@@ -25,23 +26,13 @@ export class TemplateStore {
   }
 
   addTheme = async (figmaFileID: string) => {
-    return fetch(`/api/themes`, {
-      method: 'POST',
-      body: JSON.stringify({
-        templateID: this.id,
-        figmaFileID,
-      }),
+    const { data } = await api.addTheme({ templateID: this.id, figmaFileID })
+    const { file, ...rest } = data
+    const newTheme = new ThemeStore(this, rest, file)
+    runInAction(() => {
+      this.themes.push(newTheme)
     })
-      .then(res => res.json())
-      .then(res => {
-        if (res.error) return console.error(res.error)
-        const { file, ...rest } = res.data
-        const newTheme = new ThemeStore(this, rest, file)
-        runInAction(() => {
-          this.themes.push(newTheme)
-        })
-        return newTheme.slug
-      })
+    return newTheme.slug
   }
 
   deleteTheme = async (slug: string, newSlugCallback?: (newSlug: string) => Promise<boolean>) => {
@@ -57,7 +48,7 @@ export class TemplateStore {
     } else {
       this.removeThemeFromStore(removeIndex)
     }
-    return await fetch(`/api/themes?slug=${slug}`, { method: 'DELETE' }).then(res => res.json())
+    return await api.deleteTheme(slug)
   }
 
   private removeThemeFromStore = (removeIndex: number) => {
