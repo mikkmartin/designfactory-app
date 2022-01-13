@@ -6,7 +6,6 @@ import { useCallback, useState } from 'react'
 import Link from 'next/link'
 import { store } from 'data/stores_v2'
 import { useRouter } from 'next/router'
-import { Canvas } from 'components/Canvas'
 
 type Props = {
   slug: string
@@ -14,42 +13,41 @@ type Props = {
 }
 
 const Test: NextPage<Props> = observer(() => {
-  const { template, templates, setTemplate, getTheme } = store.content
+  const router = useRouter()
+
+  const { templates, getTemplateWithTheme } = store.content
+  const { theme, template } = getTemplateWithTheme(router.query.slug as string)
   const { themes, addTheme, deleteTheme } = template
 
-  const router = useRouter()
-  const theme = getTheme(router.query.slug as string)
-  const setRoute = useCallback((slug: string) => {
-    router.replace(`/temp/${slug}`, undefined, { shallow: true })
+  const setRoute = useCallback((slug: string, replace = false) => {
+    if (replace) router.replace(`/temp/${slug}`, undefined, { shallow: true })
+    router.push(`/temp/${slug}`, undefined, { shallow: true })
   }, [])
 
   const [figmaID, setFigmaID] = useState('uhifEQPClI8AdGz3vX667v')
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const handleSubmit = ev => {
+    ev.preventDefault()
     addTheme(figmaID).then(setRoute)
   }
 
-  const handleDelete = (ev: React.MouseEvent<HTMLButtonElement>, slug: string) => {
+  const handleDelete = (ev, slug: string) => {
     ev.preventDefault()
     ev.stopPropagation()
     deleteTheme(slug, setRoute)
   }
 
-  const handleSetTemplate = ev => {
-    const id = ev.target.value
-    const slug = setTemplate(id)
-    setRoute(slug)
-  }
-
   return (
     <div style={{ display: 'grid', gap: 16, padding: 32 }}>
-      <select style={{ width: 200 }} defaultValue={template.id} onChange={handleSetTemplate}>
+      <select
+        style={{ width: 200 }}
+        defaultValue={theme.slug}
+        onChange={ev => setRoute(ev.target.value)}>
         {!Boolean(templates.length) ? (
           <option key={template.id}>{template.title}</option>
         ) : (
-          templates.map(({ id, title }) => (
-            <option key={id} value={id}>
+          templates.map(({ id, title, defaultThemeSlug }) => (
+            <option key={id} value={defaultThemeSlug}>
               {title}
             </option>
           ))
@@ -89,7 +87,6 @@ const Test: NextPage<Props> = observer(() => {
           2
         )}
       </pre>
-      {theme.data?.document && false && <Canvas template={theme.data} />}
     </div>
   )
 })
