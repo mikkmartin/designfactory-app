@@ -38,6 +38,11 @@ export class TemplateStore {
     return [x, y]
   }
 
+  cancelAdd = async () => {
+    if (this.previewTheme) this.previewTheme = null
+    //return await api.deleteTheme(this.previewTheme.slug)
+  }
+
   addTheme = async (title: string) => {
     const { slug } = this.previewTheme
     const templateID = this.id

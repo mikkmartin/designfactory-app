@@ -20,7 +20,7 @@ const Test: NextPage<Props> = observer(() => {
 
   const { templates, getTemplateWithTheme } = store.content
   const { theme, template } = getTemplateWithTheme(previewSlug || slug)
-  const { themes, addTheme, previewTheme, loadTheme, deleteTheme } = template
+  const { themes, addTheme, previewTheme, loadTheme, deleteTheme, cancelAdd } = template
 
   const selectedSlug = useMemo(() => theme.slug, [slug])
 
@@ -69,6 +69,11 @@ const Test: NextPage<Props> = observer(() => {
     deleteTheme(slug, newSlug => setRoute(newSlug, true))
   }
 
+  const handleCancel = ev => {
+    ev.preventDefault()
+    cancelAdd()
+  }
+
   useEffect(() => {
     if (!theme.data) theme.loadData()
   }, [theme.data])
@@ -114,7 +119,7 @@ const Test: NextPage<Props> = observer(() => {
           <button type="submit" disabled={!Boolean(figmaID) || loading}>
             {loading ? 'Loading...' : 'Submit'}
           </button>
-          {figmaID && <button onClick={ev => ev.preventDefault()}>Cancel</button>}
+          {figmaID && <button onClick={handleCancel}>Cancel</button>}
         </div>
       </form>
 
