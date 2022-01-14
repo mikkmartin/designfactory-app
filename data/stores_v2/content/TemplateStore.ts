@@ -1,11 +1,7 @@
 import { makeAutoObservable, runInAction } from 'mobx'
 import { ThemeStore } from './ThemeStore'
 import { api } from 'data/api'
-import type {
-  GetTempaltesWithThemesResponse,
-  ThemePreviewResponse,
-  AddThemeParams,
-} from 'data/api/content'
+import type { GetTempaltesWithThemesResponse, ThemePreviewResponse } from 'data/api/content'
 
 type Data = GetTempaltesWithThemesResponse['data'][0]
 
@@ -29,7 +25,9 @@ export class TemplateStore {
 
   loadTheme = async (figmaID: string) => {
     const res = await api.loadThemePreview(figmaID)
-    this.previewTheme = res.data
+    runInAction(() => {
+      this.previewTheme = res.data
+    })
     return res
   }
 
