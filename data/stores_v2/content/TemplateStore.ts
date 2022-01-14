@@ -33,13 +33,20 @@ export class TemplateStore {
     return res
   }
 
+  private getFrameSize = (file): [number, number] => {
+    const canvas = file.document.children.find(node => node.type === 'CANVAS')
+    const frame = canvas.children.find(child => child.type === 'FRAME')
+    const { x, y } = frame.size
+    return [x, y]
+  }
+
   addTheme = async (title: string) => {
     const { slug } = this.previewTheme
     const templateID = this.id
-    const { data } = await api.addTheme({ slug, title, templateID })
+    const size = this.getFrameSize(this.previewTheme.file)
+    const { data } = await api.addTheme({ slug, title, templateID, size })
 
-    const { file, ...rest } = data
-    const newTheme = new ThemeStore(this, rest, file)
+    const newTheme = new ThemeStore(this, data, this.previewTheme.file)
     this.previewTheme = null
     runInAction(() => {
       this.themes.push(newTheme)

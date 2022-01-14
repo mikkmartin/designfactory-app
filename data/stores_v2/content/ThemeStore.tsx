@@ -8,6 +8,7 @@ type Data = definitions['themes']
 
 export class ThemeStore {
   template: TemplateStore = null
+  private _size: Data['size'] = null
   slug: Data['slug']
   title: Data['title']
   modifiedAt: Date
@@ -18,10 +19,16 @@ export class ThemeStore {
   constructor(template: TemplateStore, themeData: Data, file?: FileResponse) {
     this.title = themeData.title
     this.slug = themeData.slug
+    this._size = themeData.size
     this.modifiedAt = new Date(themeData.modified_at)
     makeAutoObservable(this)
     this.template = template
     if (file) this.data = file
+  }
+
+  get size() {
+    const [width, height] = this._size.map(Number)
+    return { width, height }
   }
 
   get thumbnailUrl() {

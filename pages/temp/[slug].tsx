@@ -20,7 +20,7 @@ const Test: NextPage<Props> = observer(() => {
 
   const { templates, getTemplateWithTheme } = store.content
   const { theme, template } = getTemplateWithTheme(previewSlug || slug)
-  const { themes, addTheme, loadTheme, deleteTheme } = template
+  const { themes, addTheme, previewTheme, loadTheme, deleteTheme } = template
 
   const selectedSlug = useMemo(() => theme.slug, [slug])
 
@@ -118,7 +118,7 @@ const Test: NextPage<Props> = observer(() => {
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
         {[...themes]
           .sort((a, b) => +b.modifiedAt - +a.modifiedAt)
-          .map(({ slug, title, thumbnailUrl }) => (
+          .map(({ slug, title, thumbnailUrl, size: { width, height } }) => (
             <Link key={slug} href={`/temp/${slug}`} shallow={true}>
               <a
                 key={slug}
@@ -129,7 +129,13 @@ const Test: NextPage<Props> = observer(() => {
                   color: 'white',
                   display: 'block',
                 }}>
-                <img src={thumbnailUrl} style={{ width: 100, height: 50, objectFit: 'cover' }} />
+                <img
+                  src={thumbnailUrl}
+                  style={{
+                    height: 100,
+                    aspectRatio: `${width} / ${height}`,
+                  }}
+                />
                 <h2>{title}</h2>
                 <small>{slug}</small>
                 <button style={{ width: '100%' }} onClick={ev => handleDelete(ev, slug)}>
@@ -141,7 +147,12 @@ const Test: NextPage<Props> = observer(() => {
       </div>
       <pre>
         {JSON.stringify(
-          { theme: theme.slug, loading: theme.loading, previewSlug, themeData: theme.data?.name },
+          {
+            theme: theme.slug,
+            loading: theme.loading,
+            previewSlug,
+            themeData: previewTheme ? previewTheme.file.name : theme.data?.name,
+          },
           null,
           2
         )}

@@ -16,12 +16,16 @@ export const loadThemePreview = figmaFileID =>
   get<LoadThemeResponse>({ url, params: { figmaFileID } })
 
 //Add theme
-type ThemeWithFile = definitions['themes'] & { file: FileResponse }
-export type AddThemeResponse = WithError<ThemeWithFile>
-export type AddThemeParams = { templateID: string; slug: string; title: string }
-export const addTheme = (body: AddThemeParams) => post<ThemeWithFile>({ url, body })
+export type AddThemeResponse = { data: definitions['themes']; error: PostgrestError | null }
+export type AddThemeParams = {
+  templateID: string
+  slug: string
+  title: string
+  size: [number, number]
+}
+export const addTheme = (body: AddThemeParams) => post<definitions['themes']>({ url, body })
 
 //Delete theme
-export type DeleteThemeResponse = { data: definitions['themes']; error?: PostgrestError }
+export type DeleteThemeResponse = { data: definitions['themes']; error: PostgrestError | null }
 export const deleteTheme = (slug: string) =>
   _delete<definitions['themes']>({ url, params: { slug } })

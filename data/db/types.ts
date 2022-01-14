@@ -344,6 +344,7 @@ export interface paths {
           modified_at?: parameters["rowFilter.themes.modified_at"];
           title?: parameters["rowFilter.themes.title"];
           ui_schema?: parameters["rowFilter.themes.ui_schema"];
+          size?: parameters["rowFilter.themes.size"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -401,6 +402,7 @@ export interface paths {
           modified_at?: parameters["rowFilter.themes.modified_at"];
           title?: parameters["rowFilter.themes.title"];
           ui_schema?: parameters["rowFilter.themes.ui_schema"];
+          size?: parameters["rowFilter.themes.size"];
         };
         header: {
           /** Preference */
@@ -422,6 +424,7 @@ export interface paths {
           modified_at?: parameters["rowFilter.themes.modified_at"];
           title?: parameters["rowFilter.themes.title"];
           ui_schema?: parameters["rowFilter.themes.ui_schema"];
+          size?: parameters["rowFilter.themes.size"];
         };
         body: {
           /** themes */
@@ -611,6 +614,8 @@ export interface definitions {
      * @default {}
      */
     ui_schema?: string;
+    /** Format: ARRAY */
+    size?: unknown[];
   };
 }
 
@@ -715,6 +720,8 @@ export interface parameters {
   "rowFilter.themes.title": string;
   /** Format: jsonb */
   "rowFilter.themes.ui_schema": string;
+  /** Format: ARRAY */
+  "rowFilter.themes.size": string;
 }
 
 export interface operations {}

@@ -10,6 +10,7 @@ import { supabase } from 'data/db/config'
 import { definitions } from 'data/db/types'
 import baseURL from 'lib/static/baseURL'
 import createSlug from 'lib/createSlug'
+import { FileResponse, Canvas, Frame } from '@mikkmartin/figma-js'
 
 export default async (req: Req, res: Res) => {
   const { method } = req
@@ -53,7 +54,7 @@ const handleLoadThemePreview = async (req: Req, res: Res<ThemePreviewResponse>) 
     await supabase.storage.from('themes').upload(path + '.png', fileAsset, {
       contentType: 'image/png',
     })
-    
+
     res.end()
   } catch ({ message: error }) {
     res.status(500).json({ data: null, error })
@@ -62,17 +63,16 @@ const handleLoadThemePreview = async (req: Req, res: Res<ThemePreviewResponse>) 
 
 const handleAdd = async (req: Req, res: Res<AddThemeResponse>) => {
   try {
-    const { templateID, slug: oldSlug, title } = JSON.parse(req.body) as AddThemeParams
+    const { templateID, slug: oldSlug, title, size } = JSON.parse(req.body) as AddThemeParams
 
     const slug = createSlug(title)
     const sameSlug = oldSlug === slug
 
-    //create theme db entry
-    const themeEntryRes = await supabase
+    const { data, error } = await supabase
       .from<definitions['themes']>('themes')
-      .insert({ slug, title, owner_template_id: templateID as string })
+      .insert({ slug, title, owner_template_id: templateID, size })
       .single()
-    if (themeEntryRes.error) throw new Error(themeEntryRes.error.message)
+    if (error) throw new Error(error.message)
 
     if (!sameSlug) {
       //rename files
@@ -83,11 +83,7 @@ const handleAdd = async (req: Req, res: Res<AddThemeResponse>) => {
       ])
     }
 
-    res.json({
-      //@ts-ignore
-      data: { slug, title, owner_template_id: templateID },
-      error: null,
-    })
+    res.json({ data, error: null })
 
     return res.end()
   } catch ({ message: error }) {
