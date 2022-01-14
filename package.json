@@ -29,6 +29,7 @@
     "@types/sharp": "^0.29.4",
     "chrome-aws-lambda": "^10.1.0",
     "color": "^4.1.0",
+    "cookies-next": "^2.0.3",
     "dayjs": "^1.10.7",
     "framer-motion": "^5.4.5",
     "metascraper": "^5.25.5",

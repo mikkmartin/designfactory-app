@@ -15,7 +15,7 @@ export const get = <T = any>({
 export const post = <T = any>({
   url,
   body,
-}: RequestProps<{ body: Object }>): Promise<WithError<T>> =>
+}: RequestProps<{ body?: Object }>): Promise<WithError<T>> =>
   fetch(url, {
     method: 'POST',
     body: JSON.stringify(body),
