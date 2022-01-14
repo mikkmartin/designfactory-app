@@ -28,7 +28,7 @@ export class ContentStore {
   }
 
   fetchTemplates = async () => {
-    const { data, error } = await api.getTemplates()
+    const { data } = await api.getTemplates()
     runInAction(() => {
       this.templates = data.map(template => new TemplateStore(template))
     })

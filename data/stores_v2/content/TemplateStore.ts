@@ -1,7 +1,11 @@
 import { makeAutoObservable, runInAction } from 'mobx'
 import { ThemeStore } from './ThemeStore'
 import { api } from 'data/api'
-import type { GetTempaltesWithThemesResponse } from 'data/api/content'
+import type {
+  GetTempaltesWithThemesResponse,
+  ThemePreviewResponse,
+  AddThemeParams,
+} from 'data/api/content'
 
 type Data = GetTempaltesWithThemesResponse['data'][0]
 
@@ -11,6 +15,7 @@ export class TemplateStore {
   description: Data['description'] = null
   defaultThemeSlug: Data['default_theme_slug'] = null
   themes: ThemeStore[] = []
+  previewTheme: ThemePreviewResponse['data'] = null
 
   constructor(data: Data) {
     const { id, title, description, default_theme_slug, themes } = data
@@ -18,15 +23,24 @@ export class TemplateStore {
     this.title = title
     this.description = description
     this.defaultThemeSlug = default_theme_slug
-
     makeAutoObservable(this)
     this.themes = themes.map(theme => new ThemeStore(this, theme))
   }
 
-  addTheme = async (figmaFileID: string) => {
-    const { data } = await api.addTheme({ templateID: this.id, figmaFileID })
+  loadTheme = async (figmaID: string) => {
+    const res = await api.loadThemePreview(figmaID)
+    this.previewTheme = res.data
+    return res
+  }
+
+  addTheme = async (title: string) => {
+    const { slug } = this.previewTheme
+    const templateID = this.id
+    const { data } = await api.addTheme({ slug, title, templateID })
+
     const { file, ...rest } = data
     const newTheme = new ThemeStore(this, rest, file)
+    this.previewTheme = null
     runInAction(() => {
       this.themes.push(newTheme)
     })

@@ -9,11 +9,17 @@ export type GetTempaltesWithThemesResponse = { data: TemplateWithThemes; error?:
 export const getTemplates = () => get<TemplateWithThemes>({ url: '/api/templates' })
 
 const url = '/api/themes'
+//Get theme preview
+export type LoadThemeResponse = { slug: string; file: FileResponse }
+export type ThemePreviewResponse = WithError<LoadThemeResponse>
+export const loadThemePreview = figmaFileID =>
+  get<LoadThemeResponse>({ url, params: { figmaFileID } })
+
 //Add theme
 type ThemeWithFile = definitions['themes'] & { file: FileResponse }
 export type AddThemeResponse = WithError<ThemeWithFile>
-export const addTheme = (body: { templateID: string; figmaFileID: string }) =>
-  post<ThemeWithFile>({ url, body })
+export type AddThemeParams = { templateID: string; slug: string; title: string }
+export const addTheme = (body: AddThemeParams) => post<ThemeWithFile>({ url, body })
 
 //Delete theme
 export type DeleteThemeResponse = { data: definitions['themes']; error?: PostgrestError }

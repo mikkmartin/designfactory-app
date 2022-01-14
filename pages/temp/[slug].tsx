@@ -2,7 +2,7 @@ import { NextPage } from 'next'
 import { GetServerSideProps } from 'next'
 import { db, TemplateData } from 'data/db'
 import { observer } from 'mobx-react-lite'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { store } from 'data/stores_v2'
 import { useRouter } from 'next/router'
@@ -16,10 +16,11 @@ const Test: NextPage<Props> = observer(() => {
   const router = useRouter()
   const slug = router.query.slug as string
   const [previewSlug, setPreviewSlug] = useState<string>(null)
+  const urlRef = useRef<HTMLInputElement>(null)
 
   const { templates, getTemplateWithTheme } = store.content
   const { theme, template } = getTemplateWithTheme(previewSlug || slug)
-  const { themes, addTheme, deleteTheme } = template
+  const { themes, addTheme, loadTheme, deleteTheme } = template
 
   const selectedSlug = useMemo(() => theme.slug, [slug])
 
@@ -28,11 +29,37 @@ const Test: NextPage<Props> = observer(() => {
     return router.push(`/temp/${slug}`, undefined, { shallow: true })
   }, [])
 
-  const [figmaID, setFigmaID] = useState('uhifEQPClI8AdGz3vX667v')
+  const [loading, setLoading] = useState(false)
+  const [figmaID, setFigmaID] = useState('')
+  const [fileName, setFileName] = useState('')
 
-  const handleSubmit = ev => {
+  const handleInputChange = ev => {
+    try {
+      const { value } = ev.target
+      if (!value) return setFigmaID('')
+      const [id] = ev.target.value.split('/file/')[1].split('/')
+      if (id) loadPreview(id)
+    } catch (e) {
+      setFigmaID('')
+    }
+  }
+
+  const loadPreview = async id => {
+    setLoading(true)
+    setFigmaID(id)
+    const { data } = await loadTheme(id)
+    setFileName(data.file.name)
+    setLoading(false)
+  }
+
+  const handleSubmit = async ev => {
     ev.preventDefault()
-    addTheme(figmaID).then(setRoute)
+    setLoading(true)
+    await addTheme(fileName).then(setRoute)
+    urlRef.current.value = ''
+    setFigmaID('')
+    setFileName('')
+    setLoading(false)
   }
 
   const handleDelete = (ev, slug: string) => {
@@ -64,9 +91,28 @@ const Test: NextPage<Props> = observer(() => {
       </select>
       <h1>{template.title}</h1>
       <p>{template.description}</p>
-      <form onSubmit={handleSubmit}>
-        <input type="text" value={figmaID} onChange={ev => setFigmaID(ev.target.value)} />
-        <button type="submit">Submit</button>
+      <pre>
+        <code>https://www.figma.com/file/B0xXzAaz1QjRiJBRc3z9Ha</code>
+      </pre>
+      <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 4, maxWidth: 300 }}>
+        <input
+          type="text"
+          placeholder="figma.com/file/B0xXzAaz..."
+          ref={urlRef}
+          onChange={handleInputChange}
+        />
+        {Boolean(fileName) && (
+          <input
+            disabled={loading && !Boolean(figmaID)}
+            type="text"
+            placeholder="Name..."
+            value={fileName}
+            onChange={ev => setFileName(ev.target.value)}
+          />
+        )}
+        <button type="submit" disabled={!Boolean(figmaID) || loading}>
+          {loading ? 'Loading...' : 'Submit'}
+        </button>
       </form>
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
