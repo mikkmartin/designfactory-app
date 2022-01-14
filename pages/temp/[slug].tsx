@@ -110,9 +110,12 @@ const Test: NextPage<Props> = observer(() => {
             onChange={ev => setFileName(ev.target.value)}
           />
         )}
-        <button type="submit" disabled={!Boolean(figmaID) || loading}>
-          {loading ? 'Loading...' : 'Submit'}
-        </button>
+        <div>
+          <button type="submit" disabled={!Boolean(figmaID) || loading}>
+            {loading ? 'Loading...' : 'Submit'}
+          </button>
+          {figmaID && <button onClick={ev => ev.preventDefault()}>Cancel</button>}
+        </div>
       </form>
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>

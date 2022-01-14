@@ -10,7 +10,6 @@ import { supabase } from 'data/db/config'
 import { definitions } from 'data/db/types'
 import baseURL from 'lib/static/baseURL'
 import createSlug from 'lib/createSlug'
-import { FileResponse, Canvas, Frame } from '@mikkmartin/figma-js'
 
 export default async (req: Req, res: Res) => {
   const { method } = req
