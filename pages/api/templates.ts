@@ -17,7 +17,7 @@ export const handleGet = async (_, res: Res<GetTempaltesWithThemesResponse>) => 
   try {
     const { data, error } = (await supabase
       .from('templates')
-      .select('*, themes:id (*)')
+      .select('*, themes!id (*)')
       .is('deleted_at', null)
       .is('themes.deleted_at', null)) as GetTempaltesWithThemesResponse
     res.status(200).json({ data, error })

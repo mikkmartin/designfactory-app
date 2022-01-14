@@ -1,0 +1,1 @@
+export const ANON_ID = 'df:anon:id'

@@ -345,6 +345,7 @@ export interface paths {
           title?: parameters["rowFilter.themes.title"];
           ui_schema?: parameters["rowFilter.themes.ui_schema"];
           size?: parameters["rowFilter.themes.size"];
+          owner_profile_id?: parameters["rowFilter.themes.owner_profile_id"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -403,6 +404,7 @@ export interface paths {
           title?: parameters["rowFilter.themes.title"];
           ui_schema?: parameters["rowFilter.themes.ui_schema"];
           size?: parameters["rowFilter.themes.size"];
+          owner_profile_id?: parameters["rowFilter.themes.owner_profile_id"];
         };
         header: {
           /** Preference */
@@ -425,6 +427,7 @@ export interface paths {
           title?: parameters["rowFilter.themes.title"];
           ui_schema?: parameters["rowFilter.themes.ui_schema"];
           size?: parameters["rowFilter.themes.size"];
+          owner_profile_id?: parameters["rowFilter.themes.owner_profile_id"];
         };
         body: {
           /** themes */
@@ -530,10 +533,7 @@ export interface definitions {
     thumbnail_url?: string;
   };
   profiles: {
-    /**
-     * Format: uuid
-     * @default extensions.uuid_generate_v4()
-     */
+    /** Format: uuid */
     user_id?: string;
     /**
      * Format: uuid
@@ -616,6 +616,12 @@ export interface definitions {
     ui_schema?: string;
     /** Format: ARRAY */
     size?: unknown[];
+    /**
+     * Format: uuid
+     * @description Note:
+     * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
+     */
+    owner_profile_id?: string;
   };
 }
 
@@ -722,6 +728,8 @@ export interface parameters {
   "rowFilter.themes.ui_schema": string;
   /** Format: ARRAY */
   "rowFilter.themes.size": string;
+  /** Format: uuid */
+  "rowFilter.themes.owner_profile_id": string;
 }
 
 export interface operations {}
