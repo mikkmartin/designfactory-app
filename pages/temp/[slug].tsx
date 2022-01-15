@@ -14,12 +14,16 @@ const Test: NextPage = observer(() => {
   const slug = router.query.slug as string
   store.content.setTheme(slug)
   const { template, templateOptions } = store.content
-  const { theme, themeOptions, addTheme, previewTheme, loadTheme, deleteTheme, cancelAdd } = template
-
-  const [previewSlug, setPreviewSlug] = useState<string>(null)
-
-
-  const selectedSlug = useMemo(() => theme.slug, [slug])
+  const {
+    theme,
+    themeOptions,
+    addTheme,
+    setPreviewTheme,
+    previewThemeFile,
+    loadTheme,
+    deleteTheme,
+    cancelAdd,
+  } = template
 
   const setRoute = useCallback((slug: string, replace = false) => {
     if (replace) return router.replace(`/temp/${slug}`, undefined, { shallow: true })
@@ -63,7 +67,7 @@ const Test: NextPage = observer(() => {
   const handleDelete = (ev, slug: string) => {
     ev.preventDefault()
     ev.stopPropagation()
-    setPreviewSlug(null)
+    setPreviewTheme(null)
     deleteTheme(slug, newSlug => setRoute(newSlug, true))
   }
 
@@ -80,7 +84,7 @@ const Test: NextPage = observer(() => {
     <div style={{ display: 'grid', gap: 16, padding: 32 }}>
       <select
         style={{ width: 200 }}
-        defaultValue={selectedSlug}
+        defaultValue={slug}
         onChange={ev => setRoute(ev.target.value)}>
         {!Boolean(templateOptions.length) ? (
           <option key={template.id}>{template.title}</option>
@@ -128,10 +132,10 @@ const Test: NextPage = observer(() => {
             <Link key={slug} href={`/temp/${slug}`} shallow={true}>
               <a
                 key={slug}
-                onMouseEnter={() => theme.slug !== slug && setPreviewSlug(slug)}
-                onMouseLeave={() => setPreviewSlug(null)}
+                onMouseEnter={() => setPreviewTheme(slug)}
+                onMouseLeave={() => setPreviewTheme(null)}
                 style={{
-                  background: selectedSlug === slug ? 'rgb(var(--highlight))' : 'black',
+                  background: theme.slug === slug ? 'rgb(var(--highlight))' : 'black',
                   color: 'white',
                   display: 'block',
                 }}>
@@ -159,8 +163,7 @@ const Test: NextPage = observer(() => {
           {
             theme: theme.slug,
             loading: theme.loading,
-            previewSlug,
-            themeData: previewTheme ? previewTheme.file.name : theme.data?.name,
+            themeData: previewThemeFile ? previewThemeFile.name : theme.data?.name,
           },
           null,
           2

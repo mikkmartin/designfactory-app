@@ -2,6 +2,7 @@ import { makeAutoObservable, runInAction } from 'mobx'
 import { ThemeStore } from './ThemeStore'
 import { api } from 'data/api'
 import type { GetTempaltesWithThemesResponse, ThemePreviewResponse } from 'data/api/content'
+import { FileResponse } from '@mikkmartin/figma-js'
 
 type Data = GetTempaltesWithThemesResponse['data'][0]
 
@@ -12,7 +13,8 @@ export class TemplateStore {
   defaultThemeSlug: Data['default_theme_slug'] = null
   themeOptions: ThemeStore[] = []
   theme: ThemeStore = null
-  previewTheme: ThemePreviewResponse['data'] = null
+  private _previewTheme: ThemeStore = null
+  private loadedThemeData: ThemePreviewResponse['data'] = null
 
   constructor(data: Data, themeSlug: string) {
     const { id, title, description, default_theme_slug, themes } = data
@@ -25,10 +27,21 @@ export class TemplateStore {
     this.theme = this.themeOptions.find(theme => theme.slug === themeSlug)
   }
 
+  setPreviewTheme = (slug: string | null) => {
+    if (!slug) return this._previewTheme = null
+    const theme = this.themeOptions.find(theme => theme.slug === slug)
+    if (!theme.data) theme.loadData()
+    this._previewTheme = theme
+  }
+
+  get previewThemeFile(): FileResponse | undefined {
+    return this.loadedThemeData?.file || this._previewTheme?.data
+  }
+
   loadTheme = async (figmaID: string) => {
     const res = await api.loadThemePreview(figmaID)
     runInAction(() => {
-      this.previewTheme = res.data
+      this.loadedThemeData = res.data
     })
     return res
   }
@@ -41,18 +54,18 @@ export class TemplateStore {
   }
 
   cancelAdd = async () => {
-    if (this.previewTheme) this.previewTheme = null
-    //return await api.deleteTheme(this.previewTheme.slug)
+    if (this.loadedThemeData) this.loadedThemeData = null
+    //return await api.deleteTheme(this.loadedThemeData.slug)
   }
 
   addTheme = async (title: string) => {
-    const { slug } = this.previewTheme
+    const { slug } = this.loadedThemeData
     const templateID = this.id
-    const size = this.getFrameSize(this.previewTheme.file)
+    const size = this.getFrameSize(this.loadedThemeData.file)
     const { data } = await api.addTheme({ slug, title, templateID, size })
 
-    const newTheme = new ThemeStore(this, data, this.previewTheme.file)
-    this.previewTheme = null
+    const newTheme = new ThemeStore(this, data, this.loadedThemeData.file)
+    this.loadedThemeData = null
     runInAction(() => {
       this.themeOptions.push(newTheme)
     })
