@@ -1,7 +1,7 @@
 import { PostgrestError } from '@supabase/supabase-js'
 import { get, post, _delete, WithError } from './fetch'
 import { FileResponse } from '@mikkmartin/figma-js'
-import { definitions } from 'data/db/types'
+import { definitions } from 'lib/db/types'
 
 //Get tempaltes
 export type TemplateWithThemes = (definitions['templates'] & { themes: definitions['themes'][] })[]

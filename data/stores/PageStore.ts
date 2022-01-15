@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx'
-import { IFile } from 'data/db'
+import { IFile } from 'lib/db'
 import { addTemplate } from 'data/api'
 import { RootStore } from './RootStore'
 

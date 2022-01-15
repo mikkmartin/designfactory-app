@@ -1,4 +1,4 @@
-import { IFile } from 'data/db'
+import { IFile } from 'lib/db'
 
 type IAddTemplateRes = Pick<IFile, 'slug' | 'id' | 'title' | 'template' | 'fileType' | 'data' | 'type'>
 type WithError<T> = Promise<{ data: T; error: string | null }>

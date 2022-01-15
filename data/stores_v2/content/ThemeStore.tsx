@@ -1,4 +1,4 @@
-import { definitions } from 'data/db/types'
+import { definitions } from 'lib/db/types'
 import { FileResponse } from '@mikkmartin/figma-js'
 import { makeAutoObservable, runInAction } from 'mobx'
 import storageURL from 'lib/static/storageURL'

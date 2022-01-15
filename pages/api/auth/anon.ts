@@ -1,7 +1,7 @@
-import { supabase } from 'data/db/config'
+import { supabase } from 'lib/db/config'
 import { NextApiRequest as Req, NextApiResponse as Res } from 'next'
 import { CreateAuthUserResponse } from 'data/api/auth'
-import { definitions } from 'data/db/types'
+import { definitions } from 'lib/db/types'
 
 export default async (req: Req, res: Res) => {
   const { method } = req

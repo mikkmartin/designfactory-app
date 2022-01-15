@@ -2,7 +2,7 @@ import { Layout } from 'components/Layout'
 import { Canvas } from 'components/Canvas'
 import { FC, useRef } from 'react'
 import { GetStaticProps, GetStaticPaths } from 'next'
-import { db, IFileWithTemplates } from 'data/db'
+import { db, IFileWithTemplates } from 'lib/db'
 import { store } from 'data'
 
 const File: FC<IFileWithTemplates> = ({ children, ...file }) => {

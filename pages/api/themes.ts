@@ -6,8 +6,8 @@ import type {
   ThemePreviewResponse,
 } from 'data/api/content'
 import { getTemplate } from 'data/figma'
-import { supabase } from 'data/db/config'
-import { definitions } from 'data/db/types'
+import { supabase } from 'lib/db/config'
+import { definitions } from 'lib/db/types'
 import baseURL from 'lib/static/baseURL'
 import createSlug from 'lib/createSlug'
 import apiWrapper from 'lib/api/apiWrapper'

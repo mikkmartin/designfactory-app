@@ -2,7 +2,7 @@ import { EditorStore } from './EditorStore'
 import { PageStore } from './PageStore'
 import { makeAutoObservable } from 'mobx'
 import { FileStore } from './FileStore'
-import { IFileWithTemplates } from 'data/db'
+import { IFileWithTemplates } from 'lib/db'
 
 export class RootStore {
   editor: EditorStore

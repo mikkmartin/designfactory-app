@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx'
 import { objectToParams } from 'lib/urlEncoder'
 import baseURL from 'lib/static/baseURL'
 import { FileResponse } from '@mikkmartin/figma-js'
-import { TemplateGroupItem } from 'data/db'
+import { TemplateGroupItem } from 'lib/db'
 import * as api from 'data/api'
 import { RootStore } from './RootStore'
 

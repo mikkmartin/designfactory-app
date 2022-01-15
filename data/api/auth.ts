@@ -1,6 +1,6 @@
 import { post } from './fetch'
 import { PostgrestError } from '@supabase/supabase-js'
-import { definitions } from 'data/db/types'
+import { definitions } from 'lib/db/types'
 
 const url = '/api/auth/anon'
 

@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
 import { GetServerSideProps } from 'next'
-import { db } from 'data/db'
+import { db } from 'lib/db'
 import { observer } from 'mobx-react-lite'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'

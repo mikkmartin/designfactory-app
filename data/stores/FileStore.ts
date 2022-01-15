@@ -1,7 +1,7 @@
 import { JSONSchema7Object } from 'json-schema'
 import type { UiSchema } from "@rjsf/core";
 import { makeAutoObservable } from 'mobx'
-import { IFile } from 'data/db'
+import { IFile } from 'lib/db'
 import { RootStore } from './RootStore'
 
 interface IFileStore extends IFile {
