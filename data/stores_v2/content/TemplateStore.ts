@@ -12,6 +12,7 @@ export class TemplateStore {
   defaultThemeSlug: Data['default_theme_slug'] = null
   themes: ThemeStore[] = []
   previewTheme: ThemePreviewResponse['data'] = null
+  slug: string = null
 
   constructor(data: Data) {
     const { id, title, description, default_theme_slug, themes } = data

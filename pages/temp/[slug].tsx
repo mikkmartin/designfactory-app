@@ -8,6 +8,7 @@ import { store } from 'data/stores_v2'
 import { useRouter } from 'next/router'
 import { getCookie } from 'cookies-next'
 import { ANON_ID } from 'lib/static/cookieKeys'
+import { Layout } from 'components/Layout'
 
 const Test: NextPage = observer(() => {
   const router = useRouter()
@@ -15,8 +16,8 @@ const Test: NextPage = observer(() => {
   const [previewSlug, setPreviewSlug] = useState<string>(null)
   const urlRef = useRef<HTMLInputElement>(null)
 
-  const { templates, getTemplateWithTheme } = store.content
-  const { theme, template } = getTemplateWithTheme(previewSlug || slug)
+  const { templates, setTemplate } = store.content
+  const { theme, template } = setTemplate(slug)
   const { themes, addTheme, previewTheme, loadTheme, deleteTheme, cancelAdd } = template
 
   const selectedSlug = useMemo(() => theme.slug, [slug])
@@ -76,7 +77,7 @@ const Test: NextPage = observer(() => {
   }, [theme.data])
 
   return (
-    <div style={{ display: 'grid', gap: 16, padding: 32 }}>
+    <Layout>
       <select
         style={{ width: 200 }}
         defaultValue={selectedSlug}
@@ -165,7 +166,7 @@ const Test: NextPage = observer(() => {
           2
         )}
       </pre>
-    </div>
+    </Layout>
   )
 })
 

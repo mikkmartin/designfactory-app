@@ -15,8 +15,6 @@ export class RootStore {
   }
 
   setInitialState = (props, route: string) => {
-    //Auth Store
-    //this.auth.authenticate(props)
     switch (route) {
       case '/temp/[slug]':
         this.content.setInitialData(props)

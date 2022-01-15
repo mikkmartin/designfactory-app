@@ -6,6 +6,7 @@ import { ThemeStore } from './ThemeStore'
 export class ContentStore {
   //@ts-ignore
   private rootStore: RootStore
+  template: TemplateStore = null
   templates: TemplateStore[] = []
 
   constructor(rootStore: RootStore) {
@@ -17,10 +18,14 @@ export class ContentStore {
     this.templates = data.map(template => new TemplateStore(template))
   }
 
-  getTemplateWithTheme = (slug: string): { template: TemplateStore; theme: ThemeStore } => {
+  setTemplate = (slug: string): { template: TemplateStore; theme: ThemeStore } => {
     for (let template of this.templates) {
       const theme = template.themes.find(theme => theme.slug === slug)
-      if (theme) return { template, theme }
+      if (theme) {
+        this.template = template
+        this.template.slug = slug
+        return { template, theme }
+      }
     }
   }
 }
