@@ -17,7 +17,7 @@ const Test: NextPage = observer(() => {
   const urlRef = useRef<HTMLInputElement>(null)
 
   const { templates, setTemplate } = store.content
-  const { theme, template } = setTemplate(slug)
+  const { theme, template } = setTemplate(previewSlug || slug)
   const { themes, addTheme, previewTheme, loadTheme, deleteTheme, cancelAdd } = template
 
   const selectedSlug = useMemo(() => theme.slug, [slug])
@@ -77,7 +77,7 @@ const Test: NextPage = observer(() => {
   }, [theme.data])
 
   return (
-    <Layout>
+    <div style={{ display: 'grid', gap: 16, padding: 32 }}>
       <select
         style={{ width: 200 }}
         defaultValue={selectedSlug}
@@ -166,7 +166,7 @@ const Test: NextPage = observer(() => {
           2
         )}
       </pre>
-    </Layout>
+    </div>
   )
 })
 
