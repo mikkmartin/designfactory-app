@@ -1,6 +1,5 @@
 import { FC } from 'react'
 import styled from 'styled-components'
-import { store } from 'data'
 import { observer } from 'mobx-react-lite'
 import { CanvasButtons } from 'components/Editor/CanvasButtons'
 import { TutorialPanel } from 'components/Editor/TutorialPanel'
@@ -10,7 +9,6 @@ import { motion } from 'framer-motion'
 import { fast } from 'lib/static/transitions'
 
 export const Layout: FC = observer(({ children }) => {
-  store.editor.tutorialPanelIsOpen
   return (
     <Container>
       <SidePanel />
@@ -20,9 +18,6 @@ export const Layout: FC = observer(({ children }) => {
             {children}
           </motion.div>
         </div>
-        <Version />
-        <CanvasButtons />
-        <TutorialPanel />
       </div>
     </Container>
   )

@@ -8,6 +8,7 @@ import { store } from 'data/stores_v2'
 import { useRouter } from 'next/router'
 import { getCookie } from 'cookies-next'
 import { ANON_ID } from 'lib/static/cookieKeys'
+import Layout from 'components/Layout'
 
 const Test: NextPage = observer(() => {
   const router = useRouter()
@@ -87,7 +88,7 @@ const Test: NextPage = observer(() => {
   }, [theme.data])
 
   return (
-    <div style={{ display: 'grid', gap: 16, padding: 32 }}>
+    <Layout>
       <select style={{ width: 200 }} defaultValue={slug} onChange={ev => setRoute(ev.target.value)}>
         {!Boolean(templateOptions.length) ? (
           <option key={template.id}>{template.title}</option>
@@ -172,7 +173,7 @@ const Test: NextPage = observer(() => {
           2
         )}
       </pre>
-    </div>
+    </Layout>
   )
 })
 

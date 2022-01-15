@@ -2,7 +2,8 @@ import { List, Trigger } from '@radix-ui/react-tabs'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import { Edit, Code, Droplet } from 'components/Icons'
-import { store } from 'data'
+import { store } from 'data/stores_v2'
+import type { Tab } from 'data/stores_v2/UiStore'
 import { buttonHighlight } from 'components/ui/RadioGroup'
 import { fast } from 'lib/static/transitions'
 import { motion, useAnimation } from 'framer-motion'
@@ -10,8 +11,8 @@ import { useEffect } from 'react'
 
 export const Navigation = observer(() => {
   const iconAnimation = useAnimation()
-  const { currentTab, templatePanelIsOpen } = store.editor
-  const getIcon = (icon: typeof store.editor.tabs[number]) => {
+  const { tab: currentTab, tabs: _tabs, templatePanelIsOpen } = store.ui
+  const getIcon = (icon: Tab) => {
     switch (icon) {
       case 'inputs':
         return Edit
@@ -22,7 +23,7 @@ export const Navigation = observer(() => {
     }
   }
 
-  const tabs = [...store.editor.tabs].map(tab => ({
+  const tabs = [..._tabs].map(tab => ({
     tab,
     Icon: getIcon(tab),
   }))

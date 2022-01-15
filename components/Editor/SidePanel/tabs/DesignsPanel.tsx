@@ -2,12 +2,11 @@ import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 import { Tab, tabContentStyle } from './Tab'
 import { NewTemplateItem, TemplateItem } from '../designs'
-import { store } from 'data'
+import { store } from 'data/stores_v2'
 import Link from 'next/link'
 
 export const DesignPanel = observer(() => {
-  const { templates } = store.editor
-  const { slug: selectedSlug } = store.file
+  const { themeOptions } = store.content.template
 
   return (
     <Container value="designs">
@@ -16,16 +15,9 @@ export const DesignPanel = observer(() => {
         <NewTemplateItem small={false} />
       </div>
       <div className="grid">
-        {templates.map(({ slug, title, thumbnail_url, loading, id }) => (
-          <Link key={slug} href={slug}>
-            <TemplateItem
-              id={id}
-              selected={selectedSlug === slug}
-              slug={slug}
-              title={title}
-              thumbnail={thumbnail_url}
-              loading={loading}
-            />
+        {themeOptions.map(theme => (
+          <Link key={theme.slug} href={`/temp/${theme.slug}`}>
+            <TemplateItem theme={theme} />
           </Link>
         ))}
       </div>

@@ -1,32 +1,25 @@
 import { Dropdown } from 'components/ui/Dropdown'
 import { FigmaLogo, More } from 'components/Icons'
-import { store } from 'data'
+import { store } from 'data/stores_v2'
+import { ThemeStore } from 'data/stores_v2/content/ThemeStore'
 import { observer } from 'mobx-react-lite'
 import { FC, useState } from 'react'
 import styled, { css } from 'styled-components'
 import Link from 'next/link'
 import { Button } from 'components/ui/Button'
+import { useRouter } from 'next/router'
 
-type Props = {
-  id: string
-  slug: string
-  title: string
-  thumbnail: string
-  selected: boolean
-  loading: boolean
-}
-
-const getSize = (_): { width: number; height: number } => ({ width: 16, height: 9 })
-
-export const TemplateItem: FC<Props> = observer(({ slug, title, selected, thumbnail, id }) => {
-  const { templateHovered, templateBlurred } = store.editor
-  const { width, height } = getSize(store.file.template)
+export const TemplateItem: FC<{ theme: ThemeStore }> = observer(({ theme }) => {
+  const { deleteTheme, theme: currentTheme } = store.content.template
+  const { title, thumbnailUrl, slug, size, ownerID } = theme
+  const { width, height } = size
+  
+  const router = useRouter()
   const [isFocused, setIsFocused] = useState(false)
-  const disabled = true
   const options = [
     { value: 'Duplicate' },
     { value: 'Open in Figma' },
-    { value: 'Remove', disabled },
+    { value: 'Remove', disabled: ownerID === null },
   ]
 
   const handleDropdownSelection = (value: string) => {
@@ -35,6 +28,8 @@ export const TemplateItem: FC<Props> = observer(({ slug, title, selected, thumbn
     } else if (value === 'Open in Figma') {
       openDesign(false)
     } else if (value === 'Remove') {
+      //setPreviewSlug(null)
+      deleteTheme(slug, newSlug => router.replace(`/temp/${newSlug}`, undefined, { shallow: true }))
     }
   }
 
@@ -44,22 +39,22 @@ export const TemplateItem: FC<Props> = observer(({ slug, title, selected, thumbn
   }
 
   const openDesign = (duplicate = true) => {
-    const url = `https://www.figma.com/file/${id}` + (duplicate ? '/duplicate' : '')
+    const url = `https://www.figma.com/file/${undefined}` + (duplicate ? '/duplicate' : '')
     window.open(url, '_blank').focus()
   }
 
   return (
     <Container
       style={{ aspectRatio: `${width} / ${height}` }}
-      selected={selected}
+      selected={currentTheme.slug === slug}
       focused={isFocused}
       className={isFocused && 'focused'}>
-      {thumbnail && (
-        <img style={{ aspectRatio: `${width} / ${height}` }} src={thumbnail} alt={title} />
+      {thumbnailUrl && (
+        <img style={{ aspectRatio: `${width} / ${height}` }} src={thumbnailUrl} alt={title} />
       )}
 
       <Link href={slug}>
-        <Button onMouseEnter={() => templateHovered(slug)} onMouseLeave={templateBlurred}></Button>
+        <Button></Button>
       </Link>
 
       <div className="overlay">

@@ -1,4 +1,4 @@
-import { store } from 'data'
+import { store } from 'data/stores_v2'
 import styled from 'styled-components'
 import { Logo } from 'components/Icons'
 import { Drawer } from '../../Drawer'
@@ -7,7 +7,7 @@ import { TabButton } from '../../Drawer/TabButton'
 import { observer } from 'mobx-react-lite'
 
 export const Header = observer(() => {
-  const { title: fileName } = store.file
+  const { title: fileName } = store.content.template
   const buttonLabels = [
     'templates',
     //  'info',

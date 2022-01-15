@@ -5,23 +5,26 @@ import { observer } from 'mobx-react-lite'
 import { Navigation } from './Navigation'
 import styled from 'styled-components'
 import { Header } from './Header'
-import { store } from 'data'
 import { AnimatePresence } from 'framer-motion'
+import { store } from 'data/stores_v2'
+import { Tab } from 'data/stores_v2/UiStore'
 
 export const SidePanel = observer(() => {
-  const { currentTab, setCurrentTab, templatePanelIsOpen } = store.editor
+  const { tab, setTab, templatePanelIsOpen } = store.ui
   return (
     <Container
-      value={currentTab}
-      onValueChange={setCurrentTab}
+      value={store.ui.tab}
+      onValueChange={(tab: Tab) => setTab(tab)}
       activationMode="manual"
       orientation="horizontal">
       <Header />
       <DesignPanel />
       <InputPanel />
+      {/*
       <JsonEditor />
+      */}
       <div className="footer" style={{ height: templatePanelIsOpen ? 'auto' : 56 }}>
-        {currentTab === 'inputs' && (
+        {tab === 'inputs' && (
           <AnimatePresence>{templatePanelIsOpen && <DesignsPreview key="1" />}</AnimatePresence>
         )}
         <Navigation />
