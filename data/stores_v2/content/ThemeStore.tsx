@@ -13,6 +13,7 @@ export class ThemeStore {
   title: Data['title']
   ownerID: Data['owner_profile_id']
   modifiedAt: Date
+  figmaID: Data['figma_id']
 
   loading: boolean = true
   data: FileResponse = null
@@ -22,6 +23,7 @@ export class ThemeStore {
     this.slug = themeData.slug
     this._size = themeData.size
     this.ownerID = themeData.owner_profile_id
+    this.figmaID = themeData.figma_id
     this.modifiedAt = new Date(themeData.modified_at)
     makeAutoObservable(this)
     this.template = template

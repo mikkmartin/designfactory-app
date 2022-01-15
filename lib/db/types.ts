@@ -234,7 +234,6 @@ export interface paths {
           description?: parameters["rowFilter.templates.description"];
           title?: parameters["rowFilter.templates.title"];
           file_type?: parameters["rowFilter.templates.file_type"];
-          default_theme_slug?: parameters["rowFilter.templates.default_theme_slug"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -293,7 +292,6 @@ export interface paths {
           description?: parameters["rowFilter.templates.description"];
           title?: parameters["rowFilter.templates.title"];
           file_type?: parameters["rowFilter.templates.file_type"];
-          default_theme_slug?: parameters["rowFilter.templates.default_theme_slug"];
         };
         header: {
           /** Preference */
@@ -316,7 +314,6 @@ export interface paths {
           description?: parameters["rowFilter.templates.description"];
           title?: parameters["rowFilter.templates.title"];
           file_type?: parameters["rowFilter.templates.file_type"];
-          default_theme_slug?: parameters["rowFilter.templates.default_theme_slug"];
         };
         body: {
           /** templates */
@@ -346,6 +343,7 @@ export interface paths {
           ui_schema?: parameters["rowFilter.themes.ui_schema"];
           size?: parameters["rowFilter.themes.size"];
           owner_profile_id?: parameters["rowFilter.themes.owner_profile_id"];
+          figma_id?: parameters["rowFilter.themes.figma_id"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -405,6 +403,7 @@ export interface paths {
           ui_schema?: parameters["rowFilter.themes.ui_schema"];
           size?: parameters["rowFilter.themes.size"];
           owner_profile_id?: parameters["rowFilter.themes.owner_profile_id"];
+          figma_id?: parameters["rowFilter.themes.figma_id"];
         };
         header: {
           /** Preference */
@@ -428,6 +427,7 @@ export interface paths {
           ui_schema?: parameters["rowFilter.themes.ui_schema"];
           size?: parameters["rowFilter.themes.size"];
           owner_profile_id?: parameters["rowFilter.themes.owner_profile_id"];
+          figma_id?: parameters["rowFilter.themes.figma_id"];
         };
         body: {
           /** themes */
@@ -558,8 +558,6 @@ export interface definitions {
      * @default image
      */
     file_type: string;
-    /** Format: character varying */
-    default_theme_slug: string;
   };
   themes: {
     /**
@@ -602,6 +600,8 @@ export interface definitions {
      * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
      */
     owner_profile_id?: string;
+    /** Format: character varying */
+    figma_id: string;
   };
 }
 
@@ -688,8 +688,6 @@ export interface parameters {
   "rowFilter.templates.title": string;
   /** Format: character varying */
   "rowFilter.templates.file_type": string;
-  /** Format: character varying */
-  "rowFilter.templates.default_theme_slug": string;
   /** @description themes */
   "body.themes": definitions["themes"];
   /** Format: character varying */
@@ -710,6 +708,8 @@ export interface parameters {
   "rowFilter.themes.size": string;
   /** Format: uuid */
   "rowFilter.themes.owner_profile_id": string;
+  /** Format: character varying */
+  "rowFilter.themes.figma_id": string;
 }
 
 export interface operations {}

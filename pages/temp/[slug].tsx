@@ -2,7 +2,7 @@ import { NextPage } from 'next'
 import { GetServerSideProps } from 'next'
 import { db } from 'lib/db'
 import { observer } from 'mobx-react-lite'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { store } from 'data/stores_v2'
 import { useRouter } from 'next/router'
@@ -76,16 +76,19 @@ const Test: NextPage = observer(() => {
     cancelAdd()
   }
 
+  const handleEdit = (ev, { figmaID, duplicate = false }) => {
+    ev.preventDefault()
+    const url = `https://www.figma.com/file/${figmaID}` + (duplicate ? '/duplicate' : '')
+    window.open(url, '_blank').focus()
+  }
+
   useEffect(() => {
     if (!theme.data) theme.loadData()
   }, [theme.data])
 
   return (
     <div style={{ display: 'grid', gap: 16, padding: 32 }}>
-      <select
-        style={{ width: 200 }}
-        defaultValue={slug}
-        onChange={ev => setRoute(ev.target.value)}>
+      <select style={{ width: 200 }} defaultValue={slug} onChange={ev => setRoute(ev.target.value)}>
         {!Boolean(templateOptions.length) ? (
           <option key={template.id}>{template.title}</option>
         ) : (
@@ -128,7 +131,7 @@ const Test: NextPage = observer(() => {
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
         {[...themeOptions]
           .sort((a, b) => +b.modifiedAt - +a.modifiedAt)
-          .map(({ slug, title, thumbnailUrl, size: { width, height }, ownerID }) => (
+          .map(({ slug, title, thumbnailUrl, size: { width, height }, figmaID, ownerID }) => (
             <Link key={slug} href={`/temp/${slug}`} shallow={true}>
               <a
                 key={slug}
@@ -148,12 +151,12 @@ const Test: NextPage = observer(() => {
                 />
                 <h2>{title}</h2>
                 <small>{slug}</small>
-                <button
-                  style={{ width: '100%' }}
-                  disabled={ownerID === null}
-                  onClick={ev => handleDelete(ev, slug)}>
-                  Delete
-                </button>
+                <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+                  <button onClick={ev => handleEdit(ev, { figmaID })}>Edit</button>
+                  <button disabled={ownerID === null} onClick={ev => handleDelete(ev, slug)}>
+                    Delete
+                  </button>
+                </div>
               </a>
             </Link>
           ))}

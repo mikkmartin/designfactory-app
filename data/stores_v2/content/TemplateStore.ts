@@ -5,30 +5,31 @@ import type { GetTempaltesWithThemesResponse, ThemePreviewResponse } from 'data/
 import { FileResponse } from '@mikkmartin/figma-js'
 
 type Data = GetTempaltesWithThemesResponse['data'][0]
+type LoadedThemeData = ThemePreviewResponse['data'] & {
+  figmaID: string
+}
 
 export class TemplateStore {
   id: Data['id'] = null
   title: Data['title'] = null
   description: Data['description'] = null
-  defaultThemeSlug: Data['default_theme_slug'] = null
   themeOptions: ThemeStore[] = []
   theme: ThemeStore = null
   private _previewTheme: ThemeStore = null
-  private loadedThemeData: ThemePreviewResponse['data'] = null
+  private loadedThemeData: LoadedThemeData = null
 
   constructor(data: Data, themeSlug: string) {
-    const { id, title, description, default_theme_slug, themes } = data
+    const { id, title, description, themes } = data
     this.id = id
     this.title = title
     this.description = description
-    this.defaultThemeSlug = default_theme_slug
     makeAutoObservable(this)
     this.themeOptions = themes.map(theme => new ThemeStore(this, theme))
     this.theme = this.themeOptions.find(theme => theme.slug === themeSlug)
   }
 
   setPreviewTheme = (slug: string | null) => {
-    if (!slug) return this._previewTheme = null
+    if (!slug) return (this._previewTheme = null)
     const theme = this.themeOptions.find(theme => theme.slug === slug)
     if (!theme.data) theme.loadData()
     this._previewTheme = theme
@@ -41,7 +42,7 @@ export class TemplateStore {
   loadTheme = async (figmaID: string) => {
     const res = await api.loadThemePreview(figmaID)
     runInAction(() => {
-      this.loadedThemeData = res.data
+      this.loadedThemeData = { ...res.data, figmaID }
     })
     return res
   }
@@ -59,10 +60,10 @@ export class TemplateStore {
   }
 
   addTheme = async (title: string) => {
-    const { slug } = this.loadedThemeData
+    const { slug, figmaID } = this.loadedThemeData
     const templateID = this.id
     const size = this.getFrameSize(this.loadedThemeData.file)
-    const { data } = await api.addTheme({ slug, title, templateID, size })
+    const { data } = await api.addTheme({ slug, title, templateID, figmaID, size })
 
     const newTheme = new ThemeStore(this, data, this.loadedThemeData.file)
     this.loadedThemeData = null

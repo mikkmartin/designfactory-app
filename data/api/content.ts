@@ -19,6 +19,7 @@ export const loadThemePreview = figmaFileID =>
 export type AddThemeResponse = { data: definitions['themes']; error: PostgrestError | null }
 export type AddThemeParams = {
   templateID: string
+  figmaID: string,
   slug: string
   title: string
   size: [number, number]

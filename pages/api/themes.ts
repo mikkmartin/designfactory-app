@@ -59,7 +59,7 @@ const handleLoadThemePreview = async (req: Req, res: Res<ThemePreviewResponse>) 
 }
 
 const handleAdd = async (req: Req, res: Res<AddThemeResponse>) => {
-  const { templateID, slug: oldSlug, title, size } = JSON.parse(req.body) as AddThemeParams
+  const { templateID, slug: oldSlug, title, size, figmaID } = JSON.parse(req.body) as AddThemeParams
 
   const anonID = req.cookies[ANON_ID]
   const slug = createSlug(title)
@@ -67,7 +67,14 @@ const handleAdd = async (req: Req, res: Res<AddThemeResponse>) => {
 
   const { data, error } = await supabase
     .from<definitions['themes']>('themes')
-    .insert({ slug, title, owner_template_id: templateID, owner_profile_id: anonID, size })
+    .insert({
+      slug,
+      title,
+      owner_template_id: templateID,
+      owner_profile_id: anonID,
+      figma_id: figmaID,
+      size,
+    })
     .single()
   if (error) throw new Error(error.message)
 
