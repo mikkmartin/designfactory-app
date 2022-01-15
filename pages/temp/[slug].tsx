@@ -8,17 +8,16 @@ import { store } from 'data/stores_v2'
 import { useRouter } from 'next/router'
 import { getCookie } from 'cookies-next'
 import { ANON_ID } from 'lib/static/cookieKeys'
-import { Layout } from 'components/Layout'
 
 const Test: NextPage = observer(() => {
   const router = useRouter()
   const slug = router.query.slug as string
-  const [previewSlug, setPreviewSlug] = useState<string>(null)
-  const urlRef = useRef<HTMLInputElement>(null)
+  store.content.setTheme(slug)
+  const { template, templateOptions } = store.content
+  const { theme, themeOptions, addTheme, previewTheme, loadTheme, deleteTheme, cancelAdd } = template
 
-  const { templates, setTemplate } = store.content
-  const { theme, template } = setTemplate(previewSlug || slug)
-  const { themes, addTheme, previewTheme, loadTheme, deleteTheme, cancelAdd } = template
+  const [previewSlug, setPreviewSlug] = useState<string>(null)
+
 
   const selectedSlug = useMemo(() => theme.slug, [slug])
 
@@ -27,6 +26,7 @@ const Test: NextPage = observer(() => {
     return router.push(`/temp/${slug}`, undefined, { shallow: true })
   }, [])
 
+  const urlRef = useRef<HTMLInputElement>(null)
   const [loading, setLoading] = useState(false)
   const [figmaID, setFigmaID] = useState('')
   const [fileName, setFileName] = useState('')
@@ -82,11 +82,11 @@ const Test: NextPage = observer(() => {
         style={{ width: 200 }}
         defaultValue={selectedSlug}
         onChange={ev => setRoute(ev.target.value)}>
-        {!Boolean(templates.length) ? (
+        {!Boolean(templateOptions.length) ? (
           <option key={template.id}>{template.title}</option>
         ) : (
-          templates.map(({ id, title, themes }) => (
-            <option key={id} value={themes[themes.length - 1].slug}>
+          templateOptions.map(({ id, title, themeOptions }) => (
+            <option key={id} value={themeOptions[themeOptions.length - 1].slug}>
               {title}
             </option>
           ))
@@ -122,7 +122,7 @@ const Test: NextPage = observer(() => {
       </form>
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-        {[...themes]
+        {[...themeOptions]
           .sort((a, b) => +b.modifiedAt - +a.modifiedAt)
           .map(({ slug, title, thumbnailUrl, size: { width, height }, ownerID }) => (
             <Link key={slug} href={`/temp/${slug}`} shallow={true}>

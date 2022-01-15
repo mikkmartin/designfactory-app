@@ -1,13 +1,12 @@
 import type { RootStore } from '../RootStore'
-import { makeAutoObservable } from 'mobx'
+import { makeAutoObservable, runInAction } from 'mobx'
 import { TemplateStore } from './TemplateStore'
-import { ThemeStore } from './ThemeStore'
 
 export class ContentStore {
   //@ts-ignore
   private rootStore: RootStore
   template: TemplateStore = null
-  templates: TemplateStore[] = []
+  templateOptions: TemplateStore[] = []
 
   constructor(rootStore: RootStore) {
     makeAutoObservable(this)
@@ -15,16 +14,19 @@ export class ContentStore {
   }
 
   setInitialData = ({ data }) => {
-    this.templates = data.map(template => new TemplateStore(template))
+    this.templateOptions = data.map(template => new TemplateStore(template, template.themes[0].slug))
   }
 
-  setTemplate = (slug: string): { template: TemplateStore; theme: ThemeStore } => {
-    for (let template of this.templates) {
-      const theme = template.themes.find(theme => theme.slug === slug)
+  setTheme = (slug: string) => {
+    if (this.template?.theme.slug === slug) return
+    for (let template of this.templateOptions) {
+      const theme = template.themeOptions.find(theme => theme.slug === slug)
       if (theme) {
-        this.template = template
-        this.template.slug = slug
-        return { template, theme }
+        runInAction(() => {
+          this.template = template
+          this.template.theme = theme
+        })
+        return
       }
     }
   }

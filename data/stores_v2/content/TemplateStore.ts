@@ -10,18 +10,19 @@ export class TemplateStore {
   title: Data['title'] = null
   description: Data['description'] = null
   defaultThemeSlug: Data['default_theme_slug'] = null
-  themes: ThemeStore[] = []
+  themeOptions: ThemeStore[] = []
+  theme: ThemeStore = null
   previewTheme: ThemePreviewResponse['data'] = null
-  slug: string = null
 
-  constructor(data: Data) {
+  constructor(data: Data, themeSlug: string) {
     const { id, title, description, default_theme_slug, themes } = data
     this.id = id
     this.title = title
     this.description = description
     this.defaultThemeSlug = default_theme_slug
     makeAutoObservable(this)
-    this.themes = themes.map(theme => new ThemeStore(this, theme))
+    this.themeOptions = themes.map(theme => new ThemeStore(this, theme))
+    this.theme = this.themeOptions.find(theme => theme.slug === themeSlug)
   }
 
   loadTheme = async (figmaID: string) => {
@@ -53,19 +54,19 @@ export class TemplateStore {
     const newTheme = new ThemeStore(this, data, this.previewTheme.file)
     this.previewTheme = null
     runInAction(() => {
-      this.themes.push(newTheme)
+      this.themeOptions.push(newTheme)
     })
     return newTheme.slug
   }
 
   deleteTheme = async (slug: string, newSlugCallback?: (newSlug: string) => Promise<boolean>) => {
-    if (this.themes.length <= 1) return
-    const removeIndex = this.themes.findIndex(theme => theme.slug === slug)
+    if (this.themeOptions.length <= 1) return
+    const removeIndex = this.themeOptions.findIndex(theme => theme.slug === slug)
 
     //when the theme is deleted, set the theme to previous theme and fire callback
-    if (this.themes[removeIndex].slug === slug) {
+    if (this.themeOptions[removeIndex].slug === slug) {
       const newIndex = removeIndex - 1 > 0 ? removeIndex - 1 : 0
-      const newSlug = this.themes[newIndex].slug
+      const newSlug = this.themeOptions[newIndex].slug
       if (newSlugCallback)
         newSlugCallback(newSlug).then(() => this.removeThemeFromStore(removeIndex))
     } else {
@@ -75,6 +76,6 @@ export class TemplateStore {
   }
 
   private removeThemeFromStore = (removeIndex: number) => {
-    this.themes = this.themes.filter((_, i) => i !== removeIndex)
+    this.themeOptions = this.themeOptions.filter((_, i) => i !== removeIndex)
   }
 }
