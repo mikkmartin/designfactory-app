@@ -1,18 +1,15 @@
 import { NextPage } from 'next'
 import { GetServerSideProps } from 'next'
-import { db, TemplateData } from 'data/db'
+import { db } from 'data/db'
 import { observer } from 'mobx-react-lite'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { store } from 'data/stores_v2'
 import { useRouter } from 'next/router'
+import { getCookie } from 'cookies-next'
+import { ANON_ID } from 'lib/static/cookieKeys'
 
-type Props = {
-  slug: string
-  data: TemplateData
-}
-
-const Test: NextPage<Props> = observer(() => {
+const Test: NextPage = observer(() => {
   const router = useRouter()
   const slug = router.query.slug as string
   const [previewSlug, setPreviewSlug] = useState<string>(null)
@@ -126,7 +123,7 @@ const Test: NextPage<Props> = observer(() => {
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
         {[...themes]
           .sort((a, b) => +b.modifiedAt - +a.modifiedAt)
-          .map(({ slug, title, thumbnailUrl, size: { width, height } }) => (
+          .map(({ slug, title, thumbnailUrl, size: { width, height }, ownerID }) => (
             <Link key={slug} href={`/temp/${slug}`} shallow={true}>
               <a
                 key={slug}
@@ -146,7 +143,10 @@ const Test: NextPage<Props> = observer(() => {
                 />
                 <h2>{title}</h2>
                 <small>{slug}</small>
-                <button style={{ width: '100%' }} onClick={ev => handleDelete(ev, slug)}>
+                <button
+                  style={{ width: '100%' }}
+                  disabled={ownerID === null}
+                  onClick={ev => handleDelete(ev, slug)}>
                   Delete
                 </button>
               </a>
@@ -169,12 +169,17 @@ const Test: NextPage<Props> = observer(() => {
   )
 })
 
-export const getServerSideProps: GetServerSideProps<Props> = async ({ params }) => {
-  const slug = params.slug as string
-  const { data, error } = await db.getTemplate(slug)
-  if (error) return { notFound: true }
+type Props = {
+  data: db.TemplateWithThemes
+}
+
+export const getServerSideProps: GetServerSideProps<Props> = async ({ params, req }) => {
+  const anonID = getCookie(ANON_ID, { req }) as string | undefined
+  const { data } = await db.getTemplate({ anonID })
+  const hasSlug = data.some(({ themes }) => themes.some(({ slug }) => slug === params.slug))
+  if (!data?.length || !hasSlug) return { notFound: true }
   return {
-    props: { slug, data },
+    props: { data },
   }
 }
 

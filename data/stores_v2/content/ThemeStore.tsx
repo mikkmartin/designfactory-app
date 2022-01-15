@@ -11,6 +11,7 @@ export class ThemeStore {
   private _size: Data['size'] = null
   slug: Data['slug']
   title: Data['title']
+  ownerID: Data['owner_profile_id']
   modifiedAt: Date
 
   loading: boolean = true
@@ -20,6 +21,7 @@ export class ThemeStore {
     this.title = themeData.title
     this.slug = themeData.slug
     this._size = themeData.size
+    this.ownerID = themeData.owner_profile_id
     this.modifiedAt = new Date(themeData.modified_at)
     makeAutoObservable(this)
     this.template = template

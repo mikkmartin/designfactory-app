@@ -1,8 +1,7 @@
 import type { RootStore } from '../RootStore'
-import { makeAutoObservable, runInAction } from 'mobx'
+import { makeAutoObservable } from 'mobx'
 import { TemplateStore } from './TemplateStore'
 import { ThemeStore } from './ThemeStore'
-import { api } from 'data/api'
 
 export class ContentStore {
   //@ts-ignore
@@ -15,9 +14,7 @@ export class ContentStore {
   }
 
   setInitialData = ({ data }) => {
-    const template = new TemplateStore(data)
-    this.templates.push(template)
-    if (process.browser) this.fetchTemplates()
+    this.templates = data.map(template => new TemplateStore(template))
   }
 
   getTemplateWithTheme = (slug: string): { template: TemplateStore; theme: ThemeStore } => {
@@ -25,12 +22,5 @@ export class ContentStore {
       const theme = template.themes.find(theme => theme.slug === slug)
       if (theme) return { template, theme }
     }
-  }
-
-  fetchTemplates = async () => {
-    const { data } = await api.getTemplates()
-    runInAction(() => {
-      this.templates = data.map(template => new TemplateStore(template))
-    })
   }
 }

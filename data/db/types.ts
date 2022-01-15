@@ -464,26 +464,6 @@ export interface paths {
       };
     };
   };
-  "/rpc/get_template_by_slug": {
-    post: {
-      parameters: {
-        body: {
-          args: {
-            /** Format: text */
-            slug_input: string;
-          };
-        };
-        header: {
-          /** Preference */
-          Prefer?: parameters["preferParams"];
-        };
-      };
-      responses: {
-        /** OK */
-        200: unknown;
-      };
-    };
-  };
 }
 
 export interface definitions {
