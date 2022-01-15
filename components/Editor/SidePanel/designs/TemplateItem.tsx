@@ -11,15 +11,15 @@ import { useRouter } from 'next/router'
 
 export const TemplateItem: FC<{ theme: ThemeStore }> = observer(({ theme }) => {
   const { deleteTheme, theme: currentTheme } = store.content.template
-  const { title, thumbnailUrl, slug, size, ownerID } = theme
+  const { title, thumbnailUrl, slug, size, ownerID, figmaID } = theme
   const { width, height } = size
-  
+
   const router = useRouter()
   const [isFocused, setIsFocused] = useState(false)
   const options = [
     { value: 'Duplicate' },
     { value: 'Open in Figma' },
-    { value: 'Remove', disabled: ownerID === null },
+    { value: 'Delete', disabled: ownerID === null },
   ]
 
   const handleDropdownSelection = (value: string) => {
@@ -27,7 +27,7 @@ export const TemplateItem: FC<{ theme: ThemeStore }> = observer(({ theme }) => {
       openDesign()
     } else if (value === 'Open in Figma') {
       openDesign(false)
-    } else if (value === 'Remove') {
+    } else if (value === 'Delete') {
       //setPreviewSlug(null)
       deleteTheme(slug, newSlug => router.replace(`/temp/${newSlug}`, undefined, { shallow: true }))
     }
@@ -39,7 +39,7 @@ export const TemplateItem: FC<{ theme: ThemeStore }> = observer(({ theme }) => {
   }
 
   const openDesign = (duplicate = true) => {
-    const url = `https://www.figma.com/file/${undefined}` + (duplicate ? '/duplicate' : '')
+    const url = `https://www.figma.com/file/${figmaID}` + (duplicate ? '/duplicate' : '')
     window.open(url, '_blank').focus()
   }
 
@@ -53,8 +53,8 @@ export const TemplateItem: FC<{ theme: ThemeStore }> = observer(({ theme }) => {
         <img style={{ aspectRatio: `${width} / ${height}` }} src={thumbnailUrl} alt={title} />
       )}
 
-      <Link href={slug}>
-        <Button></Button>
+      <Link key={slug} href={`/temp/${slug}`} shallow={true}>
+        <Button />
       </Link>
 
       <div className="overlay">

@@ -66,28 +66,19 @@ export const DesignsPreview = observer(() => {
             exit: { opacity: 0 },
           }}
         />
-        {templates.map(({ slug, title, thumbnail_url, id, loading }, i) => (
-          <Link key={slug} href={slug} passHref>
-            <motion.a
-              key={i}
-              layout="position"
-              transition={{ delay: 1 * 0.05 - i * 0.05 }}
-              style={
-                isPresent ? { position: 'relative' } : { position: 'absolute', top: 16, right: 16 }
-              }
-              variants={itemVariants(i)}
-              onAnimationComplete={unmount}
-              className="item">
-              <TemplateItem
-                id={id}
-                selected={slug === selectedSlug}
-                slug={slug}
-                title={title}
-                thumbnail={thumbnail_url}
-                loading={loading}
-              />
-            </motion.a>
-          </Link>
+        {templates.map((theme, i) => (
+          <motion.div
+            key={i}
+            layout="position"
+            transition={{ delay: 1 * 0.05 - i * 0.05 }}
+            style={
+              isPresent ? { position: 'relative' } : { position: 'absolute', top: 16, right: 16 }
+            }
+            variants={itemVariants(i)}
+            onAnimationComplete={unmount}
+            className="item">
+            <TemplateItem key={theme.slug} theme={theme} />
+          </motion.div>
         ))}
       </motion.div>
     </Container>

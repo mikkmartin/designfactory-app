@@ -1,53 +1,32 @@
 import { store } from 'data/stores_v2'
 import styled from 'styled-components'
 import { Logo } from 'components/Icons'
-import { Drawer } from '../../Drawer'
-import { DrawerProvider } from '../../Drawer/DrawerContext'
-import { TabButton } from '../../Drawer/TabButton'
 import { observer } from 'mobx-react-lite'
+import { Dropdown, DropdownSelector } from 'components/ui'
+import { useRouter } from 'next/router'
 
 export const Header = observer(() => {
-  const { title: fileName } = store.content.template
-  const buttonLabels = [
-    'templates',
-    //  'info',
-    //  'donation'
-  ]
+  const { template, templateOptions } = store.content
+  const router = useRouter()
 
-  const handleDownload = () => {
-    //logInvoiceDownload(json.template)
+  const handleChange = (slug: string) => {
+    router.push(`/temp/${slug}`, undefined, { shallow: true })
   }
 
   return (
-    <DrawerProvider
-      panels={[
-        ...buttonLabels,
-        'addtemplate',
-        'payment',
-        'subscription-cancel',
-        'unsubscribed',
-        'thank you',
-      ]}>
-      <Container>
-        <div className="title">
-          <Logo className="logo" />
-          <h1>{fileName}</h1>
-        </div>
-        <div className="buttons">
-          {buttonLabels.map(name => (
-            <TabButton key={name} name={name} />
-          ))}
-          {/*
-          <a href={downloadUrl} download={`${fileName}.png`}>
-            <Button primary onTap={handleDownload}>
-              <Download />
-            </Button>
-          </a>
-            */}
-        </div>
-        <Drawer />
-      </Container>
-    </DrawerProvider>
+    <Container>
+      <Dropdown
+        onChange={handleChange}
+        options={templateOptions.map(({ themeOptions, title }) => ({
+          value: themeOptions[0].slug,
+          label: title,
+        }))}>
+        <DropdownSelector>
+          <Logo />
+          {template.title}
+        </DropdownSelector>
+      </Dropdown>
+    </Container>
   )
 })
 

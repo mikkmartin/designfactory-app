@@ -14,17 +14,8 @@ const Test: NextPage = observer(() => {
   const router = useRouter()
   const slug = router.query.slug as string
   store.content.setTheme(slug)
-  const { template, templateOptions } = store.content
-  const {
-    theme,
-    themeOptions,
-    addTheme,
-    setPreviewTheme,
-    previewThemeFile,
-    loadTheme,
-    deleteTheme,
-    cancelAdd,
-  } = template
+  const { template } = store.content
+  const { theme, addTheme, loadTheme, cancelAdd } = template
 
   const setRoute = useCallback((slug: string, replace = false) => {
     if (replace) return router.replace(`/temp/${slug}`, undefined, { shallow: true })
@@ -65,22 +56,9 @@ const Test: NextPage = observer(() => {
     setLoading(false)
   }
 
-  const handleDelete = (ev, slug: string) => {
-    ev.preventDefault()
-    ev.stopPropagation()
-    setPreviewTheme(null)
-    deleteTheme(slug, newSlug => setRoute(newSlug, true))
-  }
-
   const handleCancel = ev => {
     ev.preventDefault()
     cancelAdd()
-  }
-
-  const handleEdit = (ev, { figmaID, duplicate = false }) => {
-    ev.preventDefault()
-    const url = `https://www.figma.com/file/${figmaID}` + (duplicate ? '/duplicate' : '')
-    window.open(url, '_blank').focus()
   }
 
   useEffect(() => {
@@ -89,19 +67,6 @@ const Test: NextPage = observer(() => {
 
   return (
     <Layout>
-      <select style={{ width: 200 }} defaultValue={slug} onChange={ev => setRoute(ev.target.value)}>
-        {!Boolean(templateOptions.length) ? (
-          <option key={template.id}>{template.title}</option>
-        ) : (
-          templateOptions.map(({ id, title, themeOptions }) => (
-            <option key={id} value={themeOptions[themeOptions.length - 1].slug}>
-              {title}
-            </option>
-          ))
-        )}
-      </select>
-      <h1>{template.title}</h1>
-      <p>{template.description}</p>
       <pre>
         <code>https://www.figma.com/file/B0xXzAaz1QjRiJBRc3z9Ha</code>
       </pre>
@@ -128,51 +93,6 @@ const Test: NextPage = observer(() => {
           {figmaID && <button onClick={handleCancel}>Cancel</button>}
         </div>
       </form>
-
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-        {[...themeOptions]
-          .sort((a, b) => +b.modifiedAt - +a.modifiedAt)
-          .map(({ slug, title, thumbnailUrl, size: { width, height }, figmaID, ownerID }) => (
-            <Link key={slug} href={`/temp/${slug}`} shallow={true}>
-              <a
-                key={slug}
-                onMouseEnter={() => setPreviewTheme(slug)}
-                onMouseLeave={() => setPreviewTheme(null)}
-                style={{
-                  background: theme.slug === slug ? 'rgb(var(--highlight))' : 'black',
-                  color: 'white',
-                  display: 'block',
-                }}>
-                <img
-                  src={thumbnailUrl}
-                  style={{
-                    height: 100,
-                    aspectRatio: `${width} / ${height}`,
-                  }}
-                />
-                <h2>{title}</h2>
-                <small>{slug}</small>
-                <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-                  <button onClick={ev => handleEdit(ev, { figmaID })}>Edit</button>
-                  <button disabled={ownerID === null} onClick={ev => handleDelete(ev, slug)}>
-                    Delete
-                  </button>
-                </div>
-              </a>
-            </Link>
-          ))}
-      </div>
-      <pre>
-        {JSON.stringify(
-          {
-            theme: theme.slug,
-            loading: theme.loading,
-            themeData: previewThemeFile ? previewThemeFile.name : theme.data?.name,
-          },
-          null,
-          2
-        )}
-      </pre>
     </Layout>
   )
 })

@@ -3,7 +3,6 @@ import { observer } from 'mobx-react-lite'
 import { Tab, tabContentStyle } from './Tab'
 import { NewTemplateItem, TemplateItem } from '../designs'
 import { store } from 'data/stores_v2'
-import Link from 'next/link'
 
 export const DesignPanel = observer(() => {
   const { themeOptions } = store.content.template
@@ -15,11 +14,11 @@ export const DesignPanel = observer(() => {
         <NewTemplateItem small={false} />
       </div>
       <div className="grid">
-        {themeOptions.map(theme => (
-          <Link key={theme.slug} href={`/temp/${theme.slug}`}>
-            <TemplateItem theme={theme} />
-          </Link>
-        ))}
+        {[...themeOptions]
+          .sort((a, b) => +b.modifiedAt - +a.modifiedAt)
+          .map(theme => (
+            <TemplateItem key={theme.slug} theme={theme} />
+          ))}
       </div>
     </Container>
   )
