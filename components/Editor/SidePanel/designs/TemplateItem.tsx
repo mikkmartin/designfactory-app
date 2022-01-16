@@ -10,7 +10,7 @@ import { Button } from 'components/ui/Button'
 import { useRouter } from 'next/router'
 
 export const TemplateItem: FC<{ theme: ThemeStore }> = observer(({ theme }) => {
-  const { deleteTheme, theme: currentTheme } = store.content.template
+  const { deleteTheme, theme: currentTheme, setPreviewTheme } = store.content.template
   const { title, thumbnailUrl, slug, size, ownerID, figmaID } = theme
   const { width, height } = size
 
@@ -47,6 +47,8 @@ export const TemplateItem: FC<{ theme: ThemeStore }> = observer(({ theme }) => {
     <Container
       style={{ aspectRatio: `${width} / ${height}` }}
       selected={currentTheme.slug === slug}
+      onMouseEnter={() => setPreviewTheme(theme.slug)}
+      onMouseLeave={() => setPreviewTheme(null)}
       focused={isFocused}
       className={isFocused && 'focused'}>
       {thumbnailUrl && (
