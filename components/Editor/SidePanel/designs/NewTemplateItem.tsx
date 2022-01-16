@@ -2,38 +2,55 @@ import styled from 'styled-components'
 import { Button, Input as InputBase, Loader } from 'components/ui'
 import { Trigger, Content, Popover } from 'components/ui/Popover'
 import { Plus, Close, FigmaLogo } from 'components/Icons'
-import { useState, useRef } from 'react'
-import { store } from 'data'
+import { useState, useRef, useEffect } from 'react'
+import { observer } from 'mobx-react-lite'
+import { store } from 'data/stores_v2'
+import { useRouter } from 'next/router'
 
-export const NewTemplateItem = props => {
-  const ref = useRef<HTMLInputElement>(null)
+export const NewTemplateItem = observer<any>(props => {
+  const { addTheme, loadTheme, cancelAdd } = store.content.template
+  const router = useRouter()
   const [isOpen, setIsOpen] = useState(false)
+
   const [loading, setLoading] = useState(false)
-  const [hasInput, setHasInput] = useState(false)
+  const [figmaID, setFigmaID] = useState('')
+  const [fileName, setFileName] = useState('')
 
-  const handleChange = () => {
-    if (ref.current.value.length >= 22) {
-      setHasInput(true)
-      //setLoading(true)
-    } else {
-      setHasInput(false)
-    }
+  const handleChange = ev => {
+    try {
+      const { value } = ev.target
+      if (value.length >= 22) {
+        const [id] = ev.target.value.split('/file/')[1].split('/')
+        if (id) loadPreview(id)
+      }
+    } catch (e) {}
   }
 
-  const handleImport = async ev => {
-    ev.preventDefault()
-    const str = ref.current.value
-    const [id] = str.split('/file/')[1].split('/')
+  const loadPreview = async id => {
     setLoading(true)
-    const { error } = await store.pages.addTempTemplate(id, { type: store.file.type })
-    if (!error) {
-      setLoading(false)
-      setIsOpen(false)
-      setHasInput(false)
-    } else {
-      console.error(error)
-    }
+    setFigmaID(id)
+    const { data } = await loadTheme(id)
+    setFileName(data.file.name)
+    setLoading(false)
   }
+
+  const handleSubmit = async ev => {
+    ev.preventDefault()
+    setLoading(true)
+    await addTheme(fileName).then(slug =>
+      router.push(`/temp/${slug}`, undefined, { shallow: true })
+    )
+    setIsOpen(false)
+    setFigmaID('')
+    setFileName('')
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    if (isOpen) return
+    setIsOpen(false)
+    cancelAdd()
+  }, [isOpen])
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -47,22 +64,29 @@ export const NewTemplateItem = props => {
           <div className="header">
             {loading ? <Loader /> : <FigmaLogo />}
             <span>{loading ? 'Loading...' : 'Paste the Figma link'}</span>
-            <Button>
+            <Button onClick={() => setIsOpen(false)}>
               <Close />
             </Button>
           </div>
-          <form onSubmit={handleImport}>
+          <form onSubmit={handleSubmit}>
             <div className="inputs">
               <Input
                 type="text"
-                ref={ref}
                 autoFocus
-                disabled={loading}
+                disabled={loading && !Boolean(figmaID)}
                 onChange={handleChange}
                 placeholder="https://www.figma.com/file/QFHu9..."
               />
+              {Boolean(fileName) && (
+                <Input
+                  type="text"
+                  placeholder="Name..."
+                  value={fileName}
+                  onChange={ev => setFileName(ev.target.value)}
+                />
+              )}
             </div>
-            <Button primary disabled={!hasInput || loading} onClick={handleImport}>
+            <Button primary type="submit" disabled={!Boolean(figmaID) || loading}>
               Import
             </Button>
           </form>
@@ -70,7 +94,7 @@ export const NewTemplateItem = props => {
       </Content>
     </Popover>
   )
-}
+})
 
 const Input = styled(InputBase)`
   height: 40px;

@@ -14,52 +14,7 @@ const Test: NextPage = observer(() => {
   const router = useRouter()
   const slug = router.query.slug as string
   store.content.setTheme(slug)
-  const { template } = store.content
-  const { theme, addTheme, loadTheme, cancelAdd } = template
-
-  const setRoute = useCallback((slug: string, replace = false) => {
-    if (replace) return router.replace(`/temp/${slug}`, undefined, { shallow: true })
-    return router.push(`/temp/${slug}`, undefined, { shallow: true })
-  }, [])
-
-  const urlRef = useRef<HTMLInputElement>(null)
-  const [loading, setLoading] = useState(false)
-  const [figmaID, setFigmaID] = useState('')
-  const [fileName, setFileName] = useState('')
-
-  const handleInputChange = ev => {
-    try {
-      const { value } = ev.target
-      if (!value) return setFigmaID('')
-      const [id] = ev.target.value.split('/file/')[1].split('/')
-      if (id) loadPreview(id)
-    } catch (e) {
-      setFigmaID('')
-    }
-  }
-
-  const loadPreview = async id => {
-    setLoading(true)
-    setFigmaID(id)
-    const { data } = await loadTheme(id)
-    setFileName(data.file.name)
-    setLoading(false)
-  }
-
-  const handleSubmit = async ev => {
-    ev.preventDefault()
-    setLoading(true)
-    await addTheme(fileName).then(setRoute)
-    urlRef.current.value = ''
-    setFigmaID('')
-    setFileName('')
-    setLoading(false)
-  }
-
-  const handleCancel = ev => {
-    ev.preventDefault()
-    cancelAdd()
-  }
+  const { theme, previewThemeFile } = store.content.template
 
   useEffect(() => {
     if (!theme.data) theme.loadData()
@@ -67,32 +22,7 @@ const Test: NextPage = observer(() => {
 
   return (
     <Layout>
-      <pre>
-        <code>https://www.figma.com/file/B0xXzAaz1QjRiJBRc3z9Ha</code>
-      </pre>
-      <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 4, maxWidth: 300 }}>
-        <input
-          type="text"
-          placeholder="figma.com/file/B0xXzAaz..."
-          ref={urlRef}
-          onChange={handleInputChange}
-        />
-        {Boolean(fileName) && (
-          <input
-            disabled={loading && !Boolean(figmaID)}
-            type="text"
-            placeholder="Name..."
-            value={fileName}
-            onChange={ev => setFileName(ev.target.value)}
-          />
-        )}
-        <div>
-          <button type="submit" disabled={!Boolean(figmaID) || loading}>
-            {loading ? 'Loading...' : 'Submit'}
-          </button>
-          {figmaID && <button onClick={handleCancel}>Cancel</button>}
-        </div>
-      </form>
+      {JSON.stringify({ theme: theme.data?.name, preview: previewThemeFile?.name }, null, 2)}
     </Layout>
   )
 })
