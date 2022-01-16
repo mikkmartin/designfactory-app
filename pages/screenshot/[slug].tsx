@@ -1,21 +1,16 @@
-import { FC } from 'react'
 import { GetServerSideProps } from 'next'
 import { Canvas } from 'components/Canvas'
+import storageURL from 'lib/static/storageURL'
 
-export const Screenshot = ({ slug, data }) => {
-  return <Canvas template={data} />
+export const Screenshot = ({ data }) => {
+  return <Canvas themeData={data} />
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const { slug } = query
-  return {
-    props: {
-      slug,
-      data: await fetch(
-        `https://sdqycteblanimltlbiss.supabase.in/storage/v1/object/public/themes/files/${slug}.json`
-      ).then(res => res.json()),
-    },
-  }
+  const url = `${storageURL}/themes/files/${slug}.json`
+  const data = await fetch(url).then(res => res.json())
+  return { props: { data } }
 }
 
 export default Screenshot

@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import { getCookie } from 'cookies-next'
 import { ANON_ID } from 'lib/static/cookieKeys'
 import Layout from 'components/Layout'
+import { Canvas } from 'components/Canvas'
 
 const Test: NextPage = observer(() => {
   const router = useRouter()
@@ -21,7 +22,7 @@ const Test: NextPage = observer(() => {
 
   return (
     <Layout>
-      {JSON.stringify({ theme: theme.data?.name, preview: previewThemeFile?.name }, null, 2)}
+      <Canvas themeData={previewThemeFile || theme.data} />
     </Layout>
   )
 })

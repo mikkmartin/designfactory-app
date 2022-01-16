@@ -2,24 +2,24 @@ import { renderElement } from './renderElement'
 import { Page } from './elemets'
 import { CanvasProvider } from './store/CanvasProvider'
 import { parseTemplate } from './parseTemplate'
-import { store } from 'data'
+import { ThemeStore } from 'data/stores_v2/content/ThemeStore'
 import { Fonts } from './Fonts'
 import { observer } from 'mobx-react-lite'
-import { useEffect } from 'react'
+import { useMemo } from 'react'
 import { Preview } from './Preview'
 
-export const Canvas = observer<{ editable?: boolean }>(({ editable = true }) => {
-  const { template: selectedTemplate } = store.file
-  const { templates } = store.editor
-  const template = templates?.find(t => t.hovered)?.template || selectedTemplate
-  const { nodes, componentSets, fonts, schema, uiSchema } = parseTemplate(template)
+type Props = {
+  editable?: boolean
+  themeData: ThemeStore['data']
+}
 
-  useEffect(() => {
-    if (editable) {
-      store.file.setSchema(schema)
-      store.file.setUiSchema(uiSchema)
-    }
-  }, [schema])
+export const Canvas = observer<Props>(({ editable = true, themeData }) => {
+  useMemo(() => {
+    console.log('change schemas')
+  }, [themeData?.document.id])
+
+  if (!themeData) return null
+  const { nodes, componentSets, fonts, schema, uiSchema } = parseTemplate(themeData)
 
   return (
     <>
