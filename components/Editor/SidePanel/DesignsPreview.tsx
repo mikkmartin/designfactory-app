@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
-import { store } from 'data'
+import { store } from 'data/stores_v2'
 import { Button } from 'components/ui'
 import { Close } from 'components/Icons'
 import { motion, usePresence } from 'framer-motion'
@@ -8,9 +8,10 @@ import { NewTemplateItem, TemplateItem } from './designs'
 import Link from 'next/link'
 
 export const DesignsPreview = observer(() => {
-  const { toggleTemplatePanel, templates } = store.editor
+  const { toggleTemplatePanel } = store.ui
+  const { template } = store.content
+  const { themeOptions } = template
   const [isPresent, unmount] = usePresence()
-  const { slug: selectedSlug } = store.file
 
   const itemVariants = i => ({
     initial: { scale: 1, y: 0 },
@@ -66,7 +67,7 @@ export const DesignsPreview = observer(() => {
             exit: { opacity: 0 },
           }}
         />
-        {templates.map((theme, i) => (
+        {themeOptions.map((theme, i) => (
           <motion.div
             key={i}
             layout="position"
@@ -106,15 +107,9 @@ const Container = styled(motion.div)`
     overflow: auto;
     gap: 6px;
     padding: 8px 8px 16px 16px;
-    > a {
-      display: block;
+    > .item {
       transform-origin: 81% 35% !important;
-      aspect-ratio: 16 / 9;
       height: 100px;
-      width: auto;
-      border-radius: 4px;
-      display: grid;
-      place-items: center;
     }
   }
 `

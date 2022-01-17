@@ -1,16 +1,16 @@
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 import { Info } from 'components/Icons'
-import { store } from 'data'
+import { store } from 'data/stores_v2'
 import { Button } from 'components/ui'
 import { motion } from 'framer-motion'
 import { fast } from 'lib/static/transitions'
 
 export const Banner = observer(() => {
-  const { toggleTutorialPanel: togglePreviewPanel } = store.editor
+  const { toggleTutorialPanel } = store.ui
   return (
     <Container
-      onClick={togglePreviewPanel}
+      onClick={toggleTutorialPanel}
       initial="hidden"
       animate="shown"
       exit="hidden"

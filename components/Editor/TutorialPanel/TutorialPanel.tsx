@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
-import { store } from 'data'
+import { store } from 'data/stores_v2'
 import { Close } from 'components/Icons'
 import { Button } from 'components/ui'
 import { Image } from './Image'
@@ -10,7 +10,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { fast } from 'lib/static/transitions'
 
 export const TutorialPanel = observer(() => {
-  const { tutorialPanelIsOpen: isOpen, toggleTutorialPanel } = store.editor
+  const { tutorialPanelIsOpen: isOpen, toggleTutorialPanel } = store.ui
   return (
     <>
       {!isOpen && <Banner key="banner" />}

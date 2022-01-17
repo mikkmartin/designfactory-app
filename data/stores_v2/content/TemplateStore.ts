@@ -15,6 +15,7 @@ export class TemplateStore {
   description: Data['description'] = null
   themeOptions: ThemeStore[] = []
   theme: ThemeStore = null
+  inputData: {}
   private _previewTheme: ThemeStore = null
   private loadedThemeData: LoadedThemeData = null
 

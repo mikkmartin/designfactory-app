@@ -18,6 +18,9 @@ export const Layout: FC = observer(({ children }) => {
             {children}
           </motion.div>
         </div>
+        <Version />
+        <TutorialPanel />
+        <CanvasButtons />
       </div>
     </Container>
   )

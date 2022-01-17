@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
-import { store } from 'data'
+import { store } from 'data/stores_v2'
 
 export const Image = observer(() => {
-  const url = store.editor.downloadUrl
+  const url = store.ui.downloadUrl
   return <Container src={url} />
 })
 

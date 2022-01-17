@@ -1,12 +1,12 @@
 import { useRef } from 'react'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
-import { store } from 'data'
+import { store } from 'data/stores_v2'
 import { Button } from 'components/ui'
 import { Copy } from 'components/Icons'
 
 export const Code = observer(() => {
-  const url = store.editor.downloadUrl
+  const url = store.ui.downloadUrl
   const codeRef = useRef<HTMLElement>(null)
 
   const handleCopy = () => {
