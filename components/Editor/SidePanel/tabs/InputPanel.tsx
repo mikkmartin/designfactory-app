@@ -6,19 +6,25 @@ import { Tab, tabContentStyle } from './Tab'
 
 export const InputPanel = observer(() => {
   const { description } = store.content.template
-  /*
-  const { schema, uiSchema } = store.file
-  const { data, setData } = store.editor
-  */
+  const { inputData, setInputData } = store.content.template
+  const { editorSchema, uiSchema } = store.content.template.theme
 
   return (
     <Container value="inputs">
       <p>{description}</p>
-      {/*<Form schema={schema} uiSchema={uiSchema} value={data} onValueChange={setData} />*/}
+      <Form
+        schema={editorSchema}
+        uiSchema={uiSchema}
+        value={inputData}
+        onValueChange={setInputData}
+      />
     </Container>
   )
 })
 
 const Container = styled(Tab)`
   ${tabContentStyle}
+  p {
+    opacity: 0.5;
+  }
 `

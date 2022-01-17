@@ -1,16 +1,16 @@
 import { createContext, useContext } from 'react'
 import { observer } from 'mobx-react-lite'
-import { store } from 'data'
+import { store } from 'data/stores_v2'
 
 const Context = createContext(null)
 
 export const InstanceProvider = observer<any>(({ containerKey, nth, children }) => {
-  const { data, setData } = store.editor
+  const { inputData, setInputData } = store.content.template
 
   function setText(obj) {
     const [key, val] = Object.entries(obj)[0]
 
-    setData(data => {
+    setInputData(data => {
       const oldvalue = data[containerKey][nth][key]
       const formatedValue = typeof oldvalue === 'number' ? parseFloat(val as string) : val
       const newArray = [...data[containerKey]]
@@ -19,7 +19,7 @@ export const InstanceProvider = observer<any>(({ containerKey, nth, children }) 
     })
   }
   return (
-    <Context.Provider value={{ data: data[containerKey][nth], setText }}>
+    <Context.Provider value={{ data: inputData[containerKey][nth], setText }}>
       {children}
     </Context.Provider>
   )

@@ -3,6 +3,8 @@ import { FileResponse } from '@mikkmartin/figma-js'
 import { makeAutoObservable, runInAction } from 'mobx'
 import storageURL from 'lib/static/storageURL'
 import type { TemplateStore } from './TemplateStore'
+import type { JSONSchema7Object } from 'json-schema'
+import type { UiSchema } from '@rjsf/core'
 
 type Data = definitions['themes']
 
@@ -14,11 +16,14 @@ export class ThemeStore {
   ownerID: Data['owner_profile_id']
   modifiedAt: Date
   figmaID: Data['figma_id']
+  uiSchema: UiSchema = {}
+  editorSchema: JSONSchema7Object = {}
 
   loading: boolean = true
   data: FileResponse = null
 
   constructor(template: TemplateStore, themeData: Data, file?: FileResponse) {
+    this.uiSchema = themeData.ui_schema as Object
     this.title = themeData.title
     this.slug = themeData.slug
     this._size = themeData.size
@@ -29,6 +34,9 @@ export class ThemeStore {
     this.template = template
     if (file) this.data = file
   }
+
+  setUiSchema = schema => (this.uiSchema = schema)
+  setEditorSchema = schema => (this.editorSchema = schema)
 
   get size() {
     const [width, height] = this._size.map(Number)

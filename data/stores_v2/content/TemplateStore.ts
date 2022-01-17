@@ -29,9 +29,7 @@ export class TemplateStore {
     this.theme = this.themeOptions.find(theme => theme.slug === themeSlug)
   }
 
-  setInputData = inputData => {
-    this.inputData = inputData
-  }
+  setInputData = inputData => (this.inputData = inputData)
 
   setPreviewTheme = (slug: string | null) => {
     if (!slug) return (this._previewTheme = null)

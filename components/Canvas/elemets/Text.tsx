@@ -1,9 +1,9 @@
 import { useEditor as useTipTap, EditorContent, JSONContent } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+//import StarterKit from '@tiptap/starter-kit'
 import { useEffect, useRef } from 'react'
 import { useInstance } from './InstanceContext'
 import { useCanvas } from '../store/CanvasProvider'
-import { store } from 'data'
+import { store } from 'data/stores_v2'
 import { observer } from 'mobx-react-lite'
 import { TextNode } from '../parseTemplate'
 
@@ -32,17 +32,17 @@ const splittString = (str: string, overRides): { content: string; style?: any }[
 export const Text = observer<TextNode>(({ style, content, name, overrides }) => {
   const acceptUpdates = useRef(true)
   const { editable, disabledFields } = useCanvas()
-  const global = store.editor
+  const global = store.content.template
   const instance = useInstance()
   const source = instance ? instance : global
-  const { data, setText } = source
+  const { inputData, setInputData } = source
 
   const isDisabled = disabledFields?.find(fieldName => fieldName === name)
   const isEditable = editable && !isDisabled
-  const isDefaultData = !Boolean(data[name])
+  const isDefaultData = !Boolean(inputData[name])
 
   const fillText = (name: string): string => {
-    const dataVal = data[name]
+    const dataVal = inputData[name]
     if (dataVal && isAcceptedValue(dataVal)) return String(dataVal)
     return content
   }
@@ -66,7 +66,7 @@ export const Text = observer<TextNode>(({ style, content, name, overrides }) => 
   )
 
   const contentEditor = useTipTap({
-    extensions: [StarterKit],
+    //extensions: [StarterKit],
     content: fillText(name),
     onUpdate() {
       const { content }: JSONContent = this.getJSON()
@@ -76,7 +76,7 @@ export const Text = observer<TextNode>(({ style, content, name, overrides }) => 
           if (val.content) str = str + val.content.map(v => v.text)
           return str
         }, '')
-        setText({ [name]: value })
+        setInputData({ [name]: value })
       }
     },
     onFocus() {
@@ -85,13 +85,13 @@ export const Text = observer<TextNode>(({ style, content, name, overrides }) => 
         document.execCommand('selectAll', false, null)
       }, 0)
     },
-    onBlur() {
-      acceptUpdates.current = true
-    },
+    //onBlur() {
+    //  acceptUpdates.current = true
+    //},
   })
 
   useEffect(() => {
-    if (!contentEditor || !isAcceptedValue(data[name])) return
+    if (!contentEditor || !isAcceptedValue(inputData[name])) return
     if (!acceptUpdates.current) return
     contentEditor.commands.setContent({
       type: 'doc',
@@ -101,13 +101,13 @@ export const Text = observer<TextNode>(({ style, content, name, overrides }) => 
           content: [
             {
               type: 'text',
-              text: data[name].toString(),
+              text: inputData[name].toString(),
             },
           ],
         },
       ],
     })
-  }, [contentEditor, data[name]])
+  }, [contentEditor, inputData[name]])
 
   return <EditorContent style={style} editor={contentEditor} />
 })

@@ -1,8 +1,5 @@
 import { store } from 'data/stores_v2'
-import styled from 'styled-components'
-import { Logo } from 'components/Icons'
 import { observer } from 'mobx-react-lite'
-import { Dropdown, DropdownSelector } from 'components/ui'
 import { useRouter } from 'next/router'
 import { Drawer } from './Drawer'
 
@@ -17,15 +14,15 @@ export const Header = observer(() => {
   }
 
   const handleAdd = () => {
-    console.log('add')
+    //console.log('add')
   }
 
   const handleDuplicate = () => {
-    console.log('handleDuplicate()')
+    //console.log('handleDuplicate()')
   }
 
   const handleRemove = () => {
-    console.log('handleRemove()')
+    //console.log('handleRemove()')
   }
 
   return (

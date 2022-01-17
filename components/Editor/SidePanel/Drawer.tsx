@@ -71,6 +71,7 @@ const Container = styled(DropdownMenu.Trigger)`
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
+    gap: 2px;
     small {
       font-size: 11px;
       opacity: 0.5;

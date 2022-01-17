@@ -18,9 +18,9 @@ export const SidePanel = observer(() => {
       activationMode="manual"
       orientation="horizontal">
       <Header />
-      <DesignPanel />
       <InputPanel />
       <JsonEditor />
+      <DesignPanel />
       <div className="footer" style={{ height: templatePanelIsOpen ? 'auto' : 56 }}>
         {tab === 'inputs' && (
           <AnimatePresence>{templatePanelIsOpen && <DesignsPreview key="1" />}</AnimatePresence>

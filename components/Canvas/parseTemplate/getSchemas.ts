@@ -24,7 +24,7 @@ export const getSchemas = (nodes, componentSets: ComponentsSets): Schemas => {
     }
     return {
       ...props,
-      [name]: { type: typeof val, default: val },
+      [name]: { type: typeof val, examples: [val] },
     }
   }, {})
 
@@ -62,7 +62,7 @@ export const getSchemas = (nodes, componentSets: ComponentsSets): Schemas => {
         [instance.name]: {
           type: 'string',
           default: defaultComponentName,
-          enum: componentNames,
+          enum: componentNames
         },
       }
     }
