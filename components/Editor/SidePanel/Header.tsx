@@ -4,63 +4,44 @@ import { Logo } from 'components/Icons'
 import { observer } from 'mobx-react-lite'
 import { Dropdown, DropdownSelector } from 'components/ui'
 import { useRouter } from 'next/router'
+import { Drawer } from './Drawer'
 
 export const Header = observer(() => {
   const { template, templateOptions } = store.content
+  const label = template.title
+  const { slug: value } = template.theme
   const router = useRouter()
 
-  const handleChange = (slug: string) => {
+  const handleChange = slug => {
     router.push(`/temp/${slug}`, undefined, { shallow: true })
   }
 
+  const handleAdd = () => {
+    console.log('add')
+  }
+
+  const handleDuplicate = () => {
+    console.log('handleDuplicate()')
+  }
+
+  const handleRemove = () => {
+    console.log('handleRemove()')
+  }
+
   return (
-    <Container>
-      <Dropdown
-        onChange={handleChange}
-        options={templateOptions.map(({ themeOptions, title }) => ({
-          value: themeOptions[0].slug,
-          label: title,
-        }))}>
-        <DropdownSelector>
-          <Logo />
-          {template.title}
-        </DropdownSelector>
-      </Dropdown>
-    </Container>
+    <Drawer
+      value={{ label, value }}
+      onChange={handleChange}
+      onAdd={handleAdd}
+      onDuplicate={handleDuplicate}
+      onRemove={handleRemove}
+      options={
+        //[...templateOptions, ...templateOptions, ...templateOptions]
+        templateOptions
+        .map(({ themeOptions, title }) => ({
+        value: themeOptions[0].slug,
+        label: title,
+      }))}
+    />
   )
 })
-
-const Container = styled.div`
-  height: 56px;
-  position: relative;
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  .title {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    .logo {
-      height: 100%;
-      width: auto;
-    }
-    h1 {
-      font-size: 16px;
-      font-weight: 300;
-      width: 1fr;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      height: 1.2em;
-      white-space: nowrap;
-      padding-right: 4px;
-    }
-    .buttons {
-      display: flex;
-      svg {
-        pointer-events: none;
-      }
-    }
-  }
-`

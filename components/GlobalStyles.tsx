@@ -11,6 +11,7 @@ export const GlobalStyles = createGlobalStyle<{ route: string }>`
   :root {
     --highlight: 0, 122, 255;
     --background: #282C34;
+    --background-l2: #32363E;
     --error: #fa755a;
     --placeholder: ${placeholderColor};
     --input-border-radius: 2px;
