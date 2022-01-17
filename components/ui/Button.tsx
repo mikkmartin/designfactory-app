@@ -24,21 +24,24 @@ export const buttonStyles = css`
     color: rgba(255, 255, 255, 0.2);
     background: rgba(255, 255, 255, 0.05);
     cursor: default;
+    pointer-events: none;
   }
   box-shadow: inset 0 0 0 0 rgb(var(--highlight));
   transition: background-color 0, box-shadow 0;
-  :hover {
-    background: rgba(255, 255, 255, 0.05);
-  }
   :focus-visible {
     transition: background-color 0.1s, box-shadow 0.1s;
     outline: none;
     background: rgb(172, 230, 255, 0.1);
     box-shadow: inset 0 0 0 1px rgb(var(--highlight));
   }
-  :active {
-    &:hover {
-      background: rgb(var(--highlight));
+  &:not(:disabled, [disabled]) {
+    :hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    :active {
+      &:hover {
+        background: rgb(var(--highlight));
+      }
     }
   }
 `

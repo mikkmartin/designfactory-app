@@ -1,5 +1,5 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
-import { Logo, Chevron, More, File, Plus } from 'components/Icons'
+import { Logo, Chevron, More, Checkbox, Plus } from 'components/Icons'
 import { Button } from 'components/ui'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
@@ -14,7 +14,7 @@ type Props = {
   options: Value[]
 }
 
-export const Drawer = observer<Props>(({ value, options, onChange, onAdd }) => {
+export const Drawer = observer<Props>(({ value: selected, options, onChange, onAdd }) => {
   return (
     <DropdownMenu.Root>
       <Container asChild>
@@ -22,28 +22,26 @@ export const Drawer = observer<Props>(({ value, options, onChange, onAdd }) => {
           <Logo />
           <div className="text">
             <small>DesignFactory.app</small>
-            <h4>{value.label}</h4>
+            <h4>{selected.label}</h4>
           </div>
           <Chevron />
         </Button>
       </Container>
       <Content loop>
         <div className="items">
-          {options.map(option => (
+          {options.map(({ label, value }) => (
             <DropdownMenu.Item asChild>
-              <Item onClick={() => onChange(option.value)}>
-                <File />
-                <span>{option.label}</span>
-                <Button onClick={ev => ev.stopPropagation()}>
-                  <More />
-                </Button>
+              <Item onClick={() => onChange(value)}>
+                {selected.value === value ? <Checkbox /> : <svg />}
+                <span>{label}</span>
+                <More />
               </Item>
             </DropdownMenu.Item>
           ))}
         </div>
         <div className="footer">
-          <DropdownMenu.Item asChild>
-            <Item className="add" highlight onClick={onAdd}>
+          <DropdownMenu.Item asChild disabled>
+            <Item className="add" highlight disabled onClick={onAdd}>
               <Plus />
               <span>Add template</span>
               <Chevron dir="right" />
@@ -117,16 +115,20 @@ const Content = styled(DropdownMenu.Content)`
 
 const Item = styled(Button)`
   width: 100%;
+  height: 48px;
   border-radius: 0;
   position: relative;
   box-shadow: unset;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.75px;
   font-size: 11px;
   svg {
     width: 40px;
     height: 18px;
     stroke-width: 1.75px;
+  }
+  svg:last-child {
+    opacity: 0.25;
   }
   span {
     flex: 1;
