@@ -21,6 +21,7 @@ const Container = styled(motion.h2)`
   padding: 16px;
   opacity: 0.1;
   pointer-events: none;
+  user-select: none;
   writing-mode: vertical-lr;
   transform: rotate(180deg);
 `
