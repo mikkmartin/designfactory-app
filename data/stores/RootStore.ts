@@ -1,33 +1,32 @@
-import { EditorStore } from './EditorStore'
-import { PageStore } from './PageStore'
-import { makeAutoObservable } from 'mobx'
-import { FileStore } from './FileStore'
-import { IFileWithTemplates } from 'lib/db'
+import { ContentStore } from './content/ContentStore'
+import { enableStaticRendering } from 'mobx-react-lite'
+import { UiStore } from './UiStore'
+import { AuthStore } from './AuthStore'
 
 export class RootStore {
-  editor: EditorStore
-  file: FileStore
-  pages: PageStore
+  content: ContentStore = null
+  auth: AuthStore = null
+  ui: UiStore = null
 
   constructor() {
-    makeAutoObservable(this)
-    this.editor = new EditorStore(this)
-    this.pages = new PageStore(this)
-    if (process.browser) {
-      window['df'] = {
-        toggleTemplatePanel: this.editor.toggleTemplatePanel,
-      }
-    }
+    this.content = new ContentStore(this)
+    this.auth = new AuthStore(this)
+    this.ui = new UiStore(this)
   }
 
-  setInitialData = ({ data, templates, ...file }: InitialData) => {
-    this.file = new FileStore(this, file)
-    this.editor.setData(data)
-    if (templates) this.editor.setTemplates(templates)
+  setInitialState = (props, route: string) => {
+    switch (route) {
+      case '/files/[slug]':
+        this.content.setInitialData(props)
+    }
   }
 }
 
-type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
-type InitialData = Optional<IFileWithTemplates, 'templates'>
+enableStaticRendering(!process.browser)
+let _store: RootStore
+const getStore = () => {
+  if (_store && process.browser) return _store
+  return new RootStore()
+}
 
-export const store = new RootStore()
+export const store = getStore()

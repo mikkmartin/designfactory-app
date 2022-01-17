@@ -3,7 +3,7 @@ import { useEditor as useTipTap, EditorContent, JSONContent } from '@tiptap/reac
 import { useEffect, useRef } from 'react'
 import { useInstance } from './InstanceContext'
 import { useCanvas } from '../store/CanvasProvider'
-import { store } from 'data/stores_v2'
+import { store } from 'data'
 import { observer } from 'mobx-react-lite'
 import { TextNode } from '../parseTemplate'
 

@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite'
 import { RadioGroup, Button } from 'components/ui/RadioGroup'
 import { Lock, Refresh as RefreshIcon } from 'components/Icons'
 import { useEffect, useState } from 'react'
-import { store } from 'data/stores_v2'
+import { store } from 'data'
 import { motion } from 'framer-motion'
 import { bouncy } from 'lib/static/transitions'
 

@@ -6,8 +6,8 @@ import { Navigation } from './Navigation'
 import styled from 'styled-components'
 import { Header } from './Header'
 import { AnimatePresence } from 'framer-motion'
-import { store } from 'data/stores_v2'
-import { Tab } from 'data/stores_v2/UiStore'
+import { store } from 'data'
+import { Tab } from 'data/stores/UiStore'
 
 export const SidePanel = observer(() => {
   const { tab, setTab, templatePanelIsOpen } = store.ui

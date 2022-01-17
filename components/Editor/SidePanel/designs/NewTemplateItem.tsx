@@ -4,7 +4,7 @@ import { Trigger, Content, Popover } from 'components/ui/Popover'
 import { Plus, Close, FigmaLogo } from 'components/Icons'
 import { useState, useRef, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
-import { store } from 'data/stores_v2'
+import { store } from 'data'
 import { useRouter } from 'next/router'
 
 export const NewTemplateItem = observer<any>(props => {

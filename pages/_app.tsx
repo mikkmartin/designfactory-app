@@ -1,7 +1,7 @@
 import { GlobalStyles } from 'components/GlobalStyles'
 import Head from 'next/head'
 import * as Sentry from '@sentry/node'
-import { store } from 'data/stores_v2'
+import { store } from 'data'
 import { useState } from 'react'
 
 const { NEXT_PUBLIC_SENTRY_DSN, NODE_ENV } = process?.env

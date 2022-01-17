@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
-import { store } from 'data/stores_v2'
+import { store } from 'data'
 import { Close } from 'components/Icons'
 import { Button } from 'components/ui'
 import { Image } from './Image'

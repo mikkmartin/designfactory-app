@@ -1,6 +1,6 @@
 import { getColor } from './getColor'
 import { BoxNode } from './parseTemplate'
-import { store } from 'data/stores_v2'
+import { store } from 'data'
 import storageURL from 'lib/static/storageURL'
 
 export const getFill = (node: BoxNode) => {

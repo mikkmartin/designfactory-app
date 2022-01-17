@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 import { Tab, tabContentStyle } from './Tab'
 import { NewTemplateItem, TemplateItem } from '../designs'
-import { store } from 'data/stores_v2'
+import { store } from 'data'
 
 export const DesignPanel = observer(() => {
   const { themeOptions } = store.content.template

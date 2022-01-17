@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react'
 import { observer } from 'mobx-react-lite'
-import { store } from 'data/stores_v2'
+import { store } from 'data'
 
 const Context = createContext(null)
 

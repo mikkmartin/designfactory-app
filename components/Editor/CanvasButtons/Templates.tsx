@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { Button } from 'components/ui'
 import { Droplet } from 'components/Icons'
 import { observer } from 'mobx-react-lite'
-import { store } from 'data/stores_v2'
+import { store } from 'data'
 
 export const Templates = observer(() => {
   const { templatePanelIsOpen, toggleTemplatePanel } = store.ui

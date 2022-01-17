@@ -1,4 +1,4 @@
-import { store } from 'data/stores_v2'
+import { store } from 'data'
 import { observer } from 'mobx-react-lite'
 import { useRouter } from 'next/router'
 import { Drawer } from './Drawer'

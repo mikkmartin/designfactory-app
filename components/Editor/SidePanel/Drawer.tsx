@@ -1,7 +1,7 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import { Logo, Chevron, More, Checkbox, Plus } from 'components/Icons'
 import { Button } from 'components/ui'
-import { store } from 'data/stores_v2'
+import { store } from 'data'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 

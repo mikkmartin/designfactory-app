@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 import { Info } from 'components/Icons'
-import { store } from 'data/stores_v2'
+import { store } from 'data'
 import { Button } from 'components/ui'
 import { motion } from 'framer-motion'
 import { fast } from 'lib/static/transitions'

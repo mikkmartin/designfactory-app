@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
 //import { motion, AnimatePresence } from 'framer-motion'
-import { store } from 'data/stores_v2'
+import { store } from 'data'
 
 export const Preview = observer(() => {
   //const templates = store.content.template.previewThemeFile

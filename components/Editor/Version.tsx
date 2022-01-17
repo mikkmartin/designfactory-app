@@ -1,4 +1,4 @@
-import { store } from 'data/stores_v2'
+import { store } from 'data'
 import styled from 'styled-components'
 import packagejson from '../../package.json'
 import { motion } from 'framer-motion'

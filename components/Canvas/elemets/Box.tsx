@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components'
 //import { useCanvas } from '../store/CanvasProvider'
 //import { useEditor } from 'components/Editor'
 import { observer } from 'mobx-react-lite'
-import { store } from 'data/stores_v2'
+import { store } from 'data'
 
 export const Box = observer<any>(({ children, ...props }) => {
   let overrideUrl = null
