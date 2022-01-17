@@ -1,9 +1,11 @@
 import { observer } from 'mobx-react-lite'
-import { motion, AnimatePresence } from 'framer-motion'
-import { store } from 'data'
+//import { motion, AnimatePresence } from 'framer-motion'
+import { store } from 'data/stores_v2'
 
 export const Preview = observer(() => {
-  const templates = store.editor.templates
+  //const templates = store.content.template.previewThemeFile
+  return null
+  /*
   const hoveredTemplate = templates.find(t => t.hovered)
   return (
     <AnimatePresence initial={false}>
@@ -32,4 +34,5 @@ export const Preview = observer(() => {
       )}
     </AnimatePresence>
   )
+  */
 })

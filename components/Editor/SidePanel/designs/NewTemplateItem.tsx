@@ -38,7 +38,7 @@ export const NewTemplateItem = observer<any>(props => {
     ev.preventDefault()
     setLoading(true)
     await addTheme(fileName).then(slug =>
-      router.push(`/temp/${slug}`, undefined, { shallow: true })
+      router.push(`/files/${slug}`, undefined, { shallow: true })
     )
     setIsOpen(false)
     setFigmaID('')

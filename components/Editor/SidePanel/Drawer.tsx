@@ -1,6 +1,7 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import { Logo, Chevron, More, Checkbox, Plus } from 'components/Icons'
 import { Button } from 'components/ui'
+import { store } from 'data/stores_v2'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 
@@ -32,7 +33,11 @@ export const Drawer = observer<Props>(({ value: selected, options, onChange, onA
           {options.map(({ label, value }) => (
             <DropdownMenu.Item asChild>
               <Item onClick={() => onChange(value)}>
-                {selected.value === value ? <Checkbox /> : <svg />}
+                {store.content.template.themeOptions.find(theme => theme.slug === value) ? (
+                  <Checkbox />
+                ) : (
+                  <svg />
+                )}
                 <span>{label}</span>
                 <More />
               </Item>
@@ -83,7 +88,7 @@ const Container = styled(DropdownMenu.Trigger)`
       margin: 0;
       padding: 0;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
     }
   }
   > svg:last-child {

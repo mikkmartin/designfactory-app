@@ -1,43 +1,43 @@
-import { Layout } from 'components/Layout'
+import { NextPage } from 'next'
+import { GetServerSideProps } from 'next'
+import { db } from 'lib/db'
+import { observer } from 'mobx-react-lite'
+import { useEffect } from 'react'
+import { store } from 'data/stores_v2'
+import { useRouter } from 'next/router'
+import { getCookie } from 'cookies-next'
+import { ANON_ID } from 'lib/static/cookieKeys'
+import Layout from 'components/Layout'
 import { Canvas } from 'components/Canvas'
-import { FC, useRef } from 'react'
-import { GetStaticProps, GetStaticPaths } from 'next'
-import { db, IFileWithTemplates } from 'lib/db'
-import { store } from 'data'
 
-const File: FC<IFileWithTemplates> = ({ children, ...file }) => {
-  if (!file.id) return null
-  setInitialData(file)
+const File: NextPage = observer(() => {
+  const router = useRouter()
+  const slug = router.query.slug as string
+  store.content.setTheme(slug)
+  const { theme, previewThemeFile } = store.content.template
+
+  useEffect(() => {
+    if (!theme.data) theme.loadData()
+  }, [theme.data])
 
   return (
     <Layout>
-      <Canvas />
+      <Canvas themeData={previewThemeFile || theme.data} />
     </Layout>
   )
+})
+
+type Props = {
+  data: db.TemplateWithThemes
 }
 
-export const getStaticProps: GetStaticProps<IFileWithTemplates> = async ({ params: { slug } }) => {
-  const { data: props, error } = await db.getFileWithTemplates(slug as string)
-  if (error) return { notFound: true }
+export const getServerSideProps: GetServerSideProps<Props> = async ({ params, req }) => {
+  const anonID = getCookie(ANON_ID, { req }) as string | undefined
+  const { data } = await db.getTemplate({ anonID })
+  const hasSlug = data.some(({ themes }) => themes.some(({ slug }) => slug === params.slug))
+  if (!data?.length || !hasSlug) return { notFound: true }
   return {
-    props,
-    revalidate: 1,
-  }
-}
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  const { data } = await db.getSlugs()
-  return {
-    paths: data.map(({ slug }) => ({ params: { slug } })),
-    fallback: true,
-  }
-}
-
-const setInitialData = (file: IFileWithTemplates) => {
-  const id = useRef(null)
-  if (id.current !== file.id) {
-    id.current = file.id
-    store.setInitialData(file)
+    props: { data },
   }
 }
 

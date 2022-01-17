@@ -3,17 +3,17 @@ import styled, { css } from 'styled-components'
 //import { useCanvas } from '../store/CanvasProvider'
 //import { useEditor } from 'components/Editor'
 import { observer } from 'mobx-react-lite'
-import { store } from 'data'
+import { store } from 'data/stores_v2'
 
 export const Box = observer<any>(({ children, ...props }) => {
   let overrideUrl = null
   const [isLoading, setIsLoading] = useState(false)
-  const { data } = store.editor
+  const { inputData } = store.content.template
   //const { editable } = useCanvas()
   //const { data } = useEditor()
 
   if (props.style.background.includes('url')) {
-    const override = Object.entries(data).find(([key]) => key === props.name)
+    const override = Object.entries(inputData).find(([key]) => key === props.name)
     if (override) {
       const overrideValue = override[1]
       if (typeof overrideValue === 'string' && overrideValue.length > 0) {

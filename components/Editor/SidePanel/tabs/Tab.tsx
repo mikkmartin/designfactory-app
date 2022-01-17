@@ -1,8 +1,8 @@
 import { Content } from '@radix-ui/react-tabs'
 import styled, { css } from 'styled-components'
-import { store } from 'data'
+import { store } from 'data/stores_v2'
 
-type Tab = typeof store.editor.tabs[number]
+type Tab = typeof store.ui.tabs[number]
 
 export const Tab = styled(Content)<{ value: Tab }>`
   flex: 1;

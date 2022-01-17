@@ -1,9 +1,10 @@
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
-import { store } from 'data'
 
 
 export const AddElement = observer<any>(({ containerKey }) => {
+  return null
+  /*
   const { setData } = store.editor
 
   const addItem = () => {
@@ -25,6 +26,7 @@ export const AddElement = observer<any>(({ containerKey }) => {
       <button onClick={addItem}>Add</button>
     </Container>
   )
+  */
 })
 
 const Container = styled.div`

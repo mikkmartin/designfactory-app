@@ -16,7 +16,7 @@ export class RootStore {
 
   setInitialState = (props, route: string) => {
     switch (route) {
-      case '/temp/[slug]':
+      case '/files/[slug]':
         this.content.setInitialData(props)
     }
   }

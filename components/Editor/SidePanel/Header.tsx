@@ -10,7 +10,7 @@ export const Header = observer(() => {
   const router = useRouter()
 
   const handleChange = slug => {
-    router.push(`/temp/${slug}`, undefined, { shallow: true })
+    router.push(`/files/${slug}`, undefined, { shallow: true })
   }
 
   const handleAdd = () => {

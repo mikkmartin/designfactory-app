@@ -1,8 +1,11 @@
 import { getColor } from './getColor'
 import { BoxNode } from './parseTemplate'
-import { store } from 'data'
+import { store } from 'data/stores_v2'
+import storageURL from 'lib/static/storageURL'
 
 export const getFill = (node: BoxNode) => {
+  const { previewThemeFile, theme } = store.content.template
+  const { slug } = store.content.template.theme
   if (!node.fills) return 'none'
   return node.fills
     .map(fill => {
@@ -12,7 +15,10 @@ export const getFill = (node: BoxNode) => {
         case 'GRADIENT_LINEAR':
           return paintToLinearGradient(fill)
         case 'IMAGE':
-          return `url(/api/figma/${store.editor.id}/${node.id}.png) center center / cover no-repeat`
+          const url = !Boolean(previewThemeFile)
+            ? `/api/figma/${theme.figmaID}/${node.id}.png`
+            : `${storageURL}/themes/files/${slug}/${node.id.replace(':', '_') + '.png'}`
+          return `url(${url}) center center / cover no-repeat`
         default:
           return 'none'
       }

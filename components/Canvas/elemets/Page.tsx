@@ -1,6 +1,4 @@
-import { store } from 'data'
 import { FC } from 'react'
-import { useMeasure } from 'react-use'
 import styled from 'styled-components'
 import { editable } from './editableStyle'
 import { motion } from 'framer-motion'
@@ -26,11 +24,13 @@ const getScale = ({ self, parent }) => {
 }
 
 export const Page: FC<Props> = ({ children }) => {
-  const parent = store.pages.canvasContainerRef?.getBoundingClientRect()
-  const [ref, self] = useMeasure()
+  //const parent = store.pages.canvasContainerRef?.getBoundingClientRect()
+  //const [ref, self] = useMeasure()
 
   return (
-    <Container layout="position" style={getScale({ self, parent })} ref={ref}>
+    <Container layout="position"
+    // style={getScale({ self, parent })} ref={ref}
+    >
       {children}
     </Container>
   )

@@ -29,7 +29,7 @@ export const TemplateItem: FC<{ theme: ThemeStore }> = observer(({ theme }) => {
       openDesign(false)
     } else if (value === 'Delete') {
       //setPreviewSlug(null)
-      deleteTheme(slug, newSlug => router.replace(`/temp/${newSlug}`, undefined, { shallow: true }))
+      deleteTheme(slug, newSlug => router.replace(`/files/${newSlug}`, undefined, { shallow: true }))
     }
   }
 
@@ -55,7 +55,7 @@ export const TemplateItem: FC<{ theme: ThemeStore }> = observer(({ theme }) => {
         <img style={{ aspectRatio: `${width} / ${height}` }} src={thumbnailUrl} alt={title} />
       )}
 
-      <Link key={slug} href={`/temp/${slug}`} shallow={true}>
+      <Link key={slug} href={`/files/${slug}`} shallow={true}>
         <Button />
       </Link>
 

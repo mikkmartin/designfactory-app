@@ -3,7 +3,7 @@ import { renderElement } from '../renderElement'
 import { Box } from './Box'
 import { InstanceProvider, useInstance } from './InstanceContext'
 import { useCanvas } from '../store/CanvasProvider'
-import { store } from 'data'
+import { store } from 'data/stores_v2'
 import { observer } from 'mobx-react-lite'
 import { ContainerNode } from '../parseTemplate/parseTemplate'
 import { AddElement } from './AddElement'
@@ -20,18 +20,18 @@ let consecutiveInstances = []
 const RenderWithPopulatedSymbols = observer<any>(({ children, name }) => {
   const { componentSets } = useCanvas()
   const instance = useInstance()
-  const global = store.editor
-  const { data } = instance ? instance : global
+  const global = store.content.template
+  const { inputData } = instance ? instance : global
 
   return children.reduce((all, child) => {
     if (child.type === 'INSTANCE') {
       consecutiveInstances.push(child)
       return all
-    } else if (consecutiveInstances.length > 3 && Boolean(data[name])) {
+    } else if (consecutiveInstances.length > 3 && Boolean(inputData[name])) {
       const skippedComponents = consecutiveInstances.map(child =>
         componentSets.components.find(c => c.id === child.componentId)
       )
-      const elementsFromfromData = data[name]
+      const elementsFromfromData = inputData[name]
         .map((_, i) => {
           if (skippedComponents[i]) {
             return skippedComponents[i]

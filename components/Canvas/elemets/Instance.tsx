@@ -4,14 +4,14 @@ import styled from 'styled-components'
 import { InstanceNode } from '../parseTemplate/parseTemplate'
 import { renderElement } from '../renderElement'
 import { useCanvas } from '../store/CanvasProvider'
-import { store } from 'data'
+import { store } from 'data/stores_v2'
 import { observer } from 'mobx-react-lite'
 import { Component, Chevron } from 'components/Icons'
 import { Dropdown } from 'components/ui/Dropdown'
 
 export const Instance: FC<InstanceNode & { listParent?: null | string; nthChild: number }> =
   observer(({ style, name, componentId, children, listParent, nthChild }) => {
-    const { data, setText } = store.editor
+    const { inputData, setInputData } = store.content.template
     const { componentSets, editable } = useCanvas()
 
     const componentSet = Object.values(componentSets).find(set => {
@@ -19,7 +19,7 @@ export const Instance: FC<InstanceNode & { listParent?: null | string; nthChild:
     })
 
     const getComponent = (name: string) => {
-      const overrideKey = Object.keys(data).find(key => key === name)
+      const overrideKey = Object.keys(inputData).find(key => key === name)
       const hasOverride = Boolean(overrideKey)
       if (!hasOverride) return children
 
@@ -28,15 +28,19 @@ export const Instance: FC<InstanceNode & { listParent?: null | string; nthChild:
       const hasSingularOveride = overrideKeys.every(v => v === overrideKeys[0])
 
       //If there is a singular overide and override is a string, apply override
-      if (hasSingularOveride && typeof data[overrideKey] === 'string' && !hasMultipleTextChildren) {
-        const component = componentSet.find(c => c.name.split('=')[1] === data[overrideKey])
+      if (
+        hasSingularOveride &&
+        typeof inputData[overrideKey] === 'string' &&
+        !hasMultipleTextChildren
+      ) {
+        const component = componentSet.find(c => c.name.split('=')[1] === inputData[overrideKey])
         if (component) return renderElement(component)
       }
 
       //Otherwise get the override from the object with the corresponding key
       const component = componentSet.find(c => {
         const name = c.name.split('=')[1]
-        return !!Object.values(data[overrideKey]).find(val => val === name)
+        return !!Object.values(inputData[overrideKey]).find(val => val === name)
       })
       return component ? renderElement(component) : children
     }
@@ -45,25 +49,27 @@ export const Instance: FC<InstanceNode & { listParent?: null | string; nthChild:
       ev.stopPropagation()
       const hasOverrideApplied = Boolean(overrideKey)
       if (hasOverrideApplied) {
-        const currentIndex = componentSet.findIndex(c => data[overrideKey] === c.name.split('=')[1])
+        const currentIndex = componentSet.findIndex(
+          c => inputData[overrideKey] === c.name.split('=')[1]
+        )
         const nextIndex = currentIndex < componentSet.length - 1 ? currentIndex + 1 : 0
-        setText({ [overrideKey]: componentSet[nextIndex].name.split('=')[1] })
+        setInputData({ [overrideKey]: componentSet[nextIndex].name.split('=')[1] })
       } else {
-        setText({ [name]: componentSet[0].name.split('=')[1] })
+        setInputData({ [name]: componentSet[0].name.split('=')[1] })
       }
     }
 
     const handleChange = (value: string) => {
       const overrideKey =
-        Object.keys(data).find(key => key === name) || componentSet[0].name.split('=')[0]
-      setText({ [overrideKey]: value })
+        Object.keys(inputData).find(key => key === name) || componentSet[0].name.split('=')[0]
+      setInputData({ [overrideKey]: value })
     }
     const itemNames = componentSet.map(item => item.name.split('=')[1])
     const overrideKey =
-      Object.keys(data).find(key => key === name) || componentSet[0].name.split('=')[0]
-    const currentValue = data[overrideKey] || componentSet[0].name.split('=')[0]
+      Object.keys(inputData).find(key => key === name) || componentSet[0].name.split('=')[0]
+    const currentValue = inputData[overrideKey] || componentSet[0].name.split('=')[0]
 
-    if (listParent && data[listParent] && data[listParent].length <= nthChild) return null
+    if (listParent && inputData[listParent] && inputData[listParent].length <= nthChild) return null
     return (
       <Container style={style} onTap={cycleComponent}>
         {getComponent(name)}
