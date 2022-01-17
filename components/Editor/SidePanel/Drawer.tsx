@@ -105,7 +105,7 @@ const Content = styled(DropdownMenu.Content)`
     height: 100%;
   }
   .footer {
-    height: 56px;
+    height: 48px;
     background: var(--background);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
     position: sticky;
