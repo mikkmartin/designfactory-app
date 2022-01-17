@@ -18,15 +18,13 @@ export class UiStore {
     this.rootStore = rootStore
   }
 
+  toggleTemplatePanel = () => (this.templatePanelIsOpen = !this.templatePanelIsOpen)
+  toggleTutorialPanel = () => (this.tutorialPanelIsOpen = !this.tutorialPanelIsOpen)
+
   get downloadUrl() {
     const { theme, inputData } = this.rootStore.content.template
     return `${baseURL}/files/${theme.slug}.png${objectToParams(inputData)}`
   }
 
-  toggleTemplatePanel = () => (this.templatePanelIsOpen = !this.templatePanelIsOpen)
-  toggleTutorialPanel = () => (this.tutorialPanelIsOpen = !this.tutorialPanelIsOpen)
-
-  setTab = (tab: Tab) => {
-    this.tab = tab
-  }
+  setTab = (tab: Tab) => (this.tab = tab)
 }

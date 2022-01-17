@@ -1,12 +1,11 @@
 import styled from 'styled-components'
-import { Templates } from './Templates'
-import { RefreshTemplate } from './RefreshTemplate'
+import { Flags } from './Flags'
 
 export const CanvasButtons = () => {
   return (
     <Container>
-      <RefreshTemplate />
-      <Templates />
+      <Flags />
+      {/*<RefreshTemplate />*/}
     </Container>
   )
 }
