@@ -73,7 +73,7 @@ const Container = styled(List)`
   padding: 3px 3px 5px 3px;
   gap: 3px;
   justify-content: stretch;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--background-l2);
   border-radius: 3px;
 `
 

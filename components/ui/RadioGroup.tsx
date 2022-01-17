@@ -64,7 +64,7 @@ const ButtonContainer = styled(motion(Item))`
 export const buttonHighlight = css`
   width: 100%;
   height: 100%;
-  background: #ffffff1d;
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 4px;
   transition: background-color 0.1s, box-shadow 0.1s;
 `

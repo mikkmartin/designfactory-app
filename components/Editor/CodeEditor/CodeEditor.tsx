@@ -2,14 +2,15 @@ import Editor, { useMonaco } from '@monaco-editor/react'
 import type { OnMount } from '@monaco-editor/react'
 import { observer } from 'mobx-react-lite'
 import { theme } from './theme'
-import { store } from 'data'
+import { store } from 'data/stores_v2'
 import { useEffect, useRef } from 'react'
 import { toJS } from 'mobx'
 import { dequal } from 'dequal/lite'
 
 export const CodeEditor = observer(() => {
-  const { data, setData } = store.editor
-  const { schema } = store.file
+  const { inputData, setInputData } = store.content.template
+  console.log(inputData)
+  const schema = {}
   const monaco = useMonaco()
   const editorRef = useRef<any>()
 
@@ -20,8 +21,6 @@ export const CodeEditor = observer(() => {
       validate: true,
       schemas: [
         {
-          uri: 'http://myserver/foo-schema.json',
-          fileMatch: ['*'],
           schema: toJS(schema),
         },
       ],
@@ -35,7 +34,7 @@ export const CodeEditor = observer(() => {
       const model = editor.getModel()
       const editorText = editor.getModel().getValue()
       const currentJson = JSON.parse(editorText)
-      const newJson = toJS(data)
+      const newJson = toJS(inputData)
       if (!dequal(currentJson, newJson)) {
         const { startLineNumber, startColumn, endLineNumber, endColumn } = model.getFullModelRange()
         const range = new monaco.Range(startLineNumber, startColumn, endLineNumber, endColumn)
@@ -44,12 +43,12 @@ export const CodeEditor = observer(() => {
         ])
       }
     } catch (e) {}
-  }, [monaco, toJS(data)])
+  }, [monaco, toJS(inputData)])
 
   const onChange = val => {
     try {
       const newJsonString = JSON.parse(val)
-      setData(newJsonString)
+      setInputData(newJsonString)
     } catch (e) {
       console.error(e)
     }
@@ -71,7 +70,7 @@ export const CodeEditor = observer(() => {
       }}
       language="json"
       onMount={onMount}
-      defaultValue={JSON.stringify(toJS(data), null, 2)}
+      defaultValue={JSON.stringify(toJS(inputData), null, 2)}
       onChange={onChange}
     />
   )

@@ -15,7 +15,7 @@ export class TemplateStore {
   description: Data['description'] = null
   themeOptions: ThemeStore[] = []
   theme: ThemeStore = null
-  inputData: {}
+  inputData: Object = {}
   private _previewTheme: ThemeStore = null
   private loadedThemeData: LoadedThemeData = null
 
@@ -27,6 +27,10 @@ export class TemplateStore {
     makeAutoObservable(this)
     this.themeOptions = themes.map(theme => new ThemeStore(this, theme))
     this.theme = this.themeOptions.find(theme => theme.slug === themeSlug)
+  }
+
+  setInputData = inputData => {
+    this.inputData = inputData
   }
 
   setPreviewTheme = (slug: string | null) => {

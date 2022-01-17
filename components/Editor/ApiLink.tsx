@@ -5,10 +5,10 @@ import { Copy } from '../Icons'
 import { snappy, fast } from 'lib/static/transitions'
 import { motion, AnimatePresence } from 'framer-motion'
 import { observer } from 'mobx-react-lite'
-import { store } from 'data'
+import { store } from 'data/stores_v2'
 
 export const ApiLink = observer(() => {
-  const { downloadUrl } = store.editor
+  const { downloadUrl } = store.ui
   const [method, setMethod] = useState<'GET' | 'POST'>('GET')
   const [copied, setCopied] = useState(false)
   const [toastShown, setToastShown] = useState(false)
