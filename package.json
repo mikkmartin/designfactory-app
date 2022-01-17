@@ -7,7 +7,6 @@
     "start": "next start"
   },
   "dependencies": {
-    "@material-ui/core": "^4.12.3",
     "@mikkmartin/figma-js": "^1.13.3",
     "@monaco-editor/react": "^4.3.1",
     "@radix-ui/react-dropdown-menu": "^0.1.3",
