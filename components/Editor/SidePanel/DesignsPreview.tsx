@@ -100,7 +100,7 @@ const Container = styled(motion.div)`
   .grid {
     display: grid;
     grid-auto-flow: column;
-    grid-template-rows: 100px;
+    grid-template-rows: 80px;
     place-items: center left;
     width: 100%;
     overflow: auto;
@@ -108,7 +108,7 @@ const Container = styled(motion.div)`
     padding: 8px 8px 16px 16px;
     > .item {
       transform-origin: 81% 35% !important;
-      height: 100px;
+      height: 80px;
     }
   }
 `
