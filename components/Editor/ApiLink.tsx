@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Button } from '../ui/Button'
-import { Copy } from '../Icons'
+import { Copy } from '../icons'
 import { snappy, fast } from 'lib/static/transitions'
 import { motion, AnimatePresence } from 'framer-motion'
 import { observer } from 'mobx-react-lite'

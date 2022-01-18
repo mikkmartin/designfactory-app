@@ -8,7 +8,7 @@ export default function email() {
       stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
-      strokeWidth="2"
+      strokeWidth="1.5"
       className="feather feather-mail"
       viewBox="0 0 24 24"
     >

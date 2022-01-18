@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 import { store } from 'data'
 import { Button } from 'components/ui'
-import { Close } from 'components/Icons'
+import { Close } from 'components/icons'
 import { motion, usePresence } from 'framer-motion'
 import { NewTemplateItem, TemplateItem } from './designs'
 

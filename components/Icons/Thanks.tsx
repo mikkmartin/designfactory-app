@@ -8,7 +8,7 @@ const Thanks = () => {
       stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
-      strokeWidth="2"
+      strokeWidth="1.5"
       className="feather feather-heart"
       viewBox="0 0 24 24"
     >

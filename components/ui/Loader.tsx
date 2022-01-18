@@ -8,7 +8,7 @@ export const Loader = () => {
       fill="none"
       strokeLinecap="round"
       strokeLinejoin="round"
-      strokeWidth="2"
+      strokeWidth="1.5"
       viewBox="0 0 24 24"
       stroke="currentColor">
       <circle className="bg" cx="12" cy="12" r="10" />

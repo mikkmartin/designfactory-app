@@ -1,5 +1,5 @@
 import { Dropdown } from 'components/ui/Dropdown'
-import { FigmaLogo, More } from 'components/Icons'
+import { FigmaLogo, More } from 'components/icons'
 import { store } from 'data'
 import { ThemeStore } from 'data/stores/content/ThemeStore'
 import { observer } from 'mobx-react-lite'

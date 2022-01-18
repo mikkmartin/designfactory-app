@@ -5,7 +5,7 @@ export const EditForm = ({ ...props }) => {
       height="24"
       viewBox="0 0 24 24"
       stroke="currentColor"
-      strokeWidth="2"
+      strokeWidth="1.5"
       fill="none"
       {...props}>
       <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>

@@ -8,7 +8,7 @@ const Copy = ({ ...props }) => {
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="1">
-        <g stroke="#FFF" strokeWidth="2" transform="translate(-426 -985)">
+        <g stroke="#FFF" strokeWidth="1.5" transform="translate(-426 -985)">
           <g transform="translate(0 968)">
             <g transform="translate(409)">
               <g transform="translate(18 18)">

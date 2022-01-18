@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Button, Input as InputBase, Loader } from 'components/ui'
 import { Trigger, Content, Popover } from 'components/ui/Popover'
-import { Plus, Close, FigmaLogo } from 'components/Icons'
+import { Plus, Close, FigmaLogo } from 'components/icons'
 import { useState, useRef, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { store } from 'data'

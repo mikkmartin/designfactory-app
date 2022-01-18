@@ -5,7 +5,7 @@ import { InstanceNode } from '../parseTemplate/parseTemplate'
 import { renderElement } from '../renderElement'
 import { useCanvas } from '../store/CanvasProvider'
 import { observer } from 'mobx-react-lite'
-import { Component, Chevron } from 'components/Icons'
+import { Component, Chevron } from 'components/icons'
 import { Dropdown } from 'components/ui/Dropdown'
 
 export const Instance: FC<InstanceNode & { listParent?: null | string; nthChild: number }> =

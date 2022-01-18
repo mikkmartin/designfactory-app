@@ -7,8 +7,8 @@ const Download = ({ ...props }) => {
         stroke="none"
         strokeLinecap="round"
         strokeLinejoin="round"
-        strokeWidth="1">
-        <g stroke="#FFF" strokeWidth="2" transform="translate(-426 -18)">
+        strokeWidth="1.5">
+        <g stroke="#FFF" strokeWidth="1.5" transform="translate(-426 -18)">
           <g transform="translate(409)">
             <g transform="translate(18 19)">
               <path d="M19 12v4c0 1.105-.945 2-2.111 2H2.11C.945 18 0 17.105 0 16v-4"></path>

@@ -1,5 +1,5 @@
 import { Button } from 'components/ui'
-import { Download, EditPencil, Copy } from 'components/Icons'
+import { Download, EditPencil, Copy } from 'components/icons'
 import styled from 'styled-components'
 import { Flags } from './Flags'
 import { useDebounce } from 'react-use'

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
-import { Info } from 'components/Icons'
+import { Info } from 'components/icons'
 import { store } from 'data'
 import { Button } from 'components/ui'
 import { motion } from 'framer-motion'

@@ -1,6 +1,6 @@
 import { forwardRef, ChangeEventHandler } from 'react'
 import styled, { css } from 'styled-components'
-import { Email, Card } from '../../Icons'
+import { Email, Card } from '../../icons'
 import { motion } from 'framer-motion'
 import { inputStyle } from './inputStyles'
 import { InputBase } from './Input'

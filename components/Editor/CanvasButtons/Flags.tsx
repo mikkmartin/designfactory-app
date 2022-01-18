@@ -1,5 +1,5 @@
 import { Button, Dropdown } from 'components/ui'
-import { Flag } from 'components/Icons'
+import { Flag } from 'components/icons'
 import { observer } from 'mobx-react-lite'
 import { store } from 'data'
 import { useLocalStorage } from 'react-use'

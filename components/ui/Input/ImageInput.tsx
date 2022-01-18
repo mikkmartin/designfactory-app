@@ -4,7 +4,7 @@ import { useDrop, useDropArea } from 'react-use'
 import { TextInput } from './TextInput'
 import { Button } from '../Button'
 import type { InputBase } from './Input'
-import { Close } from 'components/Icons'
+import { Close } from 'components/icons'
 
 export interface Props extends InputBase {
   type: 'image'

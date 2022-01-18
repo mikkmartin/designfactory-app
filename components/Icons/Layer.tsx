@@ -6,7 +6,7 @@ export const Layer = ({ ...props }) => {
       viewBox="0 0 24 24"
       strokeLinecap="round"
       strokeLinejoin="round"
-      strokeWidth="2"
+      strokeWidth="1.5"
       stroke="currentColor"
       fill="none"
       {...props}>

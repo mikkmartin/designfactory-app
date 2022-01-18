@@ -1,4 +1,4 @@
-import { Droplet, Checkbox } from '../Icons'
+import { Droplet, Checkbox } from '../icons'
 import { AnimatePresence, motion } from "framer-motion";
 import styled from 'styled-components'
 import { snappy, bouncy } from 'lib/static/transitions'

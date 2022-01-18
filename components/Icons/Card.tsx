@@ -8,7 +8,7 @@ export default function Card() {
       stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
-      strokeWidth="2"
+      strokeWidth="1.5"
       className="feather feather-credit-card"
       viewBox="0 0 24 24"
     >
