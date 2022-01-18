@@ -1,7 +1,7 @@
 import { List, Trigger } from '@radix-ui/react-tabs'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
-import { Edit, Code, Droplet } from 'components/Icons'
+import { EditForm, Code, Droplet } from 'components/Icons'
 import { store } from 'data'
 import type { Tab } from 'data/stores/UiStore'
 import { buttonHighlight } from 'components/ui/RadioGroup'
@@ -15,7 +15,7 @@ export const Navigation = observer(() => {
   const getIcon = (icon: Tab) => {
     switch (icon) {
       case 'inputs':
-        return Edit
+        return EditForm
       case 'code':
         return Code
       case 'designs':

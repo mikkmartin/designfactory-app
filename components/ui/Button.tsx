@@ -54,8 +54,14 @@ export const Button = styled(motion.button)<Props>`
 
 const highlight = css`
   background: rgba(255, 255, 255, 0.05);
+  > svg:only-child {
+    opacity: 0.5;
+  }
   :hover {
     background: rgba(255, 255, 255, 0.1);
+    > svg {
+      opacity: 1;
+    }
   }
 `
 
