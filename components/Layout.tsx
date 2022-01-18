@@ -5,19 +5,13 @@ import { CanvasButtons } from 'components/Editor/CanvasButtons'
 import { TutorialPanel } from 'components/Editor/TutorialPanel'
 import { SidePanel } from 'components/Editor/SidePanel'
 import { Version } from 'components/Editor/Version'
-import { motion } from 'framer-motion'
-import { fast } from 'lib/static/transitions'
 
 export const Layout: FC = observer(({ children }) => {
   return (
     <Container>
       <SidePanel />
       <div className="container">
-        <div className="canvas">
-          <motion.div className="pos" transition={fast} layout="position">
-            {children}
-          </motion.div>
-        </div>
+        <div className="canvas">{children}</div>
         <Version />
         <TutorialPanel />
         <CanvasButtons />

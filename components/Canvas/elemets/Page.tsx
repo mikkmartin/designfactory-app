@@ -2,6 +2,9 @@ import { FC } from 'react'
 import styled from 'styled-components'
 import { editable } from './editableStyle'
 import { motion } from 'framer-motion'
+import { store } from 'data'
+import { observer } from 'mobx-react-lite'
+import { fast } from 'lib/static/transitions'
 
 type Props = {
   canvas?: boolean
@@ -23,18 +26,22 @@ const getScale = ({ self, parent }) => {
   }
 }
 
-export const Page: FC<Props> = ({ children }) => {
+export const Page: FC<Props> = observer(({ children }) => {
   //const parent = store.pages.canvasContainerRef?.getBoundingClientRect()
   //const [ref, self] = useMeasure()
+  store.ui.tutorialPanelIsOpen
+  console.log(store.ui.tutorialPanelIsOpen)
 
   return (
-    <Container layout="position"
-    // style={getScale({ self, parent })} ref={ref}
+    <Container
+      layout="position"
+      transition={fast}
+      // style={getScale({ self, parent })} ref={ref}
     >
       {children}
     </Container>
   )
-}
+})
 
 const Container = styled(motion.div)`
   /*

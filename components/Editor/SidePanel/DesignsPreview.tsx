@@ -5,7 +5,6 @@ import { Button } from 'components/ui'
 import { Close } from 'components/Icons'
 import { motion, usePresence } from 'framer-motion'
 import { NewTemplateItem, TemplateItem } from './designs'
-import Link from 'next/link'
 
 export const DesignsPreview = observer(() => {
   const { toggleTemplatePanel } = store.ui

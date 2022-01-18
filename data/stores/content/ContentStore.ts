@@ -14,7 +14,9 @@ export class ContentStore {
   }
 
   setInitialData = ({ data }) => {
-    this.templateOptions = data.map(template => new TemplateStore(template, template.themes[0].slug))
+    this.templateOptions = data.map(
+      template => new TemplateStore(template, template.themes[0].slug)
+    )
   }
 
   setTheme = (slug: string) => {
