@@ -10,7 +10,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { fast } from 'lib/static/transitions'
 
 export const TutorialPanel = observer(() => {
+  const { fileType } = store.content.template
   const { tutorialPanelIsOpen: isOpen, toggleTutorialPanel } = store.ui
+  if (fileType === 'pdf') return null
   return (
     <>
       {!isOpen && <Banner key="banner" />}

@@ -4,6 +4,7 @@ import { api } from 'data/api'
 import type { GetTempaltesWithThemesResponse, ThemePreviewResponse } from 'data/api/content'
 import { FileResponse } from '@mikkmartin/figma-js'
 
+type FileType = 'pdf' | 'image'
 type Data = GetTempaltesWithThemesResponse['data'][0]
 type LoadedThemeData = ThemePreviewResponse['data'] & {
   figmaID: string
@@ -15,14 +16,17 @@ export class TemplateStore {
   description: Data['description'] = null
   themeOptions: ThemeStore[] = []
   theme: ThemeStore = null
+  fileType: FileType = null
+
   inputData: Object = {}
   private _previewTheme: ThemeStore = null
   private loadedThemeData: LoadedThemeData = null
 
   constructor(data: Data, themeSlug: string) {
-    const { id, title, description, themes } = data
+    const { id, title, description, themes, file_type } = data
     this.id = id
     this.title = title
+    this.fileType = file_type as FileType
     this.description = description
     makeAutoObservable(this)
     this.themeOptions = themes.map(theme => new ThemeStore(this, theme))
