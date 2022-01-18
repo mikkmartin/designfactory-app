@@ -1,16 +1,12 @@
 import { useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
-//import { useCanvas } from '../store/CanvasProvider'
-//import { useEditor } from 'components/Editor'
+import { useCanvas } from '../store/CanvasProvider'
 import { observer } from 'mobx-react-lite'
-import { store } from 'data'
 
 export const Box = observer<any>(({ children, ...props }) => {
   let overrideUrl = null
   const [isLoading, setIsLoading] = useState(false)
-  const { inputData } = store.content.template
-  //const { editable } = useCanvas()
-  //const { data } = useEditor()
+  const { inputData } = useCanvas()
 
   if (props.style.background.includes('url')) {
     const override = Object.entries(inputData).find(([key]) => key === props.name)

@@ -1,25 +1,25 @@
 import { makeObservable, observable } from 'mobx'
 import { ParsedNode } from '../parseTemplate'
+import { store } from 'data'
 
-type InitialState = {
-  nodes: ParsedNode[]
-  componentSets: any
-  editable: boolean
-  disabledFields: string[]
-}
+export class CanvasStore {
+  nodes: ParsedNode[] = []
+  componentSets: any = []
+  editable: boolean = false
+  disabledFields: string[] = []
+  inputData: Object = {}
 
-export class CanvasStore implements InitialState {
-  nodes = null
-  componentSets: any[] | null = null
-  editable = true
-  disabledFields = []
-
-  constructor(initialState: Partial<InitialState>) {
-    makeObservable<InitialState>(this, {
+  constructor(initialState) {
+    makeObservable(this, {
       disabledFields: observable,
     })
     for (const [key, value] of Object.entries(initialState)) {
       this[key] = value
     }
+  }
+
+  setInputData = (data: Object) => {
+    if (!this.editable) return
+    store.content.template.setInputData(data)
   }
 }

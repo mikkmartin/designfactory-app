@@ -1,16 +1,23 @@
 import { GetServerSideProps } from 'next'
 import { Canvas } from 'components/Canvas'
 import storageURL from 'lib/static/storageURL'
+import { FileResponse } from '@mikkmartin/figma-js'
+import { FC } from 'react'
 
-export const Screenshot = ({ data }) => {
-  return <Canvas themeData={data} />
+type Props = {
+  themeData: FileResponse
+  inputData: Object
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const { slug } = query
+export const Screenshot: FC<Props> = ({ themeData, inputData }) => {
+  return <Canvas themeData={themeData} inputData={inputData} />
+}
+
+export const getServerSideProps: GetServerSideProps<Props> = async ({ query }) => {
+  const { slug, ...rest } = query
   const url = `${storageURL}/themes/files/${slug}.json`
-  const data = await fetch(url).then(res => res.json())
-  return { props: { data } }
+  const themeData = await fetch(url).then(res => res.json())
+  return { props: { themeData, inputData: rest } }
 }
 
 export default Screenshot

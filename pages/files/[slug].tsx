@@ -15,7 +15,7 @@ const File: NextPage = observer(() => {
   const router = useRouter()
   const slug = router.query.slug as string
   store.content.setTheme(slug)
-  const { theme, previewThemeFile } = store.content.template
+  const { theme, previewThemeFile, inputData } = store.content.template
   const themeData = previewThemeFile || theme.data
 
   useMemo(() => {
@@ -25,7 +25,11 @@ const File: NextPage = observer(() => {
     theme.setUiSchema(uiSchema)
   }, [themeData])
 
-  return <Layout>{themeData ? <Canvas themeData={themeData} /> : 'Loading...'}</Layout>
+  return (
+    <Layout>
+      {themeData ? <Canvas themeData={themeData} inputData={inputData} /> : 'Loading...'}
+    </Layout>
+  )
 })
 
 type Props = {

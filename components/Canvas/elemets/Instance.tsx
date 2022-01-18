@@ -4,15 +4,13 @@ import styled from 'styled-components'
 import { InstanceNode } from '../parseTemplate/parseTemplate'
 import { renderElement } from '../renderElement'
 import { useCanvas } from '../store/CanvasProvider'
-import { store } from 'data'
 import { observer } from 'mobx-react-lite'
 import { Component, Chevron } from 'components/Icons'
 import { Dropdown } from 'components/ui/Dropdown'
 
 export const Instance: FC<InstanceNode & { listParent?: null | string; nthChild: number }> =
   observer(({ style, name, componentId, children, listParent, nthChild }) => {
-    const { inputData, setInputData } = store.content.template
-    const { componentSets, editable } = useCanvas()
+    const { componentSets, editable, inputData, setInputData } = useCanvas()
 
     const componentSet = Object.values(componentSets).find(set => {
       return set.find(component => component.id === componentId)
