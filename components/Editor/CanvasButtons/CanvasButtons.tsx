@@ -1,14 +1,21 @@
 import { Button } from 'components/ui'
-import { Download, EditPencil, Copy } from 'components/icons'
+import { Download, EditPencil, Copy, ExternalLink } from 'components/icons'
 import styled from 'styled-components'
 import { Flags } from './Flags'
-import { useDebounce } from 'react-use'
+import { useDebounce, useKeyPressEvent } from 'react-use'
 import { store } from 'data'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 
 export const CanvasButtons = () => {
   const url = store.ui.downloadUrl
   const fileName = store.content.template.theme.slug
+
+  const [metaKeyDown, setMetaKeyDown] = useState(false)
+  useKeyPressEvent(
+    'Meta',
+    () => setMetaKeyDown(true),
+    () => setMetaKeyDown(false)
+  )
 
   const imageRef = useRef<HTMLImageElement>(null)
   const preloadImage = () => {
@@ -28,7 +35,8 @@ export const CanvasButtons = () => {
   }
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(url)
+    if (metaKeyDown) setTimeout(() => window.open(url, '_blank'))
+    else navigator.clipboard.writeText(url)
   }
 
   return (
@@ -38,7 +46,7 @@ export const CanvasButtons = () => {
         <EditPencil />
       </Button>
       <Button highlight onClick={handleCopy}>
-        <Copy />
+        <div className="flip-icon-containter">{metaKeyDown ? <ExternalLink /> : <Copy />}</div>
       </Button>
       <ButtonCta onClick={handleDownload}>
         <Download />
@@ -73,9 +81,19 @@ const Container = styled.div`
   gap: 4px;
   padding: 12px;
   z-index: 2;
-  > button {
+  button {
     height: 44px;
     min-width: 60px;
+    > .flip-icon-containter {
+      display: grid;
+      > svg {
+        opacity: 0.5;
+        grid-area: 1 / 1;
+      }
+    }
+    &:hover .flip-icon-containter svg {
+      opacity: 1;
+    }
   }
   svg {
     height: 18px;

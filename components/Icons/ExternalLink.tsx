@@ -12,9 +12,7 @@ export default function ExternalLink() {
       className="feather feather-external-link"
       viewBox="0 0 24 24"
     >
-      <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
-      <path d="M15 3L21 3 21 9"></path>
-      <path d="M10 14L21 3"></path>
+      <path d="M19 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6M16 2h6v6M11 13L22 2" />
     </svg>
   )
 }
