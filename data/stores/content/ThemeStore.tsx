@@ -35,8 +35,11 @@ export class ThemeStore {
     if (file) this.data = file
   }
 
-  setUiSchema = schema => (this.uiSchema = schema)
-  setEditorSchema = schema => (this.editorSchema = schema)
+  setSchemas = (editorSchema: JSONSchema7Object, uiSchema: UiSchema) =>
+    runInAction(() => {
+      this.editorSchema = editorSchema
+      this.uiSchema = uiSchema
+    })
 
   get size() {
     const [width, height] = this._size.map(Number)
