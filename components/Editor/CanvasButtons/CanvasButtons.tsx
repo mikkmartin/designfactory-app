@@ -51,6 +51,9 @@ export const CanvasButtons = () => {
 const ButtonCta = styled(Button)`
   width: 80px;
   background: rgb(var(--highlight));
+  svg path {
+    stroke-width: 2px;
+  }
   &:hover {
     background: #0063cc !important;
   }
@@ -68,14 +71,14 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   gap: 4px;
-  padding: 8px;
+  padding: 12px;
   z-index: 2;
   > button {
-    height: 48px;
-    min-width: 48px;
+    height: 44px;
+    min-width: 60px;
   }
   svg {
-    height: 20px;
+    height: 18px;
     stroke-width: 1.5px;
   }
 `
