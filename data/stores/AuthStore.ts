@@ -13,8 +13,6 @@ export class AuthStore {
 
   authenticate = async () => {
     const anonID = getCookie('df:anon:id')?.toString()
-    if (!anonID) {
-      const res = await createAnonUser()
-    }
+    if (!anonID) await createAnonUser()
   }
 }
