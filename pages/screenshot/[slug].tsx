@@ -10,7 +10,7 @@ type Props = {
 }
 
 export const Screenshot: FC<Props> = ({ themeData, inputData }) => {
-  return <Canvas themeData={themeData} inputData={inputData} />
+  return <Canvas editable={false} themeData={themeData} inputData={inputData} />
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async ({ query }) => {

@@ -9,7 +9,6 @@ import { dequal } from 'dequal/lite'
 
 export const CodeEditor = observer(() => {
   const { inputData, setInputData } = store.content.template
-  console.log(inputData)
   const schema = {}
   const monaco = useMonaco()
   const editorRef = useRef<any>()

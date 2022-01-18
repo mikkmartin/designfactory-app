@@ -26,7 +26,6 @@ export const Page: FC = observer(({ children }) => {
   //const parent = store.pages.canvasContainerRef?.getBoundingClientRect()
   //const [ref, self] = useMeasure()
   store.ui.tutorialPanelIsOpen
-  console.log(store.ui.tutorialPanelIsOpen)
 
   return (
     <Container

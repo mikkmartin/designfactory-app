@@ -15,7 +15,6 @@ export class AuthStore {
     const anonID = getCookie('df:anon:id')?.toString()
     if (!anonID) {
       const res = await createAnonUser()
-      console.log(res)
     }
   }
 }
