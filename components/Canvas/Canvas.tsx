@@ -6,8 +6,6 @@ import { ThemeStore } from 'data/stores/content/ThemeStore'
 import { Fonts } from './Fonts'
 import { observer } from 'mobx-react-lite'
 import { useMemo } from 'react'
-import { Preview } from './Preview'
-import { store } from 'data'
 
 type Props = {
   editable?: boolean
@@ -15,27 +13,12 @@ type Props = {
 }
 
 export const Canvas = observer<Props>(({ editable = true, themeData }) => {
-  const theme = useMemo(() => {
-    if (!themeData) return
-    const { schema, uiSchema, nodes, componentSets, fonts } = parseTemplate(themeData)
-    store.content.template.theme.setEditorSchema(schema)
-    store.content.template.theme.setUiSchema(uiSchema)
-    console.log({ schema, uiSchema })
-    return { nodes, componentSets, fonts }
-  }, [themeData?.lastModified])
-
-  if (!theme) return null
-  const { nodes, componentSets, fonts } = theme
+  const { nodes, componentSets, fonts } = useMemo(() => parseTemplate(themeData), [themeData])
 
   return (
-    <>
+    <CanvasProvider initialState={{ nodes, componentSets, disabledFields: [], editable }}>
       <Fonts fonts={fonts} />
-      <CanvasProvider initialState={{ nodes, componentSets, disabledFields: [], editable }}>
-        <Page canvas={!editable}>
-          {editable && <Preview />}
-          {nodes.map(renderElement)}
-        </Page>
-      </CanvasProvider>
-    </>
+      <Page>{nodes.map(renderElement)}</Page>
+    </CanvasProvider>
   )
 })

@@ -6,10 +6,6 @@ import { store } from 'data'
 import { observer } from 'mobx-react-lite'
 import { fast } from 'lib/static/transitions'
 
-type Props = {
-  canvas?: boolean
-}
-
 const getScale = ({ self, parent }) => {
   const { width, height } = self
   if (!parent) return {}
@@ -26,7 +22,7 @@ const getScale = ({ self, parent }) => {
   }
 }
 
-export const Page: FC<Props> = observer(({ children }) => {
+export const Page: FC = observer(({ children }) => {
   //const parent = store.pages.canvasContainerRef?.getBoundingClientRect()
   //const [ref, self] = useMeasure()
   store.ui.tutorialPanelIsOpen
@@ -44,16 +40,6 @@ export const Page: FC<Props> = observer(({ children }) => {
 })
 
 const Container = styled(motion.div)`
-  /*
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: auto;
-  gap: 16px;
-  transform-origin: 50% 0;
-  */
   > div {
     .ProseMirror p {
       line-height: unset;

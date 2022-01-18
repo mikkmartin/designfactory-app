@@ -14,8 +14,8 @@ import { CSSProperties } from 'react'
 import { getLayout } from './getLayout'
 import { getFill } from './getFill'
 import { getColor } from './getColor'
-import { getSchemas } from './getSchemas'
 import { getFonts } from './getFonts'
+import { getComponentsAndSets } from './getComponentsAndSets'
 
 export const parseTemplate = (template: FileResponse, options = { filter: (_, i) => i === 0 }) => {
   const { filter } = options
@@ -25,33 +25,11 @@ export const parseTemplate = (template: FileResponse, options = { filter: (_, i)
     .filter(node => node.visible !== false && node.type === 'FRAME')
     .filter(filter)
 
-  const nodes = visibleNodes.map(c => parseNode(c as BoxNode))
-  const fonts = getFonts(visibleNodes)
-  const componentSets = getComponentsAndSets(canvas.children)
-  const { schema, uiSchema } = getSchemas(visibleNodes, componentSets)
-
   return {
-    nodes,
-    componentSets,
-    fonts,
-    schema,
-    uiSchema,
+    nodes: visibleNodes.map(c => parseNode(c as BoxNode)),
+    componentSets: getComponentsAndSets(canvas.children),
+    fonts: getFonts(visibleNodes),
   }
-}
-
-export type ParsedCoponentSet = { components: ParsedNode[]; sets: string[][] }
-const getComponentsAndSets = nodes => {
-  const components = findNodes('COMPONENT', nodes).map(node => parseNode(node as BoxNode))
-  const sets = findNodes('COMPONENT_SET', nodes).map(set => set.children.map(child => child.id))
-  return { components, sets }
-}
-
-export const findNodes = <T extends NodeType>(type: T, children): Extract<Node, { type: T }>[] => {
-  return children.reduce((a, node) => {
-    if (node.type === type) return [...a, node]
-    if (node.children) return [...a, ...findNodes(type, node.children)]
-    return a
-  }, [])
 }
 
 export type ContainerNode = Frame | Group
@@ -98,7 +76,7 @@ export interface VectorNode extends IBaseNode {
 
 export type ParsedNode = TextNode | VectorNode | InstanceNode | IBoxNode
 
-const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
+export const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
   const { id, name, type } = node
   const props: Pick<ParsedNode, 'id' | 'name' | 'type'> = {
     id,

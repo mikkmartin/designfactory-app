@@ -1,5 +1,5 @@
 import { Node } from '@mikkmartin/figma-js'
-import { findNodes } from './parseTemplate'
+import { findNodes } from './findNodes'
 
 export interface IFont {
   family: string
