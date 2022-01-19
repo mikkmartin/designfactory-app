@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { observer } from 'mobx-react-lite'
 import { store } from 'data'
 import { Button } from 'components/ui'
@@ -11,6 +11,7 @@ export const DesignsPreview = observer(() => {
   const { template } = store.content
   const { themeOptions } = template
   const [isPresent, unmount] = usePresence()
+  const isPortrait = themeOptions[0].size.width < themeOptions[0].size.height
 
   const itemVariants = i => ({
     initial: { scale: 1, y: 0 },
@@ -33,6 +34,7 @@ export const DesignsPreview = observer(() => {
 
   return (
     <Container
+      isPortrait={isPortrait}
       animate={isPresent ? 'initial' : 'exit'}
       transition={{ duration: 0.1 }}
       variants={{
@@ -68,7 +70,7 @@ export const DesignsPreview = observer(() => {
         />
         {themeOptions.map((theme, i) => (
           <motion.div
-            key={i}
+            key={theme.slug}
             layout="position"
             transition={{ delay: 1 * 0.05 - i * 0.05 }}
             style={
@@ -85,10 +87,12 @@ export const DesignsPreview = observer(() => {
   )
 })
 
-const Container = styled(motion.div)`
+const Container = styled(motion.div)<{ isPortrait: boolean }>`
   position: relative;
   background: var(--background);
-  width: 380px;
+  display: flex;
+  flex-direction: column;
+  place-content: flex-start;
   .header {
     box-shadow: inset 0 0.5px 0 0 rgba(255, 255, 255, 0.1);
     display: grid;
@@ -98,11 +102,12 @@ const Container = styled(motion.div)`
     width: 100%;
   }
   .grid {
+    width: auto;
+    align-self: flex-start;
     display: grid;
     grid-auto-flow: column;
     grid-template-rows: 80px;
     place-items: center left;
-    width: 100%;
     overflow: auto;
     gap: 6px;
     padding: 8px 8px 16px 16px;
@@ -110,5 +115,13 @@ const Container = styled(motion.div)`
       transform-origin: 81% 35% !important;
       height: 80px;
     }
+    ${({ isPortrait }) => isPortrait && portrait}
+  }
+`
+
+const portrait = css`
+  grid-template-rows: 110px;
+  > .item {
+    height: 110px;
   }
 `
