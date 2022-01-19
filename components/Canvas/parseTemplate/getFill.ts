@@ -5,7 +5,8 @@ import storageURL from 'lib/static/storageURL'
 import { useRouter } from 'next/router'
 
 export const getFill = (node: BoxNode) => {
-  const { slug } = useRouter().query
+  //const { slug } = useRouter().query
+  const slug = ''
   const isPreview = Boolean(store.content.template)
   if (!node.fills) return 'none'
   return node.fills

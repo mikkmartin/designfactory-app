@@ -54,7 +54,7 @@ export const Form = observer<Props>(props => {
         ObjectFieldTemplate={ObjectField}
         ArrayFieldTemplate={ArrayField}
         FieldTemplate={FieldContainer}
-        onChange={({ formData }) => props.onValueChange(formData)}
+        onChange={({ formData }) => props.onValueChange?.(formData)}
         uiSchema={props.uiSchema}
         schema={props.schema}
         children={<></>}

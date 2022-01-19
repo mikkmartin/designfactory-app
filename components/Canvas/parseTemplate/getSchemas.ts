@@ -54,7 +54,8 @@ export const getSchemas = (
       }
     }, {})
 
-  const instanceProps = findNodes('INSTANCE', visibleNodes).reduce((props, instance) => {
+  let instanceItems: { type: 'string'; placeholder: 'string' }[] = []
+  const instanceProps = findNodes('INSTANCE', visibleNodes).reduce((props, instance, i, arr) => {
     const { sets, components } = componentSets
     const setIndex = sets.findIndex(set => set.includes(instance.componentId))
     if (setIndex !== -1) {
@@ -65,12 +66,29 @@ export const getSchemas = (
         setComponents.find(component => component.id === instance.componentId)
       )
       const componentNames = setComponents.map(getName)
+      const lastItem = i === arr.length - 1
+      if (!lastItem) return props
+
       return {
         ...props,
-        [instance.name]: {
-          type: 'string',
-          default: defaultComponentName,
-          enum: componentNames,
+        items: {
+          type: 'array',
+          additionalItems: true,
+          items: {
+            anyOf: [
+              {
+                type: 'object',
+                placeholder: 'object',
+              },
+            ],
+          },
+          /*
+          [instance.name]: {
+            type: 'string',
+            default: defaultComponentName,
+            enum: componentNames,
+          },
+          */
         },
       }
     }
