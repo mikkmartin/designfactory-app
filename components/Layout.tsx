@@ -33,6 +33,7 @@ const Container = styled.div`
     grid-template-rows: 1fr auto;
     grid-template-areas: 'canvas' 'bar';
     place-items: center;
+    max-height: 100vh;
     > .canvas {
       display: flex;
       justify-content: center;
