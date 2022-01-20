@@ -32,7 +32,6 @@ const FormBase = withTheme({
     CheckboxWidget: ({ value, label, onChange }) => (
       <Toggle value={value} onValueChange={onChange} />
     ),
-
     SelectWidget: ({ value, onChange, options }) => {
       return (
         <Dropdown fullWidth onChange={onChange} options={options.enumOptions as string[]}>

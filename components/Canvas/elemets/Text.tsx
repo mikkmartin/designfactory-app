@@ -32,12 +32,8 @@ export const Text = observer<TextNode>(({ style, content, name, overrides }) => 
   const acceptUpdates = useRef(true)
   const global = useCanvas()
   const instance = useInstance()
-  const { editable, disabledFields } = global
   const source = instance ? instance : global
   const { inputData, setInputData } = source
-
-  const isDisabled = disabledFields?.find(fieldName => fieldName === name)
-  const isEditable = editable && !isDisabled
   const isDefaultData = !Boolean(inputData[name])
 
   const fillText = (name: string): string => {

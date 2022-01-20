@@ -1,108 +1,168 @@
-import type { FileResponse, Canvas } from '@mikkmartin/figma-js'
+import type { FileResponse, Canvas, Node, NodeType } from '@mikkmartin/figma-js'
 import type { UiSchema } from '@rjsf/core'
 import type { JSONSchema7Object } from 'json-schema'
-import type { ParsedNode } from './parseTemplate'
-import { findNodes } from './findNodes'
 import { getComponentsAndSets } from './getComponentsAndSets'
 
-type Schemas = {
+export type Schemas = {
   schema: JSONSchema7Object
   uiSchema: UiSchema
 }
 
-export const getSchemas = (
-  themeData: FileResponse,
-  options = { filter: (_, i) => i === 0 }
-): Schemas => {
+type ReturnType = {
+  properties: JSONSchema7Object
+  uiSchema: UiSchema
+}
+
+export const getSchemas = (themeData: FileResponse): Schemas => {
   const canvas = themeData.document.children.find(node => node.type === 'CANVAS') as Canvas
-  const visibleNodes = canvas.children
+  const firstVisibleNode = canvas.children
     .filter(node => node.visible !== false && node.type === 'FRAME')
-    .filter(options.filter)
+    .filter((_, i) => i === 0)
 
   const componentSets = getComponentsAndSets(canvas.children)
-
   const getName = c => c.name.split('=')[1]
-  let uiSchema = {}
 
-  const textProps = findNodes('TEXT', visibleNodes).reduce((props, { name, characters }) => {
-    const val = Boolean(Number(characters)) ? Number(characters) : characters
-    uiSchema = {
-      ...uiSchema,
-      [name]: { 'ui:placeholder': val },
-    }
-    return {
-      ...props,
-      [name]: { type: typeof val, examples: [val] },
-    }
-  }, {})
+  const nodeTypes = ['TEXT', 'RECTANGLE', 'INSTANCE']
+  const mergeWithAll = (all, element): ReturnType => ({
+    properties: {
+      ...all.properties,
+      ...element.properties,
+    },
+    uiSchema: {
+      ...all.uiSchema,
+      ...element.uiSchema,
+    },
+  })
 
-  const imageProps = findNodes('RECTANGLE', visibleNodes)
-    .filter(rect => rect.fills.findIndex(paint => paint.type === 'IMAGE') !== -1)
-    .reduce((props, image) => {
-      uiSchema = {
-        ...uiSchema,
-        [image.name]: {
-          'ui:widget': 'image-picker',
-          'ui:placeholder': image.name,
+  type Parent = Extract<Node, { type: 'GROUP' | 'FRAME' }>
+  type Instance = Extract<Node, { type: 'INSTANCE' }>
+  const findNodes = (children: readonly Node[], parent: Parent = null): ReturnType => {
+    let lastInstanceContainerName: string = null
+    let reapeatingInstances: { [key: string]: Instance[] } = {}
+
+    const popluateDefaults = (parentId, instances: Instance[], all): ReturnType => {
+      const merged: ReturnType = {
+        properties: {
+          ...all.properties,
+          [lastInstanceContainerName]: {
+            ...all.properties[lastInstanceContainerName],
+            examples: instances.map(() => ({
+              title: 'Disain',
+              description: 'Et asi oleks nice',
+              price: 4500,
+              quantity: 1,
+            })),
+          },
+        },
+        uiSchema: {
+          ...all.uiSchema,
         },
       }
-      return {
-        ...props,
-        [image.name]: {
-          type: 'string',
-        },
-      }
-    }, {})
+      delete reapeatingInstances[parentId]
+      return merged
+    }
 
-  let instanceItems: { type: 'string'; placeholder: 'string' }[] = []
-  const instanceProps = findNodes('INSTANCE', visibleNodes).reduce((props, instance, i, arr) => {
-    const { sets, components } = componentSets
-    const setIndex = sets.findIndex(set => set.includes(instance.componentId))
-    if (setIndex !== -1) {
-      const set = sets[setIndex]
-      const setComponents = components.filter(component => set.includes(component.id))
-
-      const defaultComponentName = getName(
-        setComponents.find(component => component.id === instance.componentId)
-      )
-      const componentNames = setComponents.map(getName)
-      const lastItem = i === arr.length - 1
-      if (!lastItem) return props
-
-      return {
-        ...props,
-        items: {
-          type: 'array',
-          additionalItems: true,
-          items: {
-            anyOf: [
-              {
-                type: 'object',
-                placeholder: 'object',
+    return children.reduce(
+      (all, node, i, arr) => {
+        if (node.type !== 'INSTANCE' || i === arr.length - 1) {
+          Object.entries(reapeatingInstances).map(([key, val]) => {
+            if (val.length > 2) all = popluateDefaults(key, val, all)
+          })
+        }
+        switch (node.type) {
+          case 'FRAME':
+          case 'GROUP':
+            if (node.children) return mergeWithAll(all, findNodes(node.children, node))
+        }
+        if (!nodeTypes.includes(node.type)) return all
+        let name: string = node.name
+        let val
+        let properties = {}
+        let uiSchema = {}
+        switch (node.type) {
+          case 'TEXT':
+            const characters = node.characters
+            val = Boolean(Number(characters)) ? Number(characters) : characters
+            properties = { [name]: { type: 'string', examples: [val] } }
+            uiSchema = {
+              [name]: {
+                'ui:placeholder': val,
+                'ui:title': name.replace(/-/g, ' '),
               },
-            ],
-          },
-          /*
-          [instance.name]: {
-            type: 'string',
-            default: defaultComponentName,
-            enum: componentNames,
-          },
-          */
-        },
-      }
-    }
-    return props
-  }, {})
+            }
+            break
+          case 'INSTANCE':
+            const { sets, components } = componentSets
+            const componentId = node.componentId
+            const setIndex = sets.findIndex(set => set.includes(node.componentId))
+            if (setIndex !== -1) {
+              const set = sets[setIndex]
+              const setComponents = components.filter(component => set.includes(component.id))
+              const componeont = setComponents.find(component => component.id === node.componentId)
+              const defaultComponentName = getName(componeont)
+              const componentNames = setComponents.map(getName)
+              properties = { [name]: { type: 'string', enum: componentNames } }
+              uiSchema = {
+                [name]: {
+                  'ui:widget': 'select',
+                  'ui:placeholder': defaultComponentName,
+                },
+              }
+            } else if (reapeatingInstances[parent.id]?.length >= 3) {
+              lastInstanceContainerName = parent.name
+              reapeatingInstances[parent.id].push(node as Instance)
+              const child = findNodes([...node.children].reverse())
+              properties = {
+                [parent.name]: {
+                  type: 'array',
+                  default: [],
+                  additionalItems: true,
+                  items: {
+                    oneOf: [
+                      {
+                        type: 'object',
+                        properties: child.properties,
+                      },
+                    ],
+                  },
+                },
+              }
+              uiSchema = {
+                [parent.name]: {
+                  items: child.uiSchema,
+                },
+              }
+            } else if (!reapeatingInstances[parent.id] && Boolean(parent.layoutMode)) {
+              reapeatingInstances[parent.id] = [node as Instance]
+            } else {
+              const everyComponentSame = reapeatingInstances[parent.id].every(
+                i => i.componentId === componentId
+              )
+              if (everyComponentSame) reapeatingInstances[parent.id].push(node as Instance)
+            }
+          case 'RECTANGLE':
+            if (!node.fills.some(fill => fill.type === 'IMAGE')) break
+            properties = { [name]: { type: 'string' } }
+            uiSchema = {
+              [name]: {
+                'ui:widget': 'image-picker',
+                'ui:placeholder': 'Image...',
+                'ui:title': name.replace(/-/g, ' '),
+              },
+            }
+        }
+        return mergeWithAll(all, { properties, uiSchema })
+      },
+      { properties: {}, uiSchema: {} }
+    )
+  }
+
+  const { properties, uiSchema } = findNodes(firstVisibleNode)
 
   return {
     schema: {
       type: 'object',
-      properties: {
-        ...textProps,
-        ...instanceProps,
-        ...imageProps,
-      },
+      properties,
     },
     uiSchema,
   }

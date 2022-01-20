@@ -13,7 +13,6 @@ export const InputPanel = observer(() => {
     <Container value="inputs">
       <p>{description}</p>
       <Form
-        editing={false}
         schema={editorSchema}
         uiSchema={uiSchema}
         value={inputData}
@@ -24,6 +23,8 @@ export const InputPanel = observer(() => {
 })
 
 const Container = styled(Tab)`
+  overflow: auto;
+  padding-bottom: 32px;
   p {
     opacity: 0.5;
     padding: 16px 16px 8px 16px;
