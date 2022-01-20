@@ -60,6 +60,19 @@ export const FieldContainer: FC<FieldTemplateProps> = ({
 }
 
 const Label = styled(LabelRoot)<{ editing: boolean }>`
+  margin-left: 16px;
+  user-select: none;
+  text-transform: capitalize;
+  min-height: 40px;
+  opacity: 0.5;
+  padding-right: 16px;
+  padding-top: 13px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  ${p => p.editing && editing}
+`
+const editing = css`
   &:before {
     content: '⋮⋮';
     opacity: 0;
@@ -70,17 +83,6 @@ const Label = styled(LabelRoot)<{ editing: boolean }>`
     border-radius: 2px;
     margin: 4px;
   }
-  user-select: none;
-  text-transform: capitalize;
-  min-height: 40px;
-  opacity: 0.5;
-  padding-right: 16px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  ${p => p.editing && editing}
-`
-const editing = css`
   &:before {
     opacity: 0.5;
     cursor: grab;

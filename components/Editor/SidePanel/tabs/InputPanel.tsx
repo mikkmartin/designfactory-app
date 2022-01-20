@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 import { store } from 'data'
 import { Form } from 'components/Editor/Form'
-import { Tab, tabContentStyle } from './Tab'
+import { Tab } from './Tab'
 
 export const InputPanel = observer(() => {
   const { description } = store.content.template
@@ -13,6 +13,7 @@ export const InputPanel = observer(() => {
     <Container value="inputs">
       <p>{description}</p>
       <Form
+        editing={false}
         schema={editorSchema}
         uiSchema={uiSchema}
         value={inputData}
@@ -23,8 +24,8 @@ export const InputPanel = observer(() => {
 })
 
 const Container = styled(Tab)`
-  ${tabContentStyle}
   p {
     opacity: 0.5;
+    padding: 16px 16px 8px 16px;
   }
 `
