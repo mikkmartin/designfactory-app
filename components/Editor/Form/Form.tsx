@@ -12,6 +12,7 @@ export interface Props {
   editing?: boolean
   schema: JSONSchema7Object
   uiSchema?: UiSchema
+  onUiSchemaChange?: (value: any) => void
   onValueChange?: (value: any) => void
 }
 

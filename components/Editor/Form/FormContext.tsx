@@ -5,18 +5,23 @@ interface Context extends Props {
   editing?: boolean
   value?: Object
   handleChange: (value: Object) => void
+  handleUiSchemaChange: (value: Object) => void
 }
 
 const FormContext = createContext<Context | null>(null)
 
 export const FormProvider: FC<Props> = ({ children, ...rest }) => {
-
   const handleChange = (value: Object) => {
     rest.onValueChange && rest.onValueChange(value)
   }
 
+  const handleUiSchemaChange = (val) => {
+    console.log(val)
+    //rest.onUiSchemaChange && rest.onUiSchemaChange(val)
+  }
+
   return (
-    <FormContext.Provider value={{ ...rest, handleChange }}>
+    <FormContext.Provider value={{ ...rest, handleChange, handleUiSchemaChange }}>
       {children}
     </FormContext.Provider>
   )

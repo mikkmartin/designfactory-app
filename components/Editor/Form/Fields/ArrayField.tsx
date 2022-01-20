@@ -1,37 +1,54 @@
 import { ArrayFieldTemplateProps } from '@rjsf/core'
 import { Reorder } from 'framer-motion'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { useForm } from '../FormContext'
 import { Button } from 'components/ui'
 import { Plus } from 'components/icons'
 
-export const ArrayField = ({ title, items, onAddClick }: ArrayFieldTemplateProps) => {
+export const ArrayField = ({
+  title,
+  items,
+  onAddClick,
+  schema,
+  className,
+}: ArrayFieldTemplateProps) => {
   //const {} = useForm()
+  //console.log({ title, items, onAddClick, schema, rest })
+  const hasItems = items.length > 0
   return (
-    <Container>
+    <Container className={className} hasItems={hasItems}>
       <span>{title}</span>
-      {items.map(({ children, key, onDropIndexClick, index }) => (
-        <div className="input-container" key={key}>
-          {children}
-          <button className="remove" onClick={() => onDropIndexClick(index)()}>
-            -
-          </button>
-        </div>
-      ))}
-      <Button highlight onClick={onAddClick}>
+      {items.map(({ children, key, onDropIndexClick, index }) => {
+        let className = 'input-container'
+        if (children.props.schema.oneOf?.length === 1) className += ' oneof-single'
+        return (
+          <div className={className} key={key}>
+            {children}
+            <Button highlight small className="remove" onClick={() => onDropIndexClick(index)()}>
+              -
+            </Button>
+          </div>
+        )
+      })}
+      <Button small={hasItems} highlight={hasItems} onClick={onAddClick}>
         <Plus />
       </Button>
     </Container>
   )
 }
 
-const Container = styled.div`
-  background: rgba(34, 37, 44, 0.5);
+const Container = styled.div<{ hasItems: boolean }>`
   display: grid;
   grid-template-columns: 2fr 4fr;
-  grid-row-gap: 4px;
-  padding: 16px 16px 16px 0;
-  margin: 8px 0;
+  grid-row-gap: 8px;
+  padding-right: 16px;
+  ${p =>
+    p.hasItems &&
+    css`
+      margin: 8px 0;
+      padding: 16px 16px 16px 0;
+      background: rgba(34, 37, 44, 0.5);
+    `}
   span {
     padding-left: 24px;
     text-transform: capitalize;
@@ -49,14 +66,25 @@ const Container = styled.div`
     width: 100%;
     display: flex;
     position: relative;
-    > .form-group {
-      flex: 1;
-      label {
-        position: absolute;
-        background: yellow;
+    .field-row {
+      padding: 0;
+      grid-template-columns: 1fr;
+      > * {
+        grid-area: 1 / 1;
       }
-      > input {
+      .panel {
         width: 100%;
+      }
+      > span {
+        display: none;
+      }
+    }
+    &.oneof-single {
+      > :first-child {
+        display: contents;
+      }
+      .form-group {
+        display: none;
       }
     }
     > .remove {

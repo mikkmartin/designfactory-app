@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
-  "$id": "http://example.com/example.json",
   "type": "object",
   "title": "Invoice",
   "required": [
@@ -17,65 +16,53 @@
   ],
   "properties": {
     "fromName": {
-      "$id": "#/properties/fromName",
       "type": "string",
       "default": "Ettevõte OÜ"
     },
     "fromAddress": {
-      "$id": "#/properties/fromAddress",
       "type": "string",
       "default": "Aadress 123b, Tallinn, Harjumaa, 00117"
     },
     "fromRegNr": {
-      "$id": "#/properties/fromRegNr",
       "type": "number",
       "default": 12702285
     },
     "toName": {
-      "$id": "#/properties/toName",
       "type": "string",
       "default": "Klient OÜ"
     },
     "toAddress": {
-      "$id": "#/properties/toAddress",
       "type": "string",
       "default": "Aadress 123b, Tallinn, Harjumaa, 00117"
     },
     "toRegNr": {
-      "$id": "#/properties/toRegNr",
       "type": "number",
       "default": 12702285
     },
     "description": {
-      "$id": "#/properties/description",
       "type": "string",
       "default": "Üks kõva veebipood"
     },
     "items": {
-      "$id": "#/properties/items",
       "type": "array",
       "default": [
-        [
-          {
-            "title": "Disain",
-            "description": "Et asi oleks nice",
-            "price": 4500,
-            "quantity": 1
-          },
-          {
-            "title": "Arendus",
-            "description": "Et asi töötaks",
-            "price": 4500,
-            "quantity": 1
-          }
-        ]
+        {
+          "title": "Disain",
+          "description": "Et asi oleks nice",
+          "price": 4500,
+          "quantity": 1
+        },
+        {
+          "title": "Arendus",
+          "description": "Et asi töötaks",
+          "price": 4500,
+          "quantity": 1
+        }
       ],
       "additionalItems": true,
       "items": {
-        "$id": "#/properties/items/items",
-        "anyOf": [
+        "oneOf": [
           {
-            "$id": "#/properties/items/items/anyOf/0",
             "type": "object",
             "default": {
               "title": "Disain",
@@ -86,24 +73,20 @@
             "required": ["title", "price"],
             "properties": {
               "title": {
-                "$id": "#/properties/items/items/anyOf/0/properties/title",
                 "type": "string",
                 "title": "Name",
                 "description": "Name of the product/service.",
                 "default": "Disain"
               },
               "description": {
-                "$id": "#/properties/items/items/anyOf/0/properties/description",
                 "type": "string",
                 "default": "Et asi oleks nice"
               },
               "price": {
-                "$id": "#/properties/items/items/anyOf/0/properties/price",
                 "type": "integer",
                 "default": 4500
               },
               "quantity": {
-                "$id": "#/properties/items/items/anyOf/0/properties/quantity",
                 "type": "integer",
                 "default": 1
               }
@@ -113,165 +96,62 @@
       }
     },
     "ibanNr": {
-      "$id": "#/properties/ibanNr",
       "type": "string",
       "default": "EE907700771001360230"
     },
     "ibanLabel": {
-      "$id": "#/properties/ibanLabel",
       "type": "string",
       "default": "LHV"
     },
     "email": {
-      "$id": "#/properties/email",
       "type": "string",
       "examples": ["mikk.martin@gmail.com"],
       "default": ""
     },
     "website": {
-      "$id": "#/properties/website",
       "type": "string",
       "examples": ["mikkmartin.co"],
       "default": ""
     },
     "fileName": {
-      "$id": "#/properties/fileName",
       "type": "string",
       "default": "Arve_2019052201.pdf"
     },
     "invoiceNr": {
-      "$id": "#/properties/invoiceNr",
       "type": "integer",
       "default": 2019052201
     },
     "date": {
-      "$id": "#/properties/date",
       "type": "string",
       "default": "22-05-2019"
     },
     "dueDate": {
-      "$id": "#/properties/dueDate",
       "type": "string",
       "default": "22-06-2019"
     },
     "tax": {
-      "$id": "#/properties/tax",
       "type": "string",
       "default": "0%"
     },
     "paidInCash": {
-      "$id": "#/properties/paidInCash",
       "type": "boolean",
       "default": false
     },
     "phoneNr": {
-      "$id": "#/properties/phoneNr",
       "type": "string",
       "examples": ["+372 555 55 555"]
     },
-    "template": {
-      "$id": "#/properties/template",
-      "type": "string",
-      "default": "qQJ7d5IKYTCVpaAMNptPH4"
-    },
     "paymentAdvance": {
-      "$id": "#/properties/paymentAdvance",
       "type": ["number", "string"],
       "default": "0%"
     },
     "prepaid": {
-      "$id": "#/properties/prepaid",
       "type": ["number", "string"],
       "default": "0%"
     },
     "discount": {
-      "$id": "#/properties/discount",
       "type": ["number", "string"],
       "default": "0%"
-    },
-    "fonts": {
-      "default": [],
-      "description": "An array of custom fonts to load.",
-      "examples": [
-        [
-          {
-            "family": "Wigrum",
-            "fonts": [
-              {
-                "src": "https://yourwebsite.com/fonts/Wigrum-Regular.ttf",
-                "fontWeight": "Regular"
-              }
-            ]
-          }
-        ]
-      ],
-      "title": "Custom fonts",
-      "additionalItems": true,
-      "items": {
-        "$id": "#/properties/fonts/items",
-        "anyOf": [
-          {
-            "examples": [
-              {
-                "family": "Wigrum",
-                "fonts": [
-                  {
-                    "src": "/fonts/Wigrum-Light.ttf",
-                    "fontWeight": "light"
-                  }
-                ]
-              }
-            ],
-            "required": ["family", "fonts"],
-            "title": "Font object",
-            "properties": {
-              "family": {
-                "examples": ["Wigrum"],
-                "title": "Font family name"
-              },
-              "fonts": {
-                "examples": [
-                  [
-                    {
-                      "src": "/fonts/Wigrum-Light.ttf",
-                      "fontWeight": "light"
-                    }
-                  ]
-                ],
-                "additionalItems": true,
-                "items": {
-                  "$id": "#/properties/fonts/items/anyOf/0/properties/fonts/items",
-                  "anyOf": [
-                    {
-                      "examples": [
-                        {
-                          "src": "/fonts/Wigrum-Light.ttf",
-                          "fontWeight": "light"
-                        }
-                      ],
-                      "required": ["src", "fontWeight"],
-                      "title": "Font weight object",
-                      "properties": {
-                        "src": {
-                          "examples": ["/fonts/Wigrum-Light.ttf"],
-                          "title": "Url"
-                        },
-                        "fontWeight": {
-                          "default": "",
-                          "examples": ["Regular"],
-                          "title": "Font weight"
-                        }
-                      },
-                      "additionalProperties": false
-                    }
-                  ]
-                }
-              }
-            },
-            "additionalProperties": true
-          }
-        ]
-      }
     }
   },
   "additionalProperties": true

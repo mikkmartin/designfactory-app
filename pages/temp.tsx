@@ -10,19 +10,24 @@ import { Button } from 'components/ui'
 
 const Temp = () => {
   const [editing, setEditing] = useState(false)
-  
-  //const json = useParsedSchema()
-  const uiSchema: UiSchema = { fromName: { 'ui:widget': 'hidden' } }
-  console.log({ uiSchema, invoiceSchema })
 
-  const handleUIScemaChange = (uiSchema: UiSchema) => {}
+  //const json = useParsedSchema()
+
+  const [uiSchema, setUiSchema] = useState<UiSchema>({})
+  const [value, setValue] = useState({})
 
   return (
     <>
       <Button onClick={() => setEditing(!editing)}>{editing ? 'Done' : 'Edit'}</Button>
       <Container>
-        <Form editing={editing} schema={invoiceSchema} uiSchema={uiSchema} />
-        <Outline />
+        <Form
+          editing={editing}
+          onUiSchemaChange={setUiSchema}
+          schema={invoiceSchema}
+          uiSchema={uiSchema}
+          onValueChange={setValue}
+        />
+        <pre>{JSON.stringify(value, null, 2)}</pre>
       </Container>
     </>
   )
@@ -33,19 +38,16 @@ const Container = styled.div`
   grid-template-columns: 380px 380px;
   gap: 16px;
   margin: 4rem;
-  > * {
-    grid-area: 1 / 1;
+  pre {
+    opacity: 0.5;
+    font-family: inherit;
+    line-height: 1.5;
+    font-size: 11px;
   }
   .unsupported-field {
     max-width: 100%;
     overflow: auto;
   }
-`
-
-const Outline = styled.div`
-  border: 1px solid #ffffff1c;
-  padding: 16px;
-  pointer-events: none;
 `
 
 const useParsedSchema = () => {
