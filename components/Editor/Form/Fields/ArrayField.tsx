@@ -2,6 +2,8 @@ import { ArrayFieldTemplateProps } from '@rjsf/core'
 import { Reorder } from 'framer-motion'
 import styled from 'styled-components'
 import { useForm } from '../FormContext'
+import { Button } from 'components/ui'
+import { Plus } from 'components/icons'
 
 export const ArrayField = ({ title, items, onAddClick }: ArrayFieldTemplateProps) => {
   //const {} = useForm()
@@ -16,19 +18,31 @@ export const ArrayField = ({ title, items, onAddClick }: ArrayFieldTemplateProps
           </button>
         </div>
       ))}
-      <button onClick={onAddClick}>+</button>
+      <Button highlight onClick={onAddClick}>
+        <Plus />
+      </Button>
     </Container>
   )
 }
 
 const Container = styled.div`
-  background: rgba(0, 0, 0, 0.05);
-  display: grid;
-  grid-row-gap: 4px;
+  background: rgba(34, 37, 44, 0.5);
   display: grid;
   grid-template-columns: 2fr 4fr;
+  grid-row-gap: 4px;
+  padding: 16px 16px 16px 0;
+  margin: 8px 0;
+  span {
+    padding-left: 24px;
+    text-transform: capitalize;
+    opacity: 0.5;
+  }
   > button {
     grid-column: 2;
+    svg {
+      width: 16px;
+      stroke-width: 2px;
+    }
   }
   > .input-container {
     grid-column: 2;

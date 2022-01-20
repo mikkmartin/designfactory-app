@@ -8,9 +8,10 @@ import { FieldContainer } from './Fields/FieldContainer'
 import { FormProvider } from './FormContext'
 
 export interface Props {
-  value: Object
+  value?: Object
+  editing?: boolean
   schema: JSONSchema7Object
-  uiSchema: UiSchema
+  uiSchema?: UiSchema
   onValueChange?: (value: any) => void
 }
 

@@ -1,24 +1,22 @@
-import { createContext, useContext, useState, FC } from 'react'
+import { createContext, useContext, FC } from 'react'
 import { Props } from './Form'
 
 interface Context extends Props {
-  editing: boolean
-  setEditing: (editing: boolean) => void
-  value: Object
+  editing?: boolean
+  value?: Object
   handleChange: (value: Object) => void
 }
 
 const FormContext = createContext<Context | null>(null)
 
 export const FormProvider: FC<Props> = ({ children, ...rest }) => {
-  const [editing, setEditing] = useState(false)
 
   const handleChange = (value: Object) => {
     rest.onValueChange && rest.onValueChange(value)
   }
 
   return (
-    <FormContext.Provider value={{ ...rest, handleChange, editing, setEditing }}>
+    <FormContext.Provider value={{ ...rest, handleChange }}>
       {children}
     </FormContext.Provider>
   )
