@@ -3,15 +3,16 @@ import { motion } from 'framer-motion'
 import { fast } from 'lib/static/transitions'
 import styled, { css } from 'styled-components'
 
-export const RadioGroup = ({ children, ...rest }) => <Container {...rest}>{children}</Container>
+export const Group = ({ children, ...rest }) => <Container {...rest}>{children}</Container>
 
 const Container = styled(motion(Root))`
   display: flex;
   padding: 2px;
   gap: 3px;
   width: 100%;
+  min-height: 40px;
   justify-content: stretch;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.15);
   border-radius: 4px;
 `
 
@@ -64,8 +65,8 @@ const ButtonContainer = styled(motion(Item))`
 export const buttonHighlight = css`
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
   transition: background-color 0.1s, box-shadow 0.1s;
 `
 

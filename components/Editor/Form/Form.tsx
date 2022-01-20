@@ -2,7 +2,7 @@ import { JSONSchema7Object } from 'json-schema'
 import { withTheme, UiSchema } from '@rjsf/core'
 import { ObjectField } from './Fields/ObjectField'
 import { ArrayField } from './Fields/ArrayField'
-import { Input, Dropdown, DropdownSelector } from 'components/ui'
+import { Input, Dropdown, DropdownSelector, Toggle } from 'components/ui'
 import { observer } from 'mobx-react-lite'
 import { FieldContainer } from './Fields/FieldContainer'
 import { FormProvider } from './FormContext'
@@ -29,6 +29,10 @@ const FormBase = withTheme({
         />
       )
     },
+    CheckboxWidget: ({ value, label, onChange }) => (
+      <Toggle value={value} onValueChange={onChange} />
+    ),
+
     SelectWidget: ({ value, onChange, options }) => {
       return (
         <Dropdown fullWidth onChange={onChange} options={options.enumOptions as string[]}>
