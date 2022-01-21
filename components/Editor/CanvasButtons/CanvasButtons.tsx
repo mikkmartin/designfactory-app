@@ -5,10 +5,19 @@ import { Flags } from './Flags'
 import { useDebounce, useKeyPressEvent } from 'react-use'
 import { store } from 'data'
 import { useRef, useState } from 'react'
+import { observer } from 'mobx-react-lite'
 
-export const CanvasButtons = () => {
+export const CanvasButtons = observer(() => {
+  const { template, setIsEditing } = store.content
+  const fileName = template.theme.slug
+  const { figmaID } = template.theme
   const url = store.ui.downloadUrl
-  const fileName = store.content.template.theme.slug
+
+  const handleEdit = () => {
+    //const url = `https://www.figma.com/file/${figmaID}`
+    //setTimeout(() => window.open(url, '_blank'))
+    setIsEditing(true)
+  }
 
   const [metaKeyDown, setMetaKeyDown] = useState(false)
   useKeyPressEvent(
@@ -19,9 +28,11 @@ export const CanvasButtons = () => {
 
   const imageRef = useRef<HTMLImageElement>(null)
   const preloadImage = () => {
+    /*
     const img = new Image()
     img.src = url
     imageRef.current = img
+    */
   }
   useDebounce(preloadImage, 500, [url])
 
@@ -42,7 +53,7 @@ export const CanvasButtons = () => {
   return (
     <Container>
       <Flags />
-      <Button highlight>
+      <Button highlight onClick={handleEdit}>
         <EditPencil />
       </Button>
       <Button highlight onClick={handleCopy}>
@@ -51,10 +62,9 @@ export const CanvasButtons = () => {
       <ButtonCta onClick={handleDownload}>
         <Download />
       </ButtonCta>
-      {/*<RefreshTemplate />*/}
     </Container>
   )
-}
+})
 
 const ButtonCta = styled(Button)`
   width: 80px;
@@ -80,7 +90,6 @@ const Container = styled.div`
   flex-direction: row;
   gap: 4px;
   padding: 12px;
-  z-index: 2;
   button {
     height: 44px;
     min-width: 60px;
