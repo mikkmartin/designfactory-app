@@ -7,6 +7,7 @@ import { observer } from 'mobx-react-lite'
 
 export const Version = observer(() => {
   store.ui.tutorialPanelIsOpen
+  store.content.isEditing
   return (
     <Container layout="position" transition={fast}>
       v{packagejson.version} Beta

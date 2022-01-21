@@ -1,10 +1,7 @@
-import useSWR from 'swr'
 import { FC, useEffect } from 'react'
 import styled, { css } from 'styled-components'
 import { observer } from 'mobx-react-lite'
-import { CanvasButtons } from 'components/Editor/CanvasButtons'
-import { EditingPanel } from 'components/Editor/EditingPanel'
-import { TutorialPanel } from 'components/Editor/TutorialPanel'
+import { BottomPanel } from 'components/Editor/BottomPanel'
 import { SidePanel } from 'components/Editor/SidePanel'
 import { Version } from 'components/Editor/Version'
 import { store } from 'data'
@@ -13,7 +10,6 @@ import { Dialogue } from 'components/ui'
 
 export const Layout: FC = observer(({ children }) => {
   const { isEditing, setIsEditing } = store.content
-  const { loading } = useRefreshTemplate(isEditing)
   const { asPath: currentPath, push } = useRouter()
 
   useRouteChangeCallback(isEditing, currentPath, (path, options) => {
@@ -40,15 +36,9 @@ export const Layout: FC = observer(({ children }) => {
     <Container outline={isEditing}>
       <SidePanel />
       <div className="container">
-        {isEditing && <EditingPanel loading={loading} />}
         <div className="canvas">{children}</div>
         <Version />
-        {!isEditing && (
-          <>
-            <CanvasButtons />
-            <TutorialPanel />
-          </>
-        )}
+        <BottomPanel />
       </div>
       <Dialogue />
     </Container>
@@ -74,17 +64,6 @@ const useRouteChangeCallback = (
       return () => Router.events.off('routeChangeStart', routeChangeStart)
     }
   }, [unsavedChanges])
-}
-
-const fetcher = templateId => fetch('/api/figma?template=' + templateId).then(res => res.json())
-const useRefreshTemplate = (poll: boolean) => {
-  const { figmaID } = store.content.template.theme
-  const { isValidating } = useSWR(figmaID, poll ? fetcher : null, {
-    revalidateOnMount: false,
-    focusThrottleInterval: 1000,
-    onSuccess: data => console.log(data),
-  })
-  return { loading: isValidating }
 }
 
 const Container = styled.div<{ outline: boolean }>`

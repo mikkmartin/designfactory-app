@@ -5,9 +5,11 @@ import { store } from 'data'
 import { motion } from 'framer-motion'
 import { Refresh } from 'components/icons'
 import { bouncy } from 'lib/static/transitions'
+import useSWR from 'swr'
 
-export const EditingPanel = observer<{ loading: boolean }>(({ loading }) => {
+export const EditingPanel = observer(() => {
   const { figmaID, title } = store.content.template.theme
+  const loading = false
   const url = `figma.com/file/${figmaID}`
 
   const handleSave = () => {
@@ -18,16 +20,22 @@ export const EditingPanel = observer<{ loading: boolean }>(({ loading }) => {
   }
 
   return (
-    <Container style={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2 }}>
+    <Container>
       <div>
-        <h4>
-          {title} - {loading ? 'Loading...' : 'Waiting for changes'}
-        </h4>
         <a target="_blank" href={`https://${url}`}>
           {url}
         </a>
+        <h4>
+          {title} - {loading ? 'Loading...' : 'Waiting for changes'}
+        </h4>
       </div>
       <div>
+        <Button highlight onClick={handleCancel}>
+          Cancel
+        </Button>
+        <Button highlight onClick={handleSave}>
+          Save
+        </Button>
         <Button highlight>
           <Refresh
             style={{ rotate: 0, opacity: loading ? 1 : 0.5 }}
@@ -35,16 +43,21 @@ export const EditingPanel = observer<{ loading: boolean }>(({ loading }) => {
             animate={loading ? { rotate: 180 } : {}}
           />
         </Button>
-        <Button highlight onClick={handleCancel}>
-          Cancel
-        </Button>
-        <Button highlight onClick={handleSave}>
-          Save
-        </Button>
       </div>
     </Container>
   )
 })
+
+const fetcher = templateId => fetch('/api/figma?template=' + templateId).then(res => res.json())
+const useRefreshTemplate = (poll: boolean) => {
+  const { figmaID } = store.content.template.theme
+  const { isValidating } = useSWR(figmaID, poll ? fetcher : null, {
+    revalidateOnMount: false,
+    focusThrottleInterval: 1000,
+    onSuccess: data => console.log(data),
+  })
+  return { loading: isValidating }
+}
 
 const Container = styled(motion.div)`
   grid-area: canvas;
@@ -52,9 +65,9 @@ const Container = styled(motion.div)`
   display: flex;
   justify-content: space-between;
   gap: 4px;
-  padding: 12px;
+  padding: 6px;
   background: rgb(var(--highlight));
-  height: 64px;
+  height: 56px;
   width: 100%;
   a {
     color: white;
@@ -76,13 +89,17 @@ const Container = styled(motion.div)`
     }
   }
   button {
-    padding: 0 16px;
+    padding: 0 56px;
     svg {
       height: 18px;
     }
-    &:last-child {
+    &:nth-child(2) {
       background: white;
       color: rgb(var(--highlight));
+    }
+    &:last-child {
+      padding: 0;
+      min-width: 64px;
     }
   }
 `

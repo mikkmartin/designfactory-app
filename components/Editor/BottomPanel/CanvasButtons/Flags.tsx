@@ -33,8 +33,8 @@ export const Flags = observer(() => {
 
   return (
     <Dropdown options={flags} onChange={handleChange}>
-      <Button highlight>
-        <Flag style={{ stroke: 'var(--error)', width: 18 }} />
+      <Button type="reset">
+        <Flag style={{ width: 18 }} />
       </Button>
     </Dropdown>
   )
