@@ -87,7 +87,6 @@ const Container = styled(motion.div)`
   height: 0;
   display: flex;
   align-items: end;
-  z-index: 2;
   .wrapper {
     display: flex;
     flex-direction: row;

@@ -76,19 +76,10 @@ const Container = styled(DropdownMenu.Trigger)`
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    gap: 2px;
+    gap: 3px;
     small {
-      font-size: 11px;
       opacity: 0.5;
       letter-spacing: 0.25px;
-    }
-    h4 {
-      font-weight: 200;
-      flex: 1;
-      margin: 0;
-      padding: 0;
-      text-transform: uppercase;
-      letter-spacing: 1px;
     }
   }
   > svg:last-child {
@@ -125,9 +116,6 @@ const Item = styled(Button)`
   border-radius: 0;
   position: relative;
   box-shadow: unset;
-  text-transform: uppercase;
-  letter-spacing: 0.75px;
-  font-size: 11px;
   svg {
     width: 40px;
     height: 18px;

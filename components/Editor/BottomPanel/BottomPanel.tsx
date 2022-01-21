@@ -39,10 +39,10 @@ export const BottomPanel = observer(() => {
 })
 
 const Container = styled(motion.div)`
-  z-index: 2;
   display: flex;
   align-items: end;
   width: 100%;
+  z-index: 0;
   > * {
     flex: 1;
   }
