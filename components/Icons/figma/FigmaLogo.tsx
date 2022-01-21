@@ -1,45 +1,13 @@
+import { motion } from 'framer-motion'
+
 const FigmaLogo = ({ ...props }) => {
   return (
-    <svg width="16" height="16" viewBox="0 0 16 16" {...props}>
-      <g transform="translate(64 122)">
-        <mask id="a">
-          <path fill="#FFF" d="M-64-122h16v16h-16v-16z"></path>
-        </mask>
-        <g style={{ mixBlendMode: 'normal' }} mask="url(#a)">
-          <use
-            fill="#1ABCFE"
-            transform="translate(-56 -116)"
-            xlinkHref="#b"
-            style={{ mixBlendMode: 'normal' }}></use>
-          <use
-            fill="#0ACF83"
-            transform="translate(-61 -111)"
-            xlinkHref="#c"
-            style={{ mixBlendMode: 'normal' }}></use>
-          <use
-            fill="#FF7262"
-            transform="matrix(0 1 1 0 -56 -121)"
-            xlinkHref="#d"
-            style={{ mixBlendMode: 'normal' }}></use>
-          <use
-            fill="#F24E1E"
-            transform="matrix(1 0 0 -1 -61 -116)"
-            xlinkHref="#e"
-            style={{ mixBlendMode: 'normal' }}></use>
-          <use
-            fill="#A259FF"
-            transform="matrix(1 0 0 -1 -61 -111)"
-            xlinkHref="#e"
-            style={{ mixBlendMode: 'normal' }}></use>
-        </g>
-      </g>
-      <defs>
-        <path id="b" d="M0 2.5a2.5 2.5 0 015 0 2.5 2.5 0 01-5 0z"></path>
-        <path id="c" d="M0 2.5A2.5 2.5 0 012.5 0H5v2.5a2.5 2.5 0 01-5 0z"></path>
-        <path id="d" d="M0 0h5v2.5a2.5 2.5 0 01-5 0V0z"></path>
-        <path id="e" d="M0 2.5A2.5 2.5 0 012.5 0H5v5H2.5A2.5 2.5 0 010 2.5z"></path>
-      </defs>
-    </svg>
+    <motion.svg width="32" height="32" fill="none" viewBox="0 0 32 32" {...props}>
+      <path
+        fillRule="evenodd"
+        d="M10.5 11a3 3 0 013-3h5a3 3 0 011.659 5.5 3 3 0 11-3.659 4.736V21a3 3 0 11-4.659-2.5A2.998 2.998 0 0110.5 16c0-1.043.533-1.963 1.341-2.5A2.998 2.998 0 0110.5 11zm3 2a2 2 0 110-4h2v4h-2zm2 1h-2a2 2 0 100 4h2v-4zm0 5h-2a2 2 0 102 2v-2zm3-5a2 2 0 10-.001 3.999A2 2 0 0018.5 14zm0-1a2 2 0 100-4h-2v4h2z"
+        clipRule="evenodd"></path>
+    </motion.svg>
   )
 }
 

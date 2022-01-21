@@ -10,13 +10,13 @@ import { useRef, useState } from 'react'
 import { Flags } from './Flags'
 
 export const CanvasButtons = observer(() => {
-  const { tutorialPanelIsOpen, toggleTutorialPanel } = store.ui
+  const { toggleTutorialPanel } = store.ui
   const { template, setIsEditing } = store.content
   const fileName = template.theme.slug
-  const { figmaID } = template.theme
   const url = store.ui.downloadUrl
 
   const handleEdit = () => {
+    //const { figmaID } = template.theme
     //const url = `https://www.figma.com/file/${figmaID}`
     //setTimeout(() => window.open(url, '_blank'))
     setIsEditing(true)
