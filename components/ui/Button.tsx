@@ -6,6 +6,7 @@ type Props = {
   small?: boolean
   primary?: boolean
   highlight?: boolean
+  type?: HTMLButtonElement['type']
 }
 
 export const buttonStyles = css`
@@ -48,8 +49,28 @@ export const buttonStyles = css`
 
 export const Button = styled(motion.button)<Props>`
   ${buttonStyles}
-  ${p => p.highlight && highlight}
   ${p => p.small && small}
+  ${p => p.highlight && highlight}
+  ${p => p.type === 'reset' && reset}
+`
+
+const reset = css`
+  color: var(--error);
+  background-color: rgba(255, 65, 10, 0.15);
+  :focus-visible, :active {
+    box-shadow: inset 0 0 0 1px tomato;
+    background: #ff634737 !important;
+  }
+  :hover {
+    background: #ff634737 !important;
+    color: tomato;
+  }
+  :active {
+    &:hover {
+      background: tomato !important;
+      color: white;
+    }
+  }
 `
 
 const highlight = css`

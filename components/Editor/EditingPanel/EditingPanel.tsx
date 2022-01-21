@@ -49,7 +49,6 @@ export const EditingPanel = observer<{ loading: boolean }>(({ loading }) => {
 const Container = styled(motion.div)`
   grid-area: canvas;
   place-self: start end;
-  z-index: 2;
   display: flex;
   justify-content: space-between;
   gap: 4px;
@@ -74,12 +73,6 @@ const Container = styled(motion.div)`
       padding-left: 8px;
       flex-direction: column;
       justify-content: center;
-    }
-    h4 {
-      font-size: 12px;
-      text-transform: uppercase;
-      font-weight: 200;
-      letter-spacing: 0.5px;
     }
   }
   button {

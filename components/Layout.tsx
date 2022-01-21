@@ -9,7 +9,7 @@ import { SidePanel } from 'components/Editor/SidePanel'
 import { Version } from 'components/Editor/Version'
 import { store } from 'data'
 import Router, { useRouter } from 'next/router'
-import { Alert } from 'components/ui'
+import { Dialogue } from 'components/ui'
 
 export const Layout: FC = observer(({ children }) => {
   const { isEditing, setIsEditing } = store.content
@@ -17,10 +17,17 @@ export const Layout: FC = observer(({ children }) => {
   const router = useRouter()
 
   useRouteChangeCallback(isEditing, (path, options) => {
-    store.ui.showDialogue('Unsaved changes').then(() => {
-      setIsEditing(false)
-      router.push(path, undefined, options)
-    })
+    store.ui
+      .showDialogue({
+        title: 'Unsaved changes',
+        contentText: 'Changes you made will be lost.',
+        actionLabel: 'Discard changes',
+        warning: true,
+      })
+      .then(() => {
+        setIsEditing(false)
+        router.push(path, undefined, options)
+      })
     return false
   })
 
@@ -38,7 +45,7 @@ export const Layout: FC = observer(({ children }) => {
           </>
         )}
       </div>
-      <Alert />
+      <Dialogue />
     </Container>
   )
 })

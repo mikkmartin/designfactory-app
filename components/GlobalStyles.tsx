@@ -39,8 +39,23 @@ export const GlobalStyles = createGlobalStyle<{ route: string }>`
   h3 {
     font-weight: 400;
   }
+  h1, h2, h3, h4, h5, h6 {
+    text-transform: uppercase;
+    font-weight: 200;
+    letter-spacing: 0.75px;
+  }
+  h4 {
+    font-size: 11px;
+  }
   svg {
     display: block;
+  }
+  button {
+    font-size: 11px;
+    font-family: inherit;
+    text-transform: uppercase;
+    font-weight: 200;
+    letter-spacing: 0.5px;
   }
 `
 
