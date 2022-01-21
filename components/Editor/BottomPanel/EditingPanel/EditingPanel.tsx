@@ -31,12 +31,10 @@ export const EditingPanel = observer(() => {
                 <FigmaLogo
                   key="f"
                   className="figma"
-                  transition={{ default: fast, opacity: { duration: 0.3 } }}
-                  variants={{
-                    initial: { rotate: -90, opacity: 0, scale: 1 },
-                    shown: { rotate: 0, opacity: 1, scale: 1.5 },
-                    exit: { rotate: 180, opacity: 0, scale: 0 },
-                  }}
+                  transition={{ default: bouncy, opacity: { duration: 0.1 } }}
+                  initial={{ rotate: -90, opacity: 0, scale: 1 }}
+                  animate={{ rotate: 0, opacity: 1, scale: 1.5 }}
+                  exit={{ rotate: 90, opacity: 0, scale: 0, transition: fast }}
                 />
               ) : (
                 <Refresh
@@ -45,7 +43,7 @@ export const EditingPanel = observer(() => {
                   animate="shown"
                   exit="exit"
                   style={{ scale: 0.8 }}
-                  transition={{ opacity: { duration: 0.2 } }}
+                  transition={{ opacity: { duration: 0.1 } }}
                   variants={{
                     hidden: { rotate: 0, opacity: 0 },
                     shown: {
