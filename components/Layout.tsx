@@ -14,9 +14,9 @@ import { Dialogue } from 'components/ui'
 export const Layout: FC = observer(({ children }) => {
   const { isEditing, setIsEditing } = store.content
   const { loading } = useRefreshTemplate(isEditing)
-  const router = useRouter()
+  const { asPath: currentPath, push } = useRouter()
 
-  useRouteChangeCallback(isEditing, (path, options) => {
+  useRouteChangeCallback(isEditing, currentPath, (path, options) => {
     store.ui
       .showDialogue({
         title: 'Unsaved changes',
@@ -26,7 +26,12 @@ export const Layout: FC = observer(({ children }) => {
       })
       .then(() => {
         setIsEditing(false)
-        router.push(path, undefined, options)
+        push(path, undefined, options)
+      })
+      .catch(_ => {
+        if (!path.includes(Router.query.slug)) {
+          Router.replace(currentPath, undefined, options)
+        }
       })
     return false
   })
@@ -50,10 +55,15 @@ export const Layout: FC = observer(({ children }) => {
   )
 })
 
-const useRouteChangeCallback = (unsavedChanges: boolean, callback: (route, opts) => boolean) => {
+const useRouteChangeCallback = (
+  unsavedChanges: boolean,
+  currentPath: string,
+  callback: (route, opts) => boolean
+) => {
   useEffect(() => {
     if (unsavedChanges) {
       const routeChangeStart = (path, options) => {
+        if (currentPath === path) return true
         const ok = callback(path, options)
         if (!ok) {
           Router.events.emit('routeChangeError')
