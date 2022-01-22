@@ -69,8 +69,10 @@ export class ThemeStore {
     const size = getFrameSize(this._data)
     const res = await api.updateTheme({ figmaID: this.figmaID, size, slug: this.slug })
     if (res.data) {
-      this.thumbnailUpdated = new Date()
-      this._size = size
+      runInAction(() => {
+        this.thumbnailUpdated = new Date()
+        this._size = size
+      })
     }
     return res
   }
