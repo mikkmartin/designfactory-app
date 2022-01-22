@@ -12,7 +12,7 @@ type Data = definitions['themes']
 
 export class ThemeStore {
   template: TemplateStore = null
-  private _size: Data['size'] = null
+  private _size: Data['size'] = [null, null]
   slug: Data['slug']
   title: Data['title']
   ownerID: Data['owner_profile_id']
@@ -68,7 +68,10 @@ export class ThemeStore {
     this.previewData = null
     const size = getFrameSize(this._data)
     const res = await api.updateTheme({ figmaID: this.figmaID, size, slug: this.slug })
-    if (res.data) this.thumbnailUpdated = new Date()
+    if (res.data) {
+      this.thumbnailUpdated = new Date()
+      this._size = size
+    }
     return res
   }
 
