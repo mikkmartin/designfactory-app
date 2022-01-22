@@ -92,7 +92,7 @@ const Container = styled(motion.div)`
     flex-direction: row;
     gap: 4px;
     padding: 4px;
-    background: var(--background);
+    background: rgba(40, 44, 52, 0.9);
     backdrop-filter: blur(10px);
     border-radius: 8px;
     margin-bottom: 18px;

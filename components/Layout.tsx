@@ -82,7 +82,7 @@ const Container = styled.div<{ outline: boolean }>`
     max-height: 100vh;
     border-radius: 0 0 10px 0;
     box-shadow: inset 0 0 0 1px transparent;
-    transition: box-shadow 0.1s ease-in-out;
+    transition: box-shadow 0.05s ease-in-out;
     ${p =>
       p.outline &&
       css`

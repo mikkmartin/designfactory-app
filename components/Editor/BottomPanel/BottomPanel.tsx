@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 import { store } from 'data'
 import { motion, AnimatePresence } from 'framer-motion'
-import { fast } from 'lib/static/transitions'
+import { fast, snappy } from 'lib/static/transitions'
 import { CanvasButtons } from './CanvasButtons'
 import { TutorialPanel } from './TutorialPanel/Tutorial'
 import { EditingPanel } from './EditingPanel'
@@ -23,7 +23,7 @@ export const BottomPanel = observer(() => {
               initial="hidden"
               animate="shown"
               exit="hidden"
-              transition={fast}
+              transition={tutorialPanelIsOpen ? fast : snappy}
               variants={{
                 shown: { y: '0%' },
                 hidden: { y: '100%' },

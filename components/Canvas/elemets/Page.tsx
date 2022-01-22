@@ -4,7 +4,7 @@ import { editable } from './editableStyle'
 import { motion } from 'framer-motion'
 import { store } from 'data'
 import { observer } from 'mobx-react-lite'
-import { fast } from 'lib/static/transitions'
+import { fast, snappy } from 'lib/static/transitions'
 
 const getScale = ({ self, parent }) => {
   const { width, height } = self
@@ -27,11 +27,10 @@ export const Page: FC = observer(({ children }) => {
   //const [ref, self] = useMeasure()
   store.ui.tutorialPanelIsOpen
   store.content.isEditing
-
   return (
     <Container
       layout="position"
-      transition={fast}
+      transition={store.content.isEditing ? snappy : fast}
       // style={getScale({ self, parent })} ref={ref}
     >
       {children}
