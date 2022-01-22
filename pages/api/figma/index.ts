@@ -1,5 +1,5 @@
 import { NextApiResponse } from 'next'
-import { getTemplate } from 'data/figma'
+import { getTemplate } from 'lib/figma'
 import { db } from 'lib/db'
 
 export default async (req, res: NextApiResponse) => {

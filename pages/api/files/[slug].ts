@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { db } from 'lib/db'
-import { getTemplate } from 'data/figma'
+import { getTemplate } from 'lib/figma'
 import { customAlphabet } from 'nanoid'
 import slugify from 'slugify'
 

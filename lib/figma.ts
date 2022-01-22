@@ -10,3 +10,5 @@ export const getTemplate = async (id: string) =>
 
 export const getImage = async (id: string, ids: string[]) =>
   client.fileImages(id, { scale: 2, format: 'png', ids })
+
+export const getImageReferances = async (id: string) => client.fileImageFills(id)

@@ -7,7 +7,7 @@ import type {
   UpdateThemeResponse,
   UpdateThemeParams,
 } from 'data/api/content'
-import { getTemplate } from 'data/figma'
+import { getTemplate } from 'lib/figma'
 import { supabase } from 'lib/db/config'
 import { definitions } from 'lib/db/types'
 import baseURL from 'lib/static/baseURL'
@@ -52,7 +52,8 @@ const handleLoadThemePreview = async (req: Req, res: Res<ThemePreviewResponse>) 
   })
 
   //upload thumbnail
-  await uploadThumbnail({ slug })
+  uploadThumbnail({ slug })
+
 
   res.end()
 }

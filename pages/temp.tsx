@@ -1,50 +1,30 @@
-import styled from 'styled-components'
-import { Form } from 'components/Editor/Form'
-import { getSchemas, Schemas } from 'components/Canvas/parseTemplate/getSchemas'
-import type { UiSchema } from '@rjsf/core'
-import invoiceSchema from 'lib/static/invoiceSchema.json'
-//import { JSONSchema7Object } from 'json-schema'
+import { getFigmaImages, ImageRefs } from 'lib/api/getFigmaImages'
 import storageUrl from 'lib/static/storageURL'
-import { useMemo, useState } from 'react'
-import { Button, Toggle } from 'components/ui'
+import styled from 'styled-components'
+import { useState } from 'react'
 
 const Temp = () => {
-  const [editing, setEditing] = useState(false)
-  const [toggle, setToggle] = useState(true)
+  const [refs, setRefs] = useState<ImageRefs>()
 
-  const { schema: _schema, uiSchema: _uiSchema } = useFetchParsedSchema()
-
-  const [uiSchemaInvoice, setUiSchema] = useState<UiSchema>({})
-  const [value, setValue] = useState({})
-  const schema = toggle ? _schema : invoiceSchema
-  const uiSchema = toggle ? _uiSchema : uiSchemaInvoice
+  useState(async () => {
+    const figmaID = 'N3kddbIfAP7M0R0EweV4gO'
+    const file = await fetch(`/api/figma?template=${figmaID}`)
+      .then(res => res.json())
+      .then(json => json.data)
+    const res = await getFigmaImages({ figmaID, file })
+    setRefs(res)
+  })
 
   return (
-    <>
-      <Container>
-        <Button highlight onClick={() => setEditing(!editing)}>
-          {editing ? 'Done' : 'Edit'}
-        </Button>
-        <Toggle value={toggle} onValueChange={setToggle} />
-        {schema && (
-          <Form
-            editing={editing}
-            onUiSchemaChange={setUiSchema}
-            schema={toggle ? schema : invoiceSchema}
-            uiSchema={uiSchema}
-            onValueChange={setValue}
-          />
-        )}
-        <pre>
-          <p>Value:</p>
-          {JSON.stringify(value, null, 2)}
-          <p>Schema:</p>
-          {JSON.stringify(schema, null, 2)}
-          <p>Ui schema:</p>
-          {JSON.stringify(uiSchema, null, 2)}
-        </pre>
-      </Container>
-    </>
+    <Container>
+      <div>
+        {refs
+          ? refs.map(({ imageRef, url, width, height }) => {
+              return <img key={imageRef} src={url} style={{ width, height, objectFit: 'cover' }} />
+            })
+          : 'Loading...'}
+      </div>
+    </Container>
   )
 }
 
@@ -66,23 +46,5 @@ const Container = styled.div`
     overflow: auto;
   }
 `
-
-const useFetchParsedSchema = () => {
-  const [schemas, setSchemas] = useState<Schemas>(null)
-
-  useMemo(getJson, [])
-  async function getJson() {
-    //const res = await fetch(storageUrl + '/themes/files/notion-blog-og-hn8ck.json')
-    //const res = await fetch(storageUrl + '/themes/files/og-image-test-dr9k3.json')
-    const res = await fetch(storageUrl + '/themes/files/invoice.json')
-    const json = await res.json()
-    setSchemas(getSchemas(json))
-  }
-
-  return {
-    schema: schemas?.schema,
-    uiSchema: schemas?.uiSchema,
-  }
-}
 
 export default Temp

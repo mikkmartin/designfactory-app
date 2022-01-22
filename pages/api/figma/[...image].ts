@@ -1,4 +1,4 @@
-import { getImage } from 'data/figma'
+import { getImage } from 'lib/figma'
 import { NextApiResponse } from 'next'
 
 export default async (req, res: NextApiResponse) => {
