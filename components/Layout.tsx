@@ -48,9 +48,9 @@ const Container = styled.div<{ outline: boolean }>`
     > .canvas {
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       overflow: auto;
-      padding: 2rem;
+      padding: 4rem 4rem 7rem 4rem;
       width: 100%;
       height: 100%;
       grid-area: canvas;

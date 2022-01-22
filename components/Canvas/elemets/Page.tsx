@@ -26,9 +26,11 @@ export const Page: FC = observer(({ children }) => {
   //const parent = store.pages.canvasContainerRef?.getBoundingClientRect()
   //const [ref, self] = useMeasure()
   const { isEditing, tutorialPanelIsOpen } = store.ui
+  const { slug } = store.content.template.theme
   tutorialPanelIsOpen
   return (
     <Container
+      key={slug}
       layout="position"
       transition={isEditing ? snappy : fast}
       // style={getScale({ self, parent })} ref={ref}
@@ -39,6 +41,7 @@ export const Page: FC = observer(({ children }) => {
 })
 
 const Container = styled(motion.div)`
+  margin: auto;
   > div {
     .ProseMirror p {
       line-height: unset;
