@@ -9,15 +9,16 @@ import useSWR from 'swr'
 
 export const EditingPanel = observer(() => {
   const { figmaID, title, discardData, saveData } = store.content.template.theme
+  const { setIsEditing } = store.ui
   const url = `figma.com/file/${figmaID}`
 
   const handleSave = async () => {
-    store.content.setIsEditing(false)
+    setIsEditing(false)
     saveData()
   }
   const handleCancel = () => {
     discardData()
-    store.content.setIsEditing(false)
+    setIsEditing(false)
   }
 
   const { loading, mutate } = useRefreshTemplate()

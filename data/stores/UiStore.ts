@@ -20,6 +20,7 @@ type ModalInstane = DialogProps & {
 
 export class UiStore {
   private rootStore: RootStore
+  isEditing: boolean = false
   templatePanelIsOpen: boolean = true
   tutorialPanelIsOpen: boolean = false
   tabs = tabs
@@ -31,6 +32,7 @@ export class UiStore {
     this.rootStore = rootStore
   }
 
+  setIsEditing = (isEditing: boolean) => (this.isEditing = isEditing)
   toggleTemplatePanel = () => (this.templatePanelIsOpen = !this.templatePanelIsOpen)
   toggleTutorialPanel = () => (this.tutorialPanelIsOpen = !this.tutorialPanelIsOpen)
 

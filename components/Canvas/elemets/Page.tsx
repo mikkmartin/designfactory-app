@@ -25,12 +25,12 @@ const getScale = ({ self, parent }) => {
 export const Page: FC = observer(({ children }) => {
   //const parent = store.pages.canvasContainerRef?.getBoundingClientRect()
   //const [ref, self] = useMeasure()
-  store.ui.tutorialPanelIsOpen
-  store.content.isEditing
+  const { isEditing, tutorialPanelIsOpen } = store.ui
+  tutorialPanelIsOpen
   return (
     <Container
       layout="position"
-      transition={store.content.isEditing ? snappy : fast}
+      transition={isEditing ? snappy : fast}
       // style={getScale({ self, parent })} ref={ref}
     >
       {children}

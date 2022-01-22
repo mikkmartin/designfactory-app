@@ -8,8 +8,7 @@ import { TutorialPanel } from './TutorialPanel/Tutorial'
 import { EditingPanel } from './EditingPanel'
 
 export const BottomPanel = observer(() => {
-  const { isEditing } = store.content
-  const { tutorialPanelIsOpen } = store.ui
+  const { tutorialPanelIsOpen, isEditing } = store.ui
   const isOpen = isEditing || tutorialPanelIsOpen
   return (
     <>

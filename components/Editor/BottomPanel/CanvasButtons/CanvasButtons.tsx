@@ -10,8 +10,8 @@ import { useRef, useState } from 'react'
 import { Flags } from './Flags'
 
 export const CanvasButtons = observer(() => {
-  const { toggleTutorialPanel } = store.ui
-  const { template, setIsEditing } = store.content
+  const { toggleTutorialPanel, setIsEditing } = store.ui
+  const { template } = store.content
   const fileName = template.theme.slug
   const url = store.ui.downloadUrl
 

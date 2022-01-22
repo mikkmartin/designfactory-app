@@ -6,10 +6,10 @@ import { fast, snappy } from 'lib/static/transitions'
 import { observer } from 'mobx-react-lite'
 
 export const Version = observer(() => {
-  store.ui.tutorialPanelIsOpen
-  store.content.isEditing
+  const { tutorialPanelIsOpen, isEditing } = store.ui
+  tutorialPanelIsOpen
   return (
-    <Container layout="position" transition={store.content.isEditing ? snappy : fast}>
+    <Container layout="position" transition={isEditing ? snappy : fast}>
       v{packagejson.version} Beta
       {process.env.NEXT_PUBLIC_ENVIRONMENT && ` [${process.env.NEXT_PUBLIC_ENVIRONMENT}]`}
     </Container>

@@ -9,7 +9,7 @@ import Router, { useRouter } from 'next/router'
 import { Dialogue } from 'components/ui'
 
 export const Layout: FC = observer(({ children }) => {
-  const { isEditing, setIsEditing } = store.content
+  const { isEditing, setIsEditing } = store.ui
   const { asPath: currentPath, push } = useRouter()
 
   useRouteChangeCallback(isEditing, currentPath, (path, options) => {

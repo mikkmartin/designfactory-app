@@ -7,15 +7,10 @@ export class ContentStore {
   private rootStore: RootStore
   template: TemplateStore = null
   templateOptions: TemplateStore[] = []
-  isEditing: boolean = false
 
   constructor(rootStore: RootStore) {
     makeAutoObservable(this)
     this.rootStore = rootStore
-  }
-
-  setIsEditing = (isEditing: boolean) => {
-    this.isEditing = isEditing
   }
 
   setInitialData = ({ data }) => {
