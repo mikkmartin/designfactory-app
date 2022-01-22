@@ -1,36 +1,14 @@
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 import styled, { css } from 'styled-components'
 import { observer } from 'mobx-react-lite'
 import { BottomPanel } from 'components/Editor/BottomPanel'
 import { SidePanel } from 'components/Editor/SidePanel'
 import { Version } from 'components/Editor/Version'
-import { store } from 'data'
-import Router, { useRouter } from 'next/router'
 import { Dialogue } from 'components/ui'
+import { store } from 'data'
 
 export const Layout: FC = observer(({ children }) => {
-  const { isEditing, setIsEditing } = store.ui
-  const { asPath: currentPath, push } = useRouter()
-
-  useRouteChangeCallback(isEditing, currentPath, (path, options) => {
-    store.ui
-      .showDialogue({
-        title: 'Unsaved changes',
-        contentText: 'Changes you made will be lost.',
-        actionLabel: 'Discard changes',
-        warning: true,
-      })
-      .then(() => {
-        setIsEditing(false)
-        push(path, undefined, options)
-      })
-      .catch(_ => {
-        if (!path.includes(Router.query.slug)) {
-          Router.replace(currentPath, undefined, options)
-        }
-      })
-    return false
-  })
+  const { isEditing } = store.ui
 
   return (
     <Container outline={isEditing}>
@@ -44,27 +22,6 @@ export const Layout: FC = observer(({ children }) => {
     </Container>
   )
 })
-
-const useRouteChangeCallback = (
-  unsavedChanges: boolean,
-  currentPath: string,
-  callback: (route, opts) => boolean
-) => {
-  useEffect(() => {
-    if (unsavedChanges) {
-      const routeChangeStart = (path, options) => {
-        if (currentPath === path) return true
-        const ok = callback(path, options)
-        if (!ok) {
-          Router.events.emit('routeChangeError')
-          throw 'Abort route change. Please ignore this error.'
-        }
-      }
-      Router.events.on('routeChangeStart', routeChangeStart)
-      return () => Router.events.off('routeChangeStart', routeChangeStart)
-    }
-  }, [unsavedChanges])
-}
 
 const Container = styled.div<{ outline: boolean }>`
   display: grid;
