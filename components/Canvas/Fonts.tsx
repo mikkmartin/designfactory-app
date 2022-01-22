@@ -4,14 +4,15 @@ import type { IFont } from './parseTemplate/getFonts'
 
 const getUrl = (font: IFont): string => {
   const family = font.family.replace(/\s/g, '+')
-  const italic = font.weights.some(({ italic }) => italic) && 'ital,'
+  const hasItalics = font.weights.some(({ italic }) => italic) ? 'ital,' : ''
   const weights = font.weights
-    .map((weight): string => {
-      const hasItalic = Boolean(italic)
-      return `${hasItalic && (weight.italic ? '1,' : '0,')}${weight.weight}`
+    .map(({ weight, italic }): string => {
+      let str = `${weight}`
+      if (hasItalics) italic ? (str = `1,${str}`) : (str = `0,${str}`)
+      return str
     })
     .join(';')
-  return `https://fonts.googleapis.com/css2?family=${family}:${italic}wght@${weights}&display=swap`
+  return `https://fonts.googleapis.com/css2?family=${family}:${hasItalics}wght@${weights}&display=swap`
 }
 
 export const Fonts: FC<{ fonts: IFont[] }> = ({ fonts }) => {
