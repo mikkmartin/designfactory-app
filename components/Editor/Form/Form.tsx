@@ -29,13 +29,13 @@ const FormBase = withTheme({
         />
       )
     },
-    CheckboxWidget: ({ value, label, onChange }) => (
+    CheckboxWidget: ({ value, onChange }) => (
       <Toggle value={value} onValueChange={onChange} />
     ),
-    SelectWidget: ({ value, onChange, options }) => {
+    SelectWidget: ({ value, onChange, options, placeholder }) => {
       return (
         <Dropdown fullWidth onChange={onChange} options={options.enumOptions as string[]}>
-          <DropdownSelector>{value}</DropdownSelector>
+          <DropdownSelector placeholder={placeholder}>{value}</DropdownSelector>
         </Dropdown>
       )
     },

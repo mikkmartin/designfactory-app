@@ -20,6 +20,7 @@ interface Props extends StyleProps {
   onChange?: (value: string) => void
   onOpenChange?(open: boolean): void
   value?: string | Option
+  placeholder?: string
 }
 
 export const Dropdown: FC<Props> = ({
@@ -139,8 +140,9 @@ type DropdownProps = {
 
 export const DropdownSelector: FC<any> = forwardRef<HTMLButtonElement, DropdownProps>(
   ({ children, ...rest }, ref) => {
-    const { placeholder } = rest
     const { open } = useDropdown()
+    const { placeholder } = rest
+
     return (
       <DropdownSelectorContainer {...rest} ref={ref} hasValue={Boolean(children)}>
         {children || placeholder}
@@ -155,7 +157,8 @@ export const DropdownSelector: FC<any> = forwardRef<HTMLButtonElement, DropdownP
 const DropdownSelectorContainer = styled.button<any>`
   ${inputStyle}
   ${p =>
-    p.placeholder && !p.hasValue &&
+    p.placeholder &&
+    !p.hasValue &&
     css`
       color: rgba(255, 255, 255, 0.25);
     `}
