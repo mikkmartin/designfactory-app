@@ -1,5 +1,5 @@
 import { PostgrestError } from '@supabase/supabase-js'
-import { get, post, _delete, WithError } from './fetch'
+import { get, post, _delete, WithError, patch } from './fetch'
 import { FileResponse } from '@mikkmartin/figma-js'
 import { definitions } from 'lib/db/types'
 
@@ -19,12 +19,21 @@ export const loadThemePreview = figmaFileID =>
 export type AddThemeResponse = { data: definitions['themes']; error: PostgrestError | null }
 export type AddThemeParams = {
   templateID: string
-  figmaID: string,
+  figmaID: string
   slug: string
   title: string
   size: [number, number]
 }
 export const addTheme = (body: AddThemeParams) => post<definitions['themes']>({ url, body })
+
+//Update theme
+export type UpdateThemeResponse = WithError<{ Key: string }>
+export type UpdateThemeParams = {
+  figmaID: string
+  slug: string
+  size: [number, number]
+}
+export const updateTheme = (body: UpdateThemeParams) => patch<definitions['themes']>({ url, body })
 
 //Delete theme
 export type DeleteThemeResponse = { data: definitions['themes']; error: PostgrestError | null }

@@ -5,26 +5,27 @@ import { store } from 'data'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Refresh, FigmaLogo } from 'components/icons'
 import { bouncy, fast } from 'lib/static/transitions'
-import { useState } from 'react'
 import useSWR from 'swr'
 
 export const EditingPanel = observer(() => {
-  const { figmaID, title } = store.content.template.theme
+  const { figmaID, title, discardData, saveData } = store.content.template.theme
   const url = `figma.com/file/${figmaID}`
 
-  const handleSave = () => {
+  const handleSave = async () => {
     store.content.setIsEditing(false)
+    saveData()
   }
   const handleCancel = () => {
+    discardData()
     store.content.setIsEditing(false)
   }
 
-  const [loading, setLoading] = useState(false)
+  const { loading, mutate } = useRefreshTemplate()
 
   return (
     <Container>
       <div className="info">
-        <Button highlight onClick={() => setLoading(!loading)}>
+        <Button highlight onClick={mutate}>
           <div className="center-icon">
             <AnimatePresence>
               {!loading ? (
@@ -52,7 +53,7 @@ export const EditingPanel = observer(() => {
                       transition: {
                         rotate: {
                           ...bouncy,
-                          mass: 2,
+                          mass: 1.7,
                           repeat: Infinity,
                         },
                       },
@@ -87,14 +88,16 @@ export const EditingPanel = observer(() => {
 })
 
 const fetcher = templateId => fetch('/api/figma?template=' + templateId).then(res => res.json())
-const useRefreshTemplate = (poll: boolean) => {
-  const { figmaID } = store.content.template.theme
-  const { isValidating } = useSWR(figmaID, poll ? fetcher : null, {
-    revalidateOnMount: false,
+const useRefreshTemplate = () => {
+  const { figmaID, setPreviewData } = store.content.template.theme
+  const { isValidating, mutate } = useSWR(figmaID, fetcher, {
     focusThrottleInterval: 1000,
-    onSuccess: data => console.log(data),
+    onSuccess: ({ error, data }) => {
+      if (error) return console.error(error)
+      setPreviewData(data)
+    },
   })
-  return { loading: isValidating }
+  return { loading: isValidating, mutate }
 }
 
 const Container = styled(motion.div)`

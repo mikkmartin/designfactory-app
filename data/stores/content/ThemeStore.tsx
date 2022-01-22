@@ -5,6 +5,8 @@ import storageURL from 'lib/static/storageURL'
 import type { TemplateStore } from './TemplateStore'
 import type { JSONSchema7Object } from 'json-schema'
 import type { UiSchema } from '@rjsf/core'
+import { api } from 'data/api'
+import { getFrameSize } from './utils'
 
 type Data = definitions['themes']
 
@@ -20,7 +22,9 @@ export class ThemeStore {
   editorSchema: JSONSchema7Object = {}
 
   loading: boolean = true
-  data: FileResponse = null
+  thumbnailUpdated: Date = null
+  private _data: FileResponse = null
+  previewData: FileResponse = null
 
   constructor(template: TemplateStore, themeData: Data, file?: FileResponse) {
     this.uiSchema = themeData.ui_schema as Object
@@ -32,7 +36,7 @@ export class ThemeStore {
     this.modifiedAt = new Date(themeData.modified_at)
     makeAutoObservable(this)
     this.template = template
-    if (file) this.data = file
+    if (file) this._data = file
   }
 
   setSchemas = (editorSchema: JSONSchema7Object, uiSchema: UiSchema) =>
@@ -41,19 +45,41 @@ export class ThemeStore {
       this.uiSchema = uiSchema
     })
 
+  get data() {
+    return this.previewData || this._data
+  }
+
   get size() {
     const [width, height] = this._size.map(Number)
     return { width, height }
   }
 
   get thumbnailUrl() {
-    return `${storageURL}/themes/files/${this.slug}.png`
+    const url = `${storageURL}/themes/files/${this.slug}.png`
+    return this.thumbnailUpdated ? `${url}?${this.thumbnailUpdated.getTime()}` : url
+  }
+
+  setPreviewData = (data: FileResponse) => {
+    this.previewData = data
+  }
+
+  saveData = async () => {
+    this._data = this.previewData
+    this.previewData = null
+    const size = getFrameSize(this._data)
+    const res = await api.updateTheme({ figmaID: this.figmaID, size, slug: this.slug })
+    if (res.data) this.thumbnailUpdated = new Date()
+    return res
+  }
+
+  discardData = () => {
+    this.previewData = null
   }
 
   loadData = async () => {
     const data = await fetch(`${storageURL}/themes/files/${this.slug}.json`).then(res => res.json())
     runInAction(() => {
-      this.data = data
+      this._data = data
       this.loading = false
     })
   }

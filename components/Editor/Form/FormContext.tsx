@@ -16,7 +16,7 @@ export const FormProvider: FC<Props> = ({ children, ...rest }) => {
   }
 
   const handleUiSchemaChange = (val) => {
-    console.log(val)
+    //console.log(val)
     //rest.onUiSchemaChange && rest.onUiSchemaChange(val)
   }
 

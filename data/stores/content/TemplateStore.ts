@@ -3,6 +3,7 @@ import { ThemeStore } from './ThemeStore'
 import { api } from 'data/api'
 import type { GetTempaltesWithThemesResponse, ThemePreviewResponse } from 'data/api/content'
 import { FileResponse } from '@mikkmartin/figma-js'
+import { getFrameSize } from './utils'
 
 type FileType = 'pdf' | 'image'
 type Data = GetTempaltesWithThemesResponse['data'][0]
@@ -54,13 +55,6 @@ export class TemplateStore {
     return res
   }
 
-  private getFrameSize = (file): [number, number] => {
-    const canvas = file.document.children.find(node => node.type === 'CANVAS')
-    const frame = canvas.children.find(child => child.type === 'FRAME')
-    const { x, y } = frame.size
-    return [x, y]
-  }
-
   cancelAdd = async () => {
     if (this.loadedThemeData) this.loadedThemeData = null
     //return await api.deleteTheme(this.loadedThemeData.slug)
@@ -69,7 +63,7 @@ export class TemplateStore {
   addTheme = async (title: string) => {
     const { slug, figmaID } = this.loadedThemeData
     const templateID = this.id
-    const size = this.getFrameSize(this.loadedThemeData.file)
+    const size = getFrameSize(this.loadedThemeData.file)
     const { data } = await api.addTheme({ slug, title, templateID, figmaID, size })
 
     const newTheme = new ThemeStore(this, data, this.loadedThemeData.file)

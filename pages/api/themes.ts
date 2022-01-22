@@ -4,6 +4,8 @@ import type {
   AddThemeResponse,
   DeleteThemeResponse,
   ThemePreviewResponse,
+  UpdateThemeResponse,
+  UpdateThemeParams,
 } from 'data/api/content'
 import { getTemplate } from 'data/figma'
 import { supabase } from 'lib/db/config'
@@ -22,10 +24,12 @@ function handler(req: Req, res: Res) {
       return handleLoadThemePreview(req, res)
     case 'POST':
       return handleAdd(req, res)
+    case 'PATCH':
+      return handleUpdate(req, res)
     case 'DELETE':
       return handleDelete(req, res)
     default:
-      res.setHeader('Allow', ['GET', 'POST', 'DELETE'])
+      res.setHeader('Allow', ['GET', 'POST', 'PATCH', 'DELETE'])
       res.status(405).json({ data: null, error: { message: `Method ${method} Not Allowed` } })
   }
 }
@@ -43,19 +47,43 @@ const handleLoadThemePreview = async (req: Req, res: Res<ThemePreviewResponse>) 
   const path = `files/${slug}`
   await supabase.storage.from('themes').upload(path + '.json', Buffer.from(JSON.stringify(data)), {
     contentType: 'application/json',
+    cacheControl: 'no-cache',
+    upsert: true,
   })
 
   //upload thumbnail
-  const thumbnail_url = `/files/${slug}.png`
-  const fileAsset =
-    process.env.NODE_ENV === 'production'
-      ? baseURL + thumbnail_url
-      : await fetch(baseURL + thumbnail_url).then(res => res.blob())
-  await supabase.storage.from('themes').upload(path + '.png', fileAsset, {
-    contentType: 'image/png',
-  })
+  await uploadThumbnail({ slug })
 
   res.end()
+}
+
+const handleUpdate = async (req: Req, res: Res<UpdateThemeResponse>) => {
+  const { figmaID, slug, size } = JSON.parse(req.body) as UpdateThemeParams
+  const anonID = req.cookies[ANON_ID]
+  const { data } = await getTemplate(figmaID as string)
+
+  const sizeUpdate = await supabase
+    .from<definitions['themes']>('themes')
+    .update({ size })
+    .eq('owner_profile_id', anonID)
+    .eq('slug', slug)
+    .single()
+
+  if (sizeUpdate.error) throw new Error(sizeUpdate.error.message)
+
+  const getPath = (slug: string) => `files/${slug}`
+  await supabase.storage
+    .from('themes')
+    .update(getPath(slug) + '.json', Buffer.from(JSON.stringify(data)), {
+      contentType: 'application/json',
+      cacheControl: 'no-cache',
+      upsert: true,
+    })
+
+  //upload thumbnail
+  const thumbnailRes = await uploadThumbnail({ slug }, true)
+
+  res.status(200).json(thumbnailRes)
 }
 
 const handleAdd = async (req: Req, res: Res<AddThemeResponse>) => {
@@ -102,4 +130,25 @@ const handleDelete = async (req: Req, res: Res<DeleteThemeResponse>) => {
     .eq('slug', slug)
     .single()
   res.status(200).json({ data, error })
+}
+
+type UploadThumbnailProps = {
+  slug: string
+}
+const uploadThumbnail = async ({ slug }: UploadThumbnailProps, update = false) => {
+  const isProduction = process.env.NODE_ENV === 'production'
+  const path = `files/${slug}.png`
+  const fileAsset = isProduction
+    ? `${baseURL}/${path}`
+    : await fetch(`${baseURL}/${path}`).then(res => res.blob())
+
+  const res = await supabase.storage
+    .from('themes')
+    [update ? 'update' : 'upload'](path, fileAsset, {
+      contentType: 'image/png',
+      cacheControl: 'no-cache',
+      upsert: true,
+    })
+
+  return res
 }
