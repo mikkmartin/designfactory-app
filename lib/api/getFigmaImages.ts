@@ -1,28 +1,30 @@
 import { FileResponse, Frame, Component } from '@mikkmartin/figma-js'
 import { findNodes } from 'components/Canvas/parseTemplate/findNodes'
 import { getFrame } from 'components/Canvas/parseTemplate/getFrame'
+import { getImageReferances } from 'lib/figma'
 
 type Props = {
   figmaID: string
   file: FileResponse
 }
 
-export type ImageRefs = {
+export type ImageRef = {
   imageRef: string
   url: string
   width: number
   height: number
-}[]
+}
 
-export const getFigmaImages = async ({ figmaID, file }: Props): Promise<ImageRefs> => {
+export const getUsedFigmaImageRefs = async ({ figmaID, file }: Props): Promise<ImageRef[]> => {
   const [usedRefs, figmaRefs] = await Promise.all([
     getUsedReferences(file),
-    fetch(`api/figma/images?id=${figmaID}`).then(res => res.json()),
+    getImageReferances(figmaID),
   ])
 
+  console.log(figmaRefs)
   return usedRefs.map(ref => ({
     ...ref,
-    url: figmaRefs.data.images[ref.imageRef],
+    url: figmaRefs.data.meta.images[ref.imageRef],
   }))
 }
 

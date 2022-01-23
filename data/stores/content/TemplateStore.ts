@@ -2,6 +2,7 @@ import { makeAutoObservable, runInAction } from 'mobx'
 import { ThemeStore } from './ThemeStore'
 import { api } from 'data/api'
 import type { GetTempaltesWithThemesResponse, ThemePreviewResponse } from 'data/api/content'
+import type { ImageRef } from 'lib/api/getFigmaImages'
 import { FileResponse } from '@mikkmartin/figma-js'
 import { getFrameSize } from './utils'
 
@@ -9,6 +10,7 @@ type FileType = 'pdf' | 'image'
 type Data = GetTempaltesWithThemesResponse['data'][0]
 type LoadedThemeData = ThemePreviewResponse['data'] & {
   figmaID: string
+  imageRefs: ImageRef[]
 }
 
 export class TemplateStore {
@@ -50,7 +52,7 @@ export class TemplateStore {
   loadTheme = async (figmaID: string) => {
     const res = await api.loadThemePreview(figmaID)
     runInAction(() => {
-      this.loadedThemeData = { ...res.data, figmaID }
+      this.loadedThemeData = { ...res.data, figmaID, imageRefs: res.data.imageRefs }
     })
     return res
   }
@@ -61,10 +63,17 @@ export class TemplateStore {
   }
 
   addTheme = async (title: string) => {
-    const { slug, figmaID } = this.loadedThemeData
+    const { slug, figmaID, imageRefs } = this.loadedThemeData
     const templateID = this.id
     const size = getFrameSize(this.loadedThemeData.file)
-    const { data } = await api.addTheme({ slug, title, templateID, figmaID, size })
+    const { data } = await api.addTheme({
+      slug,
+      title,
+      templateID,
+      figmaID,
+      size,
+      imageRefs: imageRefs.map(({ imageRef }) => imageRef),
+    })
 
     const newTheme = new ThemeStore(this, data, this.loadedThemeData.file)
     this.loadedThemeData = null

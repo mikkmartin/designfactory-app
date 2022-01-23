@@ -13,6 +13,8 @@ import { definitions } from 'lib/db/types'
 import baseURL from 'lib/static/baseURL'
 import createSlug from 'lib/createSlug'
 import apiWrapper from 'lib/api/apiWrapper'
+import { getUsedFigmaImageRefs } from 'lib/api/getFigmaImages'
+import { optimizeImage } from 'lib/api/optimizeImage'
 import { ANON_ID } from 'lib/static/cookieKeys'
 
 export default (req: Req, res: Res) => apiWrapper(req, res, handler)
@@ -35,13 +37,14 @@ function handler(req: Req, res: Res) {
 }
 
 const handleLoadThemePreview = async (req: Req, res: Res<ThemePreviewResponse>) => {
-  const { figmaFileID } = req.query
+  const figmaFileID = req.query.figmaFileID as string
   const { data } = await getTemplate(figmaFileID as string)
   if (data.editorType !== 'figma') throw new Error('File is is not a Figma file')
   const title = data.name
   const slug = createSlug(title)
 
-  res.json({ data: { slug, file: data }, error: null })
+  const imageRefs = await getUsedFigmaImageRefs({ figmaID: figmaFileID, file: data })
+  res.json({ data: { slug, file: data, imageRefs }, error: null })
 
   //upload theme file
   const path = `files/${slug}`
@@ -51,9 +54,19 @@ const handleLoadThemePreview = async (req: Req, res: Res<ThemePreviewResponse>) 
     upsert: true,
   })
 
-  //upload thumbnail
-  uploadThumbnail({ slug })
+  //cache theme images
+  await Promise.all(
+    imageRefs.map(async ref => {
+      const optimizedImg = await optimizeImage(ref)
+      return supabase.storage.from('themes').upload(`${path}/${ref.imageRef}.png`, optimizedImg, {
+        contentType: 'image/png',
+        upsert: true,
+      })
+    })
+  )
 
+  //upload thumbnail
+  await uploadThumbnail({ slug })
 
   res.end()
 }
@@ -88,11 +101,17 @@ const handleUpdate = async (req: Req, res: Res<UpdateThemeResponse>) => {
 }
 
 const handleAdd = async (req: Req, res: Res<AddThemeResponse>) => {
-  const { templateID, slug: oldSlug, title, size, figmaID } = JSON.parse(req.body) as AddThemeParams
+  const {
+    templateID,
+    slug: oldSlug,
+    title,
+    size,
+    figmaID,
+    imageRefs,
+  } = JSON.parse(req.body) as AddThemeParams
 
   const anonID = req.cookies[ANON_ID]
   const slug = createSlug(title)
-  const sameSlug = oldSlug === slug
 
   const { data, error } = await supabase
     .from<definitions['themes']>('themes')
@@ -107,13 +126,18 @@ const handleAdd = async (req: Req, res: Res<AddThemeResponse>) => {
     .single()
   if (error) throw new Error(error.message)
 
-  if (!sameSlug) {
+  if (oldSlug !== slug) {
     //rename files
-    const getPath = (slug: string) => `files/${slug}`
-    await Promise.all([
-      supabase.storage.from('themes').move(getPath(oldSlug) + '.png', getPath(slug) + '.png'),
-      supabase.storage.from('themes').move(getPath(oldSlug) + '.json', getPath(slug) + '.json'),
+    const renames = await Promise.all([
+      supabase.storage.from('themes').move(`files/${oldSlug}.png`, `files/${slug}.png`),
+      supabase.storage.from('themes').move(`files/${oldSlug}.json`, `files/${slug}.json`),
+      imageRefs.map(ref =>
+        supabase.storage
+          .from('themes')
+          .move(`files/${oldSlug}/${ref}.png`, `files/${slug}/${ref}.png`)
+      ),
     ])
+    console.log({ renames })
   }
 
   res.json({ data, error: null })
@@ -143,13 +167,11 @@ const uploadThumbnail = async ({ slug }: UploadThumbnailProps, update = false) =
     ? `${baseURL}/${path}`
     : await fetch(`${baseURL}/${path}`).then(res => res.blob())
 
-  const res = await supabase.storage
-    .from('themes')
-    [update ? 'update' : 'upload'](path, fileAsset, {
-      contentType: 'image/png',
-      cacheControl: 'no-cache',
-      upsert: true,
-    })
+  const res = await supabase.storage.from('themes')[update ? 'update' : 'upload'](path, fileAsset, {
+    contentType: 'image/png',
+    cacheControl: 'no-cache',
+    upsert: true,
+  })
 
   return res
 }

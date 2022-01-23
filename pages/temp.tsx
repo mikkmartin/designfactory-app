@@ -1,17 +1,16 @@
-import { getFigmaImages, ImageRefs } from 'lib/api/getFigmaImages'
-import storageUrl from 'lib/static/storageURL'
+import { getUsedFigmaImageRefs } from 'lib/api/getFigmaImages'
 import styled from 'styled-components'
 import { useState } from 'react'
 
 const Temp = () => {
-  const [refs, setRefs] = useState<ImageRefs>()
+  const [refs, setRefs] = useState<any>()
 
   useState(async () => {
     const figmaID = 'N3kddbIfAP7M0R0EweV4gO'
     const file = await fetch(`/api/figma?template=${figmaID}`)
       .then(res => res.json())
       .then(json => json.data)
-    const res = await getFigmaImages({ figmaID, file })
+    const res = await getUsedFigmaImageRefs({ figmaID, file })
     setRefs(res)
   })
 

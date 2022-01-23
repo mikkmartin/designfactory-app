@@ -2,6 +2,7 @@ import { PostgrestError } from '@supabase/supabase-js'
 import { get, post, _delete, WithError, patch } from './fetch'
 import { FileResponse } from '@mikkmartin/figma-js'
 import { definitions } from 'lib/db/types'
+import type { ImageRef } from 'lib/api/getFigmaImages'
 
 //Get tempaltes
 export type TemplateWithThemes = (definitions['templates'] & { themes: definitions['themes'][] })[]
@@ -10,7 +11,7 @@ export const getTemplates = () => get<TemplateWithThemes>({ url: '/api/templates
 
 const url = '/api/themes'
 //Get theme preview
-export type LoadThemeResponse = { slug: string; file: FileResponse }
+export type LoadThemeResponse = { slug: string; file: FileResponse; imageRefs: ImageRef[] }
 export type ThemePreviewResponse = WithError<LoadThemeResponse>
 export const loadThemePreview = figmaFileID =>
   get<LoadThemeResponse>({ url, params: { figmaFileID } })
@@ -23,6 +24,7 @@ export type AddThemeParams = {
   slug: string
   title: string
   size: [number, number]
+  imageRefs: string[]
 }
 export const addTheme = (body: AddThemeParams) => post<definitions['themes']>({ url, body })
 
