@@ -38,15 +38,14 @@ export class TemplateStore {
 
   setInputData = inputData => (this.inputData = inputData)
 
-  setPreviewTheme = (slug: string | null) => {
-    if (!slug) return (this._previewTheme = null)
-    const theme = this.themeOptions.find(theme => theme.slug === slug)
-    if (!theme.data) theme.loadData()
-    this._previewTheme = theme
-  }
-
   get previewThemeFile(): FileResponse | undefined {
     return this.loadedThemeData?.file || this._previewTheme?.data
+  }
+
+  setPreviewTheme = (slug: string | null) => {
+    if (!slug) return (this._previewTheme = null)
+    this._previewTheme = this.themeOptions.find(theme => theme.slug === slug)
+    if (!this._previewTheme.data) this._previewTheme.loadData()
   }
 
   loadTheme = async (figmaID: string) => {
@@ -63,16 +62,13 @@ export class TemplateStore {
   }
 
   addTheme = async (title: string) => {
-    const { slug, figmaID, imageRefs } = this.loadedThemeData
-    const templateID = this.id
-    const size = getFrameSize(this.loadedThemeData.file)
     const { data } = await api.addTheme({
-      slug,
       title,
-      templateID,
-      figmaID,
-      size,
-      imageRefs: imageRefs.map(({ imageRef }) => imageRef),
+      slug: this.loadedThemeData.slug,
+      templateID: this.id,
+      figmaID: this.loadedThemeData.figmaID,
+      size: getFrameSize(this.loadedThemeData.file),
+      imageRefs: this.loadedThemeData.imageRefs,
     })
 
     const newTheme = new ThemeStore(this, data, this.loadedThemeData.file)

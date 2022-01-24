@@ -13,8 +13,7 @@ import { getSchemas } from 'components/Canvas/parseTemplate/getSchemas'
 
 const File: NextPage = observer(() => {
   const router = useRouter()
-  const slug = router.query.slug as string
-  store.content.setTheme(slug)
+  store.content.setTheme(router.query.slug as string)
   const { theme, previewThemeFile, inputData } = store.content.template
   const themeData = previewThemeFile || theme.data
 
