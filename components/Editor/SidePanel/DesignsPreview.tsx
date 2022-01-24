@@ -7,7 +7,7 @@ import { motion, usePresence } from 'framer-motion'
 import { NewTemplateItem, TemplateItem } from './designs'
 
 export const DesignsPreview = observer(() => {
-  const { toggleTemplatePanel } = store.ui
+  const { toggleTemplatePanel, templatePanelIsOpen } = store.ui
   const { template } = store.content
   const { themeOptions } = template
   const [isPresent, unmount] = usePresence()
@@ -35,6 +35,7 @@ export const DesignsPreview = observer(() => {
   return (
     <Container
       isPortrait={isPortrait}
+      isOpen={templatePanelIsOpen}
       animate={isPresent ? 'initial' : 'exit'}
       transition={{ duration: 0.1 }}
       variants={{
@@ -87,13 +88,20 @@ export const DesignsPreview = observer(() => {
   )
 })
 
-const Container = styled(motion.div)<{ isPortrait: boolean }>`
+const Container = styled(motion.div)<{ isPortrait: boolean; isOpen: boolean }>`
   position: relative;
-  background: var(--background);
   display: flex;
   flex-direction: column;
   place-content: flex-start;
+  width: 380px;
+  ${p =>
+    p.isOpen &&
+    css`
+      overflow: auto;
+    `}
   .header {
+    position: sticky;
+    left: 0;
     box-shadow: inset 0 0.5px 0 0 rgba(255, 255, 255, 0.1);
     display: grid;
     grid-template-columns: 1fr auto;
@@ -112,7 +120,7 @@ const Container = styled(motion.div)<{ isPortrait: boolean }>`
     gap: 6px;
     padding: 8px 8px 16px 16px;
     > .item {
-      transform-origin: 81% 35% !important;
+      transform-origin: 70% 35% !important;
       height: 80px;
     }
     ${({ isPortrait }) => isPortrait && portrait}
@@ -122,6 +130,7 @@ const Container = styled(motion.div)<{ isPortrait: boolean }>`
 const portrait = css`
   grid-template-rows: 110px;
   > .item {
+    transform-origin: 35% 35% !important;
     height: 110px;
   }
 `
