@@ -55,7 +55,7 @@ const handleLoadThemePreview = async (req: Req, res: Res<ThemePreviewResponse>) 
   })
 
   //cache theme images
-  const images = await Promise.all(
+  await Promise.all(
     imageRefs.map(async ref => {
       const optimizedImg = await optimizeImage(ref)
       return supabase.storage.from('themes').upload(`${path}/${ref.imageRef}.png`, optimizedImg, {
@@ -64,8 +64,6 @@ const handleLoadThemePreview = async (req: Req, res: Res<ThemePreviewResponse>) 
       })
     })
   )
-
-  console.log(images)
 
   //upload thumbnail
   await uploadThumbnail({ slug })
@@ -131,7 +129,7 @@ const handleAdd = async (req: Req, res: Res<AddThemeResponse>) => {
 
   if (renamed) {
     //rename files
-    const renames = await Promise.all([
+    await Promise.all([
       supabase.storage.from('themes').move(`files/${oldSlug}.png`, `files/${newSlug}.png`),
       supabase.storage.from('themes').move(`files/${oldSlug}.json`, `files/${newSlug}.json`),
       ...imageRefs.map(({ imageRef }) =>
@@ -140,7 +138,6 @@ const handleAdd = async (req: Req, res: Res<AddThemeResponse>) => {
           .move(`files/${oldSlug}/${imageRef}.png`, `files/${newSlug}/${imageRef}.png`)
       ),
     ])
-    console.log({ renames })
   }
 
   res.json({ data, error: null })
