@@ -38,6 +38,12 @@ export class TemplateStore {
 
   setInputData = inputData => (this.inputData = inputData)
 
+  getImageUrl = (refId: string) => {
+    if (!this.loadedThemeData) return this.theme.getImageUrl(refId)
+    const url = this.loadedThemeData.imageRefs.find(ref => ref.imageRef === refId)?.url
+    return url
+  }
+
   get previewThemeFile(): FileResponse | undefined {
     return this.loadedThemeData?.file || this._previewTheme?.data
   }

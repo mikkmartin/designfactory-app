@@ -1,2 +1,5 @@
-export { parseTemplate } from './parseTemplate'
-export type { ParsedNode, TextNode } from './parseTemplate'
+export { parseNode } from './parseTemplate'
+export { getFonts } from './getFonts'
+export { findNodes } from './findNodes'
+export type { BoxNode, ParsedNode } from './parseTemplate'
+export type { IFont } from './getFonts'

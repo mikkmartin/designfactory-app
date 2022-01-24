@@ -1,10 +1,12 @@
 import { FC } from 'react'
 import styled from 'styled-components'
-import { editable } from './editableStyle'
+import { editable } from './elemets/editableStyle'
 import { motion } from 'framer-motion'
 import { store } from 'data'
 import { observer } from 'mobx-react-lite'
 import { fast, snappy } from 'lib/static/transitions'
+import { useCanvas } from './store/CanvasProvider'
+import { renderElement } from './renderElement'
 
 const getScale = ({ self, parent }) => {
   const { width, height } = self
@@ -22,7 +24,8 @@ const getScale = ({ self, parent }) => {
   }
 }
 
-export const Page: FC = observer(({ children }) => {
+export const Pages: FC = observer(() => {
+  const { pages } = useCanvas()
   //const parent = store.pages.canvasContainerRef?.getBoundingClientRect()
   //const [ref, self] = useMeasure()
   const { isEditing, tutorialPanelIsOpen } = store.ui
@@ -35,7 +38,7 @@ export const Page: FC = observer(({ children }) => {
       transition={isEditing ? snappy : fast}
       // style={getScale({ self, parent })} ref={ref}
     >
-      {children}
+      {pages.map(renderElement)}
     </Container>
   )
 })

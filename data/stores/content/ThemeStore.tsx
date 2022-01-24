@@ -45,6 +45,8 @@ export class ThemeStore {
       this.uiSchema = uiSchema
     })
 
+  getImageUrl = (refId: string) => `${storageURL}/themes/files/${this.slug}/${refId}.png`
+
   get data() {
     return this.previewData || this._data
   }

@@ -1,4 +1,4 @@
-import type { FileResponse, Canvas, Node, NodeType } from '@mikkmartin/figma-js'
+import type { FileResponse, Canvas, Node } from '@mikkmartin/figma-js'
 import type { UiSchema } from '@rjsf/core'
 import type { JSONSchema7Object } from 'json-schema'
 import { getComponentsAndSets } from './getComponentsAndSets'

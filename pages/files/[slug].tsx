@@ -14,18 +14,22 @@ import { getSchemas } from 'components/Canvas/parseTemplate/getSchemas'
 const File: NextPage = observer(() => {
   const router = useRouter()
   store.content.setTheme(router.query.slug as string)
-  const { theme, previewThemeFile, inputData } = store.content.template
+  const { theme, previewThemeFile, inputData, getImageUrl } = store.content.template
   const themeData = previewThemeFile || theme.data
 
   useMemo(() => {
     if (!themeData) return theme.loadData()
-    const { schema, uiSchema } = getSchemas(themeData)
-    theme.setSchemas(schema, uiSchema)
+    //const { schema, uiSchema } = getSchemas(themeData)
+    //theme.setSchemas(schema, uiSchema)
   }, [themeData])
 
   return (
     <Layout>
-      {themeData ? <Canvas themeData={themeData} inputData={inputData} /> : 'Loading...'}
+      {themeData ? (
+        <Canvas getImageUrl={getImageUrl} themeData={themeData} inputData={inputData} />
+      ) : (
+        'Loading...'
+      )}
     </Layout>
   )
 })

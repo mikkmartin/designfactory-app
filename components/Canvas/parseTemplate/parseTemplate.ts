@@ -1,5 +1,4 @@
 import {
-  FileResponse,
   Node,
   Frame,
   Group,
@@ -12,25 +11,8 @@ import {
 } from '@mikkmartin/figma-js'
 import { CSSProperties } from 'react'
 import { getLayout } from './getLayout'
-import { getFill } from './getFill'
+import { getFill as _getFill } from './getFill'
 import { getColor } from './getColor'
-import { getFonts } from './getFonts'
-import { getComponentsAndSets } from './getComponentsAndSets'
-
-export const parseTemplate = (template: FileResponse, options = { filter: (_, i) => i === 0 }) => {
-  const { filter } = options
-  const canvas = template.document.children.find(node => node.type === 'CANVAS') as Canvas
-
-  const visibleNodes = canvas.children
-    .filter(node => node.visible !== false && node.type === 'FRAME')
-    .filter(filter)
-
-  return {
-    nodes: visibleNodes.map(c => parseNode(c as BoxNode)),
-    componentSets: getComponentsAndSets(canvas.children),
-    fonts: getFonts(visibleNodes),
-  }
-}
 
 export type ContainerNode = Frame | Group
 export type ParentNode = Frame | Group | Canvas
@@ -76,7 +58,9 @@ export interface VectorNode extends IBaseNode {
 
 export type ParsedNode = TextNode | VectorNode | InstanceNode | IBoxNode
 
-export const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode => {
+export function parseNode(node: BoxNode, parentNode: Node = null): ParsedNode {
+  const getFill = _getFill.bind(this)
+  const parseChild = parseNode.bind(this)
   const { id, name, type } = node
   const props: Pick<ParsedNode, 'id' | 'name' | 'type'> = {
     id,
@@ -104,7 +88,7 @@ export const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode =>
           overflow: node.clipsContent ? 'hidden' : 'visible',
           background: getFill(node),
         },
-        children: node.children.map(child => parseNode(child, node)),
+        children: node.children.map(child => parseChild(child, node)),
       }
     case 'INSTANCE':
       return {
@@ -117,7 +101,7 @@ export const parseNode = (node: BoxNode, parentNode: Node = null): ParsedNode =>
           background: getFill(node),
         },
         componentId: node.componentId,
-        children: node.children.map(child => parseNode(child, node)),
+        children: node.children.map(child => parseChild(child, node)),
       }
     case 'TEXT':
       const { fontSize, fontFamily, fontWeight, textAlignHorizontal: align, italic } = node.style

@@ -1,13 +1,7 @@
 import { getColor } from './getColor'
 import { BoxNode } from './parseTemplate'
-import { store } from 'data'
-import storageURL from 'lib/static/storageURL'
-import { useRouter } from 'next/router'
 
-export const getFill = (node: BoxNode) => {
-  //const { slug } = useRouter().query
-  const slug = ''
-  const isPreview = Boolean(store.content.template)
+export function getFill(node: BoxNode) {
   if (!node.fills) return 'none'
   return node.fills
     .map(fill => {
@@ -17,9 +11,7 @@ export const getFill = (node: BoxNode) => {
         case 'GRADIENT_LINEAR':
           return paintToLinearGradient(fill)
         case 'IMAGE':
-          const url = isPreview
-            ? `/api/figma/${store.content.template.theme.figmaID}/${node.id}.png`
-            : `${storageURL}/themes/files/${slug}/${node.id.replace(':', '_') + '.png'}`
+          const url = this.getImageUrl(fill.imageRef)
           return `url(${url}) center center / cover no-repeat`
         default:
           return 'none'
