@@ -26,11 +26,7 @@ export type AddThemeParams = {
   size: [number, number]
   imageRefs: ImageRef[]
 }
-export const addTheme = (body: AddThemeParams) =>
-  post<definitions['themes']>({
-    url,
-    body: { ...body, imageRefs: body.imageRefs.map(ref => ({ ref })) },
-  })
+export const addTheme = (body: AddThemeParams) => post<definitions['themes']>({ url, body })
 
 //Update theme
 export type UpdateThemeResponse = WithError<{ Key: string }>

@@ -55,7 +55,7 @@ const handleLoadThemePreview = async (req: Req, res: Res<ThemePreviewResponse>) 
   })
 
   //cache theme images
-  await Promise.all(
+  const images = await Promise.all(
     imageRefs.map(async ref => {
       const optimizedImg = await optimizeImage(ref)
       return supabase.storage.from('themes').upload(`${path}/${ref.imageRef}.png`, optimizedImg, {
@@ -64,6 +64,8 @@ const handleLoadThemePreview = async (req: Req, res: Res<ThemePreviewResponse>) 
       })
     })
   )
+
+  console.log(images)
 
   //upload thumbnail
   await uploadThumbnail({ slug })
@@ -111,12 +113,13 @@ const handleAdd = async (req: Req, res: Res<AddThemeResponse>) => {
   } = JSON.parse(req.body) as AddThemeParams
 
   const anonID = req.cookies[ANON_ID]
-  const slug = createSlug(title)
+  const newSlug = createSlug(title)
+  const renamed = oldSlug.split('-')[0] !== newSlug.split('-')[0]
 
   const { data, error } = await supabase
     .from<definitions['themes']>('themes')
     .insert({
-      slug,
+      slug: renamed ? newSlug : oldSlug,
       title,
       owner_template_id: templateID,
       owner_profile_id: anonID,
@@ -126,15 +129,15 @@ const handleAdd = async (req: Req, res: Res<AddThemeResponse>) => {
     .single()
   if (error) throw new Error(error.message)
 
-  if (oldSlug !== slug) {
+  if (renamed) {
     //rename files
     const renames = await Promise.all([
-      supabase.storage.from('themes').move(`files/${oldSlug}.png`, `files/${slug}.png`),
-      supabase.storage.from('themes').move(`files/${oldSlug}.json`, `files/${slug}.json`),
-      imageRefs.map(ref =>
+      supabase.storage.from('themes').move(`files/${oldSlug}.png`, `files/${newSlug}.png`),
+      supabase.storage.from('themes').move(`files/${oldSlug}.json`, `files/${newSlug}.json`),
+      ...imageRefs.map(({ imageRef }) =>
         supabase.storage
           .from('themes')
-          .move(`files/${oldSlug}/${ref}.png`, `files/${slug}/${ref}.png`)
+          .move(`files/${oldSlug}/${imageRef}.png`, `files/${newSlug}/${imageRef}.png`)
       ),
     ])
     console.log({ renames })
