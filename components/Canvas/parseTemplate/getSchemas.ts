@@ -1,7 +1,15 @@
 import type { FileResponse, Canvas, Node } from '@mikkmartin/figma-js'
 import type { UiSchema } from '@rjsf/core'
 import type { JSONSchema7Object } from 'json-schema'
-import { getComponentsAndSets } from './getComponentsAndSets'
+import { findNodes as _findNodes } from 'components/Canvas/parseTemplate/findNodes'
+
+export type ParsedCoponentSet = { components; sets: string[][] }
+export const getComponentsAndSets = nodes => {
+  const components = _findNodes('COMPONENT', nodes)
+  //@ts-ignore
+  const sets = _findNodes('COMPONENT_SET', nodes).map(set => set.children.map(child => child.id))
+  return { components, sets }
+}
 
 export type Schemas = {
   schema: JSONSchema7Object

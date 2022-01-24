@@ -29,7 +29,7 @@ export const Pages: FC = observer(() => {
   //const parent = store.pages.canvasContainerRef?.getBoundingClientRect()
   //const [ref, self] = useMeasure()
   const { isEditing, tutorialPanelIsOpen } = store.ui
-  const { slug } = store.content.template.theme
+  const slug = store.content?.template?.theme?.slug
   tutorialPanelIsOpen
   return (
     <Container

@@ -19,8 +19,8 @@ const File: NextPage = observer(() => {
 
   useMemo(() => {
     if (!themeData) return theme.loadData()
-    //const { schema, uiSchema } = getSchemas(themeData)
-    //theme.setSchemas(schema, uiSchema)
+    const { schema, uiSchema } = getSchemas(themeData)
+    theme.setSchemas(schema, uiSchema)
   }, [themeData])
 
   return (
