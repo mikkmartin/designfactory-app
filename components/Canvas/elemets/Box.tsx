@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
-import { useCanvas } from '../store/CanvasProvider'
+import { useCanvas } from '../Canvas'
 import { observer } from 'mobx-react-lite'
 
 export const Box = observer<any>(({ children, ...props }) => {

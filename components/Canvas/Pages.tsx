@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { store } from 'data'
 import { observer } from 'mobx-react-lite'
 import { fast, snappy } from 'lib/static/transitions'
-import { useCanvas } from './store/CanvasProvider'
+import { useCanvas } from './Canvas'
 import { renderElement } from './renderElement'
 
 const getScale = ({ self, parent }) => {

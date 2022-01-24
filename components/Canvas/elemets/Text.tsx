@@ -2,9 +2,9 @@ import { useEditor as useTipTap, EditorContent, JSONContent } from '@tiptap/reac
 //import StarterKit from '@tiptap/starter-kit'
 import { useEffect, useRef } from 'react'
 import { useInstance } from './InstanceContext'
-import { useCanvas } from '../store/CanvasProvider'
+import { useCanvas } from '../Canvas'
 import { observer } from 'mobx-react-lite'
-import { TextNode } from '../parseTemplate'
+import type { TextNode } from '../parseTemplate'
 
 const isAcceptedValue = v => ['string', 'number'].includes(typeof v)
 

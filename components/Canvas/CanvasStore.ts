@@ -1,8 +1,8 @@
-import { makeObservable, observable } from 'mobx'
+import { makeObservable, observable, runInAction } from 'mobx'
 import { store } from 'data'
-import type { Props } from '../Canvas'
+import type { Props } from './Canvas'
 import { FileResponse, Canvas } from '@mikkmartin/figma-js'
-import { parseNode, getFonts, findNodes, BoxNode, IFont, ParsedNode } from '../parseTemplate'
+import { parseNode, getFonts, findNodes, BoxNode, IFont, ParsedNode } from './parseTemplate'
 
 export class CanvasStore {
   pages: ParsedNode[] = []
@@ -14,10 +14,12 @@ export class CanvasStore {
 
   getImageUrl: Props['getImageUrl']
 
-  constructor({ themeData, getImageUrl }: Props) {
+  constructor({ themeData, getImageUrl, inputData }: Props) {
     makeObservable(this, {
       disabledFields: observable,
+      inputData: observable,
     })
+    this.inputData = inputData
     this.getImageUrl = getImageUrl
     this.parseTemplate(themeData)
   }
@@ -47,6 +49,8 @@ export class CanvasStore {
     const sets = findNodes('COMPONENT_SET', nodes).map(set => set.children.map(child => child.id))
     return { components, sets }
   }
+
+  passInputData = (data: Object) => runInAction(() => (this.inputData = data))
 
   setInputData = (data: Object) => {
     if (!this.editable) return

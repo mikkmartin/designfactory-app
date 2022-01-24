@@ -1,22 +1,36 @@
 import { Pages } from './Pages'
-import { CanvasProvider } from './store/CanvasProvider'
 import { FileResponse } from '@mikkmartin/figma-js'
-import type { TemplateStore } from 'data/stores/content/TemplateStore'
 import { observer } from 'mobx-react-lite'
 import { Fonts } from './Fonts'
+import { createContext, useContext, useMemo } from 'react'
+import { CanvasStore } from './CanvasStore'
+
+const RootStoreContext = createContext<CanvasStore>(null)
+const CanvasProvider = RootStoreContext.Provider
 
 export type Props = {
   editable?: boolean
   themeData: FileResponse
-  inputData: TemplateStore['inputData']
+  inputData: Object
   getImageUrl: (id: string) => string
 }
 
 export const Canvas = observer<Props>(props => {
+  const store = useMemo(() => new CanvasStore(props), [props.themeData])
+  store.passInputData(props.inputData)
+
   return (
-    <CanvasProvider initialState={props}>
+    <CanvasProvider value={store}>
       <Pages />
       <Fonts />
     </CanvasProvider>
   )
 })
+
+export function useCanvas() {
+  const store = useContext(RootStoreContext)
+  if (store === null) {
+    throw new Error('Store cannot be null, please add a context provider')
+  }
+  return store
+}

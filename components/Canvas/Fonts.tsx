@@ -1,22 +1,10 @@
 import { FC } from 'react'
 import Head from 'next/head'
 import type { IFont } from './parseTemplate/getFonts'
-import { useCanvas } from './store/CanvasProvider'
+import { observer } from 'mobx-react-lite'
+import { useCanvas } from './Canvas'
 
-const getUrl = (font: IFont): string => {
-  const family = font.family.replace(/\s/g, '+')
-  const hasItalics = font.weights.some(({ italic }) => italic) ? 'ital,' : ''
-  const weights = font.weights
-    .map(({ weight, italic }): string => {
-      let str = `${weight}`
-      if (hasItalics) italic ? (str = `1,${str}`) : (str = `0,${str}`)
-      return str
-    })
-    .join(';')
-  return `https://fonts.googleapis.com/css2?family=${family}:${hasItalics}wght@${weights}&display=swap`
-}
-
-export const Fonts: FC = () => {
+export const Fonts: FC = observer(() => {
   const { fonts } = useCanvas()
   if (fonts.length === 0) return null
 
@@ -36,4 +24,17 @@ export const Fonts: FC = () => {
         ))}
     </Head>
   )
+})
+
+const getUrl = (font: IFont): string => {
+  const family = font.family.replace(/\s/g, '+')
+  const hasItalics = font.weights.some(({ italic }) => italic) ? 'ital,' : ''
+  const weights = font.weights
+    .map(({ weight, italic }): string => {
+      let str = `${weight}`
+      if (hasItalics) italic ? (str = `1,${str}`) : (str = `0,${str}`)
+      return str
+    })
+    .join(';')
+  return `https://fonts.googleapis.com/css2?family=${family}:${hasItalics}wght@${weights}&display=swap`
 }
