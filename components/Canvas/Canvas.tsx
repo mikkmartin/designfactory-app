@@ -1,9 +1,9 @@
-import { renderElement } from './renderElement'
 import { Pages } from './Pages'
-import { CanvasProvider, useCanvas } from './store/CanvasProvider'
+import { CanvasProvider } from './store/CanvasProvider'
 import { FileResponse } from '@mikkmartin/figma-js'
 import type { TemplateStore } from 'data/stores/content/TemplateStore'
 import { observer } from 'mobx-react-lite'
+import { Fonts } from './Fonts'
 
 export type Props = {
   editable?: boolean
@@ -16,8 +16,7 @@ export const Canvas = observer<Props>(props => {
   return (
     <CanvasProvider initialState={props}>
       <Pages />
-      {/*<Fonts />
-      */}
+      <Fonts />
     </CanvasProvider>
   )
 })
