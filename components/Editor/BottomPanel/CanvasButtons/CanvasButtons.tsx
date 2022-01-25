@@ -4,13 +4,14 @@ import { fast } from 'lib/static/transitions'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
 import { store } from 'data'
-import { Button } from 'components/ui'
+import { Button, Tooltip, Popover } from 'components/ui'
 import { motion } from 'framer-motion'
 import { useRef, useState } from 'react'
 import { Flags } from './Flags'
+import { TutorialButton as Tutorial } from './TutorialButton'
 
 export const CanvasButtons = observer(() => {
-  const { toggleTutorialPanel, setIsEditing } = store.ui
+  const { setIsEditing } = store.ui
   const { template } = store.content
   const fileName = template.theme.slug
   const url = store.ui.downloadUrl
@@ -65,19 +66,39 @@ export const CanvasButtons = observer(() => {
       }}>
       <div className="wrapper">
         <Flags />
-        <Button onClick={toggleTutorialPanel}>
-          <Info strokeWidth="1" />
-        </Button>
-        <Button onClick={handleEdit}>
-          <EditPencil />
-        </Button>
+        <Tutorial />
+
+        <Tooltip.Root>
+          <Tooltip.Trigger>
+            <Button onClick={handleEdit}>
+              <EditPencil />
+            </Button>
+          </Tooltip.Trigger>
+          <Tooltip.Content>Edit design</Tooltip.Content>
+        </Tooltip.Root>
         <hr />
-        <Button onClick={handleCopy}>
-          <div className="flip-icon-containter">{metaKeyDown ? <ExternalLink /> : <Copy />}</div>
-        </Button>
-        <ButtonCta onClick={handleDownload}>
-          <Download />
-        </ButtonCta>
+        <Tooltip.Root>
+          <Tooltip.Trigger>
+            <Button onClick={handleCopy}>
+              <div className="flip-icon-containter">
+                {metaKeyDown ? <ExternalLink /> : <Copy />}
+              </div>
+            </Button>
+          </Tooltip.Trigger>
+          <Tooltip.Content>
+            Copy link
+            <br />
+            <span>⌘ - new tab</span>
+          </Tooltip.Content>
+        </Tooltip.Root>
+        <Tooltip.Root>
+          <Tooltip.Trigger>
+            <ButtonCta onClick={handleDownload}>
+              <Download />
+            </ButtonCta>
+          </Tooltip.Trigger>
+          <Tooltip.Content>Download</Tooltip.Content>
+        </Tooltip.Root>
       </div>
     </Container>
   )
@@ -135,7 +156,7 @@ const ButtonCta = styled(Button)`
     }
   }
   &:hover {
-    background: #0063cc !important;
+    background: #208cff !important;
   }
   &:active {
     background: #0063cc;

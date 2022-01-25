@@ -23,6 +23,7 @@ export class UiStore {
   isEditing: boolean = false
   templatePanelIsOpen: boolean = true
   tutorialPanelIsOpen: boolean = false
+  tutorialToolTipIsOpen: boolean = false
   tabs = tabs
   tab: Tab = this.tabs[0]
   dialogue: ModalInstane = null
@@ -35,6 +36,7 @@ export class UiStore {
   setIsEditing = (isEditing: boolean) => (this.isEditing = isEditing)
   toggleTemplatePanel = () => (this.templatePanelIsOpen = !this.templatePanelIsOpen)
   toggleTutorialPanel = () => (this.tutorialPanelIsOpen = !this.tutorialPanelIsOpen)
+  setTutorialToolTip = (state: boolean) => (this.tutorialToolTipIsOpen = state)
 
   showDialogue = (props: DialogProps) =>
     new Promise((resolve, reject) => {
