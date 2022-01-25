@@ -23,11 +23,21 @@ export const Code = observer(() => {
         </Button>
         <span className="purple">{'<meta property'}</span>
         <span className="white">=</span>
-        <span className="green">"og-image" </span>
+        <span className="green">"og:image" </span>
         <span className="purple">content</span>
         <span className="white">=</span>
         <span className="green">"{url}”</span>
         <span className="purple">{`>`}</span>
+        <span className="gray">{` // Open Graph / Facebook`}</span>
+        <br />
+        <span className="purple">{'<meta property'}</span>
+        <span className="white">=</span>
+        <span className="green">"twitter:image" </span>
+        <span className="purple">content</span>
+        <span className="white">=</span>
+        <span className="green">"{url}”</span>
+        <span className="purple">{`>`}</span>
+        <span className="gray">{` // Twitter`}</span>
         <br />
         <span className="purple">{'<meta property'}</span>
         <span className="white">=</span>
@@ -42,7 +52,7 @@ export const Code = observer(() => {
 })
 
 const Container = styled.pre`
-  padding: 16px;
+  padding: 12px 16px;
   background: #1a1e25;
   border-radius: 4px;
   overflow: auto;
@@ -62,6 +72,10 @@ const Container = styled.pre`
     &:hover svg {
       opacity: 1;
     }
+  }
+  line-height: 130%;
+  .gray {
+    color: gray;
   }
   .purple {
     color: #c594c5;
