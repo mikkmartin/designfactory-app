@@ -1,59 +1,16 @@
-import { Info, Download, EditPencil, Copy, ExternalLink } from 'components/icons'
-import { useDebounce, useKeyPressEvent } from 'react-use'
 import { fast } from 'lib/static/transitions'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
-import { store } from 'data'
-import { Button, Tooltip, Popover } from 'components/ui'
 import { motion } from 'framer-motion'
-import { useRef, useState } from 'react'
 import { Flags } from './Flags'
 import { TutorialButton as Tutorial } from './TutorialButton'
+import { EditButton as Edit } from './EditButton'
+import { CopyButton as Copy } from './CopyButton'
+import { DownloadButton } from './DownloadButton'
+import { useRef } from 'react'
 
 export const CanvasButtons = observer(() => {
-  const { setIsEditing } = store.ui
-  const { template } = store.content
-  const fileName = template.theme.slug
-  const url = store.ui.downloadUrl
-
-  const handleEdit = () => {
-    //const { figmaID } = template.theme
-    //const url = `https://www.figma.com/file/${figmaID}`
-    //setTimeout(() => window.open(url, '_blank'))
-    setIsEditing(true)
-  }
-
-  const [metaKeyDown, setMetaKeyDown] = useState(false)
-  useKeyPressEvent(
-    'Meta',
-    () => setMetaKeyDown(true),
-    () => setMetaKeyDown(false)
-  )
-
   const imageRef = useRef<HTMLImageElement>(null)
-  const preloadImage = () => {
-    /*
-    const img = new Image()
-    img.src = url
-    imageRef.current = img
-    */
-  }
-  useDebounce(preloadImage, 500, [url])
-
-  const handleDownload = () => {
-    const a = document.createElement('a')
-    a.href = imageRef.current.src
-    a.download = fileName + '.png'
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-  }
-
-  const handleCopy = () => {
-    if (metaKeyDown) setTimeout(() => window.open(url, '_blank'))
-    else navigator.clipboard.writeText(url)
-  }
-
   return (
     <Container
       initial="hidden"
@@ -67,38 +24,10 @@ export const CanvasButtons = observer(() => {
       <div className="wrapper">
         <Flags />
         <Tutorial />
-
-        <Tooltip.Root>
-          <Tooltip.Trigger>
-            <Button onClick={handleEdit}>
-              <EditPencil />
-            </Button>
-          </Tooltip.Trigger>
-          <Tooltip.Content>Edit design</Tooltip.Content>
-        </Tooltip.Root>
+        <Edit />
         <hr />
-        <Tooltip.Root>
-          <Tooltip.Trigger>
-            <Button onClick={handleCopy}>
-              <div className="flip-icon-containter">
-                {metaKeyDown ? <ExternalLink /> : <Copy />}
-              </div>
-            </Button>
-          </Tooltip.Trigger>
-          <Tooltip.Content>
-            Copy link
-            <br />
-            <span>⌘ - new tab</span>
-          </Tooltip.Content>
-        </Tooltip.Root>
-        <Tooltip.Root>
-          <Tooltip.Trigger>
-            <ButtonCta onClick={handleDownload}>
-              <Download />
-            </ButtonCta>
-          </Tooltip.Trigger>
-          <Tooltip.Content>Download</Tooltip.Content>
-        </Tooltip.Root>
+        <Copy imageRef={imageRef} />
+        <DownloadButton imageRef={imageRef} />
       </div>
     </Container>
   )
@@ -142,26 +71,6 @@ const Container = styled(motion.div)`
     svg {
       height: 18px;
       stroke-width: 1.5px;
-    }
-  }
-`
-
-const ButtonCta = styled(Button)`
-  width: 80px;
-  background: rgb(var(--highlight));
-  svg {
-    opacity: 1 !important;
-    path {
-      stroke-width: 2px;
-    }
-  }
-  &:hover {
-    background: #208cff !important;
-  }
-  &:active {
-    background: #0063cc;
-    svg {
-      opacity: 0.5;
     }
   }
 `
