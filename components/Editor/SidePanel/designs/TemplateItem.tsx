@@ -83,8 +83,6 @@ export const TemplateItem: FC<{ theme: ThemeStore }> = observer(({ theme }) => {
 const Container = styled.div<{ selected: boolean; focused: boolean }>`
   display: grid;
   position: relative;
-  width: 100%;
-  height: 100%;
   border-radius: 4px;
   overflow: hidden;
   color: white;

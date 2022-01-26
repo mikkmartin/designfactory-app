@@ -122,6 +122,9 @@ const Container = styled(motion.div)<{ isPortrait: boolean; isOpen: boolean }>`
     > .item {
       transform-origin: 70% 35% !important;
       height: 80px;
+      > * {
+        height: 100%;
+      }
     }
     ${({ isPortrait }) => isPortrait && portrait}
   }

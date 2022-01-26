@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 import { Tab, tabContentStyle } from './Tab'
 import { NewTemplateItem, TemplateItem } from '../designs'
+import Masonry from 'react-masonry-css'
 import { store } from 'data'
 
 export const DesignPanel = observer(() => {
@@ -13,13 +14,16 @@ export const DesignPanel = observer(() => {
         <p>Design templates</p>
         <NewTemplateItem small={false} />
       </div>
-      <div className="grid">
+      <Masonry
+        breakpointCols={2}
+        className="my-masonry-grid"
+        columnClassName="my-masonry-grid_column">
         {[...themeOptions]
           .sort((a, b) => +b.modifiedAt - +a.modifiedAt)
           .map(theme => (
             <TemplateItem key={theme.slug} theme={theme} />
           ))}
-      </div>
+      </Masonry>
     </Container>
   )
 })
@@ -32,9 +36,16 @@ const Container = styled(Tab)`
     place-items: center;
     margin-bottom: 8px;
   }
-  .grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4px;
+  .my-masonry-grid {
+    display: flex;
+    margin-left: -8px;
+    width: auto;
+  }
+  .my-masonry-grid_column {
+    padding-left: 8px;
+    background-clip: padding-box;
+    > div {
+      margin-bottom: 8px;
+    }
   }
 `
