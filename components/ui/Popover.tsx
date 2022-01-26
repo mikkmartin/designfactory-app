@@ -6,10 +6,12 @@ import { fast } from 'lib/static/transitions'
 
 const RootContext = createContext<{ open: boolean }>(null)
 
-export const Popover = ({ children, open }) => {
+export const Popover = ({ children, open, onOpenChange = _ => {} }) => {
   return (
     <RootContext.Provider value={{ open }}>
-      <Radix.Root>{children}</Radix.Root>
+      <Radix.Root open={open} onOpenChange={onOpenChange}>
+        {children}
+      </Radix.Root>
     </RootContext.Provider>
   )
 }
@@ -21,11 +23,12 @@ Anchor.defaultProps = { asChild: true }
 export const Trigger = Radix.Trigger
 Trigger.defaultProps = { asChild: true }
 
-type ContentProps = Radix.PopperContentProps & {
-  arrow: Radix.PopoverArrowProps
+export type ContentProps = Radix.PopperContentProps & {
+  arrow?: Radix.PopoverArrowProps
 }
 export const Content: FC<ContentProps> = ({ children, arrow, ...props }) => {
   const { open } = usePopover()
+  const side = props.side
   return (
     <AnimatePresence>
       {open && (
@@ -33,7 +36,7 @@ export const Content: FC<ContentProps> = ({ children, arrow, ...props }) => {
           onOpenAutoFocus={ev => ev.preventDefault()}
           align="start"
           alignOffset={-4}
-          sideOffset={0}
+          sideOffset={-2}
           side="top"
           forceMount
           asChild
@@ -46,11 +49,11 @@ export const Content: FC<ContentProps> = ({ children, arrow, ...props }) => {
             transition={fast}
             style={{ transformOrigin: 'var(--radix-popover-content-transform-origin)' }}
             variants={{
-              hidden: { opacity: 0, scale: 0.6 },
-              shown: { opacity: 1, scale: 1 },
+              hidden: { opacity: 0, scale: 0.98, y: side !== 'top' ? 4 : -4 },
+              shown: { opacity: 1, scale: 1, y: 0 },
             }}>
             {children}
-            <Arrow {...arrow} />
+            <Arrow offset={20} {...arrow} />
           </Container>
         </Radix.Content>
       )}
@@ -71,7 +74,7 @@ const Arrow = styled(Radix.Arrow)`
 const Container = styled(motion.div)`
   background: #282c34;
   position: fixed;
-  border-radius: 2px;
+  border-radius: 8px;
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1), inset 0px 0px 1px rgba(255, 255, 255, 0.25);
   span {
     pointer-events: none !important;

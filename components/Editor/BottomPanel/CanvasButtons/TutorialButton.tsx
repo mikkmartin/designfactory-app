@@ -34,7 +34,7 @@ export const TutorialButton = observer(() => {
         </Tooltip.Trigger>
         <Tooltip.Content>How to use</Tooltip.Content>
       </Tooltip.Root>
-      <Content arrow={{ offset: 25 }}>
+      <Content sideOffset={0} arrow={{ offset: 25 }}>
         <Button onClick={handleOpen}>How to use it on my site?</Button>
         <Button className="close" small onClick={() => setOpen(false)}>
           <Close />

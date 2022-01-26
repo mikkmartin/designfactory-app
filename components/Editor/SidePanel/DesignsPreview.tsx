@@ -62,7 +62,9 @@ export const DesignsPreview = observer(() => {
       </motion.div>
       <motion.div className="grid">
         <NewTemplateItem
+          small
           highlight
+          side="bottom"
           transition={{ duration: 0.1 }}
           variants={{
             initial: { opacity: 1 },

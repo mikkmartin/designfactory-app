@@ -1,13 +1,17 @@
-import styled from 'styled-components'
 import { Button, Input as InputBase, Loader } from 'components/ui'
-import { Trigger, Content, Popover } from 'components/ui/Popover'
+import { Trigger, Content, Popover, ContentProps } from 'components/ui/Popover'
 import { Plus, Close, FigmaLogo } from 'components/icons'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
-import { store } from 'data'
 import { useRouter } from 'next/router'
+import styled from 'styled-components'
+import { store } from 'data'
 
-export const NewTemplateItem = observer<any>(props => {
+type Props = {
+  side?: ContentProps['side']
+  [key: string]: any
+}
+export const NewTemplateItem = observer<Props>(({ side, ...props }) => {
   const { addTheme, loadTheme, cancelAdd } = store.content.template
   const router = useRouter()
   const [isOpen, setIsOpen] = useState(false)
@@ -55,11 +59,11 @@ export const NewTemplateItem = observer<any>(props => {
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <Trigger>
-        <ButtonNew small {...props}>
+        <ButtonNew {...props}>
           <Plus />
         </ButtonNew>
       </Trigger>
-      <Content>
+      <Content side={side}>
         <Container>
           <div className="header">
             {loading ? <Loader /> : <FigmaLogo />}
@@ -110,6 +114,7 @@ const Container = styled.div`
   gap: 4px;
   border-radius: 4px;
   overflow: hidden;
+  width: 300px;
   .header {
     display: grid;
     grid-template-columns: auto 1fr auto;
@@ -117,7 +122,7 @@ const Container = styled.div`
     gap: 8px;
     padding: 8px 8px 4px 8px;
     > svg {
-      margin-left: 6px;
+      fill: white;
     }
     span {
       opacity: 0.5;

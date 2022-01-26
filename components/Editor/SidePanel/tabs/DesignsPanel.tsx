@@ -12,7 +12,7 @@ export const DesignPanel = observer(() => {
     <Container value="designs">
       <div className="header">
         <p>Design templates</p>
-        <NewTemplateItem small={false} />
+        <NewTemplateItem side="top" />
       </div>
       <Masonry
         breakpointCols={2}
