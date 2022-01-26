@@ -7,9 +7,12 @@ import { Code } from './Code'
 import { store } from 'data'
 
 export const TutorialPanel = observer(() => {
+  const { size } = store.content.template.theme
   const { toggleTutorialPanel } = store.ui
+  const isPortrait = size.width <= size.height
+  console.log({ size, isPortrait })
   return (
-    <Container>
+    <Container isPortrait={isPortrait}>
       <div className="content">
         <h4>How to use it on your site?</h4>
         <p>
@@ -26,17 +29,17 @@ export const TutorialPanel = observer(() => {
   )
 })
 
-const Container = styled.div`
+const portrait = "'code image close'"
+const landscape = "'code code close'"
+const Container = styled.div<{ isPortrait: boolean }>`
   background: rgba(40, 44, 52, 0.6);
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr auto 40px;
-  grid-template-rows: auto auto;
+  grid-template-columns: 1fr minmax(auto, 140px) 40px;
+  grid-template-rows: 1fr auto;
   gap: 8px 8px;
-  grid-template-areas:
-    'content image close'
-    'code code close';
-  padding: 32px 0 32px 32px;
+  grid-template-areas: 'content image close' ${p => (p.isPortrait ? portrait : landscape)};
+  padding: 32px 0 24px 32px;
   .content {
     grid-area: content;
     h4 {
@@ -46,9 +49,6 @@ const Container = styled.div`
       opacity: 0.5;
       max-width: 650px;
     }
-  }
-  > img {
-    grid-area: image;
   }
   > pre {
     grid-area: code;

@@ -1,24 +1,15 @@
 const Copy = ({ ...props }) => {
   return (
-    <svg width="22" height="22" viewBox="0 0 22 22" stroke="currentColor" {...props}>
-      <g
-        fill="none"
-        fillRule="evenodd"
-        stroke="none"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1">
-        <g stroke="#FFF" strokeWidth="1.5" transform="translate(-426 -985)">
-          <g transform="translate(0 968)">
-            <g transform="translate(409)">
-              <g transform="translate(18 18)">
-                <rect width="13" height="13" x="7" y="7" rx="2"></rect>
-                <path d="M3 13H2a2 2 0 01-2-2V2a2 2 0 012-2h9a2 2 0 012 2v1"></path>
-              </g>
-            </g>
-          </g>
-        </g>
-      </g>
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      strokeWidth="1.5"
+      stroke="currentColor"
+      {...props}>
+      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
     </svg>
   )
 }

@@ -18,9 +18,6 @@ export const Code = observer(() => {
   return (
     <Container>
       <code ref={codeRef}>
-        <Button onClick={handleCopy}>
-          <Copy />
-        </Button>
         <span className="purple">{'<meta property'}</span>
         <span className="white">=</span>
         <span className="green">"og:image" </span>
@@ -47,26 +44,30 @@ export const Code = observer(() => {
         <span className="green">"summary_large_image"</span>
         <span className="purple">{`>`}</span>
       </code>
+      <Button small onClick={handleCopy}>
+        <Copy />
+      </Button>
     </Container>
   )
 })
 
 const Container = styled.pre`
-  padding: 12px 16px;
   background: #1a1e25;
   border-radius: 4px;
-  overflow: auto;
-  position: relative;
-  > code button {
-    position: absolute;
-    right: 3px;
-    top: 3px;
-    width: 32px;
-    height: 32px;
+  display: grid;
+  code {
+    padding: 12px 48px 12px 16px;
+    grid-area: 1 / 1;
+    overflow: auto;
+  }
+  button {
+    margin: 4px;
+    grid-area: 1 / 1;
+    place-self: start end;
     border-radius: 2px;
     background: rgba(40, 44, 52, 0.6);
+    backdrop-filter: blur(20px);
     svg {
-      width: 14px;
       opacity: 0.5;
     }
     &:hover svg {

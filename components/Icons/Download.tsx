@@ -1,23 +1,19 @@
 const Download = ({ ...props }) => {
   return (
-    <svg width="21" height="20" viewBox="0 0 21 20" stroke="currentColor" {...props}>
-      <g
-        fill="none"
-        fillRule="evenodd"
-        stroke="none"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.5">
-        <g stroke="#FFF" strokeWidth="1.5" transform="translate(-426 -18)">
-          <g transform="translate(409)">
-            <g transform="translate(18 19)">
-              <path d="M19 12v4c0 1.105-.945 2-2.111 2H2.11C.945 18 0 17.105 0 16v-4"></path>
-              <path d="M4.22222222 7L9.5 12 14.7777778 7"></path>
-              <path d="M9.5 12L9.5 0"></path>
-            </g>
-          </g>
-        </g>
-      </g>
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      fill="none"
+      fillRule="evenodd"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="1.5"
+      {...props}>
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+      <polyline points="7 10 12 15 17 10" />
+      <line x1="12" y1="15" x2="12" y2="3" />
     </svg>
   )
 }
