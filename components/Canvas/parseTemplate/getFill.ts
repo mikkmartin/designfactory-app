@@ -4,6 +4,7 @@ import { BoxNode } from './parseTemplate'
 export function getFill(node: BoxNode) {
   if (!node.fills) return 'none'
   return node.fills
+    .filter(fill => fill.visible !== false)
     .map(fill => {
       switch (fill.type) {
         case 'SOLID':
