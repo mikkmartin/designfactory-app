@@ -2,7 +2,6 @@ import { Download } from 'components/icons'
 import { Button as ButtonBase, Tooltip } from 'components/ui'
 import { store } from 'data'
 import { observer } from 'mobx-react-lite'
-import { useRef } from 'react'
 import styled from 'styled-components'
 
 export const DownloadButton = observer<{ imageRef: { current: HTMLImageElement } }>(

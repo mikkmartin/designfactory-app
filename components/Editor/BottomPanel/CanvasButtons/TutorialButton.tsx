@@ -4,7 +4,7 @@ import { store } from 'data'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 import { useLocalStorage } from 'react-use'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useRendersCount } from 'react-use'
 
 export const TutorialButton = observer(() => {

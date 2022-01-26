@@ -2,7 +2,6 @@ import { FC, useState, useContext, createContext } from 'react'
 import * as Tooltip from '@radix-ui/react-tooltip'
 import styled from 'styled-components'
 import { motion, AnimatePresence } from 'framer-motion'
-import { fast, snappy } from 'lib/static/transitions'
 
 type Props = {
   disabled?: boolean
