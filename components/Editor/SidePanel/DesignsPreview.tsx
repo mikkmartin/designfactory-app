@@ -7,7 +7,7 @@ import { motion, usePresence } from 'framer-motion'
 import { NewTemplateItem, TemplateItem } from './designs'
 
 export const DesignsPreview = observer(() => {
-  const { toggleTemplatePanel, templatePanelIsOpen } = store.ui
+  const { setThemePreview, showThemePreview } = store.ui.settings
   const { template } = store.content
   const { themeOptions } = template
   const [isPresent, unmount] = usePresence()
@@ -35,7 +35,7 @@ export const DesignsPreview = observer(() => {
   return (
     <Container
       isPortrait={isPortrait}
-      isOpen={templatePanelIsOpen}
+      isOpen={showThemePreview}
       animate={isPresent ? 'initial' : 'exit'}
       transition={{ duration: 0.1 }}
       variants={{
@@ -51,7 +51,7 @@ export const DesignsPreview = observer(() => {
         <p>Design templates</p>
         <Button
           small
-          onClick={toggleTemplatePanel}
+          onClick={() => setThemePreview(false)}
           transition={{ duration: 0.1 }}
           variants={{
             initial: { opacity: 1 },

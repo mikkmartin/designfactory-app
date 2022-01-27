@@ -1,6 +1,6 @@
 import { ContentStore } from './content/ContentStore'
 import { enableStaticRendering } from 'mobx-react-lite'
-import { UiStore } from './UiStore'
+import { UiStore } from './ui/UiStore'
 import { AuthStore } from './AuthStore'
 
 export class RootStore {

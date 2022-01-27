@@ -1,7 +1,8 @@
 import baseURL from 'lib/static/baseURL'
 import { objectToParams } from 'lib/urlEncoder'
 import { makeAutoObservable } from 'mobx'
-import { RootStore } from './RootStore'
+import { RootStore } from '../RootStore'
+import { UISettings } from './UISettingsStore'
 
 const tabs = ['inputs', 'code', 'designs'] as const
 export type Tab = typeof tabs[number]
@@ -20,23 +21,21 @@ type ModalInstane = DialogProps & {
 
 export class UiStore {
   private rootStore: RootStore
+  settings: UISettings
   isEditing: boolean = false
-  templatePanelIsOpen: boolean = true
   tutorialPanelIsOpen: boolean = false
-  tutorialToolTipIsOpen: boolean = false
   tabs = tabs
   tab: Tab = this.tabs[0]
   dialogue: ModalInstane = null
 
   constructor(rootStore: RootStore) {
     makeAutoObservable(this)
+    this.settings = new UISettings(this, {})
     this.rootStore = rootStore
   }
 
   setIsEditing = (isEditing: boolean) => (this.isEditing = isEditing)
-  toggleTemplatePanel = () => (this.templatePanelIsOpen = !this.templatePanelIsOpen)
   toggleTutorialPanel = () => (this.tutorialPanelIsOpen = !this.tutorialPanelIsOpen)
-  setTutorialToolTip = (state: boolean) => (this.tutorialToolTipIsOpen = state)
 
   showDialogue = (props: DialogProps) =>
     new Promise((resolve, reject) => {

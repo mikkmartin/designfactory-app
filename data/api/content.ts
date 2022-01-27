@@ -3,6 +3,7 @@ import { get, post, _delete, WithError, patch } from './fetch'
 import { FileResponse } from '@mikkmartin/figma-js'
 import { definitions } from 'lib/db/types'
 import type { ImageRef } from 'lib/api/getFigmaImages'
+import type { UISettings } from 'data/stores/ui/UISettingsStore'
 
 //Get tempaltes
 export type TemplateWithThemes = (definitions['templates'] & { themes: definitions['themes'][] })[]
@@ -41,3 +42,10 @@ export const updateTheme = (body: UpdateThemeParams) => patch<definitions['theme
 export type DeleteThemeResponse = { data: definitions['themes']; error: PostgrestError | null }
 export const deleteTheme = (slug: string) =>
   _delete<definitions['themes']>({ url, params: { slug } })
+
+//Update settings
+export type UpdateSettingsResponse = WithError<{ Key: string }>
+export type UpdateSettingsParams = Pick<UISettings, 'showThemePreview' | 'showTutorialToolTip'>
+
+export const updateSettings = (body: UpdateSettingsParams) =>
+  patch<definitions['profiles']['interface_settings']>({ url: '/api/auth/settings', body })

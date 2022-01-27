@@ -7,7 +7,8 @@ import { useEffect } from 'react'
 
 export const Flags = observer(() => {
   const [showHiddenFlags, setFlagMenu] = useLocalStorage('df:showHiddenFlags', false)
-  const { toggleTemplatePanel, setTutorialToolTip, tutorialToolTipIsOpen } = store.ui
+  const { showTutorialToolTip, setTutorialToolTip, setThemePreview, showThemePreview } =
+    store.ui.settings
 
   useEffect(() => {
     if (process.browser) window['toggleFlagMenu'] = () => setFlagMenu(!showHiddenFlags)
@@ -31,9 +32,9 @@ export const Flags = observer(() => {
   ]
 
   const handleChange = value => {
-    if (value === 'toggle-template-panel') toggleTemplatePanel()
+    if (value === 'toggle-template-panel') setThemePreview(!showThemePreview)
     if (value === 'hide-flags') setFlagMenu(false)
-    if (value === 'toggle-tutorial-tooltip') setTutorialToolTip(!tutorialToolTipIsOpen)
+    if (value === 'toggle-tutorial-tooltip') setTutorialToolTip(!showTutorialToolTip)
   }
 
   return (

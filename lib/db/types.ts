@@ -12,132 +12,13 @@ export interface paths {
       };
     };
   };
-  "/files": {
-    get: {
-      parameters: {
-        query: {
-          slug?: parameters["rowFilter.files.slug"];
-          createdAt?: parameters["rowFilter.files.createdAt"];
-          modifiedAt?: parameters["rowFilter.files.modifiedAt"];
-          template?: parameters["rowFilter.files.template"];
-          title?: parameters["rowFilter.files.title"];
-          data?: parameters["rowFilter.files.data"];
-          id?: parameters["rowFilter.files.id"];
-          disabledFields?: parameters["rowFilter.files.disabledFields"];
-          owner?: parameters["rowFilter.files.owner"];
-          fileType?: parameters["rowFilter.files.fileType"];
-          type?: parameters["rowFilter.files.type"];
-          thumbnail_url?: parameters["rowFilter.files.thumbnail_url"];
-          /** Filtering Columns */
-          select?: parameters["select"];
-          /** Ordering */
-          order?: parameters["order"];
-          /** Limiting and Pagination */
-          offset?: parameters["offset"];
-          /** Limiting and Pagination */
-          limit?: parameters["limit"];
-        };
-        header: {
-          /** Limiting and Pagination */
-          Range?: parameters["range"];
-          /** Limiting and Pagination */
-          "Range-Unit"?: parameters["rangeUnit"];
-          /** Preference */
-          Prefer?: parameters["preferCount"];
-        };
-      };
-      responses: {
-        /** OK */
-        200: {
-          schema: definitions["files"][];
-        };
-        /** Partial Content */
-        206: unknown;
-      };
-    };
-    post: {
-      parameters: {
-        body: {
-          /** files */
-          files?: definitions["files"];
-        };
-        query: {
-          /** Filtering Columns */
-          select?: parameters["select"];
-        };
-        header: {
-          /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
-      responses: {
-        /** Created */
-        201: unknown;
-      };
-    };
-    delete: {
-      parameters: {
-        query: {
-          slug?: parameters["rowFilter.files.slug"];
-          createdAt?: parameters["rowFilter.files.createdAt"];
-          modifiedAt?: parameters["rowFilter.files.modifiedAt"];
-          template?: parameters["rowFilter.files.template"];
-          title?: parameters["rowFilter.files.title"];
-          data?: parameters["rowFilter.files.data"];
-          id?: parameters["rowFilter.files.id"];
-          disabledFields?: parameters["rowFilter.files.disabledFields"];
-          owner?: parameters["rowFilter.files.owner"];
-          fileType?: parameters["rowFilter.files.fileType"];
-          type?: parameters["rowFilter.files.type"];
-          thumbnail_url?: parameters["rowFilter.files.thumbnail_url"];
-        };
-        header: {
-          /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
-      responses: {
-        /** No Content */
-        204: never;
-      };
-    };
-    patch: {
-      parameters: {
-        query: {
-          slug?: parameters["rowFilter.files.slug"];
-          createdAt?: parameters["rowFilter.files.createdAt"];
-          modifiedAt?: parameters["rowFilter.files.modifiedAt"];
-          template?: parameters["rowFilter.files.template"];
-          title?: parameters["rowFilter.files.title"];
-          data?: parameters["rowFilter.files.data"];
-          id?: parameters["rowFilter.files.id"];
-          disabledFields?: parameters["rowFilter.files.disabledFields"];
-          owner?: parameters["rowFilter.files.owner"];
-          fileType?: parameters["rowFilter.files.fileType"];
-          type?: parameters["rowFilter.files.type"];
-          thumbnail_url?: parameters["rowFilter.files.thumbnail_url"];
-        };
-        body: {
-          /** files */
-          files?: definitions["files"];
-        };
-        header: {
-          /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
-      responses: {
-        /** No Content */
-        204: never;
-      };
-    };
-  };
   "/profiles": {
     get: {
       parameters: {
         query: {
           user_id?: parameters["rowFilter.profiles.user_id"];
           id?: parameters["rowFilter.profiles.id"];
+          interface_settings?: parameters["rowFilter.profiles.interface_settings"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -190,6 +71,7 @@ export interface paths {
         query: {
           user_id?: parameters["rowFilter.profiles.user_id"];
           id?: parameters["rowFilter.profiles.id"];
+          interface_settings?: parameters["rowFilter.profiles.interface_settings"];
         };
         header: {
           /** Preference */
@@ -206,6 +88,7 @@ export interface paths {
         query: {
           user_id?: parameters["rowFilter.profiles.user_id"];
           id?: parameters["rowFilter.profiles.id"];
+          interface_settings?: parameters["rowFilter.profiles.interface_settings"];
         };
         body: {
           /** profiles */
@@ -444,74 +327,9 @@ export interface paths {
       };
     };
   };
-  "/rpc/get_templates": {
-    post: {
-      parameters: {
-        body: {
-          args: {
-            /** Format: text */
-            slug_input: string;
-          };
-        };
-        header: {
-          /** Preference */
-          Prefer?: parameters["preferParams"];
-        };
-      };
-      responses: {
-        /** OK */
-        200: unknown;
-      };
-    };
-  };
 }
 
 export interface definitions {
-  files: {
-    /**
-     * Format: character varying
-     * @description Note:
-     * This is a Primary Key.<pk/>
-     */
-    slug: string;
-    /**
-     * Format: timestamp with time zone
-     * @default now()
-     */
-    createdAt: string;
-    /**
-     * Format: timestamp with time zone
-     * @default now()
-     */
-    modifiedAt: string;
-    /** Format: jsonb */
-    template: string;
-    /** Format: character varying */
-    title: string;
-    /**
-     * Format: jsonb
-     * @default {}
-     */
-    data: string;
-    /** Format: text */
-    id: string;
-    /** Format: jsonb */
-    disabledFields?: string;
-    /**
-     * Format: character varying
-     * @default anonymous
-     */
-    owner: string;
-    /**
-     * Format: text
-     * @default png
-     */
-    fileType: string;
-    /** Format: text */
-    type?: string;
-    /** Format: text */
-    thumbnail_url?: string;
-  };
   profiles: {
     /** Format: uuid */
     user_id?: string;
@@ -522,6 +340,11 @@ export interface definitions {
      * @default extensions.uuid_generate_v4()
      */
     id: string;
+    /**
+     * Format: json
+     * @default {}
+     */
+    interface_settings: string;
   };
   templates: {
     /**
@@ -638,38 +461,14 @@ export interface parameters {
   offset: string;
   /** @description Limiting and Pagination */
   limit: string;
-  /** @description files */
-  "body.files": definitions["files"];
-  /** Format: character varying */
-  "rowFilter.files.slug": string;
-  /** Format: timestamp with time zone */
-  "rowFilter.files.createdAt": string;
-  /** Format: timestamp with time zone */
-  "rowFilter.files.modifiedAt": string;
-  /** Format: jsonb */
-  "rowFilter.files.template": string;
-  /** Format: character varying */
-  "rowFilter.files.title": string;
-  /** Format: jsonb */
-  "rowFilter.files.data": string;
-  /** Format: text */
-  "rowFilter.files.id": string;
-  /** Format: jsonb */
-  "rowFilter.files.disabledFields": string;
-  /** Format: character varying */
-  "rowFilter.files.owner": string;
-  /** Format: text */
-  "rowFilter.files.fileType": string;
-  /** Format: text */
-  "rowFilter.files.type": string;
-  /** Format: text */
-  "rowFilter.files.thumbnail_url": string;
   /** @description profiles */
   "body.profiles": definitions["profiles"];
   /** Format: uuid */
   "rowFilter.profiles.user_id": string;
   /** Format: uuid */
   "rowFilter.profiles.id": string;
+  /** Format: json */
+  "rowFilter.profiles.interface_settings": string;
   /** @description templates */
   "body.templates": definitions["templates"];
   /** Format: uuid */

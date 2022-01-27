@@ -7,10 +7,10 @@ import styled from 'styled-components'
 import { Header } from './Header'
 import { AnimatePresence } from 'framer-motion'
 import { store } from 'data'
-import { Tab } from 'data/stores/UiStore'
+import { Tab } from 'data/stores/ui/UiStore'
 
 export const SidePanel = observer(() => {
-  const { tab, setTab, templatePanelIsOpen } = store.ui
+  const { tab, setTab, settings } = store.ui
   return (
     <Container
       value={store.ui.tab}
@@ -21,9 +21,11 @@ export const SidePanel = observer(() => {
       <InputPanel />
       <JsonEditor />
       <DesignPanel />
-      <div className="footer" style={{ height: templatePanelIsOpen ? 'auto' : 56 }}>
+      <div className="footer" style={{ height: settings.showThemePreview ? 'auto' : 56 }}>
         {tab === 'inputs' && (
-          <AnimatePresence>{templatePanelIsOpen && <DesignsPreview key="1" />}</AnimatePresence>
+          <AnimatePresence>
+            {settings.showThemePreview && <DesignsPreview key="1" />}
+          </AnimatePresence>
         )}
         <Navigation />
       </div>

@@ -9,13 +9,13 @@ import { useRendersCount } from 'react-use'
 
 export const TutorialButton = observer(() => {
   const [isOpen, setOpen] = useLocalStorage('df:tutorialTooltipIsOpen', true)
-  const { toggleTutorialPanel, tutorialToolTipIsOpen, setTutorialToolTip } = store.ui
+  const { toggleTutorialPanel, settings } = store.ui
   const renderCount = useRendersCount()
 
   useEffect(() => {
-    if (renderCount === 1) setTutorialToolTip(isOpen)
-    else setOpen(tutorialToolTipIsOpen)
-  }, [tutorialToolTipIsOpen])
+    if (renderCount === 1) settings.setTutorialToolTip(isOpen)
+    else setOpen(settings.showTutorialToolTip)
+  }, [settings.showTutorialToolTip])
 
   const handleOpen = () => {
     setOpen(false)
