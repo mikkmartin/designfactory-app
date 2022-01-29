@@ -13,6 +13,8 @@ export class UISettings {
     this.rootStore = rootStore
   }
 
+  setInitialData = (initialData: UISettings) => Object.assign(this, initialData)
+
   setTutorialToolTip = async (state: boolean) => {
     this.showTutorialToolTip = state
     this.updateSettings()

@@ -35,14 +35,14 @@ const File: NextPage = observer(() => {
 })
 
 type Props = {
-  data: db.TemplateWithThemes
+  data: db.ProfileWithData
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async ({ params, req }) => {
   const anonID = getCookie(ANON_ID, { req }) as string | undefined
-  const { data } = await db.getTemplate({ anonID })
-  const hasSlug = data.some(({ themes }) => themes.some(({ slug }) => slug === params.slug))
-  if (!data?.length || !hasSlug) return { notFound: true }
+  const { data } = await db.getProfileWithData({ anonID })
+  const hasSlug = data.templates.some(({ themes }) => themes.some(({ slug }) => slug === params.slug))
+  if (!data.templates.length || !hasSlug) return { notFound: true }
   return {
     props: { data },
   }

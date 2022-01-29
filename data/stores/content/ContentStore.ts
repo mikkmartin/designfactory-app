@@ -1,6 +1,7 @@
 import type { RootStore } from '../RootStore'
 import { makeAutoObservable, runInAction } from 'mobx'
 import { TemplateStore } from './TemplateStore'
+import { db } from 'lib/db'
 
 export class ContentStore {
   //@ts-ignore
@@ -13,8 +14,8 @@ export class ContentStore {
     this.rootStore = rootStore
   }
 
-  setInitialData = ({ data }) => {
-    this.templateOptions = data.map(
+  setInitialData = ({ templates }: db.ProfileWithData) => {
+    this.templateOptions = templates.map(
       template => new TemplateStore(template, template.themes[0].slug)
     )
   }

@@ -2,6 +2,7 @@ import { ContentStore } from './content/ContentStore'
 import { enableStaticRendering } from 'mobx-react-lite'
 import { UiStore } from './ui/UiStore'
 import { AuthStore } from './AuthStore'
+import type { db } from 'lib/db'
 
 export class RootStore {
   content: ContentStore = null
@@ -17,7 +18,9 @@ export class RootStore {
   setInitialState = (props, route: string) => {
     switch (route) {
       case '/files/[slug]':
-        this.content.setInitialData(props)
+        const data = props.data as db.ProfileWithData
+        this.content.setInitialData(data)
+        this.ui.settings.setInitialData(data.interface_settings)
     }
   }
 }
