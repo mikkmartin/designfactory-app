@@ -32,7 +32,7 @@ export const Code = observer(() => {
         <span className="green">"twitter:image" </span>
         <span className="purple">content</span>
         <span className="white">=</span>
-        <span className="green">"{url}”</span>
+        <span className="green">"{url}"</span>
         <span className="purple">{`>`}</span>
         <span className="gray">{` // Twitter`}</span>
         <br />

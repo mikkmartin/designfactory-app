@@ -8,6 +8,7 @@ const exePath =
 
 interface Options {
   args: string[]
+  userDataDir: string,
   executablePath: string
   headless: boolean
 }
@@ -47,17 +48,20 @@ const args = [
   '--use-mock-keychain',
 ]
 
+const userDataDir = './tmp'
 export async function getOptions(isDev: boolean) {
   let options: Options
   if (isDev) {
     options = {
       args: [],
+      userDataDir,
       executablePath: exePath,
       headless: true,
     }
   } else {
     options = {
       args,
+      userDataDir,
       executablePath: await chrome.executablePath,
       headless: chrome.headless,
     }
