@@ -23,18 +23,8 @@ export const Code = observer(() => {
         <span className="green">"og:image" </span>
         <span className="purple">content</span>
         <span className="white">=</span>
-        <span className="green">"{url}”</span>
-        <span className="purple">{`>`}</span>
-        <span className="gray">{` // Open Graph / Facebook`}</span>
-        <br />
-        <span className="purple">{'<meta property'}</span>
-        <span className="white">=</span>
-        <span className="green">"twitter:image" </span>
-        <span className="purple">content</span>
-        <span className="white">=</span>
         <span className="green">"{url}"</span>
-        <span className="purple">{`>`}</span>
-        <span className="gray">{` // Twitter`}</span>
+        <span className="purple">{`/>`}</span>
         <br />
         <span className="purple">{'<meta property'}</span>
         <span className="white">=</span>
@@ -42,7 +32,7 @@ export const Code = observer(() => {
         <span className="purple">content</span>
         <span className="white">=</span>
         <span className="green">"summary_large_image"</span>
-        <span className="purple">{`>`}</span>
+        <span className="purple">{`/>`}</span>
       </code>
       <Button small onClick={handleCopy}>
         <Copy />
