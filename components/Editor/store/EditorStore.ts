@@ -1,9 +1,12 @@
 import { makeAutoObservable } from 'mobx'
 import { ISchema } from 'components/Canvas/parseTemplate/getSchema'
+import baseURL from 'static/baseURL'
+import { objectToParams } from 'lib/urlEncoder'
 
 type SomeObject = { [key: string]: any }
 type InitialState = {
   fileName: string
+  slug: string
   loading: boolean
   data: SomeObject
   template: SomeObject
@@ -14,10 +17,10 @@ type InitialState = {
 
 export class EditorStore implements InitialState {
   fileName: ''
+  slug = ''
   loading = false
   data = null
   template = null
-  downloadUrl = ''
   schema = null
   jsonErrors = []
 
@@ -26,6 +29,10 @@ export class EditorStore implements InitialState {
     for (const [key, value] of Object.entries(initialState)) {
       this[key] = value
     }
+  }
+
+  get downloadUrl() {
+    return `${baseURL}/files/${this.slug}.png?${objectToParams(this.data)}`
   }
 
   setData = (data: SomeObject | ((prev: SomeObject) => void)) => {

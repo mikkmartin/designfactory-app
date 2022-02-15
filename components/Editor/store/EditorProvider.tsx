@@ -10,7 +10,8 @@ export const EditorProvider: FC<{ templateId: string }> = ({ children, templateI
   const { fileName, slug, initialData } = defaultTemplatesv2.find(({ id }) => id === templateId)
   const store = new EditorStore({
     fileName,
-    downloadUrl: `${baseURL}/files/${slug}.png?${objectToParams(initialData)}`,
+    slug,
+    //downloadUrl: `${baseURL}/files/${slug}.png?${objectToParams(initialData)}`,
     loading: false,
     data: initialData,
   })
