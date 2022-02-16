@@ -22,10 +22,10 @@ export const Screenshot: FC<Props> = ({ slug, themeData, inputData }) => {
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async ({ query }) => {
-  const { slug, ...rest } = query
+  const { slug, ...inputData } = query
   const url = `${storageURL}/themes/files/${slug}.json`
   const themeData = await fetch(url).then(res => res.json())
-  return { props: { slug: slug as string, themeData, inputData: rest } }
+  return { props: { slug: slug as string, themeData, inputData } }
 }
 
 export default Screenshot

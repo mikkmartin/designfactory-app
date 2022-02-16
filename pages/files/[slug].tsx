@@ -40,8 +40,14 @@ type Props = {
 
 export const getServerSideProps: GetServerSideProps<Props> = async ({ params, req }) => {
   const anonID = getCookie(ANON_ID, { req }) as string | undefined
-  const { data } = await db.getProfileWithData({ anonID })
-  const hasSlug = data.templates.some(({ themes }) => themes.some(({ slug }) => slug === params.slug))
+  const { data, error } = await db.getProfileWithData({ anonID })
+  if (error) {
+    console.error(error)
+    return { notFound: true }
+  }
+  const hasSlug = data.templates.some(({ themes }) =>
+    themes.some(({ slug }) => slug === params.slug)
+  )
   if (!data.templates.length || !hasSlug) return { notFound: true }
   return {
     props: { data },
