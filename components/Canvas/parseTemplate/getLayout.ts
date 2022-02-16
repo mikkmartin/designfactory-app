@@ -1,6 +1,7 @@
 import { CSSProperties } from 'react'
 import { Frame } from '@mikkmartin/figma-js'
 import { BoxNode, ContainerNode } from './parseTemplate'
+import { toJS } from 'mobx'
 
 type LayoutType = 'CANVAS_CHILD' | 'STATIC' | 'LAYOUT_ITEM'
 
@@ -74,10 +75,12 @@ const getSize = (node): CSSProperties => {
   } else {
     let size: CSSProperties = {}
 
+    //if (node.name === 'Frame 1') console.log(toJS(node))
     if (node.layoutMode === 'HORIZONTAL' && node.primaryAxisSizingMode === 'FIXED') {
       size.width = width
     } else if (node.layoutMode === 'VERTICAL' && node.counterAxisSizingMode === 'FIXED') {
       size.width = width
+      size.height = height
     } else {
       if (node.layoutMode !== 'HORIZONTAL') size.width = width
       if (node.layoutMode !== 'VERTICAL') size.height = height
