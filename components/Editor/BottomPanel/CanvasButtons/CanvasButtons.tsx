@@ -45,7 +45,7 @@ const Container = styled(motion.div)`
     background: rgba(40, 44, 52, 0.9);
     backdrop-filter: blur(10px);
     border-radius: 8px;
-    margin-bottom: 18px;
+    margin-bottom: 4vh;
     hr {
       width: 1px;
       border: none;
