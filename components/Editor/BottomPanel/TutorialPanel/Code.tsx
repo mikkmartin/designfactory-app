@@ -1,12 +1,16 @@
 import { useRef } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { observer } from 'mobx-react-lite'
 import { store } from 'data'
 import { Button } from 'components/ui'
 import { Copy } from 'components/icons'
+import baseURL from 'lib/static/baseURL'
+
+const space = ['  ', '    ']
 
 export const Code = observer(() => {
-  const url = store.ui.downloadUrl
+  const { inputData, theme } = store.content.template
+  const slug = theme.slug
   const codeRef = useRef<HTMLElement>(null)
 
   const handleCopy = () => {
@@ -15,24 +19,32 @@ export const Code = observer(() => {
     navigator.clipboard.writeText(text)
   }
 
+  const params = Object.entries(inputData)
+
   return (
     <Container>
       <code ref={codeRef}>
-        <span className="purple">{'<meta property'}</span>
-        <span className="white">=</span>
-        <span className="green">"og:image" </span>
-        <span className="purple">content</span>
-        <span className="white">=</span>
-        <span className="green">"{url}"</span>
-        <span className="purple">{`/>`}</span>
+        <Tag>{`<meta `}</Tag>
+        <Property>{'property'}</Property>
+        <Op>=</Op>
+        <String>{`"og:image" `}</String>
+        <Property>content</Property>
+        <Op>=</Op>
+        {params.length < 2 ? (
+          <SingleLine params={params} slug={slug} />
+        ) : (
+          <MultiLine params={params} slug={slug} />
+        )}
+        <Tag>{`/>`}</Tag>
         <br />
-        <span className="purple">{'<meta property'}</span>
-        <span className="white">=</span>
-        <span className="green">"twitter:card" </span>
-        <span className="purple">content</span>
-        <span className="white">=</span>
-        <span className="green">"summary_large_image"</span>
-        <span className="purple">{`/>`}</span>
+        <Tag>{'<meta '}</Tag>
+        <Property>{'property'}</Property>
+        <Op>=</Op>
+        <String>"twitter:card" </String>
+        <Property>content</Property>
+        <Op>=</Op>
+        <String>"summary_large_image"</String>
+        <Tag>{`/>`}</Tag>
       </code>
       <Button small onClick={handleCopy}>
         <Copy />
@@ -41,17 +53,99 @@ export const Code = observer(() => {
   )
 })
 
+const SingleLine = ({ params, slug }) => {
+  return (
+    <>
+      <String>{`"${baseURL}/og/${slug}.png`}</String>
+      <String>
+        {params.map(([key, value]) => {
+          return (
+            <>
+              <String>?{key}=</String>
+              <String highlight>{value}</String>
+            </>
+          )
+        })}
+      </String>
+      <String>{`"`}</String>
+    </>
+  )
+}
+const MultiLine = ({ params, slug }) => {
+  return params.map(([key, value], i) => (
+    <>
+      <Tag>
+        {i === 0 ? (
+          <String>
+            <Tag>{'{'}</Tag>
+            <br />
+            {space[1]}
+            {'`'}
+            {baseURL}/files/{slug}
+            {'.png`'}
+            <Op>{' +'}</Op>
+            <br />
+          </String>
+        ) : (
+          <>
+            <span className="green">{'`'}</span>
+            <Op>{' +'}</Op>
+            <br />
+          </>
+        )}
+        <String>{space[1] + '`' + (i === 0 ? '?' : '&') + key}=</String>
+      </Tag>
+      <String highlight>{value}</String>
+      {params.length === i + 1 && (
+        <>
+          <String>{'`'}</String>
+          <Tag>
+            <br />
+            {space[0]}
+            {'}'}
+          </Tag>
+          <br />
+        </>
+      )}
+    </>
+  ))
+}
+
+const Tag = styled.span`
+  color: #569cd6;
+`
+const Property = styled.span`
+  color: #9cdcfe;
+`
+const String = styled.span<{ highlight?: boolean }>`
+  color: #ce9178;
+  ${p =>
+    p.highlight &&
+    css`
+      background: rgba(255, 178, 147, 0.15);
+      border-radius: 2px;
+      padding: 0 2px;
+    `}
+`
+const Op = styled.span`
+  color: #d8d8d8;
+`
+
 const Container = styled.pre`
   background: #1a1e25;
   border-radius: 4px;
   display: grid;
+  font-family: inherit;
+  margin: 24px;
+  margin-right: 0;
   code {
-    padding: 12px 48px 12px 16px;
+    padding: 24px 48px 24px 24px;
+    font-family: inherit;
     grid-area: 1 / 1;
     overflow: auto;
   }
   button {
-    margin: 4px;
+    margin: 8px;
     grid-area: 1 / 1;
     place-self: start end;
     border-radius: 2px;
@@ -65,16 +159,4 @@ const Container = styled.pre`
     }
   }
   line-height: 130%;
-  .gray {
-    color: gray;
-  }
-  .purple {
-    color: #c594c5;
-  }
-  .white {
-    color: #ffffff;
-  }
-  .green {
-    color: #99c794;
-  }
 `

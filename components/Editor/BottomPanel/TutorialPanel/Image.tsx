@@ -33,7 +33,7 @@ export const Image = observer(() => {
 const Container = styled.div`
   grid-area: image;
   border-radius: 3px;
-  width: 100%;
+  width: 12rem;
   background: rgba(0, 0, 0, 0.1);
   overflow: hidden;
   display: grid;

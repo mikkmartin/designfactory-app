@@ -10,18 +10,20 @@ export const TutorialPanel = observer(() => {
   const { size } = store.content.template.theme
   const { toggleTutorialPanel } = store.ui
   const isPortrait = size.width <= size.height
-  console.log({ size, isPortrait })
+  
   return (
     <Container isPortrait={isPortrait}>
-      <div className="content">
-        <h4>How to use it on your site?</h4>
-        <p>
-          You can download the image directly from the image thumnbail, or you can embed the code
-          below to generate it on-demand for every page on your site:
-        </p>
-      </div>
-      <Image />
       <Code />
+      <div className="content">
+        <div className="text">
+          <h4>How to use it on your site?</h4>
+          <p>
+            You can download the image directly from the image thumnbail below, or you can embed the code
+            here to generate it on-demand for any page on your site:
+          </p>
+        </div>
+        <Image />
+      </div>
       <Button onClick={toggleTutorialPanel}>
         <Close width="16" />
       </Button>
@@ -29,25 +31,29 @@ export const TutorialPanel = observer(() => {
   )
 })
 
-const portrait = "'code image close'"
-const landscape = "'code code close'"
 const Container = styled.div<{ isPortrait: boolean }>`
   background: rgba(40, 44, 52, 0.6);
+  grid-template-columns: 2fr 1.2fr 40px;
+  grid-template-areas: 'code content close';
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr minmax(auto, 140px) 40px;
-  grid-template-rows: 1fr auto;
-  gap: 8px 8px;
-  grid-template-areas: 'content image close' ${p => (p.isPortrait ? portrait : landscape)};
-  padding: 32px 0 24px 32px;
+  gap: 24px;
+  padding: 8px;
   .content {
+    padding: 32px 0;
     grid-area: content;
-    h4 {
-      margin-bottom: 10px;
-    }
-    p {
-      opacity: 0.5;
-      max-width: 650px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 16px;
+    .text {
+      h4 {
+        margin-bottom: 10px;
+      }
+      p {
+        opacity: 0.5;
+      }
     }
   }
   > pre {
@@ -55,8 +61,6 @@ const Container = styled.div<{ isPortrait: boolean }>`
   }
   > button {
     grid-area: close;
-    margin-top: -28px;
-    margin-left: -4px;
     width: 40px;
     height: 40px;
     border-radius: 4px;
