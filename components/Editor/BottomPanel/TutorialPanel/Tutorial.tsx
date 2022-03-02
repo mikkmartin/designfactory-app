@@ -10,7 +10,7 @@ export const TutorialPanel = observer(() => {
   const { size } = store.content.template.theme
   const { toggleTutorialPanel } = store.ui
   const isPortrait = size.width <= size.height
-  
+
   return (
     <Container isPortrait={isPortrait}>
       <Code />
@@ -18,8 +18,8 @@ export const TutorialPanel = observer(() => {
         <div className="text">
           <h4>How to use it on your site?</h4>
           <p>
-            You can download the image directly from the image thumnbail below, or you can embed the code
-            here to generate it on-demand for any page on your site:
+            You can download the image directly from the image thumnbail below, or you can embed the
+            code here to generate it on-demand for any page on your site.
           </p>
         </div>
         <Image />
@@ -33,11 +33,10 @@ export const TutorialPanel = observer(() => {
 
 const Container = styled.div<{ isPortrait: boolean }>`
   background: rgba(40, 44, 52, 0.6);
+  display: grid;
   grid-template-columns: 2fr 1.2fr 40px;
   grid-template-areas: 'code content close';
   width: 100%;
-  display: grid;
-  gap: 24px;
   padding: 8px;
   .content {
     padding: 32px 0;

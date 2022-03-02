@@ -137,11 +137,12 @@ const Container = styled.pre`
   display: grid;
   font-family: inherit;
   margin: 24px;
-  margin-right: 0;
+  position: relative;
   code {
-    padding: 24px 48px 24px 24px;
     font-family: inherit;
-    grid-area: 1 / 1;
+    position: absolute;
+    inset: 0;
+    padding: 24px 48px 24px 24px;
     overflow: auto;
   }
   button {
