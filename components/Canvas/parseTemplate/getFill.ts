@@ -13,7 +13,7 @@ export function getFill(node: BoxNode) {
           return paintToLinearGradient(fill)
         case 'IMAGE':
           const url = this.getImageUrl(fill.imageRef)
-          return `url(${url}) center center / cover no-repeat`
+          return `url("${url}") center center / cover no-repeat`
         default:
           return 'none'
       }

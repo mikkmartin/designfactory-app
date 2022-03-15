@@ -13,7 +13,7 @@ export const Box = observer<any>(({ children, ...props }) => {
     if (override) {
       const overrideValue = override[1]
       if (typeof overrideValue === 'string' && overrideValue.length > 0) {
-        props.style.background = `url(${overrideValue}) center center / cover no-repeat`
+        props.style.background = `url("${overrideValue}") center center / cover no-repeat`
       }
     }
   }
@@ -25,7 +25,7 @@ export const Box = observer<any>(({ children, ...props }) => {
       const imageLoader = new Image()
       imageLoader.src = overrideUrl
       imageLoader.onload = () => {
-        props.style.background = `url(${overrideUrl}) center center / cover no-repeat`
+        props.style.background = `url("${overrideUrl}") center center / cover no-repeat`
         setIsLoading(false)
       }
     } catch (e) {
