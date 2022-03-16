@@ -18,6 +18,9 @@ export const Loader = () => {
 }
 
 const Container = styled.svg`
+  circle {
+    fill: none;
+  }
   .fg {
     transform-origin: 50% 50%;
     stroke-dasharray: 20, 61;
