@@ -42,15 +42,19 @@ export async function getScreenshot(url, { res, isDev, supersample = 2 }: IScree
   await page.evaluate(async () => {
     const selector = '#__next > div > *'
     const selectors = Array.from(document.querySelector(selector).querySelectorAll('img'))
-    await Promise.all(
-      selectors.map(img => {
+    await Promise.all([
+      ...selectors.map(img => {
         if (img.complete) return
         return new Promise((resolve, reject) => {
           img.addEventListener('load', resolve)
           img.addEventListener('error', reject)
         })
-      })
-    )
+      }),
+      new Promise((resolve, reject) => {
+        document.fonts.onloadingdone = resolve
+        document.fonts.onloadingerror = reject
+      }),
+    ])
   })
   perf.endTimer('Loading page content')
 
