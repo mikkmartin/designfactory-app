@@ -1,5 +1,6 @@
 const SentryWebpackPlugin = require('@sentry/webpack-plugin')
 const {
+  NEXT_PUBLIC_STORAGE_URL,
   NEXT_PUBLIC_SENTRY_DSN: SENTRY_DSN,
   SENTRY_ORG,
   SENTRY_PROJECT,
@@ -43,6 +44,10 @@ module.exports = {
       {
         source: '/files/:slug.([0-9a-z]+$)',
         destination: '/api/render/:slug',
+      },
+      {
+        source: '/files/:slug/:file',
+        destination: `${NEXT_PUBLIC_STORAGE_URL}/themes/files/:slug/:file`,
       },
       {
         source: '/bee.js',
