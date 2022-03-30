@@ -2,6 +2,8 @@ import type { FileResponse, Canvas, Node } from '@mikkmartin/figma-js'
 import type { UiSchema } from '@rjsf/core'
 import type { JSONSchema7Object } from 'json-schema'
 import { findNodes as _findNodes } from 'components/Canvas/parseTemplate/findNodes'
+import storageURL from 'lib/static/storageURL'
+import { store } from 'data'
 
 export type ParsedCoponentSet = { components; sets: string[][] }
 export const getComponentsAndSets = nodes => {
@@ -154,7 +156,7 @@ export const getSchemas = (themeData: FileResponse): Schemas => {
             uiSchema = {
               [name]: {
                 'ui:widget': 'image-picker',
-                'ui:placeholder': 'Image...',
+                'ui:placeholder': `${storageURL}/themes/files/${store.content.template.theme.slug}/${node.fills[0].imageRef}.png`,
                 'ui:title': name.replace(/-/g, ' '),
               },
             }

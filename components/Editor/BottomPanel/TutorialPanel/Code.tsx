@@ -10,6 +10,7 @@ const space = ['  ', '    ']
 
 export const Code = observer(() => {
   const { inputData, theme } = store.content.template
+  const { uiSchema } = theme
   const slug = theme.slug
   const codeRef = useRef<HTMLElement>(null)
 
@@ -19,7 +20,12 @@ export const Code = observer(() => {
     navigator.clipboard.writeText(text)
   }
 
-  const params = Object.entries(inputData)
+  const params = Object.entries(uiSchema).reduce((acc, [key, value]) => {
+    let pair = [key, value]
+    if (inputData[key]) pair[1] = inputData[key]
+    else pair[1] = value['ui:placeholder']
+    return [...acc, pair]
+  }, [])
 
   return (
     <Container>
