@@ -3,7 +3,7 @@ import { Refresh, FigmaLogo } from 'components/icons'
 import { bouncy, fast } from 'lib/static/transitions'
 import Router, { useRouter } from 'next/router'
 import { observer } from 'mobx-react-lite'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { Button } from 'components/ui'
 import { store } from 'data'
 import { useEffect } from 'react'
@@ -47,7 +47,7 @@ export const EditingPanel = observer(() => {
   })
 
   return (
-    <Container>
+    <Container loading={loading}>
       <div className="info">
         <Button highlight onClick={mutate}>
           <div className="center-icon">
@@ -145,16 +145,40 @@ const useRouteChangeCallback = (
   }, [unsavedChanges])
 }
 
-const Container = styled(motion.div)`
+const Container = styled(motion.div)<{ loading: boolean }>`
   grid-area: canvas;
   place-self: start end;
   display: flex;
   justify-content: space-between;
   gap: 4px;
   padding: 6px;
-  background: rgb(var(--highlight));
   height: 56px;
   width: 100%;
+  ${({ loading }) =>
+    !loading
+      ? 'background: rgb(var(--highlight));'
+      : css`
+          animation-duration: 1s;
+          animation-fill-mode: forwards;
+          animation-iteration-count: infinite;
+          animation-name: placeHolderShimmer;
+          animation-timing-function: linear;
+          background: linear-gradient(
+            90deg,
+            rgb(var(--highlight)) 0%,
+            rgb(60, 154, 255) 12.5%,
+            rgb(var(--highlight)) 25%
+          );
+          background-size: 100vw;
+          @keyframes placeHolderShimmer {
+            0% {
+              background-position: -100vw 0;
+            }
+            100% {
+              background-position: 100vw 0;
+            }
+          }
+        `}
   .info {
     display: flex;
     gap: 8px;
