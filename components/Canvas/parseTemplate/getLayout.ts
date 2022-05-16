@@ -74,7 +74,6 @@ const getSize = (node): CSSProperties => {
   } else {
     let size: CSSProperties = {}
 
-    //if (node.name === 'Frame 1') console.log(toJS(node))
     if (node.layoutMode === 'HORIZONTAL' && node.primaryAxisSizingMode === 'FIXED') {
       size.width = width
     } else if (node.layoutMode === 'VERTICAL' && node.counterAxisSizingMode === 'FIXED') {
