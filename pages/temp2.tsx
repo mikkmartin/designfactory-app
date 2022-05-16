@@ -17,7 +17,7 @@ const Temp = () => {
   const [uiSchemaInvoice, setUiSchema] = useState<UiSchema>({})
   const [value, setValue] = useState({})
   const schema = toggle ? _schema : invoiceSchema
-  const uiSchema = toggle ? _uiSchema : uiSchemaInvoice
+  const uiSchema = toggle ? { ..._uiSchema, 'ui:order': [')', '*'] } : uiSchemaInvoice
 
   return (
     <>

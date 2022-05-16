@@ -41,7 +41,6 @@ const Container = styled.div<{ hasItems: boolean }>`
   display: grid;
   grid-template-columns: 2fr 4fr;
   grid-row-gap: 8px;
-  padding-right: 16px;
   ${p =>
     p.hasItems &&
     css`

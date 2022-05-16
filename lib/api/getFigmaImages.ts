@@ -21,7 +21,6 @@ export const getUsedFigmaImageRefs = async ({ figmaID, file }: Props): Promise<I
     getImageReferances(figmaID),
   ])
 
-  console.log(figmaRefs)
   return usedRefs.map(ref => ({
     ...ref,
     url: figmaRefs.data.meta.images[ref.imageRef],

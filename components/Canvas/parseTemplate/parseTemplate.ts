@@ -139,6 +139,7 @@ export function parseNode(node: BoxNode, parentNode: Node = null): ParsedNode {
           ...getLayout(node, parentNode),
           ...baseStyle,
           background: getFill(node),
+          borderRadius: node.cornerRadius + 'px' || node.rectangleCornerRadii?.join('px ') + 'px',
         },
       }
     case 'BOOLEAN_OPERATION':

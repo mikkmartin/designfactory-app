@@ -6,6 +6,7 @@ import { useForm } from '../FormContext'
 import { Root, Trigger, Content as ContentBase } from '@radix-ui/react-hover-card'
 import { Button } from 'components/ui'
 import { Close } from 'components/icons'
+import { motion } from 'framer-motion'
 
 const ToolTip = ({ children, show, onRemove }) => {
   if (!show) return children
@@ -93,7 +94,7 @@ const editing = css`
   }
 `
 
-const Container = styled.div`
+const Container = styled(motion.div)`
   display: grid;
   grid-template-columns: 2fr 4fr;
   padding-right: 16px;
