@@ -12,7 +12,9 @@ import {
 import { CSSProperties } from 'react'
 import { getLayout } from './getLayout'
 import { getFill as _getFill } from './getFill'
+import { getSrc as _getSrc } from './getFill'
 import { getColor } from './getColor'
+import { BlockList } from 'net'
 
 export type ContainerNode = Frame | Group
 export type ParentNode = Frame | Group | Canvas
@@ -31,6 +33,11 @@ interface IBaseNode {
 
 interface IBoxNode extends IBaseNode {
   type: Exclude<NodeType, 'TEXT' | 'BOOLEAN_OPERATION' | 'VECTOR' | 'LINE' | 'INSTANCE'>
+}
+
+export interface IImageNode extends IBaseNode {
+  type: 'IMAGE'
+  src: string
 }
 
 export interface TextNode extends IBaseNode {
@@ -56,10 +63,11 @@ export interface VectorNode extends IBaseNode {
   }
 }
 
-export type ParsedNode = TextNode | VectorNode | InstanceNode | IBoxNode
+export type ParsedNode = TextNode | VectorNode | InstanceNode | IBoxNode | IImageNode
 
 export function parseNode(node: BoxNode, parentNode: Node = null): ParsedNode {
   const getFill = _getFill.bind(this)
+  const getSrc = _getSrc.bind(this)
   const parseChild = parseNode.bind(this)
   const { id, name, type } = node
   const props: Pick<ParsedNode, 'id' | 'name' | 'type'> = {
@@ -132,15 +140,29 @@ export function parseNode(node: BoxNode, parentNode: Node = null): ParsedNode {
         overrides,
       }
     case 'RECTANGLE':
-      return {
-        ...props,
-        type: node.type,
-        style: {
-          ...getLayout(node, parentNode),
-          ...baseStyle,
-          background: getFill(node),
-          borderRadius: node.cornerRadius + 'px' || node.rectangleCornerRadii?.join('px ') + 'px',
-        },
+      if (node.fills.find(fill => fill.type === 'IMAGE')) {
+        return {
+          ...props,
+          type: 'IMAGE',
+          src: getSrc(node),
+          style: {
+            ...getLayout(node, parentNode),
+            ...baseStyle,
+            display: 'block',
+            borderRadius: node.cornerRadius + 'px' || node.rectangleCornerRadii?.join('px ') + 'px',
+          },
+        }
+      } else {
+        return {
+          ...props,
+          type: node.type,
+          style: {
+            ...getLayout(node, parentNode),
+            ...baseStyle,
+            background: getFill(node),
+            borderRadius: node.cornerRadius + 'px' || node.rectangleCornerRadii?.join('px ') + 'px',
+          },
+        }
       }
     case 'BOOLEAN_OPERATION':
     case 'LINE':

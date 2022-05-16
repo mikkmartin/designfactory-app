@@ -21,6 +21,12 @@ export function getFill(node: BoxNode) {
     .join(', ')
 }
 
+export function getSrc(node): string {
+  const fill = node.fills.find(fill => fill.type === 'IMAGE')
+  const url = this.getImageUrl(fill.imageRef)
+  return url
+}
+
 function paintToLinearGradient(paint) {
   const handles = paint.gradientHandlePositions
   const handle0 = handles[0]
