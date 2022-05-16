@@ -127,7 +127,7 @@ const handleAdd = async (req: Req, res: Res<AddThemeResponse>) => {
       owner_template_id: templateID,
       owner_profile_id: anonID,
       figma_id: figmaID,
-      size,
+      size: roundSize(size),
     })
     .single()
   if (error) throw new Error(error.message)
