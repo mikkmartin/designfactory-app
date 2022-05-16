@@ -1,11 +1,13 @@
 import { CSSProperties } from 'react'
 import { Frame } from '@mikkmartin/figma-js'
 import { BoxNode, ContainerNode } from './parseTemplate'
+import { toJS } from 'mobx'
 
 type LayoutType = 'CANVAS_CHILD' | 'STATIC' | 'LAYOUT_ITEM'
 
 export const getLayout = (node: BoxNode, parentNode = null): CSSProperties => {
   const layoutMode = getLayoutMode(parentNode)
+  // if (node.id === '79:21') console.log(toJS(node))
 
   const { paddingLeft, paddingRight, paddingTop, paddingBottom } = node as Frame
   const props = {
@@ -74,16 +76,16 @@ const getSize = (node): CSSProperties => {
   } else {
     let size: CSSProperties = {}
 
-    if (node.layoutMode === 'HORIZONTAL' && node.primaryAxisSizingMode === 'FIXED') {
-      size.width = width
-    } else if (node.layoutMode === 'VERTICAL' && node.counterAxisSizingMode === 'FIXED') {
-      size.width = width
-      size.height = height
+    if (node.layoutMode === 'HORIZONTAL') {
+      if (node.primaryAxisSizingMode === 'FIXED') size.width = width
+      if (node.counterAxisSizingMode === 'FIXED') size.height = height
+    } else if (node.layoutMode === 'VERTICAL') {
+      if (node.primaryAxisSizingMode === 'FIXED') size.height = height
+      if (node.counterAxisSizingMode === 'FIXED') size.width = width
     } else {
       if (node.layoutMode !== 'HORIZONTAL') size.width = width
       if (node.layoutMode !== 'VERTICAL') size.height = height
     }
-
     return size
   }
 }
