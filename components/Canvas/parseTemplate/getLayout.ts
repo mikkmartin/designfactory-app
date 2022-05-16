@@ -1,7 +1,6 @@
 import { CSSProperties } from 'react'
 import { Frame } from '@mikkmartin/figma-js'
 import { BoxNode, ContainerNode } from './parseTemplate'
-import { toJS } from 'mobx'
 
 type LayoutType = 'CANVAS_CHILD' | 'STATIC' | 'LAYOUT_ITEM'
 

@@ -71,6 +71,11 @@ const handleLoadThemePreview = async (req: Req, res: Res<ThemePreviewResponse>) 
   res.end()
 }
 
+const roundSize = (size: [number, number]) => {
+  const [width, height] = size
+  return [Math.round(width), Math.round(height)]
+}
+
 const handleUpdate = async (req: Req, res: Res<UpdateThemeResponse>) => {
   const { figmaID, slug, size } = JSON.parse(req.body) as UpdateThemeParams
   const anonID = req.cookies[ANON_ID]
@@ -78,7 +83,7 @@ const handleUpdate = async (req: Req, res: Res<UpdateThemeResponse>) => {
 
   const sizeUpdate = await supabase
     .from<definitions['themes']>('themes')
-    .update({ size })
+    .update({ size: roundSize(size) })
     .eq('owner_profile_id', anonID)
     .eq('slug', slug)
     .single()
