@@ -148,6 +148,7 @@ export function parseNode(node: BoxNode, parentNode: Node = null): ParsedNode {
             ...getLayout(node, parentNode),
             ...baseStyle,
             display: 'block',
+            objectFit: 'cover',
             borderRadius: node.cornerRadius + 'px' || node.rectangleCornerRadii?.join('px ') + 'px',
           },
         }
