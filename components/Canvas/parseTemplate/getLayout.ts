@@ -2,11 +2,8 @@ import { CSSProperties } from 'react'
 import { Frame } from '@mikkmartin/figma-js'
 import { BoxNode, ContainerNode } from './parseTemplate'
 
-type LayoutType = 'CANVAS_CHILD' | 'STATIC' | 'LAYOUT_ITEM'
-
 export const getLayout = (node: BoxNode, parentNode = null): CSSProperties => {
   const layoutMode = getLayoutMode(parentNode)
-  // if (node.id === '79:21') console.log(toJS(node))
 
   const { paddingLeft, paddingRight, paddingTop, paddingBottom } = node as Frame
   const props = {
@@ -34,10 +31,14 @@ export const getLayout = (node: BoxNode, parentNode = null): CSSProperties => {
     case 'LAYOUT_ITEM':
       return {
         ...props,
-        position: 'relative',
+        ...getPosition(node, parentNode),
         ...getSize(node),
       }
   }
+}
+
+function getPosition(node, parentNode): CSSProperties {
+  return node.layoutPositioning ? staticLayout(node, parentNode) : { position: 'relative' }
 }
 
 const staticLayout = (node: BoxNode, parentNode: ContainerNode): CSSProperties => {
@@ -50,12 +51,30 @@ const staticLayout = (node: BoxNode, parentNode: ContainerNode): CSSProperties =
   let layout: CSSProperties = {
     position: 'absolute',
   }
+  const transform = { x: 0, y: 0 }
 
-  if (horizontal === 'RIGHT') layout.right = parentSize.width - width - left
-  else layout.left = left
+  if (horizontal === 'RIGHT') {
+    layout.right = parentSize.width - width - left
+  } else if (horizontal === 'CENTER') {
+    layout.top = ((top + height / 2) / parentSize.height) * 100 + '%'
+    transform.x = -50
+  } else {
+    layout.left = left
+  }
 
-  if (vertical === 'BOTTOM') layout.bottom = parentSize.height - height - top
-  else layout.top = top
+  if (vertical === 'BOTTOM') {
+    layout.bottom = parentSize.height - height - top
+  } else if (vertical === 'CENTER') {
+    layout.left = ((left + width / 2) / parentSize.width) * 100 + '%'
+    transform.y = -50
+  } else {
+    layout.top = top
+  }
+
+  if (vertical === 'CENTER' || horizontal === 'CENTER') {
+    const { x, y } = transform
+    layout.transform = `translate(${x}%, ${y}%)`
+  }
 
   return layout
 }
@@ -88,6 +107,8 @@ const getSize = (node): CSSProperties => {
     return size
   }
 }
+
+type LayoutType = 'CANVAS_CHILD' | 'STATIC' | 'LAYOUT_ITEM'
 
 const getLayoutMode = (parent): LayoutType =>
   !parent ? 'CANVAS_CHILD' : !parent.layoutMode ? 'STATIC' : 'LAYOUT_ITEM'

@@ -14,7 +14,6 @@ import { getLayout } from './getLayout'
 import { getFill as _getFill } from './getFill'
 import { getSrc as _getSrc } from './getFill'
 import { getColor } from './getColor'
-import { BlockList } from 'net'
 
 export type ContainerNode = Frame | Group
 export type ParentNode = Frame | Group | Canvas
