@@ -20,7 +20,8 @@ const handleCreateAnonUser = async (_, res: Res<CreateAuthUserResponse>) => {
       .from<definitions['profiles']>('profiles')
       .insert({})
       .single()
-    res.setHeader('Set-Cookie', `df:anon:id=${data.id}; path=/; secure`)
+    const epireDate = new Date(2147483647 * 1000).toUTCString()
+    res.setHeader('Set-Cookie', `df:anon:id=${data.id}; path=/; secure; expires: ${epireDate}`)
     res.status(200).json({ data, error })
   } catch ({ message: error }) {
     res.status(500).json({ data: null, error })
