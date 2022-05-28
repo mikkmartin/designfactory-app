@@ -15,13 +15,12 @@ export const Image = observer<Props>(_props => {
     const overrideValue = override[1]
     if (typeof overrideValue === 'string' && overrideValue.length > 0) {
       props.src = overrideValue
-      props.style = {
-        ...props.style,
-        height: 'auto',
-        maxHeight:
+      if (props.style.position !== 'absolute') {
+        props.style.height = 'auto'
+        props.style.maxHeight =
           typeof props.style.height === 'string'
             ? parseFloat(props.style.height)
-            : props.style.height * 1.5,
+            : props.style.height * 1.5
       }
     }
   }
