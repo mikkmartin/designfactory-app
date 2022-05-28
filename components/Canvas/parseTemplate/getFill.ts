@@ -38,7 +38,7 @@ function paintToLinearGradient(paint) {
   const angle = Math.atan2(-xdiff, -ydiff)
   const stops = paint.gradientStops
     .map(stop => {
-      return `${getColor(stop.color)} ${Math.round(stop.position * 100)}%`
+      return `${getColor(stop)} ${Math.round(stop.position * 100)}%`
     })
     .join(', ')
   return `linear-gradient(${angle}rad, ${stops})`
