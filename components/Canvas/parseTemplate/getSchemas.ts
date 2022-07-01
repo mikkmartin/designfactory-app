@@ -145,7 +145,7 @@ export const getSchemas = (themeData: FileResponse): Schemas => {
             } else if (!reapeatingInstances[parent.id] && Boolean(parent.layoutMode)) {
               reapeatingInstances[parent.id] = [node as Instance]
             } else {
-              const everyComponentSame = reapeatingInstances[parent.id].every(
+              const everyComponentSame = reapeatingInstances[parent.id]?.every(
                 i => i.componentId === componentId
               )
               if (everyComponentSame) reapeatingInstances[parent.id].push(node as Instance)
