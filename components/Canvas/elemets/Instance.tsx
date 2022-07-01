@@ -12,9 +12,8 @@ export const Instance: FC<InstanceNode & { listParent?: null | string; nthChild:
   observer(({ style, name, componentId, children, listParent, nthChild }) => {
     const { componentSets, editable, inputData, setInputData } = useCanvas()
 
-    const componentSet = Object.values(componentSets).find(set => {
-      return set.find(component => component.id === componentId)
-    })
+    const set = componentSets.sets.find(set => set.find(id => id === componentId))
+    const componentSet = componentSets.components.filter(c => set.includes(c.id))
 
     const getComponent = (name: string) => {
       const overrideKey = Object.keys(inputData).find(key => key === name)

@@ -6,7 +6,7 @@ import { parseNode, getFonts, findNodes, BoxNode, IFont, ParsedNode } from './pa
 
 export class CanvasStore {
   pages: ParsedNode[] = []
-  componentSets: any = []
+  componentSets: { components: { [key: string]: any }[]; sets: string[][] } = null
   editable: boolean = false
   disabledFields: string[] = []
   inputData: Object = {}
