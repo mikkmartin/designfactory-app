@@ -3,6 +3,7 @@ import { Canvas } from 'components/Canvas'
 import storageURL from 'lib/static/storageURL'
 import { FileResponse } from '@mikkmartin/figma-js'
 import { FC } from 'react'
+import baseURL from 'lib/static/baseURL'
 
 type Props = {
   slug: string
@@ -23,7 +24,8 @@ export const Screenshot: FC<Props> = ({ slug, themeData, inputData }) => {
 
 export const getServerSideProps: GetServerSideProps<Props> = async ({ query }) => {
   const { slug, ...inputData } = query
-  const url = `${storageURL}/themes/files/${slug}.json`
+  const url = `${baseURL}/api/figma/cached/${slug}`
+
   const themeData = await fetch(url).then(res => res.json())
   return { props: { slug: slug as string, themeData, inputData } }
 }
