@@ -41,14 +41,13 @@ const getUsedReferences = (file: FileResponse): Promise<any[]> =>
 
 const getUsedComponents = ({ file, frame }) => {
   const instances = findNodes('INSTANCE', frame.children)
-  //@ts-ignore
   return findNodes('COMPONENT_SET', file.document.children)
-    .filter((set: Frame) =>
+    .filter(set =>
       set.children.some((node: Component) =>
         instances.some(instance => instance.componentId === node.id)
       )
     )
-    .flatMap((set: Frame) => set.children)
+    .flatMap(set => set.children)
 }
 
 const getImageReferences = (node: Frame) => {

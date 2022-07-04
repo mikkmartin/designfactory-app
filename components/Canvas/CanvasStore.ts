@@ -6,7 +6,7 @@ import { parseNode, getFonts, findNodes, BoxNode, IFont, ParsedNode } from './pa
 
 export class CanvasStore {
   pages: ParsedNode[] = []
-  componentSets: { components: { [key: string]: any }[]; sets: string[][] } = null
+  componentSets: { components?: { [key: string]: any }[]; sets?: string[][] } = null
   editable: boolean = false
   disabledFields: string[] = []
   inputData: Object = {}
@@ -45,7 +45,6 @@ export class CanvasStore {
     const components = findNodes('COMPONENT', nodes).map(node =>
       parseNode.bind(this)(node as BoxNode)
     )
-    //@ts-ignore
     const sets = findNodes('COMPONENT_SET', nodes).map(set => set.children.map(child => child.id))
     return { components, sets }
   }

@@ -8,7 +8,6 @@ import { store } from 'data'
 export type ParsedCoponentSet = { components; sets: string[][] }
 export const getComponentsAndSets = nodes => {
   const components = _findNodes('COMPONENT', nodes)
-  //@ts-ignore
   const sets = _findNodes('COMPONENT_SET', nodes).map(set => set.children.map(child => child.id))
   return { components, sets }
 }
@@ -105,6 +104,24 @@ export const getSchemas = (themeData: FileResponse): Schemas => {
             const { sets, components } = componentSets
             const componentId = node.componentId
             const setIndex = sets.findIndex(set => set.includes(node.componentId))
+
+            node.componentProperties &&
+              Object.entries(node.componentProperties.assignments).forEach(([key, val]) => {
+                //.map(([_, val]) => val.type === 'BOOLEAN')
+                const title = key.split('#')[0]
+                switch (val.type) {
+                  case 'BOOLEAN':
+                    properties[title] = { type: 'boolean', title, default: val.value }
+                    uiSchema[title] = {
+                      'ui:title': title.replace(/-/g, ' '),
+                      'ui:widget': 'checkbox',
+                    }
+                    break
+                  case 'TEXT':
+                    properties[title] = { type: 'string', title, default: val.value }
+                }
+              })
+
             if (setIndex !== -1) {
               const set = sets[setIndex]
               const setComponents = components.filter(component => set.includes(component.id))

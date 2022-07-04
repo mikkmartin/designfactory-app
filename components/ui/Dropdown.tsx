@@ -256,7 +256,6 @@ type ContextProps = {
   setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-//@ts-ignore
-const Context = createContext<ContextProps>()
+const Context = createContext<ContextProps>(null)
 
 const useDropdown = () => useContext(Context)

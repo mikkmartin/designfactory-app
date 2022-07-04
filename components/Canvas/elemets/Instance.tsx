@@ -7,18 +7,22 @@ import { useCanvas } from '../Canvas'
 import { observer } from 'mobx-react-lite'
 import { Component, Chevron } from 'components/icons'
 import { Dropdown } from 'components/ui/Dropdown'
+import { useInstance } from './InstanceContext'
 
 export const Instance: FC<InstanceNode & { listParent?: null | string; nthChild: number }> =
-  observer(({ style, name, componentId, children, listParent, nthChild }) => {
-    const { componentSets, editable, inputData, setInputData } = useCanvas()
-
-    const set = componentSets.sets.find(set => set.find(id => id === componentId))
-    const componentSet = componentSets.components.filter(c => set.includes(c.id))
+  observer(({ componentId, children, listParent, nthChild, ...props }) => {
+    const instance = useInstance()
+    console.log({ instance })
+    const { componentSets, inputData } = useCanvas()
+    const { name } = props
 
     const getComponent = (name: string) => {
       const overrideKey = Object.keys(inputData).find(key => key === name)
       const hasOverride = Boolean(overrideKey)
-      if (!hasOverride) return children
+      if (!hasOverride || componentSets.sets.length < 1) return <div {...props}>{children}</div>
+
+      const set = componentSets.sets.find(set => set.find(id => id === componentId))
+      const componentSet = componentSets.components.filter(c => set.includes(c.id))
 
       const hasMultipleTextChildren = false
       const overrideKeys = componentSet.map(c => c.name.split('=')[0])
@@ -42,102 +46,6 @@ export const Instance: FC<InstanceNode & { listParent?: null | string; nthChild:
       return component ? renderElement(component) : children
     }
 
-    const cycleComponent = ev => {
-      ev.stopPropagation()
-      const hasOverrideApplied = Boolean(overrideKey)
-      if (hasOverrideApplied) {
-        const currentIndex = componentSet.findIndex(
-          c => inputData[overrideKey] === c.name.split('=')[1]
-        )
-        const nextIndex = currentIndex < componentSet.length - 1 ? currentIndex + 1 : 0
-        setInputData({ [overrideKey]: componentSet[nextIndex].name.split('=')[1] })
-      } else {
-        setInputData({ [name]: componentSet[0].name.split('=')[1] })
-      }
-    }
-
-    const handleChange = (value: string) => {
-      const overrideKey =
-        Object.keys(inputData).find(key => key === name) || componentSet[0].name.split('=')[0]
-      setInputData({ [overrideKey]: value })
-    }
-    const itemNames = componentSet.map(item => item.name.split('=')[1])
-    const overrideKey =
-      Object.keys(inputData).find(key => key === name) || componentSet[0].name.split('=')[0]
-    const currentValue = inputData[overrideKey] || componentSet[0].name.split('=')[0]
-
     if (listParent && inputData[listParent] && inputData[listParent].length <= nthChild) return null
-    return (
-      <Container style={style} onTap={cycleComponent}>
-        {getComponent(name)}
-        {editable && (
-          <InstanceOverlay value={currentValue} options={itemNames} onChange={handleChange} />
-        )}
-      </Container>
-    )
+    return getComponent(name)
   })
-
-const InstanceOverlay = ({ value, options, onChange = (_: string) => {} }) => {
-  return (
-    <motion.div className="overlay">
-      <Dropdown theme="variant" value={value} options={options} onChange={onChange}>
-        <div className="label">
-          <Component />
-          <span>{value}</span>
-          <Chevron />
-        </div>
-      </Dropdown>
-    </motion.div>
-  )
-}
-
-export const Container = styled(motion.div)`
-  border: none;
-  background: none;
-  cursor: pointer;
-  .overlay {
-    display: none;
-    position: absolute;
-    inset: 0;
-    z-index: 999;
-    display: grid;
-    place-items: start start;
-    opacity: 0;
-    background: rgb(216 137 255 / 10%);
-    box-shadow: inset 0 0 0 1px #c18eff, 0 0 0 1px rgba(255, 255, 255, 0.25);
-  }
-  &:hover,
-  &:focus,
-  &:active {
-    .overlay {
-      opacity: 1;
-      backdrop-filter: saturate(1.1);
-      .label {
-        cursor: auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 4px;
-        padding: 6px 8px;
-        background: #c18eff;
-        font-size: 10px;
-        color: black;
-        span {
-          user-select: none;
-          font-family: inherit;
-        }
-        svg {
-          width: 12px;
-          height: 12px;
-        }
-        :hover {
-          background: #9c45ff;
-          svg,
-          span {
-            color: white;
-          }
-        }
-      }
-    }
-  }
-`

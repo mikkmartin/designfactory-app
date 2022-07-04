@@ -2,7 +2,7 @@ import { ReactElement } from 'react'
 import { ParsedNode } from './parseTemplate'
 import { Text, Svg, Instance, Box, InstanceContainer, Image } from './elemets'
 
-export const renderElement = (node): ReactElement<ParsedNode | null> => {
+export const renderElement = (node: ParsedNode): ReactElement<ParsedNode | null> => {
   if (!node) return null
   const { id, style, children, name } = node
   let props: any = { key: id, style, name }
@@ -19,7 +19,8 @@ export const renderElement = (node): ReactElement<ParsedNode | null> => {
     case 'IMAGE':
       return <Image {...props} src={node.src} />
     case 'INSTANCE':
-      props.componentId = node.componentId
+      const { componentProperties, componentId } = node
+      props = { ...props, componentId, componentProperties }
       return <Instance {...props}>{children.map(renderElement)}</Instance>
     case 'TEXT':
       return <Text {...props} content={node.content} overrides={node.overrides} />

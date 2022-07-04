@@ -44,7 +44,6 @@ const staticLayout = (node: BoxNode, parentNode: ContainerNode | undefined): CSS
   const top = node.absoluteBoundingBox.y - (parentNode?.absoluteBoundingBox.y || 0)
   const left = node.absoluteBoundingBox.x - (parentNode?.absoluteBoundingBox.x || 0)
   const { height, width } = node.absoluteBoundingBox
-  //@ts-ignore
   const parentSize = parentNode.absoluteBoundingBox
   const { horizontal, vertical } = node.constraints
 

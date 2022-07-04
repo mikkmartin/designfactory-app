@@ -49,6 +49,7 @@ export interface TextNode extends IBaseNode {
 export interface InstanceNode extends IBaseNode {
   type: Extract<NodeType, 'INSTANCE'>
   componentId: Instance['componentId']
+  componentProperties: Instance['componentProperties']
 }
 
 export interface VectorNode extends IBaseNode {
@@ -111,6 +112,7 @@ export function parseNode(node: BoxNode, parentNode: Node = null): ParsedNode {
           background: getFill(node),
         },
         componentId: node.componentId,
+        componentProperties: node.componentProperties,
         children: node.children.map(child => parseChild(child, node)),
       }
     case 'TEXT':
