@@ -1,6 +1,6 @@
 import { ReactElement } from 'react'
 import { ParsedNode } from './parseTemplate'
-import { Text, Svg, Instance, Box, InstanceContainer, Image } from './elemets'
+import { Text, Svg, Instance, Box, InstanceListContainer, Image } from './elemets'
 
 export const renderElement = (node: ParsedNode): ReactElement<ParsedNode | null> => {
   if (!node) return null
@@ -12,7 +12,7 @@ export const renderElement = (node: ParsedNode): ReactElement<ParsedNode | null>
     case 'GROUP':
     case 'COMPONENT':
       if (isInstanceContainer(node))
-        return <InstanceContainer {...props}>{children}</InstanceContainer>
+        return <InstanceListContainer {...props}>{children}</InstanceListContainer>
       else return <Box {...props}>{children.map(renderElement)}</Box>
     case 'RECTANGLE':
       return <Box {...props} />

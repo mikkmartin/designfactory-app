@@ -8,7 +8,7 @@ import { observer } from 'mobx-react-lite'
 import { ContainerNode } from '../parseTemplate/parseTemplate'
 import { AddElement } from './AddElement'
 
-export const InstanceContainer: FC<ContainerNode> = ({ children, ...props }) => {
+export const InstanceListContainer: FC<ContainerNode> = ({ children, ...props }) => {
   return (
     <Box {...props}>
       <RenderWithPopulatedSymbols name={props.name}>{children}</RenderWithPopulatedSymbols>
