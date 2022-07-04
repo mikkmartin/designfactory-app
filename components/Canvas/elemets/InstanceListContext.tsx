@@ -4,7 +4,7 @@ import { store } from 'data'
 
 const Context = createContext(null)
 
-export const InstanceProvider = observer<any>(({ containerKey, nth, children }) => {
+export const InstanceListProvider = observer<any>(({ containerKey, nth, children }) => {
   const { inputData, setInputData } = store.content.template
 
   function setText(obj) {
@@ -25,4 +25,4 @@ export const InstanceProvider = observer<any>(({ containerKey, nth, children }) 
   )
 })
 
-export const useInstance = () => useContext(Context)
+export const useInstanceList = () => useContext(Context)

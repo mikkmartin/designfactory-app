@@ -1,7 +1,7 @@
 import { useEditor as useTipTap, EditorContent, JSONContent } from '@tiptap/react'
 //import StarterKit from '@tiptap/starter-kit'
 import { useEffect, useRef } from 'react'
-import { useInstance } from './InstanceContext'
+import { useInstanceList } from './InstanceListContext'
 import { useCanvas } from '../Canvas'
 import { observer } from 'mobx-react-lite'
 import type { TextNode } from '../parseTemplate'
@@ -31,7 +31,7 @@ const splittString = (str: string, overRides): { content: string; style?: any }[
 export const Text = observer<TextNode>(({ style, content, name, overrides }) => {
   const acceptUpdates = useRef(true)
   const global = useCanvas()
-  const instance = useInstance()
+  const instance = useInstanceList()
   const source = instance ? instance : global
   const { inputData, setInputData } = source
   const isDefaultData = !Boolean(inputData[name])

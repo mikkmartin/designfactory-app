@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { renderElement } from '../renderElement'
 import { Box } from './Box'
-import { InstanceProvider, useInstance } from './InstanceContext'
+import { InstanceListProvider, useInstanceList } from './InstanceListContext'
 import { useCanvas } from '../Canvas'
 import { store } from 'data'
 import { observer } from 'mobx-react-lite'
@@ -19,7 +19,7 @@ export const InstanceContainer: FC<ContainerNode> = ({ children, ...props }) => 
 let consecutiveInstances = []
 const RenderWithPopulatedSymbols = observer<any>(({ children, name }) => {
   const { componentSets } = useCanvas()
-  const instance = useInstance()
+  const instance = useInstanceList()
   const global = store.content.template
   const { inputData } = instance ? instance : global
 
@@ -45,7 +45,7 @@ const RenderWithPopulatedSymbols = observer<any>(({ children, name }) => {
         ...all,
         ...elementsFromfromData.map((child, i) => {
           return (
-            <InstanceProvider containerKey={name} nth={i} key={child.id}>
+            <InstanceListProvider containerKey={name} nth={i} key={child.id}>
               <div style={{ position: 'relative' }}>
                 {renderElement(child)}
                 <button
@@ -58,7 +58,7 @@ const RenderWithPopulatedSymbols = observer<any>(({ children, name }) => {
                   x
                 </button>
               </div>
-            </InstanceProvider>
+            </InstanceListProvider>
           )
         }),
         <AddElement containerKey={name} />,

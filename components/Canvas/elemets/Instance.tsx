@@ -1,18 +1,11 @@
-import { motion } from 'framer-motion'
 import { FC } from 'react'
-import styled from 'styled-components'
 import { InstanceNode } from '../parseTemplate/parseTemplate'
 import { renderElement } from '../renderElement'
 import { useCanvas } from '../Canvas'
 import { observer } from 'mobx-react-lite'
-import { Component, Chevron } from 'components/icons'
-import { Dropdown } from 'components/ui/Dropdown'
-import { useInstance } from './InstanceContext'
 
 export const Instance: FC<InstanceNode & { listParent?: null | string; nthChild: number }> =
   observer(({ componentId, children, listParent, nthChild, ...props }) => {
-    const instance = useInstance()
-    console.log({ instance })
     const { componentSets, inputData } = useCanvas()
     const { name } = props
 
@@ -34,7 +27,7 @@ export const Instance: FC<InstanceNode & { listParent?: null | string; nthChild:
         typeof inputData[overrideKey] === 'string' &&
         !hasMultipleTextChildren
       ) {
-        const component = componentSet.find(c => c.name.split('=')[1] === inputData[overrideKey])
+        const component = componentSet.find(c => c.name.split('=')[1] === inputData[overrideKey]) as any
         if (component) return renderElement(component)
       }
 
@@ -42,7 +35,7 @@ export const Instance: FC<InstanceNode & { listParent?: null | string; nthChild:
       const component = componentSet.find(c => {
         const name = c.name.split('=')[1]
         return !!Object.values(inputData[overrideKey]).find(val => val === name)
-      })
+      }) as any
       return component ? renderElement(component) : children
     }
 
