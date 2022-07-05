@@ -1,10 +1,17 @@
-import { ReactElement } from 'react'
 import { ParsedNode } from './parseTemplate'
-import { Text, Svg, Instance, Box, InstanceListContainer, Image } from './elemets'
+import { ReactElement } from 'react'
+import { InstanceListContainer, Instance, Image, Text, Svg, Box } from './elemets'
+import { useCanvas } from './Canvas'
 
 export const renderElement = (node: ParsedNode): ReactElement<ParsedNode | null> => {
   if (!node) return null
-  const { id, style, children, name } = node
+  let { id, style, children, name } = node
+  const canvas = useCanvas()
+  const overrides = canvas.getInstanceOverrides(id)
+  if (overrides.visible !== undefined) {
+    if (overrides.visible) style = { ...style, display: 'block' }
+    else style = { ...style, display: 'none' }
+  }
   let props: any = { key: id, style, name }
 
   switch (node.type) {
@@ -19,8 +26,12 @@ export const renderElement = (node: ParsedNode): ReactElement<ParsedNode | null>
     case 'IMAGE':
       return <Image {...props} src={node.src} />
     case 'INSTANCE':
-      const { componentProperties, componentId } = node
-      props = { ...props, componentId, componentProperties }
+      canvas.setInstanceOverrides({
+        id: node.id,
+        compnentId: node.componentId,
+        propertyAssignments: node.componentProperties?.assignments,
+      })
+      props.componentId = node.componentId
       return <Instance {...props}>{children.map(renderElement)}</Instance>
     case 'TEXT':
       return <Text {...props} content={node.content} overrides={node.overrides} />

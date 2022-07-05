@@ -8,6 +8,8 @@ import {
   NodeType,
   Slice,
   Instance,
+  ComponentProperties,
+  ComponentPropertyDefinitions,
 } from '@mikkmartin/figma-js'
 import { CSSProperties } from 'react'
 import { getLayout } from './getLayout'
@@ -29,6 +31,7 @@ interface IBaseNode {
   name: string
   style: CSSProperties
   children?: ParsedNode[]
+  componentProperties?: ComponentProperties
 }
 
 interface IBoxNode extends IBaseNode {
@@ -49,7 +52,7 @@ export interface TextNode extends IBaseNode {
 export interface InstanceNode extends IBaseNode {
   type: Extract<NodeType, 'INSTANCE'>
   componentId: Instance['componentId']
-  componentProperties: Instance['componentProperties']
+  componentProperties?: ComponentPropertyDefinitions
 }
 
 export interface VectorNode extends IBaseNode {
@@ -66,16 +69,18 @@ export interface VectorNode extends IBaseNode {
 
 export type ParsedNode = TextNode | VectorNode | InstanceNode | IBoxNode | IImageNode
 
-export function parseNode(node: BoxNode, parentNode: Node = null): ParsedNode {
+export function parseNode(node: BoxNode, parentNode: ContainerNode = null): ParsedNode {
   const getFill = _getFill.bind(this)
   const getSrc = _getSrc.bind(this)
   const parseChild = parseNode.bind(this)
-  const { id, name, type } = node
-  const props: Pick<ParsedNode, 'id' | 'name' | 'type'> = {
+  const { id, name, type, componentProperties } = node
+  const props: Pick<ParsedNode, 'id' | 'name' | 'type' | 'componentProperties'> = {
     id,
     name,
     type,
+    componentProperties,
   }
+
   let baseStyle: CSSProperties = {
     opacity: node.opacity,
     mixBlendMode: node.blendMode.toLowerCase().replace('_', '-') as CSSProperties['mixBlendMode'],
@@ -86,8 +91,9 @@ export function parseNode(node: BoxNode, parentNode: Node = null): ParsedNode {
 
   switch (node.type) {
     case 'FRAME':
-      baseStyle.borderRadius =
-        node.cornerRadius + 'px' || node.rectangleCornerRadii?.join('px ') + 'px'
+      if (node.cornerRadius || node.rectangleCornerRadii)
+        baseStyle.borderRadius =
+          node.cornerRadius + 'px' || node.rectangleCornerRadii?.join('px ') + 'px'
     case 'GROUP':
     case 'COMPONENT':
       return {
@@ -112,7 +118,6 @@ export function parseNode(node: BoxNode, parentNode: Node = null): ParsedNode {
           background: getFill(node),
         },
         componentId: node.componentId,
-        componentProperties: node.componentProperties,
         children: node.children.map(child => parseChild(child, node)),
       }
     case 'TEXT':

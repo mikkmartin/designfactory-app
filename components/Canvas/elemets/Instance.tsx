@@ -27,7 +27,9 @@ export const Instance: FC<InstanceNode & { listParent?: null | string; nthChild:
         typeof inputData[overrideKey] === 'string' &&
         !hasMultipleTextChildren
       ) {
-        const component = componentSet.find(c => c.name.split('=')[1] === inputData[overrideKey]) as any
+        const component = componentSet.find(
+          c => c.name.split('=')[1] === inputData[overrideKey]
+        ) as any
         if (component) return renderElement(component)
       }
 
