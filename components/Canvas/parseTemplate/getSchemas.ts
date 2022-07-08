@@ -4,7 +4,6 @@ import type { JSONSchema7Object } from 'json-schema'
 import { findNodes as _findNodes } from 'components/Canvas/parseTemplate/findNodes'
 import baseURL from 'lib/static/baseURL'
 import { store } from 'data'
-import { toJS } from 'mobx'
 
 export type ParsedCoponentSet = { components; sets: string[][] }
 export const getComponentsAndSets = nodes => {
