@@ -4,6 +4,7 @@ import type { JSONSchema7Object } from 'json-schema'
 import { findNodes as _findNodes } from 'components/Canvas/parseTemplate/findNodes'
 import baseURL from 'lib/static/baseURL'
 import { store } from 'data'
+import { toJS } from 'mobx'
 
 export type ParsedCoponentSet = { components; sets: string[][] }
 export const getComponentsAndSets = nodes => {
@@ -107,12 +108,17 @@ export const getSchemas = (themeData: FileResponse): Schemas => {
 
             node.componentProperties &&
               Object.entries(node.componentProperties.assignments).forEach(([key, val]) => {
-                //.map(([_, val]) => val.type === 'BOOLEAN')
-                const title = key.split('#')[0]
+                const [title] = key.split('#')
                 switch (val.type) {
                   case 'BOOLEAN':
-                    properties[title] = { type: 'boolean', title, default: val.value }
+                    properties[title] = {
+                      ...properties,
+                      type: 'boolean',
+                      title,
+                      default: val.value,
+                    }
                     uiSchema[title] = {
+                      ...uiSchema,
                       'ui:title': title.replace(/-/g, ' '),
                       'ui:widget': 'checkbox',
                     }
@@ -128,8 +134,9 @@ export const getSchemas = (themeData: FileResponse): Schemas => {
               const componeont = setComponents.find(component => component.id === node.componentId)
               const defaultComponentName = getName(componeont)
               const componentNames = setComponents.map(getName)
-              properties = { [name]: { type: 'string', enum: componentNames } }
+              properties = { ...properties, [name]: { type: 'string', enum: componentNames } }
               uiSchema = {
+                ...uiSchema,
                 [name]: {
                   'ui:widget': 'select',
                   'ui:placeholder': defaultComponentName,
@@ -140,6 +147,7 @@ export const getSchemas = (themeData: FileResponse): Schemas => {
               reapeatingInstances[parent.id].push(node as Instance)
               const child = findNodes([...node.children].reverse())
               properties = {
+                ...properties,
                 [parent.name]: {
                   type: 'array',
                   default: [],
@@ -155,6 +163,7 @@ export const getSchemas = (themeData: FileResponse): Schemas => {
                 },
               }
               uiSchema = {
+                ...uiSchema,
                 [parent.name]: {
                   items: child.uiSchema,
                 },
