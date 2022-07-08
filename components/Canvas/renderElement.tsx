@@ -26,11 +26,7 @@ export const renderElement = (node: ParsedNode): ReactElement<ParsedNode | null>
     case 'IMAGE':
       return <Image {...props} src={node.src} />
     case 'INSTANCE':
-      canvas.setInstanceOverrides({
-        id: node.id,
-        compnentId: node.componentId,
-        propertyAssignments: node.componentProperties?.assignments,
-      })
+      canvas.setInstanceOverrides(node)
       props.componentId = node.componentId
       return <Instance {...props}>{children.map(renderElement)}</Instance>
     case 'TEXT':

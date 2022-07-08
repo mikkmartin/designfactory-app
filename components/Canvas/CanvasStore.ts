@@ -3,6 +3,7 @@ import { store } from 'data'
 import type { Props } from './Canvas'
 import { FileResponse, Canvas, ComponentPropertyDefinitions } from '@mikkmartin/figma-js'
 import { parseNode, getFonts, findNodes, BoxNode, IFont, ParsedNode } from './parseTemplate'
+import { InstanceNode } from './parseTemplate/parseTemplate'
 
 export class CanvasStore {
   pages: ParsedNode[] = []
@@ -62,8 +63,8 @@ export class CanvasStore {
     return hasOverride ? this.instanceOverRides[id] : {}
   }
 
-  setInstanceOverrides = ({ id, compnentId, propertyAssignments }) => {
-    const component = this.componentSets.components.find(({ id }) => id === compnentId)
+  setInstanceOverrides = ({ id, componentId, componentProperties }: InstanceNode) => {
+    const component = this.componentSets.components.find(({ id }) => id === componentId)
     const componentOverrides = findChildrenWithProperty(component.children)
     const idReferences = findInstanceIds(component.children)
 
@@ -77,7 +78,7 @@ export class CanvasStore {
         const instanceKey = `I${id};${key}`
         if (!overRideMap[mappingKey]) overRideMap = { [mappingKey]: { [k]: [instanceKey] } }
         else overRideMap[mappingKey][k] = [...(overRideMap[mappingKey][k] || []), instanceKey]
-        return { ...a, [k]: propertyAssignments[v].value }
+        return { ...a, [k]: componentProperties.assignments[v].value }
       }, {} as any)
 
       return { ...all, [`I${id};${key}`]: overrideInstance }
