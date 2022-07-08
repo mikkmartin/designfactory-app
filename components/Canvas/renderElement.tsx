@@ -7,12 +7,8 @@ export const renderElement = (node: ParsedNode): ReactElement<ParsedNode | null>
   if (!node) return null
   let { id, style, children, name } = node
   const canvas = useCanvas()
-  const overrides = canvas.getInstanceOverrides(id)
-  if (overrides.visible !== undefined) {
-    if (overrides.visible) style = { ...style, display: 'block' }
-    else style = { ...style, display: 'none' }
-  }
-  let props: any = { key: id, style, name }
+  const overrides = canvas.getInstanceOverides(node)
+  let props: any = { key: id, style: { ...style, ...overrides }, name }
 
   switch (node.type) {
     case 'FRAME':
@@ -26,7 +22,7 @@ export const renderElement = (node: ParsedNode): ReactElement<ParsedNode | null>
     case 'IMAGE':
       return <Image {...props} src={node.src} />
     case 'INSTANCE':
-      canvas.setInstanceOverrides(node)
+      canvas.setInstanceAssignments(node)
       props.componentId = node.componentId
       return <Instance {...props}>{children.map(renderElement)}</Instance>
     case 'TEXT':
@@ -42,6 +38,7 @@ export const renderElement = (node: ParsedNode): ReactElement<ParsedNode | null>
   }
 }
 
+//If node contains 3+ insances, assign a context
 const isInstanceContainer = node => {
   let instanceCount = 0
   return node.children.some(n => {
