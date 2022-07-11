@@ -14,7 +14,7 @@ export const GlobalStyles = createGlobalStyle<{ route: string }>`
     --background-l2: #32363E;
     --error: #fa755a;
     --placeholder: ${placeholderColor};
-    --input-border-radius: 2px;
+    --input-border-radius: 4px;
     font-family: ${fontFamily};
     font-size: 12px;
   }
@@ -51,11 +51,9 @@ export const GlobalStyles = createGlobalStyle<{ route: string }>`
     display: block;
   }
   button {
-    font-size: 11px;
+    font-size: 12px;
     font-family: inherit;
-    text-transform: uppercase;
     font-weight: 200;
-    letter-spacing: 0.5px;
   }
 `
 

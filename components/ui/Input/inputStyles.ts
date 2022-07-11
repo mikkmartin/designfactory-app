@@ -3,8 +3,8 @@ import { css } from 'styled-components'
 export const inputStyle = css`
   background: none;
   border: none;
-  background: rgba(255, 255, 255, 0.035);
-  padding: 0 4px 0 16px;
+  background: rgba(0, 0, 0, 0.15);
+  padding: 0 8px 0 16px;
   color: inherit;
   font-family: inherit;
   line-height: 140%;
