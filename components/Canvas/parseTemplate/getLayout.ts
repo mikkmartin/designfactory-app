@@ -5,7 +5,7 @@ import { BoxNode, ContainerNode } from './parseTemplate'
 type LayoutType = 'CANVAS_CHILD' | 'STATIC' | 'LAYOUT_ITEM'
 
 export const getLayout = (node: BoxNode, parentNode?: ContainerNode): CSSProperties => {
-  const layoutMode = getLayoutMode(parentNode)
+  const layoutMode = getLayoutMode(node, parentNode)
 
   const { paddingLeft, paddingRight, paddingTop, paddingBottom } = node as Frame
   const props = {
@@ -101,8 +101,12 @@ const getSize = (node: BoxNode): CSSProperties => {
   }
 }
 
-const getLayoutMode = (parent): LayoutType =>
-  !parent ? 'CANVAS_CHILD' : !parent.layoutMode ? 'STATIC' : 'LAYOUT_ITEM'
+const getLayoutMode = (node, parent): LayoutType =>
+  !parent
+    ? 'CANVAS_CHILD'
+    : !parent.layoutMode || node.layoutPositioning === 'ABSOLUTE'
+    ? 'STATIC'
+    : 'LAYOUT_ITEM'
 
 const autoLayoutContainer = (node: Frame | Instance): CSSProperties => {
   return {
