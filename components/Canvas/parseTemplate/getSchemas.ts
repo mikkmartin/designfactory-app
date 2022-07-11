@@ -4,6 +4,7 @@ import type { JSONSchema7Object } from 'json-schema'
 import { findNodes as _findNodes } from 'components/Canvas/parseTemplate/findNodes'
 import baseURL from 'lib/static/baseURL'
 import { store } from 'data'
+import { toJS } from 'mobx'
 
 export type ParsedCoponentSet = { components; sets: string[][] }
 export const getComponentsAndSets = nodes => {
@@ -43,7 +44,7 @@ export const getSchemas = (themeData: FileResponse): Schemas => {
     },
   })
 
-  type Parent = Extract<Node, { type: 'GROUP' | 'FRAME' }>
+  type Parent = Extract<Node, { type: 'GROUP' | 'FRAME' | 'INSTANCE' }>
   type Instance = Extract<Node, { type: 'INSTANCE' }>
   const findNodes = (children: readonly Node[], parent: Parent = null): ReturnType => {
     let lastInstanceContainerName: string = null
@@ -120,6 +121,7 @@ export const getSchemas = (themeData: FileResponse): Schemas => {
                       ...uiSchema,
                       'ui:title': title.replace(/-/g, ' '),
                       'ui:widget': 'checkbox',
+                      'ui:placeholder': val.value,
                     }
                     break
                   case 'TEXT':
@@ -175,6 +177,10 @@ export const getSchemas = (themeData: FileResponse): Schemas => {
               )
               if (everyComponentSame) reapeatingInstances[parent.id].push(node as Instance)
             }
+
+            const childSchemas = mergeWithAll(all, findNodes(node.children, node))
+            properties = { ...properties, ...childSchemas.properties }
+            uiSchema = { ...uiSchema, ...childSchemas.uiSchema }
           case 'RECTANGLE':
             if (!node.fills.some(fill => fill.type === 'IMAGE')) break
             properties = { [name]: { type: 'string' } }
