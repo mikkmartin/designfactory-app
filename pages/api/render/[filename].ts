@@ -8,7 +8,7 @@ const isDev = !process.env.AWS_REGION
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
   try {
     const [url] = req.url.split('?')
-    const params = req.url.substring(req.url.indexOf('?')+1)
+    const params = req.url.substring(req.url.indexOf('?') + 1)
     const [withoutExtension, extension] = url.split('.')
     const contentUrl = baseURL + '/screenshot/' + withoutExtension.split('/files/')[1]
 

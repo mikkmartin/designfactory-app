@@ -1,6 +1,6 @@
 import * as LabelPrimitive from '@radix-ui/react-label'
 import { FC } from 'react'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import { labelStyle, inputStyle } from './Input'
 
 type Props = {

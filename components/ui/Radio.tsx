@@ -1,7 +1,8 @@
 import { Root, Item, Indicator } from '@radix-ui/react-radio-group'
 import { motion } from 'framer-motion'
 import { fast } from 'lib/static/transitions'
-import styled, { css } from 'styled-components'
+import styled from '@emotion/styled'
+import { css } from '@emotion/react'
 
 export const Group = ({ children, ...rest }) => <Container {...rest}>{children}</Container>
 

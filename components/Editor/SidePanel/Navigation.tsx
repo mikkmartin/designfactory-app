@@ -1,6 +1,6 @@
 import { List, Trigger } from '@radix-ui/react-tabs'
 import { observer } from 'mobx-react-lite'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import { EditForm, Code, Droplet } from 'components/icons'
 import { store } from 'data'
 import type { Tab } from 'data/stores/ui/UiStore'

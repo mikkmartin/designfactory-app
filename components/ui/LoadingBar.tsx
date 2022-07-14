@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react'
 import { motion, useAnimation } from 'framer-motion'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 
 export const LoadingBar: FC<{ loading: boolean }> = ({ loading }) => {
   const controls = useAnimation();

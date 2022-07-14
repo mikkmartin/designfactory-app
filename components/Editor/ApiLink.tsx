@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import { Button } from '../ui/Button'
 import { Copy } from '../icons'
 import { snappy, fast } from 'lib/static/transitions'

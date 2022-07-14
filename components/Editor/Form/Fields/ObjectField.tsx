@@ -1,5 +1,5 @@
 import { ObjectFieldTemplateProps } from '@rjsf/core'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import { Reorder } from 'framer-motion'
 import { FC } from 'react'
 import { useForm } from '../FormContext'

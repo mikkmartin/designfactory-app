@@ -1,7 +1,7 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import { store } from 'data'
 import { observer } from 'mobx-react-lite'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import { Button } from 'components/ui'
 import { motion, AnimatePresence } from 'framer-motion'
 import { fast } from 'lib/static/transitions'

@@ -4,7 +4,7 @@ import { Plus, Close, FigmaLogo } from 'components/icons'
 import { useState, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { useRouter } from 'next/router'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import { store } from 'data'
 
 type Props = {

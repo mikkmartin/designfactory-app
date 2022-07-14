@@ -1,9 +1,8 @@
 import { observer } from 'mobx-react-lite'
-import { CSSProperties } from 'styled-components'
 import { useCanvas } from '../Canvas'
 
 type Props = {
-  style: CSSProperties
+  style: any
   [key: string]: any
 }
 

@@ -1,5 +1,5 @@
 import * as Radix from '@radix-ui/react-popover'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import { motion, AnimatePresence } from 'framer-motion'
 import { createContext, useContext, FC } from 'react'
 import { fast } from 'lib/static/transitions'

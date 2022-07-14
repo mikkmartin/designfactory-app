@@ -11,7 +11,8 @@ import {
   // ScrollDownButton,
 } from '@radix-ui/react-select'
 import { Chevron } from 'components/icons'
-import styled, { css } from 'styled-components'
+import styled from '@emotion/styled'
+import { css } from '@emotion/react'
 import { FC, FocusEventHandler, useMemo, useState } from 'react'
 import { inputStyle } from 'components/ui/Input'
 import { motion } from 'framer-motion'

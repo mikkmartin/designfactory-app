@@ -1,5 +1,5 @@
 import { FC, useEffect, useRef } from 'react'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import NumberFormat from 'react-number-format'
 import { Button } from '../Button'
 import { motion } from 'framer-motion'

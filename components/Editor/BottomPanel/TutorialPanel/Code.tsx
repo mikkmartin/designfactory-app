@@ -1,5 +1,6 @@
 import { useRef } from 'react'
-import styled, { css } from 'styled-components'
+import styled from '@emotion/styled'
+import { css } from '@emotion/react'
 import { observer } from 'mobx-react-lite'
 import { store } from 'data'
 import { Button } from 'components/ui'

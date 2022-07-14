@@ -1,5 +1,7 @@
 import { forwardRef, ChangeEventHandler } from 'react'
-import styled, { css } from 'styled-components'
+// import styled from '@emotion/styled'
+import styled from '@emotion/styled'
+import { css } from '@emotion/react'
 import { Email, Card } from '../../icons'
 import { motion } from 'framer-motion'
 import { inputStyle } from './inputStyles'

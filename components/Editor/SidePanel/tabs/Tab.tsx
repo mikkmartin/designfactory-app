@@ -1,5 +1,6 @@
 import { Content } from '@radix-ui/react-tabs'
-import styled, { css } from 'styled-components'
+import styled from '@emotion/styled'
+import { css } from '@emotion/react'
 import { store } from 'data'
 
 type Tab = typeof store.ui.tabs[number]

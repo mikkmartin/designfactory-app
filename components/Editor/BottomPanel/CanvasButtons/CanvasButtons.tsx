@@ -1,6 +1,6 @@
 import { fast } from 'lib/static/transitions'
 import { observer } from 'mobx-react-lite'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import { motion } from 'framer-motion'
 import { Flags } from './Flags'
 import { TutorialButton as Tutorial } from './TutorialButton'

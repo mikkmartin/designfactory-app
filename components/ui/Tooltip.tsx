@@ -1,6 +1,6 @@
 import { FC, useState, useContext, createContext } from 'react'
 import * as Tooltip from '@radix-ui/react-tooltip'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import { motion, AnimatePresence } from 'framer-motion'
 
 type Props = {

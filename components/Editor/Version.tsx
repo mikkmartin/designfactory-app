@@ -1,5 +1,5 @@
 import { store } from 'data'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import packagejson from '../../package.json'
 import { motion } from 'framer-motion'
 import { fast, snappy } from 'lib/static/transitions'

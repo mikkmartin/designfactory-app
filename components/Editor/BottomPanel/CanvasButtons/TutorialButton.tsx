@@ -1,7 +1,7 @@
 import { Button, Tooltip, Popover } from 'components/ui'
 import { Info, Close } from 'components/icons'
 import { store } from 'data'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import { observer } from 'mobx-react-lite'
 import { useLocalStorage } from 'react-use'
 import { useEffect } from 'react'

@@ -1,5 +1,6 @@
-import { css } from 'styled-components'
+import { css } from '@emotion/react'
 
+export const labelStyle = css``
 export const inputStyle = css`
   background: none;
   border: none;

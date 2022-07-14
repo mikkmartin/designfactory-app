@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import { AnimatePresence, motion } from 'framer-motion'
 import { FC } from 'react'
 import { snappy } from 'lib/static/transitions'

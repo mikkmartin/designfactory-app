@@ -1,4 +1,4 @@
-import { css } from 'styled-components'
+import { css } from '@emotion/react'
 
 export const editable = css`
   background: rgba(0, 102, 255, 0.2);

@@ -2,7 +2,7 @@ import { Download } from 'components/icons'
 import { Button as ButtonBase, Tooltip } from 'components/ui'
 import { store } from 'data'
 import { observer } from 'mobx-react-lite'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 
 export const DownloadButton = observer<{ imageRef: { current: HTMLImageElement } }>(
   ({ imageRef }) => {

@@ -1,8 +1,9 @@
-import styled, { css, CSSProp } from 'styled-components'
+import styled from '@emotion/styled'
+import { css, CSSObject } from '@emotion/react'
 import { motion } from 'framer-motion'
 
 type Props = {
-  selected?: boolean | CSSProp
+  selected?: boolean | CSSObject
   small?: boolean
   primary?: boolean
   highlight?: boolean
@@ -57,7 +58,8 @@ export const Button = styled(motion.button)<Props>`
 const reset = css`
   color: var(--error);
   background-color: rgba(255, 65, 10, 0.15);
-  :focus-visible, :active {
+  :focus-visible,
+  :active {
     box-shadow: inset 0 0 0 1px tomato;
     background: #ff634737 !important;
   }

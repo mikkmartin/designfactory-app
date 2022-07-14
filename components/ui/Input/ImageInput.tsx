@@ -1,5 +1,6 @@
 import { FC, useState } from 'react'
-import styled, { css } from 'styled-components'
+import styled from '@emotion/styled'
+import { css } from '@emotion/react'
 import { useDrop, useDropArea } from 'react-use'
 import { TextInput } from './TextInput'
 import { Button } from '../Button'

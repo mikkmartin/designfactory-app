@@ -1,6 +1,7 @@
 import { ArrayFieldTemplateProps } from '@rjsf/core'
 import { Reorder } from 'framer-motion'
-import styled, { css } from 'styled-components'
+import styled from '@emotion/styled'
+import { css } from '@emotion/react'
 import { useForm } from '../FormContext'
 import { Button } from 'components/ui'
 import { Plus } from 'components/icons'

@@ -1,7 +1,7 @@
 import { objectToParams } from 'lib/urlEncoder'
 import { NextPage } from 'next'
 import { useEffect, useState } from 'react'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import type { ScrapeResult } from './api/scrape'
 
 const Automate: NextPage = () => {

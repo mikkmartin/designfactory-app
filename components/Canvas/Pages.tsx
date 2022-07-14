@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import { editable } from './elemets/editableStyle'
 import { motion } from 'framer-motion'
 import { store } from 'data'

@@ -3,7 +3,7 @@ import { Logo, Chevron, More, Checkbox, Plus } from 'components/icons'
 import { Button } from 'components/ui'
 import { store } from 'data'
 import { observer } from 'mobx-react-lite'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 
 type Value = { value: string; label: string }
 type Props = {
