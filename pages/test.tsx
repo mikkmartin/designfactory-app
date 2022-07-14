@@ -1,9 +1,8 @@
 import { Dropdown, DropdownSelector } from 'components/ui/Dropdown'
 import { More } from 'components/icons'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import { useState } from 'react'
 import { Select } from 'components/ui/Select'
-import { nanoid } from 'nanoid'
 
 const items = ['Edge', 'Firefox', 'Chrome', 'Opera', 'Safari'].concat(
   [...Array(10).keys()].map(i => `Item ${i}`)
@@ -50,5 +49,5 @@ const Wrapper = styled.div`
   justify-content: space-around;
   min-height: 100vh;
   min-width: 100vh;
-  background: rgb(40, 44, 52);
+  background: yellow;
 `

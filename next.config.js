@@ -1,3 +1,5 @@
+/** @type {import('next').NextConfig} */
+
 const SentryWebpackPlugin = require('@sentry/webpack-plugin')
 const {
   NEXT_PUBLIC_STORAGE_URL,
@@ -17,6 +19,10 @@ const COMMIT_SHA =
 process.env.SENTRY_DSN = SENTRY_DSN
 
 module.exports = {
+  reactStrictMode: true,
+  compiler: {
+    emotion: true,
+  },
   async redirects() {
     return [
       {

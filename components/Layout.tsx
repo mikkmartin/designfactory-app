@@ -1,5 +1,6 @@
 import { FC } from 'react'
-import styled, { css } from 'styled-components'
+import styled from '@emotion/styled'
+import { css } from '@emotion/react'
 import { observer } from 'mobx-react-lite'
 import { BottomPanel } from 'components/Editor/BottomPanel'
 import { SidePanel } from 'components/Editor/SidePanel'
