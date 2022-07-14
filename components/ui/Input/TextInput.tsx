@@ -23,7 +23,7 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(
       disabled = false,
       id,
       value,
-      autoComplete,
+      autoComplete = 'off',
       placeholder,
       onChange = () => {},
       invalid = false,
