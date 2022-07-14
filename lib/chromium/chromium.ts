@@ -35,12 +35,12 @@ export async function getScreenshot(url, { res, isDev, supersample = 2 }: IScree
   perf.endTimer('Page request')
 
   perf.startTimer('Loading page content')
-  const selector = '#__next > div > *'
+  const selector = '#__next > div > div'
   await page.waitForSelector(selector)
   const element = await page.$(selector)
 
   await page.evaluate(async () => {
-    const selector = '#__next > div > *'
+    const selector = '#__next > div > div'
     const selectors = Array.from(document.querySelector(selector).querySelectorAll('img'))
     await Promise.all([
       document.fonts.ready,
