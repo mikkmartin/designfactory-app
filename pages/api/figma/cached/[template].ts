@@ -6,6 +6,6 @@ export default async (req, res: NextApiResponse) => {
   const url = `${storageURL}/themes/files/${templateID}.json`
   const themeData = await fetch(url).then(res => res.json())
 
-  res.setHeader('Cache-Control', 's-maxage=86400, stale-while-revalidate=1')
+  res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate=86400')
   res.json(themeData)
 }
