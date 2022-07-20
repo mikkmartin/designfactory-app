@@ -1,10 +1,11 @@
 import { CSSProperties } from 'react'
-import { Frame, Instance } from '@mikkmartin/figma-js'
-import { BoxNode, ContainerNode } from './parseTemplate'
+import { Frame, Instance, Text, FrameBase } from '@mikkmartin/figma-js'
+import { BoxNode, ContainerNode, TextNode } from './parseTemplate'
+import { toJS } from 'mobx'
 
 type LayoutType = 'CANVAS_CHILD' | 'STATIC' | 'LAYOUT_ITEM'
 
-export const getLayout = (node: BoxNode, parentNode?: ContainerNode): CSSProperties => {
+export const getLayout = (node, parentNode?: ContainerNode): CSSProperties => {
   const layoutMode = getLayoutMode(node, parentNode)
 
   const { paddingLeft, paddingRight, paddingTop, paddingBottom } = node as Frame
@@ -60,10 +61,11 @@ const staticLayout = (node: BoxNode, parentNode: ContainerNode | undefined): CSS
   return layout
 }
 
-const getSize = (node: BoxNode): CSSProperties => {
+const getSize = (node: FrameBase | Text): CSSProperties => {
   const { width, height } = node.absoluteBoundingBox
 
   if (node.type === 'TEXT') {
+    //@ts-ignore
     switch (node.style.textAutoResize) {
       case 'HEIGHT':
         return { width }
@@ -75,25 +77,14 @@ const getSize = (node: BoxNode): CSSProperties => {
   } else {
     let size: CSSProperties = {}
 
-    if (
-      //@ts-ignore
-      node.layoutMode === 'HORIZONTAL'
-      //@ts-ignore
-      // node.primaryAxisSizingMode === 'FIXED'
-    ) {
+    if (node.layoutMode === 'HORIZONTAL') {
       size.width = width
-    } else if (
-      //@ts-ignore
-      node.layoutMode === 'VERTICAL' &&
-      //@ts-ignore
-      node.counterAxisSizingMode === 'FIXED'
-    ) {
+      if (node.primaryAxisSizingMode === 'FIXED') size.width = width
+    } else if (node.layoutMode === 'VERTICAL') {
       size.width = width
-      size.height = height
+      if (node.primaryAxisSizingMode === 'FIXED') size.height = height
     } else {
-      //@ts-ignore
       if (node.layoutMode !== 'HORIZONTAL') size.width = width
-      //@ts-ignore
       if (node.layoutMode !== 'VERTICAL') size.height = height
     }
 
