@@ -77,9 +77,9 @@ const getSize = (node: BoxNode): CSSProperties => {
 
     if (
       //@ts-ignore
-      node.layoutMode === 'HORIZONTAL' &&
+      node.layoutMode === 'HORIZONTAL'
       //@ts-ignore
-      node.primaryAxisSizingMode === 'FIXED'
+      // node.primaryAxisSizingMode === 'FIXED'
     ) {
       size.width = width
     } else if (
