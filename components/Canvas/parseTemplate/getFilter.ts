@@ -10,7 +10,7 @@ interface ImageFilters {
   readonly shadows?: number
 }
 
-export const getFilter = (node: BoxNode): string => {
+export const getFilters = (node: BoxNode): string => {
   //@ts-ignore
   const filters: ImageFilters = node.fills.find(f => f.type === 'IMAGE')?.filters
   if (!filters) return ''

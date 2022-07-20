@@ -16,7 +16,8 @@ import { getLayout } from './getLayout'
 import { getFill as _getFill } from './getFill'
 import { getSrc as _getSrc } from './getFill'
 import { getColor } from './getColor'
-import { getFilter } from './getFilter'
+import { getFilters } from './getFilter'
+import { getEffects } from './getEffects'
 
 export type ContainerNode = Frame | Group
 export type ParentNode = Frame | Group | Canvas
@@ -84,7 +85,8 @@ export function parseNode(node: BoxNode, parentNode: ContainerNode = null): Pars
   let baseStyle: CSSProperties = {
     opacity: node.opacity,
     mixBlendMode: node.blendMode.toLowerCase().replace('_', '-') as CSSProperties['mixBlendMode'],
-    filter: getFilter(node),
+    filter: getFilters(node),
+    ...getEffects(node)
   }
 
   if (node.visible === false) baseStyle.display = 'none'
