@@ -31,7 +31,7 @@ export const Drawer = observer<Props>(({ value: selected, options, onChange, onA
       <Content loop>
         <div className="items">
           {options.map(({ label, value }) => (
-            <DropdownMenu.Item asChild>
+            <DropdownMenu.Item key={value} asChild>
               <Item onClick={() => onChange(value)}>
                 {store.content.template.themeOptions.find(theme => theme.slug === value) ? (
                   <Checkbox />
