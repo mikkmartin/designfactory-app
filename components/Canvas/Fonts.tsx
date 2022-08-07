@@ -49,7 +49,7 @@ export const Fonts: FC = observer(() => {
 const getCustomFontCss = (family: IFont, url: string): string =>
   `@font-face {
   font-family: '${family}';
-  src: url(${url}) format('truetype');
+  src: url('${url}') format('truetype');
 }`
 
 const getGoogleFontUrl = (font: IFont): string => {
