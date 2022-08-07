@@ -35,9 +35,13 @@ export const Fonts: FC = observer(() => {
         .map(font => (
           <link key={font.family} href={getGoogleFontUrl(font)} rel="stylesheet" />
         ))}
-      <style>
-        {customFonts.map(font => getCustomFontCss(font.family, getFontUrl(font.family))).join('\n')}
-      </style>
+      <style
+        dangerouslySetInnerHTML={{
+          __html: customFonts
+            .map(font => getCustomFontCss(font.family, getFontUrl(font.family)))
+            .join('\n'),
+        }}
+      />
     </Head>
   )
 })
@@ -45,7 +49,7 @@ export const Fonts: FC = observer(() => {
 const getCustomFontCss = (family: IFont, url: string): string =>
   `@font-face {
   font-family: '${family}';
-  src: url(${url}) format('truetype')
+  src: url(${url}) format('truetype');
 }`
 
 const getGoogleFontUrl = (font: IFont): string => {
