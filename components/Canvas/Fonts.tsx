@@ -3,16 +3,28 @@ import Head from 'next/head'
 import type { IFont } from './parseTemplate/getFonts'
 import { observer } from 'mobx-react-lite'
 import { useCanvas } from './Canvas'
+import googleFontNames from 'lib/static/googleFonts.json'
 
 export const Fonts: FC = observer(() => {
   const { fonts } = useCanvas()
   if (fonts.length === 0) return null
+  const [googleFonts, customFonts] = fonts.reduce(
+    ([google, custom], font) => {
+      if (googleFontNames.includes(font.family)) {
+        google.push(font)
+      } else {
+        custom.push(font)
+      }
+      return [google, custom]
+    },
+    [[], []]
+  )
 
   return (
     <Head>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
-      {fonts
+      {googleFonts
         .map(font => ({
           ...font,
           weights: font.weights
@@ -20,13 +32,22 @@ export const Fonts: FC = observer(() => {
             .sort((a, b) => (a.italic === b.italic ? 0 : a.italic ? 1 : -1)),
         }))
         .map(font => (
-          <link key={font.family} href={getUrl(font)} rel="stylesheet" />
+          <link key={font.family} href={getGoogleFontUrl(font)} rel="stylesheet" />
         ))}
+      <style>{customFonts.map(getCustomFontCss).join('\n')}</style>
     </Head>
   )
 })
 
-const getUrl = (font: IFont): string => {
+const getCustomFontCss = (font: IFont): string => {
+  const url = `https://sdqycteblanimltlbiss.supabase.co/storage/v1/object/public/themes/files/${font.family}.ttf`
+  return `@font-face {
+  font-family: '${font.family}';
+  src: url('${url}') format('truetype')
+}`
+}
+
+const getGoogleFontUrl = (font: IFont): string => {
   const family = font.family.replace(/\s/g, '+')
   const hasItalics = font.weights.some(({ italic }) => italic) ? 'ital,' : ''
   const weights = font.weights

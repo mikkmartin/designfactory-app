@@ -105,18 +105,135 @@ export interface paths {
       };
     };
   };
+  "/scrapers": {
+    get: {
+      parameters: {
+        query: {
+          created_at?: parameters["rowFilter.scrapers.created_at"];
+          modified_at?: parameters["rowFilter.scrapers.modified_at"];
+          deleted_at?: parameters["rowFilter.scrapers.deleted_at"];
+          title?: parameters["rowFilter.scrapers.title"];
+          selectors?: parameters["rowFilter.scrapers.selectors"];
+          urlpattern?: parameters["rowFilter.scrapers.urlpattern"];
+          id?: parameters["rowFilter.scrapers.id"];
+          figma_id?: parameters["rowFilter.scrapers.figma_id"];
+          figma_frame?: parameters["rowFilter.scrapers.figma_frame"];
+          owner_profile_id?: parameters["rowFilter.scrapers.owner_profile_id"];
+          slug?: parameters["rowFilter.scrapers.slug"];
+          /** Filtering Columns */
+          select?: parameters["select"];
+          /** Ordering */
+          order?: parameters["order"];
+          /** Limiting and Pagination */
+          offset?: parameters["offset"];
+          /** Limiting and Pagination */
+          limit?: parameters["limit"];
+        };
+        header: {
+          /** Limiting and Pagination */
+          Range?: parameters["range"];
+          /** Limiting and Pagination */
+          "Range-Unit"?: parameters["rangeUnit"];
+          /** Preference */
+          Prefer?: parameters["preferCount"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: {
+          schema: definitions["scrapers"][];
+        };
+        /** Partial Content */
+        206: unknown;
+      };
+    };
+    post: {
+      parameters: {
+        body: {
+          /** scrapers */
+          scrapers?: definitions["scrapers"];
+        };
+        query: {
+          /** Filtering Columns */
+          select?: parameters["select"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** Created */
+        201: unknown;
+      };
+    };
+    delete: {
+      parameters: {
+        query: {
+          created_at?: parameters["rowFilter.scrapers.created_at"];
+          modified_at?: parameters["rowFilter.scrapers.modified_at"];
+          deleted_at?: parameters["rowFilter.scrapers.deleted_at"];
+          title?: parameters["rowFilter.scrapers.title"];
+          selectors?: parameters["rowFilter.scrapers.selectors"];
+          urlpattern?: parameters["rowFilter.scrapers.urlpattern"];
+          id?: parameters["rowFilter.scrapers.id"];
+          figma_id?: parameters["rowFilter.scrapers.figma_id"];
+          figma_frame?: parameters["rowFilter.scrapers.figma_frame"];
+          owner_profile_id?: parameters["rowFilter.scrapers.owner_profile_id"];
+          slug?: parameters["rowFilter.scrapers.slug"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+    patch: {
+      parameters: {
+        query: {
+          created_at?: parameters["rowFilter.scrapers.created_at"];
+          modified_at?: parameters["rowFilter.scrapers.modified_at"];
+          deleted_at?: parameters["rowFilter.scrapers.deleted_at"];
+          title?: parameters["rowFilter.scrapers.title"];
+          selectors?: parameters["rowFilter.scrapers.selectors"];
+          urlpattern?: parameters["rowFilter.scrapers.urlpattern"];
+          id?: parameters["rowFilter.scrapers.id"];
+          figma_id?: parameters["rowFilter.scrapers.figma_id"];
+          figma_frame?: parameters["rowFilter.scrapers.figma_frame"];
+          owner_profile_id?: parameters["rowFilter.scrapers.owner_profile_id"];
+          slug?: parameters["rowFilter.scrapers.slug"];
+        };
+        body: {
+          /** scrapers */
+          scrapers?: definitions["scrapers"];
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferReturn"];
+        };
+      };
+      responses: {
+        /** No Content */
+        204: never;
+      };
+    };
+  };
   "/templates": {
     get: {
       parameters: {
         query: {
           id?: parameters["rowFilter.templates.id"];
           created_at?: parameters["rowFilter.templates.created_at"];
-          owner_profile_id?: parameters["rowFilter.templates.owner_profile_id"];
           modified_at?: parameters["rowFilter.templates.modified_at"];
           deleted_at?: parameters["rowFilter.templates.deleted_at"];
           description?: parameters["rowFilter.templates.description"];
           title?: parameters["rowFilter.templates.title"];
           file_type?: parameters["rowFilter.templates.file_type"];
+          owner_profile_id?: parameters["rowFilter.templates.owner_profile_id"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -169,12 +286,12 @@ export interface paths {
         query: {
           id?: parameters["rowFilter.templates.id"];
           created_at?: parameters["rowFilter.templates.created_at"];
-          owner_profile_id?: parameters["rowFilter.templates.owner_profile_id"];
           modified_at?: parameters["rowFilter.templates.modified_at"];
           deleted_at?: parameters["rowFilter.templates.deleted_at"];
           description?: parameters["rowFilter.templates.description"];
           title?: parameters["rowFilter.templates.title"];
           file_type?: parameters["rowFilter.templates.file_type"];
+          owner_profile_id?: parameters["rowFilter.templates.owner_profile_id"];
         };
         header: {
           /** Preference */
@@ -191,12 +308,12 @@ export interface paths {
         query: {
           id?: parameters["rowFilter.templates.id"];
           created_at?: parameters["rowFilter.templates.created_at"];
-          owner_profile_id?: parameters["rowFilter.templates.owner_profile_id"];
           modified_at?: parameters["rowFilter.templates.modified_at"];
           deleted_at?: parameters["rowFilter.templates.deleted_at"];
           description?: parameters["rowFilter.templates.description"];
           title?: parameters["rowFilter.templates.title"];
           file_type?: parameters["rowFilter.templates.file_type"];
+          owner_profile_id?: parameters["rowFilter.templates.owner_profile_id"];
         };
         body: {
           /** templates */
@@ -227,6 +344,8 @@ export interface paths {
           size?: parameters["rowFilter.themes.size"];
           owner_profile_id?: parameters["rowFilter.themes.owner_profile_id"];
           figma_id?: parameters["rowFilter.themes.figma_id"];
+          figma_node?: parameters["rowFilter.themes.figma_node"];
+          fonts?: parameters["rowFilter.themes.fonts"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -287,6 +406,8 @@ export interface paths {
           size?: parameters["rowFilter.themes.size"];
           owner_profile_id?: parameters["rowFilter.themes.owner_profile_id"];
           figma_id?: parameters["rowFilter.themes.figma_id"];
+          figma_node?: parameters["rowFilter.themes.figma_node"];
+          fonts?: parameters["rowFilter.themes.fonts"];
         };
         header: {
           /** Preference */
@@ -311,6 +432,8 @@ export interface paths {
           size?: parameters["rowFilter.themes.size"];
           owner_profile_id?: parameters["rowFilter.themes.owner_profile_id"];
           figma_id?: parameters["rowFilter.themes.figma_id"];
+          figma_node?: parameters["rowFilter.themes.figma_node"];
+          fonts?: parameters["rowFilter.themes.fonts"];
         };
         body: {
           /** themes */
@@ -324,6 +447,26 @@ export interface paths {
       responses: {
         /** No Content */
         204: never;
+      };
+    };
+  };
+  "/rpc/profile_with_data": {
+    post: {
+      parameters: {
+        body: {
+          args: {
+            /** Format: uuid */
+            anon_id: string;
+          };
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferParams"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: unknown;
       };
     };
   };
@@ -346,6 +489,48 @@ export interface definitions {
      */
     interface_settings: string;
   };
+  scrapers: {
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
+    created_at?: string;
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
+    modified_at?: string;
+    /** Format: timestamp with time zone */
+    deleted_at?: string;
+    /** Format: character varying */
+    title?: string;
+    /**
+     * Format: jsonb
+     * @default {}
+     */
+    selectors?: string;
+    /** Format: character varying */
+    urlpattern?: string;
+    /**
+     * Format: uuid
+     * @description Note:
+     * This is a Primary Key.<pk/>
+     * @default extensions.uuid_generate_v4()
+     */
+    id: string;
+    /** Format: character varying */
+    figma_id?: string;
+    /** Format: character varying */
+    figma_frame?: string;
+    /**
+     * Format: uuid
+     * @description Note:
+     * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
+     */
+    owner_profile_id?: string;
+    /** Format: character varying */
+    slug?: string;
+  };
   templates: {
     /**
      * Format: uuid
@@ -359,12 +544,6 @@ export interface definitions {
      * @default now()
      */
     created_at: string;
-    /**
-     * Format: uuid
-     * @description Note:
-     * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
-     */
-    owner_profile_id?: string;
     /**
      * Format: timestamp with time zone
      * @default now()
@@ -381,6 +560,12 @@ export interface definitions {
      * @default image
      */
     file_type: string;
+    /**
+     * Format: uuid
+     * @description Note:
+     * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
+     */
+    owner_profile_id?: string;
   };
   themes: {
     /**
@@ -417,14 +602,17 @@ export interface definitions {
     ui_schema?: string;
     /** Format: ARRAY */
     size?: unknown[];
-    /**
-     * Format: uuid
-     * @description Note:
-     * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
-     */
+    /** Format: uuid */
     owner_profile_id?: string;
     /** Format: character varying */
     figma_id: string;
+    /** Format: character varying */
+    figma_node?: string;
+    /**
+     * Format: jsonb
+     * @default []
+     */
+    fonts: string;
   };
 }
 
@@ -469,14 +657,36 @@ export interface parameters {
   "rowFilter.profiles.id": string;
   /** Format: json */
   "rowFilter.profiles.interface_settings": string;
+  /** @description scrapers */
+  "body.scrapers": definitions["scrapers"];
+  /** Format: timestamp with time zone */
+  "rowFilter.scrapers.created_at": string;
+  /** Format: timestamp with time zone */
+  "rowFilter.scrapers.modified_at": string;
+  /** Format: timestamp with time zone */
+  "rowFilter.scrapers.deleted_at": string;
+  /** Format: character varying */
+  "rowFilter.scrapers.title": string;
+  /** Format: jsonb */
+  "rowFilter.scrapers.selectors": string;
+  /** Format: character varying */
+  "rowFilter.scrapers.urlpattern": string;
+  /** Format: uuid */
+  "rowFilter.scrapers.id": string;
+  /** Format: character varying */
+  "rowFilter.scrapers.figma_id": string;
+  /** Format: character varying */
+  "rowFilter.scrapers.figma_frame": string;
+  /** Format: uuid */
+  "rowFilter.scrapers.owner_profile_id": string;
+  /** Format: character varying */
+  "rowFilter.scrapers.slug": string;
   /** @description templates */
   "body.templates": definitions["templates"];
   /** Format: uuid */
   "rowFilter.templates.id": string;
   /** Format: timestamp with time zone */
   "rowFilter.templates.created_at": string;
-  /** Format: uuid */
-  "rowFilter.templates.owner_profile_id": string;
   /** Format: timestamp with time zone */
   "rowFilter.templates.modified_at": string;
   /** Format: timestamp with time zone */
@@ -487,6 +697,8 @@ export interface parameters {
   "rowFilter.templates.title": string;
   /** Format: character varying */
   "rowFilter.templates.file_type": string;
+  /** Format: uuid */
+  "rowFilter.templates.owner_profile_id": string;
   /** @description themes */
   "body.themes": definitions["themes"];
   /** Format: character varying */
@@ -509,6 +721,10 @@ export interface parameters {
   "rowFilter.themes.owner_profile_id": string;
   /** Format: character varying */
   "rowFilter.themes.figma_id": string;
+  /** Format: character varying */
+  "rowFilter.themes.figma_node": string;
+  /** Format: jsonb */
+  "rowFilter.themes.fonts": string;
 }
 
 export interface operations {}
