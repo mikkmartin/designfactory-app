@@ -10,10 +10,12 @@ import { ANON_ID } from 'lib/static/cookieKeys'
 import Layout from 'components/Layout'
 import { Canvas } from 'components/Canvas'
 import { getSchemas } from 'components/Canvas/parseTemplate/getSchemas'
+import storageURL from 'lib/static/storageURL'
 
 const File: NextPage = observer(() => {
   const router = useRouter()
-  store.content.setTheme(router.query.slug as string)
+  const slug = router.query.slug as string
+  store.content.setTheme(slug)
   const { theme, previewThemeFile, inputData, getImageUrl } = store.content.template
   const themeData = previewThemeFile || theme.data
 
@@ -26,7 +28,12 @@ const File: NextPage = observer(() => {
   return (
     <Layout>
       {themeData ? (
-        <Canvas getImageUrl={getImageUrl} themeData={themeData} inputData={inputData} />
+        <Canvas
+          getImageUrl={getImageUrl}
+          themeData={themeData}
+          inputData={inputData}
+          getFontUrl={fontFamily => `${storageURL}/themes/files/${slug}/${fontFamily}.ttf`}
+        />
       ) : (
         'Loading...'
       )}

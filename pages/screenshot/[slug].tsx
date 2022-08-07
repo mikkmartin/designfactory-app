@@ -12,9 +12,11 @@ type Props = {
 }
 
 export const Screenshot: FC<Props> = ({ slug, themeData, inputData }) => {
+  console.log('screenshot', slug)
   return (
     <Canvas
       getImageUrl={refId => `${storageURL}/themes/files/${slug}/${refId}.png`}
+      getFontUrl={fontFamily => `${storageURL}/themes/files/${slug}/${fontFamily}.ttf`}
       editable={false}
       themeData={themeData}
       inputData={inputData}

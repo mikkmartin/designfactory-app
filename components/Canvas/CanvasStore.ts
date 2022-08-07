@@ -15,14 +15,16 @@ export class CanvasStore {
   fonts: IFont[]
 
   getImageUrl: Props['getImageUrl']
+  getFontUrl: Props['getFontUrl']
 
-  constructor({ themeData, getImageUrl, inputData }: Props) {
+  constructor({ themeData, getImageUrl, inputData, getFontUrl }: Props) {
     makeObservable(this, {
       disabledFields: observable,
       inputData: observable,
     })
     this.inputData = inputData
     this.getImageUrl = getImageUrl
+    this.getFontUrl = getFontUrl
     this.parseTemplate(themeData)
   }
 

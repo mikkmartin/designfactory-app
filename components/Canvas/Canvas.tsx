@@ -13,6 +13,7 @@ export type Props = {
   themeData: FileResponse
   inputData: Object
   getImageUrl: (id: string) => string
+  getFontUrl: (fontFamily: string) => string
 }
 
 export const Canvas = observer<Props>(props => {

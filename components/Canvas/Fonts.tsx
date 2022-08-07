@@ -4,11 +4,9 @@ import type { IFont } from './parseTemplate/getFonts'
 import { observer } from 'mobx-react-lite'
 import { useCanvas } from './Canvas'
 import googleFontNames from 'lib/static/googleFonts.json'
-import { store } from 'data'
 
 export const Fonts: FC = observer(() => {
-  const { fonts } = useCanvas()
-  const slug = store.content?.template?.theme?.slug
+  const { fonts, getFontUrl } = useCanvas()
 
   if (fonts.length === 0) return null
   const [googleFonts, customFonts] = fonts.reduce(
@@ -37,18 +35,18 @@ export const Fonts: FC = observer(() => {
         .map(font => (
           <link key={font.family} href={getGoogleFontUrl(font)} rel="stylesheet" />
         ))}
-      <style>{customFonts.map(font => getCustomFontCss(font, slug)).join('\n')}</style>
+      <style>
+        {customFonts.map(font => getCustomFontCss(font.family, getFontUrl(font.family))).join('\n')}
+      </style>
     </Head>
   )
 })
 
-const getCustomFontCss = (font: IFont, slug: string): string => {
-  const url = `https://sdqycteblanimltlbiss.supabase.co/storage/v1/object/public/themes/files/${slug}/${font.family}.ttf`
-  return `@font-face {
-  font-family: '${font.family}';
+const getCustomFontCss = (family: IFont, url: string): string =>
+  `@font-face {
+  font-family: '${family}';
   src: url('${url}') format('truetype')
 }`
-}
 
 const getGoogleFontUrl = (font: IFont): string => {
   const family = font.family.replace(/\s/g, '+')
