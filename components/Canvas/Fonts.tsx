@@ -53,7 +53,7 @@ const getCustomFontCss = (font: IFont, url: string): string =>
   font-family: '${font.family}';
   font-style: ${style};
   font-weight: ${weight};
-  src: url('${url}_${weight}.woff2') format('woff2');
+  src: url('${url}_${weight}.woff2?t=${new Date().toISOString()}') format('woff2');
   font-display: swap;
 }`
     })
