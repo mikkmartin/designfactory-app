@@ -32,7 +32,7 @@ const File: NextPage = observer(() => {
           getImageUrl={getImageUrl}
           themeData={themeData}
           inputData={inputData}
-          getFontUrl={fontFamily => `${storageURL}/themes/files/${slug}/${fontFamily}.ttf`}
+          getFontUrl={fontFamily => `${storageURL}/themes/files/${slug}/${fontFamily}`}
         />
       ) : (
         'Loading...'

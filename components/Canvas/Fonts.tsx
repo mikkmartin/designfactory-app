@@ -11,14 +11,11 @@ export const Fonts: FC = observer(() => {
   if (fonts.length === 0) return null
   const [googleFonts, customFonts] = fonts.reduce(
     ([google, custom], font) => {
-      if (googleFontNames.includes(font.family)) {
-        google.push(font)
-      } else {
-        custom.push(font)
-      }
+      if (googleFontNames.includes(font.family)) google.push(font)
+      else custom.push(font)
       return [google, custom]
     },
-    [[], []]
+    [[], []] as unknown as [[IFont], [IFont]]
   )
 
   return (
@@ -38,7 +35,7 @@ export const Fonts: FC = observer(() => {
       <style
         dangerouslySetInnerHTML={{
           __html: customFonts
-            .map(font => getCustomFontCss(font.family, getFontUrl(font.family)))
+            .map(font => getCustomFontCss(font, getFontUrl(font.family)))
             .join('\n'),
         }}
       />
@@ -46,11 +43,21 @@ export const Fonts: FC = observer(() => {
   )
 })
 
-const getCustomFontCss = (family: IFont, url: string): string =>
-  `@font-face {
-  font-family: '${family}';
-  src: url('${url}') format('truetype');
+const getCustomFontCss = (font: IFont, url: string): string =>
+  font.weights
+    .map(w => {
+      const weight = w.weight
+      const style = w.italic ? 'italic' : 'normal'
+
+      return `@font-face {
+  font-family: '${font.family}';
+  font-style: ${style};
+  font-weight: ${weight};
+  src: url('${url}_${weight}.woff2') format('woff2');
+  font-display: swap;
 }`
+    })
+    .join('\n')
 
 const getGoogleFontUrl = (font: IFont): string => {
   const family = font.family.replace(/\s/g, '+')

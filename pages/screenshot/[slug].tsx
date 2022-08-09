@@ -15,7 +15,7 @@ export const Screenshot: FC<Props> = ({ slug, themeData, inputData }) => {
   return (
     <Canvas
       getImageUrl={refId => `${storageURL}/themes/files/${slug}/${refId}.png`}
-      getFontUrl={fontFamily => `${storageURL}/themes/files/${slug}/${fontFamily}.ttf`}
+      getFontUrl={fontFamily => `${storageURL}/themes/files/${slug}/${fontFamily}`}
       editable={false}
       themeData={themeData}
       inputData={inputData}

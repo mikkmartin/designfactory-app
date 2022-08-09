@@ -86,7 +86,7 @@ export function parseNode(node: BoxNode, parentNode: ContainerNode = null): Pars
     opacity: node.opacity,
     mixBlendMode: node.blendMode.toLowerCase().replace('_', '-') as CSSProperties['mixBlendMode'],
     filter: getFilters(node),
-    ...getEffects(node)
+    ...getEffects(node),
   }
 
   if (node.visible === false) baseStyle.display = 'none'
@@ -139,7 +139,7 @@ export function parseNode(node: BoxNode, parentNode: ContainerNode = null): Pars
           ...baseStyle,
           color: getFill(node),
           fontSize,
-          fontFamily,
+          fontFamily: `'${fontFamily}'`,
           fontWeight,
           textAlign,
           fontStyle: italic ? 'italic' : 'normal',
