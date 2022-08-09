@@ -1,4 +1,3 @@
-import { FC } from 'react'
 import styled from '@emotion/styled'
 import { css } from '@emotion/react'
 import { observer } from 'mobx-react-lite'
@@ -7,8 +6,9 @@ import { SidePanel } from 'components/Editor/SidePanel'
 import { Version } from 'components/Editor/Version'
 import { Dialogue } from 'components/ui'
 import { store } from 'data'
+import React from 'react'
 
-export const Layout: FC = observer(({ children }) => {
+export const Layout = observer<{ children: React.ReactNode }>(({ children }) => {
   const { isEditing } = store.ui
 
   return (
