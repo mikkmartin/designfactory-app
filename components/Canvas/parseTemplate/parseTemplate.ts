@@ -70,6 +70,20 @@ export interface VectorNode extends IBaseNode {
 
 export type ParsedNode = TextNode | VectorNode | InstanceNode | IBoxNode | IImageNode
 
+const lineClamp = (node: TextNode): CSSProperties => {
+  //@ts-ignore
+  if (node.style.textAutoResize !== 'TRUNCATE') return {}
+  //@ts-ignore
+  const lineCount = Math.floor(node.absoluteBoundingBox.height / node.style.lineHeightPx)
+  return {
+    display: '-webkit-box',
+    //@ts-ignore
+    '-webkit-line-clamp': lineCount.toString(),
+    '-webkit-box-orient': 'vertical',
+    overflow: 'hidden',
+  }
+}
+
 export function parseNode(node: BoxNode, parentNode: ContainerNode = null): ParsedNode {
   const getFill = _getFill.bind(this)
   const getSrc = _getSrc.bind(this)
@@ -147,6 +161,7 @@ export function parseNode(node: BoxNode, parentNode: ContainerNode = null): Pars
           lineHeight:
             lineHeightPercent === 100 ? 'initial' : `${lineHeightPercentFontSize * 1.15}%`,
           letterSpacing: `${node.style.letterSpacing}px`,
+          ...lineClamp(node as unknown as TextNode),
         },
         overrides,
       }
