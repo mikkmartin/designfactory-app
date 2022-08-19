@@ -39,6 +39,18 @@ export async function getScreenshot(url, { res, isDev, supersample = 2 }: IScree
   await page.waitForSelector(selector)
   const element = await page.$(selector)
 
+  page.evaluate(() => {
+    const selector = '#__next > div > div [data-line-clamp]'
+    const elements = document.querySelectorAll(selector) as NodeListOf<HTMLDivElement>
+    elements.forEach(el => {
+      const styles = getComputedStyle(el)
+      const lineHeight = parseFloat(styles.lineHeight.split('px')[0])
+      const nrOfLines = Math.floor(el.offsetHeight / lineHeight)
+      el.style.height = `${nrOfLines * lineHeight}px`
+      el.style['-webkit-line-clamp'] = nrOfLines.toString()
+    })
+  })
+
   await page.evaluate(async () => {
     const selector = '#__next > div > div'
     const selectors = Array.from(document.querySelector(selector).querySelectorAll('img'))

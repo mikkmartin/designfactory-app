@@ -1,10 +1,8 @@
-import { useEditor as useTipTap, EditorContent, JSONContent } from '@tiptap/react'
-//import StarterKit from '@tiptap/starter-kit'
-import { useEffect, useRef } from 'react'
 import { useInstanceList } from './InstanceListContext'
-import { useCanvas } from '../Canvas'
-import { observer } from 'mobx-react-lite'
 import type { TextNode } from '../parseTemplate'
+import { observer } from 'mobx-react-lite'
+import { useCanvas } from '../Canvas'
+import { useRef } from 'react'
 
 const isAcceptedValue = v => ['string', 'number'].includes(typeof v)
 
@@ -29,7 +27,6 @@ const splittString = (str: string, overRides): { content: string; style?: any }[
 }
 
 export const Text = observer<TextNode>(({ style, content, name, overrides }) => {
-  const acceptUpdates = useRef(true)
   const global = useCanvas()
   const instance = useInstanceList()
   const source = instance ? instance : global
@@ -42,8 +39,11 @@ export const Text = observer<TextNode>(({ style, content, name, overrides }) => 
     return content
   }
 
+  const lineClamp = style['-webkit-line-clamp'] ? { 'data-line-clamp': true } : {}
+  if (style['-webkit-line-clamp']) console.log(lineClamp)
+
   return isDefaultData ? (
-    <p style={style}>
+    <p style={style} {...lineClamp}>
       {Boolean(overrides.length)
         ? splittString(content, overrides).map(obj =>
             obj.style ? (
@@ -57,52 +57,6 @@ export const Text = observer<TextNode>(({ style, content, name, overrides }) => 
         : content}
     </p>
   ) : (
-    <div style={style} dangerouslySetInnerHTML={{ __html: fillText(name) }} />
+    <div style={style} dangerouslySetInnerHTML={{ __html: fillText(name) }}  {...lineClamp} />
   )
-
-  const contentEditor = useTipTap({
-    //extensions: [StarterKit],
-    content: fillText(name),
-    onUpdate() {
-      const { content }: JSONContent = this.getJSON()
-      if (content) {
-        const value = content.reduce((str, val, i) => {
-          if (i !== 0) str += '\n'
-          if (val.content) str = str + val.content.map(v => v.text)
-          return str
-        }, '')
-        setInputData({ [name]: value })
-      }
-    },
-    onFocus() {
-      acceptUpdates.current = false
-      setTimeout(() => {
-        document.execCommand('selectAll', false, null)
-      }, 0)
-    },
-    //onBlur() {
-    //  acceptUpdates.current = true
-    //},
-  })
-
-  useEffect(() => {
-    if (!contentEditor || !isAcceptedValue(inputData[name])) return
-    if (!acceptUpdates.current) return
-    contentEditor.commands.setContent({
-      type: 'doc',
-      content: [
-        {
-          type: 'paragraph',
-          content: [
-            {
-              type: 'text',
-              text: inputData[name].toString(),
-            },
-          ],
-        },
-      ],
-    })
-  }, [contentEditor, inputData[name]])
-
-  return <EditorContent style={style} editor={contentEditor} />
 })
