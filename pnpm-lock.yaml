@@ -34,7 +34,7 @@ specifiers:
   '@types/react': 18.0.17
   '@types/react-dom': 18.0.6
   '@types/sharp': ^0.30.5
-  chrome-aws-lambda: 7.0.0
+  chrome-aws-lambda: 10.1.0
   color: ^4.2.3
   cookies-next: ^2.1.1
   dayjs: ^1.11.4
@@ -50,7 +50,7 @@ specifiers:
   mobx-react-lite: ^3.4.0
   nanoid: ^4.0.0
   next: ^12.2.4
-  puppeteer-core: 13.1.2
+  puppeteer-core: ^8.0.0
   react: ^18.2.0
   react-dom: ^18.2.0
   react-masonry-css: ^1.0.16
@@ -96,7 +96,7 @@ dependencies:
   '@tiptap/react': 2.0.0-beta.114_biqbaboplfbrettd7655fr4n2y
   '@tiptap/starter-kit': 2.0.0-beta.191
   '@types/sharp': 0.30.5
-  chrome-aws-lambda: 7.0.0_puppeteer-core@13.1.2
+  chrome-aws-lambda: 10.1.0_puppeteer-core@8.0.0
   color: 4.2.3
   cookies-next: 2.1.1
   dayjs: 1.11.5
@@ -112,7 +112,7 @@ dependencies:
   mobx-react-lite: 3.4.0_m26jawr67gnusmh4egzqtnhxru
   nanoid: 4.0.0
   next: 12.2.5_biqbaboplfbrettd7655fr4n2y
-  puppeteer-core: 13.1.2
+  puppeteer-core: 8.0.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-masonry-css: 1.0.16_react@18.2.0
@@ -2220,14 +2220,14 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /chrome-aws-lambda/7.0.0_puppeteer-core@13.1.2:
-    resolution: {integrity: sha512-GbYXRPYtaA0DLfmxQpuZw1SKTP7rOA4UXiATwiFRJ4Ea6PBYSzqK0YjS7B2WimUBe//ybPfNpPIs8A3WpF0xvA==}
+  /chrome-aws-lambda/10.1.0_puppeteer-core@8.0.0:
+    resolution: {integrity: sha512-NZQVf+J4kqG4sVhRm3WNmOfzY0OtTSm+S8rg77pwePa9RCYHzhnzRs8YvNI6L9tALIW6RpmefWiPURt3vURXcw==}
     engines: {node: '>= 10.16'}
     peerDependencies:
-      puppeteer-core: 7.0.x
+      puppeteer-core: ^10.1.0
     dependencies:
       lambdafs: 2.1.1
-      puppeteer-core: 13.1.2
+      puppeteer-core: 8.0.0
     dev: false
 
   /chrono-node/2.3.9:
@@ -2487,18 +2487,6 @@ packages:
       ms: 2.0.0
     dev: false
 
-  /debug/4.3.2:
-    resolution: {integrity: sha512-mOp8wKcvj7XxC78zLgw/ZA+6TSgkoE2C/ienthhRD298T7UNwAg9diBpLRxC0mOezLl4B0xV7M0cCO6P/O0Xhw==}
-    engines: {node: '>=6.0'}
-    peerDependencies:
-      supports-color: '*'
-    peerDependenciesMeta:
-      supports-color:
-        optional: true
-    dependencies:
-      ms: 2.1.2
-    dev: false
-
   /debug/4.3.4:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
     engines: {node: '>=6.0'}
@@ -2584,8 +2572,8 @@ packages:
     resolution: {integrity: sha512-ypdmJU/TbBby2Dxibuv7ZLW3Bs1QEmM7nHjEANfohJLvE0XVujisn1qPJcZxg+qDucsr+bP6fLD1rPS3AhJ7EQ==}
     dev: false
 
-  /devtools-protocol/0.0.948846:
-    resolution: {integrity: sha512-5fGyt9xmMqUl2VI7+rnUkKCiAQIpLns8sfQtTENy5L70ktbNw0Z3TFJ1JoFNYdx/jffz4YXU45VF75wKZD7sZQ==}
+  /devtools-protocol/0.0.854822:
+    resolution: {integrity: sha512-xd4D8kHQtB0KtWW0c9xBZD5LVtm9chkMOfs/3Yn01RhT/sFIsVtzTtypfKoFfWBaL+7xCYLxjOLkhwPXaX/Kcg==}
     dev: false
 
   /dfa/1.2.0:
@@ -3187,16 +3175,6 @@ packages:
     engines: {node: '>= 6'}
     dependencies:
       '@tootallnate/once': 2.0.0
-      agent-base: 6.0.2
-      debug: 4.3.4
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /https-proxy-agent/5.0.0:
-    resolution: {integrity: sha512-EkYm5BcKUGiduxzSt3Eppko+PiNWNEpa4ySk9vTC6wDsQJW9rHSa+UhGNJoRYp7bz6Ht1eaRIa6QaJqO5rCFbA==}
-    engines: {node: '>= 6'}
-    dependencies:
       agent-base: 6.0.2
       debug: 4.3.4
     transitivePeerDependencies:
@@ -4653,14 +4631,14 @@ packages:
     engines: {node: '>=0.10'}
     dev: false
 
-  /puppeteer-core/13.1.2:
-    resolution: {integrity: sha512-A60/BJkYKpvoWPN0sq0WbOUYey6Wqpn1vlWCt8Ov7PxGIjyuGX2Wb39LObGjOxh4UN+YxCVE+oYQlkIFSmHJtg==}
+  /puppeteer-core/8.0.0:
+    resolution: {integrity: sha512-kRTiGh42+4eiw9tl489p//8Zpg3LWmz0K3mOpv0qj5PsCV7jE43SLIi0E50suLh8OghXsFhJFoE98vEmXUnDew==}
     engines: {node: '>=10.18.1'}
     dependencies:
-      debug: 4.3.2
-      devtools-protocol: 0.0.948846
+      debug: 4.3.4
+      devtools-protocol: 0.0.854822
       extract-zip: 2.0.1
-      https-proxy-agent: 5.0.0
+      https-proxy-agent: 5.0.1
       node-fetch: 2.6.7
       pkg-dir: 4.2.0
       progress: 2.0.3
@@ -4668,7 +4646,7 @@ packages:
       rimraf: 3.0.2
       tar-fs: 2.1.1
       unbzip2-stream: 1.4.3
-      ws: 8.2.3
+      ws: 7.5.9
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -5839,9 +5817,9 @@ packages:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
     dev: false
 
-  /ws/8.2.3:
-    resolution: {integrity: sha512-wBuoj1BDpC6ZQ1B7DWQBYVLphPWkm8i9Y0/3YdHjHKHiohOJ1ws+3OccDWtH+PoC9DZD5WOTrJvNbWvjS6JWaA==}
-    engines: {node: '>=10.0.0'}
+  /ws/7.5.9:
+    resolution: {integrity: sha512-F+P9Jil7UiSKSkppIiD94dN07AwvFixvLIj1Og1Rl9GGMuNipJnV9JzjD6XuqmAeiswGvUmNLjr5cFuXwNS77Q==}
+    engines: {node: '>=8.3.0'}
     peerDependencies:
       bufferutil: ^4.0.1
       utf-8-validate: ^5.0.2
