@@ -40,7 +40,6 @@ export const Text = observer<TextNode>(({ style, content, name, overrides }) => 
   }
 
   const lineClamp = style['-webkit-line-clamp'] ? { 'data-line-clamp': true } : {}
-  if (style['-webkit-line-clamp']) console.log(lineClamp)
 
   return isDefaultData ? (
     <p style={style} {...lineClamp}>

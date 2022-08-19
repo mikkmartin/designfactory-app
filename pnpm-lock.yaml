@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@emotion/react': ^11.10.0
   '@emotion/styled': ^11.10.0
+  '@mikkmartin/figma-js': ^1.13.3
   '@monaco-editor/react': ^4.4.5
   '@radix-ui/react-alert-dialog': ^1.0.0
   '@radix-ui/react-dialog': ^1.0.0
@@ -37,7 +38,6 @@ specifiers:
   color: ^4.2.3
   cookies-next: ^2.1.1
   dayjs: ^1.11.4
-  fitty: ^2.3.6
   framer-motion: ^7.0.0
   metascraper: ^5.30.1
   metascraper-author: ^5.29.15
@@ -71,6 +71,7 @@ specifiers:
 dependencies:
   '@emotion/react': 11.10.0_ug65io7jkbhmo4fihdmbrh3ina
   '@emotion/styled': 11.10.0_lzabd6uj4wst47copsenr4b56q
+  '@mikkmartin/figma-js': 1.13.4
   '@monaco-editor/react': 4.4.5_biqbaboplfbrettd7655fr4n2y
   '@radix-ui/react-alert-dialog': 1.0.0_zxljzmqdrxwnuenbkrz77w74uy
   '@radix-ui/react-dialog': 1.0.0_zxljzmqdrxwnuenbkrz77w74uy
@@ -99,7 +100,6 @@ dependencies:
   color: 4.2.3
   cookies-next: 2.1.1
   dayjs: 1.11.5
-  fitty: 2.3.6
   framer-motion: 7.2.0_biqbaboplfbrettd7655fr4n2y
   metascraper: 5.30.2
   metascraper-author: 5.30.2
@@ -390,6 +390,15 @@ packages:
       - canvas
       - supports-color
       - utf-8-validate
+    dev: false
+
+  /@mikkmartin/figma-js/1.13.4:
+    resolution: {integrity: sha512-+2+kgtOCvAroefQF2a0VVuDLgn7u1smUtSRaKLmEb+KjZ9YwgmEJrg8vEeRQPsR4NDS71nzyMh0ztRGeGUtYZw==}
+    engines: {node: '>=8.9'}
+    dependencies:
+      axios: 0.19.2
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /@monaco-editor/loader/1.3.2:
@@ -2003,6 +2012,15 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
+  /axios/0.19.2:
+    resolution: {integrity: sha512-fjgm5MvRHLhx+osE2xoekY70AhARk3a6hkN+3Io1jc00jtquGvxYlKlsFUhmUET0V5te6CcZI7lcv2Ym61mjHA==}
+    deprecated: Critical security vulnerability fixed in v0.21.1. For more information, see https://github.com/axios/axios/pull/3410
+    dependencies:
+      follow-redirects: 1.5.10
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /babel-plugin-macros/3.1.0:
     resolution: {integrity: sha512-Cg7TFGpIr01vOQNODXOOaGz2NpCU5gl8x1qJFbb6hbZxR7XrcE2vtbAsTAbJ7/xwJtUuJEw8K8Zr/AE0LHlesg==}
     engines: {node: '>=10', npm: '>=6'}
@@ -2458,6 +2476,17 @@ packages:
       ms: 2.0.0
     dev: false
 
+  /debug/3.1.0:
+    resolution: {integrity: sha512-OX8XqP7/1a9cqkxYw2yXss15f26NKWBpDXQd0/uK/KPqdQhxbPa994hnzjcE2VqQpDslf55723cKPUOGSmMY3g==}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+    dependencies:
+      ms: 2.0.0
+    dev: false
+
   /debug/4.3.2:
     resolution: {integrity: sha512-mOp8wKcvj7XxC78zLgw/ZA+6TSgkoE2C/ienthhRD298T7UNwAg9diBpLRxC0mOezLl4B0xV7M0cCO6P/O0Xhw==}
     engines: {node: '>=6.0'}
@@ -2758,7 +2787,7 @@ packages:
     engines: {node: '>= 10.17.0'}
     hasBin: true
     dependencies:
-      debug: 4.3.2
+      debug: 4.3.4
       get-stream: 5.2.0
       yauzl: 2.10.0
     optionalDependencies:
@@ -2810,8 +2839,13 @@ packages:
       path-exists: 4.0.0
     dev: false
 
-  /fitty/2.3.6:
-    resolution: {integrity: sha512-ENp/+MqqYmXBGHC0dlltCX75+5zL5m0uiIGCgYdoThao99BrJpNYzEh3xrvhiy4b7O5X82CQT7dPTiB53H6stw==}
+  /follow-redirects/1.5.10:
+    resolution: {integrity: sha512-0V5l4Cizzvqt5D44aTXbFZz+FtyXV1vrDN6qrelxtfYQKW0KO0W2T/hkE8xvGa/540LkZlkaUjO4ailYTFtHVQ==}
+    engines: {node: '>=4.0'}
+    dependencies:
+      debug: 3.1.0
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /form-data/4.0.0:
@@ -3164,7 +3198,7 @@ packages:
     engines: {node: '>= 6'}
     dependencies:
       agent-base: 6.0.2
-      debug: 4.3.2
+      debug: 4.3.4
     transitivePeerDependencies:
       - supports-color
     dev: false
